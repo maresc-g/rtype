@@ -1,0 +1,28 @@
+Header(10) + content(255)
+idClient + idMsg | Content
+
+server -> "BIENVENUE %id" TCP
+client -> "IDENTIFICATION %name" TCP
+
+client -> "GAMELIST" UDP
+server -> "GAMELIST %gamelist"  UDP gamelist=<id;name;numPlayer>
+
+client -> "JOIN %idgame" TCP
+client -> "CREATE %gameName" TCP
+server -> "OK" | "KO" TCP
+
+server -> "LAUNCHGAME" UDP
+server -> "MAP %map" TCP map=<idObject;posx;posy>
+
+client -> "ACTION %action" UDP
+server -> "ENEMY %id;%type;%pos" UDP
+server -> "PROJECTILE %id;%type;%pos" UDP
+server -> "PLAYER %id;%pos" UDP
+server -> "DEFILEMENT %pos" UDP
+server -> "DEAD %id" TCP
+
+server -> "ENDGAME %<WIN|LOOSE>" TCP
+client -> "QUITGAME>" TCP
+client -> "QUITSERVER>" TCP
+
+o0O°END°O0o
