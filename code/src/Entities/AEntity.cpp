@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Tue Oct 29 15:18:51 2013 alexis mestag
+// Last update Tue Oct 29 16:37:46 2013 antoine maitre
 //
 
 #include		"Entities/AEntity.hh"
