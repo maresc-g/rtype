@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Mon Oct 28 16:06:15 2013 laurent ansel
-## Last update Mon Oct 28 16:33:42 2013 laurent ansel
+## Last update Tue Oct 29 14:37:47 2013 laurent ansel
 ##
 
 NAMESERVER=	rtype-server
@@ -13,19 +13,24 @@ NAMESERVER=	rtype-server
 SERVER=		Server
 SERVER_SRC=	$(SERVER)/src
 
+COMMON=		Common
+COMMON_SRC=	$(COMMON)/src
+
+include		$(COMMON)/Makefile
 include		$(SERVER)/Makefile
 
 OBJSERVER=	$(SRCSERVER:.cpp=.o)
+OBJCOMMON=	$(SRCCOMMON:.cpp=.o)
 
-CPPFLAGS=	-W -Wall -Wextra -g $(SERVER_INCLUDES)
+CPPFLAGS=	-W -Wall -Wextra -g $(SERVER_INCLUDES) $(COMMON_INCLUDES)
 
-all:		$(NAMESERVER)
+all:		$(OBJCOMMON) $(NAMESERVER)
 
-$(NAMESERVER):	$(OBJSERVER)
-		g++ -o $(NAMESERVER) $(OBJSERVER) $(LDFLAGS)
+$(NAMESERVER):	$(OBJCOMMON) $(OBJSERVER)
+		g++ -o $(NAMESERVER) $(OBJCOMMON) $(OBJSERVER) $(LDFLAGS)
 
 clean:
-		rm -rf $(OBJSERVER)
+		rm -rf $(OBJSERVER) $(OBJCOMMON)
 
 fclean:		clean
 		rm -rf $(NAMESERVER)
