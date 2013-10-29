@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:12:24 2013 guillaume marescaux
-// Last update Mon Oct 28 14:14:29 2013 guillaume marescaux
+// Last update Tue Oct 29 14:41:42 2013 alexis mestag
 //
 
 #ifndef 		__COORDINATE_HH__
@@ -14,24 +14,19 @@
 class			Coordinate
 {
 private:
-
-  // Attributs
   int			_x;
   int			_y;
 
 public:
-
-  // Ctor / Dtor
-  Coordinate(int x = 0, int y = 0);
+  Coordinate(int const x = 0, int const y = 0);
   Coordinate(Coordinate const &other);
   Coordinate		&operator=(Coordinate const &other);
   virtual ~Coordinate();
 
-  // Getters / Setters
   int			getX(void) const;
-  void			setX(int x);
+  void			setX(int const x);
   int			getY(void) const;
-  void			setY(int y);
+  void			setY(int const y);
 };
 
 #endif
