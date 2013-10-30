@@ -5,13 +5,13 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Tue Oct 29 17:22:39 2013 antoine maitre
+// Last update Wed Oct 30 09:49:33 2013 antoine maitre
 //
 
 #ifndef	__GAME_HH__
 #define __GAME_HH__
 
-#include "LevelManager.hh"
+#include "Level/LevelManager.hh"
 
 class	Game
 {
@@ -20,6 +20,8 @@ public:
   Game();
   ~Game();
   void	loop();
+  void	newPlayer();
+  void	deadPlayer();
   //  void	execCommand(Command* command);
 };
 

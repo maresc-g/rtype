@@ -5,10 +5,10 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:06 2013 antoine maitre
-// Last update Tue Oct 29 16:08:52 2013 antoine maitre
+// Last update Tue Oct 29 17:57:14 2013 antoine maitre
 //
 
-#include	"Game/LevelManager.hh"
+#include	"Level/LevelManager.hh"
 
 LevelManager::LevelManager()
 {
