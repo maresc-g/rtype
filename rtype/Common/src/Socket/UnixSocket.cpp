@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:20:50 2013 laurent ansel
-// Last update Wed Oct 30 15:17:42 2013 laurent ansel
+// Last update Wed Oct 30 16:08:40 2013 laurent ansel
 //
 
 #ifndef _WIN32
@@ -13,6 +13,7 @@
 #include			<map>
 #include			"Socket/UnixSocket.hh"
 #include			"Socket/UnixSocketClient.hh"
+#include			"Error/SocketError.hpp"
 
 UnixSocket::UnixSocket():
   _socket(0)
@@ -36,7 +37,7 @@ int				UnixSocket::initialize(std::string const &protocole)
   proto = getprotobyname(protocole.c_str());
   if ((this->_socket = socket(AF_INET, protoType[protocole], proto->p_proto)) == -1)
     {
-      dprintf(2, "socket fail\n");
+      throw SocketError("initialize socket failed");
       return (-1);
     }
   return (0);
@@ -59,7 +60,7 @@ int				UnixSocket::bindSocket(int const port)
   sin.sin_addr.s_addr = INADDR_ANY;
   if (bind(this->_socket, (struct sockaddr *)&sin, sizeof(sin)) == -1)
     {
-      dprintf(2, "bind fail\n");
+      throw SocketError("bind socket failed");
       close(this->_socket);
       return (-1);
     }
@@ -70,15 +71,11 @@ int				UnixSocket::listenSocket()
 {
   if (listen(this->_socket, SOMAXCONN) == -1)
     {
+      throw SocketError("listen socket failed");
       close(this->_socket);
       return (-1);
     }
   return (0);
-}
-
-SocketClient			*UnixSocket::getSocket() const
-{
-  return (new SocketClient(this->_socket, this->_proto));
 }
 
 SocketClient			*UnixSocket::connectToAddr(std::string const &addr, int const port)
@@ -88,12 +85,12 @@ SocketClient			*UnixSocket::connectToAddr(std::string const &addr, int const por
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = inet_addr(addr.c_str());
-  if ((connect(this->_socket, (struct sockaddr *)&sin, sizeof(sin))) == -1)
+  if (this->_proto == "TCP" && (connect(this->_socket, (struct sockaddr *)&sin, sizeof(sin))) == -1)
     {
-      dprintf(2, "Error: server not found\n");
+      throw SocketError("server not found");
       return (NULL);
     }
-  return (new SocketClient(this->_socket, this->_proto));
+  return (new SocketClient(this->_socket, this->_proto, &sin));
 }
 
 SocketClient			*UnixSocket::acceptConnection()
