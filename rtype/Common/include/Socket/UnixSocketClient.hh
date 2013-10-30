@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:22:40 2013 laurent ansel
-// Last update Mon Oct 28 16:37:42 2013 laurent ansel
+// Last update Wed Oct 30 11:40:18 2013 laurent ansel
 //
 
 #ifndef 			__UNIXSOCKETCLIENT_HH__
@@ -26,11 +26,12 @@ class				UnixSocketClient : public ISocketClient
 {
 private:
   int				_socket;
+  std::string			_proto;
 public:
-  UnixSocketClient(int const);
+  UnixSocketClient(int const fd, std::string const &protocole);
   virtual ~UnixSocketClient();
-  virtual int			readSocket(std::string &, int const);
-  virtual int			writeSocket(char *, int const);
+  virtual int			readSocket(std::string &data, int const size);
+  virtual int			writeSocket(char *data, int const size);
   virtual void			closeSocket();
 };
 

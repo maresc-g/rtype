@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:26:41 2013 laurent ansel
-// Last update Mon Oct 28 16:39:40 2013 laurent ansel
+// Last update Wed Oct 30 11:41:24 2013 laurent ansel
 //
 
 #ifdef _WIN32
@@ -13,8 +13,9 @@
 #include		<string.h>
 #include		"Socket/WindowsSocketClient.hh"
 
-WindowsSocketClient::WindowsSocketClient(SOCKET const socket):
-  _socket(socket)
+WindowsSocketClient::WindowsSocketClient(SOCKET const socket, std::string const &protocole):
+  _socket(socket),
+  _proto(protocole)
 {
 
 }

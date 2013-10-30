@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:22:49 2013 laurent ansel
-// Last update Mon Oct 28 16:37:58 2013 laurent ansel
+// Last update Wed Oct 30 11:40:40 2013 laurent ansel
 //
 
 #ifndef			__WINDOWSSOCKETCLIENT_HH__
@@ -22,11 +22,12 @@ class			WindowsSocketClient : public ISocketClient
 {
 private:
   SOCKET		_socket;
+  std::string		_proto;
 public:
-  WindowsSocketClient(SOCKET const);
+  WindowsSocketClient(SOCKET const fd, std::string const &protocole);
   virtual ~WindowsSocketClient();
-  virtual int		readSocket(std::string &, int const);
-  virtual int		writeSocket(char *, int const);
+  virtual int		readSocket(std::string &data, int const size);
+  virtual int		writeSocket(char *data, int const size);
   virtual void		closeSocket();
 };
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:21:19 2013 laurent ansel
-// Last update Wed Oct 30 10:05:12 2013 laurent ansel
+// Last update Wed Oct 30 15:17:50 2013 laurent ansel
 //
 
 #ifdef _WIN32
@@ -37,6 +37,7 @@ int				WindowsSocket::initialize(std::string const &protocole)
     _socket = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, 0);
   else if (protocole == "UDP")
     _socket = WSASocket(AF_INET, SOCK_DGRAM, IPPROTO_UDP, NULL, 0, 0);
+  this->_proto = protocole;
   if (this->_socket == INVALID_SOCKET)
     {
       std::cout << "WSASocket failed with error" << std::endl;
@@ -74,6 +75,11 @@ int				WindowsSocket::listenSocket()
   if (listen(this->_socket, SOMAXCONN) == SOCKET_ERROR)
     return (-1);
   return (0);
+}
+
+SocketClient			*UnixSocket::getSocket() const
+{
+  return (new SocketClient(this->_socket, this->_proto));
 }
 
 SocketClient			*WindowsSocket::connectToAddr(std::string const &addr, int const port)

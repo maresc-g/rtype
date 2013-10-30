@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 14:57:01 2013 laurent ansel
-// Last update Tue Oct 29 16:16:14 2013 laurent ansel
+// Last update Wed Oct 30 11:39:24 2013 laurent ansel
 //
 
 #ifndef 			__SOCKETCLIENT_HH__
@@ -24,11 +24,11 @@ class			SocketClient : public	UnixSocketClient
 #endif
 {
 public:
-  SocketClient(int const socket):
+  SocketClient(int const socket, std::string const &protocole):
 #ifdef _WIN32
-    WindowsSocketClient(socket)
+    WindowsSocketClient(socket, protocole)
 #else
-    UnixSocketClient(socket)
+    UnixSocketClient(socket, protocole)
 #endif
   {}
   virtual ~SocketClient()

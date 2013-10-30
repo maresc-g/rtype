@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:23:52 2013 laurent ansel
-// Last update Wed Oct 30 10:04:13 2013 laurent ansel
+// Last update Wed Oct 30 15:16:58 2013 laurent ansel
 //
 
 #ifndef 			__WINDOWSSOCKET_HH__
@@ -22,6 +22,7 @@ class				WindowsSocket : public ISocket
 private:
   SOCKET			_socket;
   WSADATA			_wsaData;
+  std::string			_proto;
 public:
   WindowsSocket();
   virtual ~WindowsSocket();
@@ -29,6 +30,7 @@ public:
   virtual int			destroy();
   virtual int			bindSocket(int const);
   virtual int			listenSocket();
+  virtual SocketClient		*getSocket() const;
   virtual SocketClient		*connectToAddr(std::string const &, int const);
   virtual SocketClient		*acceptConnection();
 };

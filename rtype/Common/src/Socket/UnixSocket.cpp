@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:20:50 2013 laurent ansel
-// Last update Wed Oct 30 10:04:38 2013 laurent ansel
+// Last update Wed Oct 30 15:17:42 2013 laurent ansel
 //
 
 #ifndef _WIN32
@@ -32,6 +32,7 @@ int				UnixSocket::initialize(std::string const &protocole)
     };
   struct protoent		*proto;
 
+  this->_proto = protocole;
   proto = getprotobyname(protocole.c_str());
   if ((this->_socket = socket(AF_INET, protoType[protocole], proto->p_proto)) == -1)
     {
@@ -75,6 +76,11 @@ int				UnixSocket::listenSocket()
   return (0);
 }
 
+SocketClient			*UnixSocket::getSocket() const
+{
+  return (new SocketClient(this->_socket, this->_proto));
+}
+
 SocketClient			*UnixSocket::connectToAddr(std::string const &addr, int const port)
 {
   struct sockaddr_in		sin;
@@ -87,7 +93,7 @@ SocketClient			*UnixSocket::connectToAddr(std::string const &addr, int const por
       dprintf(2, "Error: server not found\n");
       return (NULL);
     }
-  return (new SocketClient(this->_socket));
+  return (new SocketClient(this->_socket, this->_proto));
 }
 
 SocketClient			*UnixSocket::acceptConnection()
@@ -99,7 +105,7 @@ SocketClient			*UnixSocket::acceptConnection()
   size = sizeof(sin);
   if ((fd = accept(this->_socket, (struct sockaddr *)&sin, (socklen_t *)&size)) != -1)
     return (NULL);
-  return (new SocketClient(fd));
+  return (new SocketClient(fd, this->_proto));
 }
 
 #endif
