@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:21:19 2013 laurent ansel
-// Last update Tue Oct 29 16:59:09 2013 laurent ansel
+// Last update Wed Oct 30 10:05:12 2013 laurent ansel
 //
 
 #ifdef _WIN32
@@ -76,7 +76,7 @@ int				WindowsSocket::listenSocket()
   return (0);
 }
 
-ISocketClient			*WindowsSocket::connectToAddr(std::string const &addr, int const port)
+SocketClient			*WindowsSocket::connectToAddr(std::string const &addr, int const port)
 {
   sockaddr_in			addrClient;
   char				*ip;
@@ -89,17 +89,17 @@ ISocketClient			*WindowsSocket::connectToAddr(std::string const &addr, int const
   addrClient.sin_addr.s_addr = inet_addr(ip);
   if ((WSAConnect(this->_socket, (SOCKADDR *)&addrClient, sizeof(addrClient), NULL, NULL, NULL, NULL)) == SOCKET_ERROR)
     return (NULL);
-  return (new WindowsSocketClient(this->_socket));
+  return (new SocketClient(this->_socket));
 }
 
-ISocketClient			*WindowsSocket::acceptConnection()
+SocketClient			*WindowsSocket::acceptConnection()
 {
   struct sockaddr_in		client;
   int				size = sizeof(client);
   SOCKET			socketClient;
 
   if ((socketClient = WSAAccept(this->_socket, (SOCKADDR*)&client, &size, NULL, NULL)) != SOCKET_ERROR)
-    return (new WindowsSocketClient(socketClient));
+    return (new SocketClient(socketClient));
   return (NULL);
 }
 

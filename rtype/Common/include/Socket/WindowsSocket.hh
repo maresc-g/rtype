@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:23:52 2013 laurent ansel
-// Last update Mon Oct 28 16:38:05 2013 laurent ansel
+// Last update Wed Oct 30 10:04:13 2013 laurent ansel
 //
 
 #ifndef 			__WINDOWSSOCKET_HH__
@@ -29,8 +29,8 @@ public:
   virtual int			destroy();
   virtual int			bindSocket(int const);
   virtual int			listenSocket();
-  virtual ISocketClient		*connectToAddr(std::string const &, int const);
-  virtual ISocketClient		*acceptConnection();
+  virtual SocketClient		*connectToAddr(std::string const &, int const);
+  virtual SocketClient		*acceptConnection();
 };
 
 #endif

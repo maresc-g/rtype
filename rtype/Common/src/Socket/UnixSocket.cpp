@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:20:50 2013 laurent ansel
-// Last update Tue Oct 29 16:56:21 2013 laurent ansel
+// Last update Wed Oct 30 10:04:38 2013 laurent ansel
 //
 
 #ifndef _WIN32
@@ -75,7 +75,7 @@ int				UnixSocket::listenSocket()
   return (0);
 }
 
-ISocketClient			*UnixSocket::connectToAddr(std::string const &addr, int const port)
+SocketClient			*UnixSocket::connectToAddr(std::string const &addr, int const port)
 {
   struct sockaddr_in		sin;
 
@@ -87,10 +87,10 @@ ISocketClient			*UnixSocket::connectToAddr(std::string const &addr, int const po
       dprintf(2, "Error: server not found\n");
       return (NULL);
     }
-  return (new UnixSocketClient(this->_socket));
+  return (new SocketClient(this->_socket));
 }
 
-ISocketClient			*UnixSocket::acceptConnection()
+SocketClient			*UnixSocket::acceptConnection()
 {
   int				fd;
   unsigned int			size;
@@ -99,7 +99,7 @@ ISocketClient			*UnixSocket::acceptConnection()
   size = sizeof(sin);
   if ((fd = accept(this->_socket, (struct sockaddr *)&sin, (socklen_t *)&size)) != -1)
     return (NULL);
-  return (new UnixSocketClient(fd));
+  return (new SocketClient(fd));
 }
 
 #endif
