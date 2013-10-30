@@ -10,6 +10,7 @@
 
 #ifdef _WIN32
 
+#include		<string.h>
 #include		"Socket/WindowsSocketClient.hh"
 
 WindowsSocketClient::WindowsSocketClient(SOCKET const socket):

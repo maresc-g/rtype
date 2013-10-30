@@ -13,7 +13,7 @@
 #include			"Socket/WindowsSocket.hh"
 #include			"Socket/WindowsSocketClient.hh"
 
-#pragma comment(lib, "ws2_32.lib")
+//#pragma comment(lib, "ws2_32.lib")
 
 WindowsSocket::WindowsSocket():
   _socket(0)

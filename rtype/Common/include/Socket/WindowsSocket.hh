@@ -13,8 +13,8 @@
 
 #ifdef _WIN32
 
-#include			<iostream>
 #include			<WinSock2.h>
+#include			<iostream>
 #include			"Socket/ISocket.hh"
 
 class				WindowsSocket : public ISocket

@@ -9,7 +9,7 @@
 //
 
 #ifndef			__WINDOWSSOCKETCLIENT_HH__
-#define			__WINDOWSSOCKETCLIENT_HH__
+# define		__WINDOWSSOCKETCLIENT_HH__
 
 #ifdef _WIN32
 
