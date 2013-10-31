@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:15:14 2013 laurent ansel
-// Last update Thu Oct 31 10:29:41 2013 laurent ansel
+// Last update Thu Oct 31 13:13:38 2013 laurent ansel
 //
 
 #include			<sstream>
@@ -57,6 +57,14 @@ std::string const		Trame::toString() const
 {
   std::ostringstream		str;
 
-  str << this->_header->getId() << " " << this->_header->getTrameId() << " " << this->_header->getProto() << " " << this->_content;
+  str << this->_header->toString() << " " << this->_content;
   return (str.str());
+}
+
+Trame				*Trame::toTrame(std::string &str)
+{
+  Header			*header;
+
+  header = Header::toHeader(str);
+  return (new Trame(header, str));
 }

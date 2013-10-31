@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:04:47 2013 laurent ansel
-// Last update Thu Oct 31 10:25:31 2013 laurent ansel
+// Last update Thu Oct 31 13:14:22 2013 laurent ansel
 //
 
 #ifndef 			__TRAME_HH__
@@ -28,6 +28,7 @@ public:
   void				setContent(std::string const &content);
   void				appendContent(std::string const &content);
   std::string const 		toString() const;
+  static Trame			*toTrame(std::string &str);
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:07:45 2013 laurent ansel
-// Last update Thu Oct 31 10:30:09 2013 laurent ansel
+// Last update Thu Oct 31 13:14:30 2013 laurent ansel
 //
 
 #ifndef 			__HEADER_HH__
@@ -29,6 +29,8 @@ public:
   void				setId(int const id);
   void				setTrameId(int const trameId);
   void				setProto(std::string const &proto);
+  std::string const		toString() const;
+  static Header			*toHeader(std::string &str);
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:26:32 2013 laurent ansel
-// Last update Thu Oct 31 10:40:24 2013 laurent ansel
+// Last update Thu Oct 31 13:17:21 2013 laurent ansel
 //
 
 #ifndef _WIN32
@@ -24,18 +24,15 @@ UnixSocketClient::~UnixSocketClient()
 {
 }
 
-int			UnixSocketClient::readSocket(std::string &buf, int const size)
+int			UnixSocketClient::readSocket(char *buf, int const size)
 {
   int			ret = 0;
-  char			tmp[SIZE_BUFFER] = "";
   socklen_t		addrlen = sizeof(*this->_addr);
 
   if (this->_proto == "UDP")
-    ret = recvfrom(this->_socket, tmp, size, 0, (struct sockaddr *)this->_addr, &addrlen);
+    ret = recvfrom(this->_socket, buf, size, 0, (struct sockaddr *)this->_addr, &addrlen);
   else
-    ret = recv(this->_socket, tmp, size, MSG_DONTWAIT);
-  if (ret != -1)
-    buf.assign(tmp);
+    ret = recv(this->_socket, buf, size, MSG_DONTWAIT);
   return (ret);
 }
 
@@ -59,6 +56,11 @@ void			UnixSocketClient::closeSocket() const
 int			UnixSocketClient::getSocket() const
 {
   return (this->_socket);
+}
+
+void			UnixSocketClient::setAddr(struct sockaddr_in *addr)
+{
+  this->_addr = addr;
 }
 
 #endif

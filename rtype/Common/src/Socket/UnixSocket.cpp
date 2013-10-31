@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:20:50 2013 laurent ansel
-// Last update Wed Oct 30 16:08:40 2013 laurent ansel
+// Last update Thu Oct 31 12:51:48 2013 laurent ansel
 //
 
 #ifndef _WIN32
@@ -16,12 +16,15 @@
 #include			"Error/SocketError.hpp"
 
 UnixSocket::UnixSocket():
-  _socket(0)
+  _socket(0),
+  _currentSocket(NULL)
 {
 }
 
 UnixSocket::~UnixSocket()
 {
+  if (this->_currentSocket)
+    delete this->_currentSocket;
 }
 
 int				UnixSocket::initialize(std::string const &protocole)
@@ -40,6 +43,8 @@ int				UnixSocket::initialize(std::string const &protocole)
       throw SocketError("initialize socket failed");
       return (-1);
     }
+  if (!this->_currentSocket)
+    this->_currentSocket = new SocketClient(this->_socket, this->_proto);
   return (0);
 }
 
@@ -78,6 +83,11 @@ int				UnixSocket::listenSocket()
   return (0);
 }
 
+SocketClient const		&UnixSocket::getSocket() const
+{
+  return (*this->_currentSocket);
+}
+
 SocketClient			*UnixSocket::connectToAddr(std::string const &addr, int const port)
 {
   struct sockaddr_in		sin;
@@ -90,7 +100,8 @@ SocketClient			*UnixSocket::connectToAddr(std::string const &addr, int const por
       throw SocketError("server not found");
       return (NULL);
     }
-  return (new SocketClient(this->_socket, this->_proto, &sin));
+  this->_currentSocket->setAddr(&sin);
+  return (this->_currentSocket);
 }
 
 SocketClient			*UnixSocket::acceptConnection()
@@ -100,7 +111,7 @@ SocketClient			*UnixSocket::acceptConnection()
   struct sockaddr_in		sin;
 
   size = sizeof(sin);
-  if ((fd = accept(this->_socket, (struct sockaddr *)&sin, (socklen_t *)&size)) != -1)
+  if ((fd = accept(this->_socket, (struct sockaddr *)&sin, (socklen_t *)&size)) == -1)
     return (NULL);
   return (new SocketClient(fd, this->_proto));
 }

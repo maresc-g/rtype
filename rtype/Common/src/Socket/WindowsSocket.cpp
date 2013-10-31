@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:21:19 2013 laurent ansel
-// Last update Wed Oct 30 15:17:50 2013 laurent ansel
+// Last update Thu Oct 31 12:40:02 2013 laurent ansel
 //
 
 #ifdef _WIN32
@@ -16,11 +16,12 @@
 //#pragma comment(lib, "ws2_32.lib")
 
 WindowsSocket::WindowsSocket():
-  _socket(0)
+  _socket(0),
+  _currentSocket(NULL)
 {
   if (WSAStartup(MAKEWORD(2, 2), &_wsaData) != 0)
     {
-      std::cout << "WSAStartup failed with error" << std::endl;
+      throw SocketError("WSAStartup failed");
       _socket = -1;
     }
 }
@@ -40,9 +41,11 @@ int				WindowsSocket::initialize(std::string const &protocole)
   this->_proto = protocole;
   if (this->_socket == INVALID_SOCKET)
     {
-      std::cout << "WSASocket failed with error" << std::endl;
+      throw SocketError("initialize socket failed");
       return (-1);
     }
+  if (!this->_currentSocket)
+    this->_currentSocket = new SocketClient(this->_socket, this->_proto);
   return (0);
 }
 
@@ -66,20 +69,28 @@ int				WindowsSocket::bindSocket(int const port)
   ip = inet_ntoa(*(struct in_addr *)*thisHost->h_addr_list);
   addr.sin_addr.s_addr = inet_addr(ip);
   if (bind(this->_socket, (SOCKADDR *)&addr, sizeof(addr)) == SOCKET_ERROR)
-    return (-1);
+    {
+      throw SocketError("bind socket failed");
+      closesocket(this->_socket);
+      return (-1);
+    }
   return (0);
 }
 
 int				WindowsSocket::listenSocket()
 {
   if (listen(this->_socket, SOMAXCONN) == SOCKET_ERROR)
-    return (-1);
+    {
+      throw SocketError("listen socket failed");
+      closesocket(this->_socket);
+      return (-1);
+    }
   return (0);
 }
 
-SocketClient			*UnixSocket::getSocket() const
+SocketClient const		&UnixSocket::getSocket() const
 {
-  return (new SocketClient(this->_socket, this->_proto));
+  return (*this->_currentSocket);
 }
 
 SocketClient			*WindowsSocket::connectToAddr(std::string const &addr, int const port)
@@ -93,9 +104,13 @@ SocketClient			*WindowsSocket::connectToAddr(std::string const &addr, int const 
   thisHost = gethostbyname(addr.c_str());
   ip = inet_ntoa(*(struct in_addr *)*thisHost->h_addr_list);
   addrClient.sin_addr.s_addr = inet_addr(ip);
-  if ((WSAConnect(this->_socket, (SOCKADDR *)&addrClient, sizeof(addrClient), NULL, NULL, NULL, NULL)) == SOCKET_ERROR)
-    return (NULL);
-  return (new SocketClient(this->_socket));
+  if (this->_proto == "TCP" && (WSAConnect(this->_socket, (SOCKADDR *)&addrClient, sizeof(addrClient), NULL, NULL, NULL, NULL)) == SOCKET_ERROR)
+    {
+      throw SocketError("server not found");
+      return (NULL);
+    }
+  this->_currentSocket->setAddr(&sin);
+  return (this->_currentSocket);
 }
 
 SocketClient			*WindowsSocket::acceptConnection()
@@ -105,7 +120,7 @@ SocketClient			*WindowsSocket::acceptConnection()
   SOCKET			socketClient;
 
   if ((socketClient = WSAAccept(this->_socket, (SOCKADDR*)&client, &size, NULL, NULL)) != SOCKET_ERROR)
-    return (new SocketClient(socketClient));
+    return (new SocketClient(socketClient, this->_proto));
   return (NULL);
 }
 
