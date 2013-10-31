@@ -2,7 +2,9 @@ Header(10) + content(255)
 idClient + idMsg | Content
 
 server -> "BIENVENUE %id" TCP
-client -> "IDENTIFICATION %name" TCP
+client -> "INITIALIZE" UDP
+server -> "CHECK" TCP
+#client -> "IDENTIFICATION %name" TCP
 
 client -> "GAMELIST" UDP
 server -> "GAMELIST %gamelist"  UDP gamelist=<id;name;numPlayer>
