@@ -5,15 +5,16 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:16:57 2013 laurent ansel
-// Last update Tue Oct 29 13:01:56 2013 laurent ansel
+// Last update Thu Oct 31 10:30:46 2013 laurent ansel
 //
 
 #include			"CircularBufferManager/CircularBuffer/Trame/Header/Header.hh"
 
 
-Header::Header(int const id, int const trameId):
+Header::Header(int const id, int const trameId, std::string const &proto):
   _id(id),
-  _trameId(trameId)
+  _trameId(trameId),
+  _proto(proto)
 {
 }
 
@@ -39,4 +40,14 @@ void				Header::setId(int const id)
 void				Header::setTrameId(int const trameId)
 {
   this->_trameId = trameId;
+}
+
+std::string const		&Header::getProto() const
+{
+  return (this->_proto);
+}
+
+void				Header::setProto(std::string const &proto)
+{
+  this->_proto = proto;
 }

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:15:14 2013 laurent ansel
-// Last update Tue Oct 29 16:49:04 2013 laurent ansel
+// Last update Thu Oct 31 10:29:41 2013 laurent ansel
 //
 
 #include			<sstream>
@@ -17,8 +17,8 @@ Trame::Trame(Header *header, std::string const &content):
 {
 }
 
-Trame::Trame(int const id, int const trameId, std::string const &content):
-  _header(new Header(id, trameId)),
+Trame::Trame(int const id, int const trameId, std::string const &proto, std::string const &content):
+  _header(new Header(id, trameId, proto)),
   _content(content)
 {
 }
@@ -57,6 +57,6 @@ std::string const		Trame::toString() const
 {
   std::ostringstream		str;
 
-  str << this->_header->getId() << " " << this->_header->getTrameId() << " " << this->_content;
+  str << this->_header->getId() << " " << this->_header->getTrameId() << " " << this->_header->getProto() << " " << this->_content;
   return (str.str());
 }
