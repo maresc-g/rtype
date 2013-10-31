@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:22:49 2013 laurent ansel
-// Last update Wed Oct 30 11:40:40 2013 laurent ansel
+// Last update Thu Oct 31 10:39:38 2013 laurent ansel
 //
 
 #ifndef			__WINDOWSSOCKETCLIENT_HH__
@@ -28,7 +28,8 @@ public:
   virtual ~WindowsSocketClient();
   virtual int		readSocket(std::string &data, int const size);
   virtual int		writeSocket(char *data, int const size);
-  virtual void		closeSocket();
+  virtual void		closeSocket() const;
+  virtual int		getSocket() const;
 };
 
 #endif

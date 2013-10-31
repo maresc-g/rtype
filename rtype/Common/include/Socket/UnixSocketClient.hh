@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:22:40 2013 laurent ansel
-// Last update Wed Oct 30 16:07:21 2013 laurent ansel
+// Last update Thu Oct 31 10:39:21 2013 laurent ansel
 //
 
 #ifndef 			__UNIXSOCKETCLIENT_HH__
@@ -33,7 +33,8 @@ public:
   virtual ~UnixSocketClient();
   virtual int			readSocket(std::string &data, int const size);
   virtual int			writeSocket(char *data, int const size);
-  virtual void			closeSocket();
+  virtual void			closeSocket() const;
+  virtual int			getSocket() const;
 };
 
 #endif

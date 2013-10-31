@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:26:41 2013 laurent ansel
-// Last update Wed Oct 30 11:41:24 2013 laurent ansel
+// Last update Thu Oct 31 10:40:36 2013 laurent ansel
 //
 
 #ifdef _WIN32
@@ -50,9 +50,14 @@ int			WindowsSocketClient::writeSocket(char *buf, int const size)
   return (ret);
 }
 
-void			WindowsSocketClient::closeSocket()
+void			WindowsSocketClient::closeSocket() const
 {
   closesocket(this->_socket);
+}
+
+int			UnixSocketClient::getSocket() const
+{
+  return (this->_socket);
 }
 
 #endif

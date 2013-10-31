@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:24:56 2013 laurent ansel
-// Last update Mon Oct 28 15:51:10 2013 laurent ansel
+// Last update Thu Oct 31 10:39:26 2013 laurent ansel
 //
 
 #ifndef 			__ISOCKETCLIENT_HH__
@@ -19,9 +19,10 @@ class				ISocketClient
 {
 public:
   virtual ~ISocketClient(){}
-  virtual int			readSocket(std::string &, int const) = 0;
-  virtual int			writeSocket(char *, int const) = 0;
-  virtual void			closeSocket() = 0;
+  virtual int			readSocket(std::string &buf, int const size) = 0;
+  virtual int			writeSocket(char *buf, int const size) = 0;
+  virtual void			closeSocket() const = 0;
+  virtual int			getSocket() const = 0;
 };
 
 #endif
