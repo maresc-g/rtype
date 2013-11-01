@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:04:47 2013 laurent ansel
-// Last update Thu Oct 31 13:14:22 2013 laurent ansel
+// Last update Thu Oct 31 15:27:24 2013 laurent ansel
 //
 
 #ifndef 			__TRAME_HH__
@@ -19,11 +19,12 @@ private:
   Header			*_header;
   std::string			_content;
 public:
+  Trame(std::string &str);
   Trame(Header *header, std::string const &content);
-  Trame(int const id, int const trameId, std::string const &proto, std::string const &content);
+  Trame(unsigned int const id, unsigned int const trameId, std::string const &proto, std::string const &content);
   virtual ~Trame();
   std::string const		&getContent() const;
-  Header const			&getHeader() const;
+  Header			&getHeader() const;
   void				setHeader(Header *header);
   void				setContent(std::string const &content);
   void				appendContent(std::string const &content);

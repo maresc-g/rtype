@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:26:41 2013 laurent ansel
-// Last update Thu Oct 31 13:17:41 2013 laurent ansel
+// Last update Thu Oct 31 15:04:15 2013 laurent ansel
 //
 
 #ifdef _WIN32
@@ -25,7 +25,7 @@ WindowsSocketClient::~WindowsSocketClient()
 {
 }
 
-int			WindowsSocketClient::readSocket(char *buf, int const size)
+int			WindowsSocketClient::readSocket(char *buf, int const size) const
 {
   DWORD			ret = 0;
   WSABUF		dataBuf;
@@ -37,7 +37,7 @@ int			WindowsSocketClient::readSocket(char *buf, int const size)
   return (ret);
 }
 
-int			WindowsSocketClient::writeSocket(char *buf, int const size)
+int			WindowsSocketClient::writeSocket(char *buf, int const size) const
 {
   DWORD			ret = 0;
   WSABUF		dataBuf;
@@ -62,6 +62,11 @@ int			WindowsSocketClient::getSocket() const
 void			WindowsSocketClient::setAddr(struct sockaddr_in *addr)
 {
   this->_addr = addr;
+}
+
+struct sockaddr_in	*WindowsSocketClient::getAddr() const
+{
+  return (this->_addr);
 }
 
 #endif

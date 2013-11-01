@@ -5,11 +5,18 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:15:14 2013 laurent ansel
-// Last update Thu Oct 31 13:13:38 2013 laurent ansel
+// Last update Thu Oct 31 15:27:42 2013 laurent ansel
 //
 
 #include			<sstream>
 #include			"CircularBufferManager/CircularBuffer/Trame/Trame.hh"
+
+Trame::Trame(std::string &str):
+  _header(Header::toHeader(str)),
+  _content(str)
+{
+
+}
 
 Trame::Trame(Header *header, std::string const &content):
   _header(header),
@@ -17,7 +24,7 @@ Trame::Trame(Header *header, std::string const &content):
 {
 }
 
-Trame::Trame(int const id, int const trameId, std::string const &proto, std::string const &content):
+Trame::Trame(unsigned int const id, unsigned int const trameId, std::string const &proto, std::string const &content):
   _header(new Header(id, trameId, proto)),
   _content(content)
 {
@@ -32,7 +39,7 @@ std::string const		&Trame::getContent() const
   return (this->_content);
 }
 
-Header const			&Trame::getHeader() const
+Header				&Trame::getHeader() const
 {
   return (*this->_header);
 }

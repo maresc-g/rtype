@@ -5,13 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:16:57 2013 laurent ansel
-// Last update Thu Oct 31 13:15:38 2013 laurent ansel
+// Last update Thu Oct 31 15:21:18 2013 laurent ansel
 //
 
 #include			<sstream>
 #include			"CircularBufferManager/CircularBuffer/Trame/Header/Header.hh"
 
-Header::Header(int const id, int const trameId, std::string const &proto):
+Header::Header(unsigned int const id, unsigned int const trameId, std::string const &proto):
   _id(id),
   _trameId(trameId),
   _proto(proto)
@@ -22,22 +22,22 @@ Header::~Header()
 {
 }
 
-int				Header::getId() const
+unsigned int			Header::getId() const
 {
   return (this->_id);
 }
 
-int				Header::getTrameId() const
+unsigned int			Header::getTrameId() const
 {
   return (this->_trameId);
 }
 
-void				Header::setId(int const id)
+void				Header::setId(unsigned int const id)
 {
   this->_id = id;
 }
 
-void				Header::setTrameId(int const trameId)
+void				Header::setTrameId(unsigned int const trameId)
 {
   this->_trameId = trameId;
 }
@@ -63,8 +63,8 @@ std::string const		Header::toString() const
 Header				*Header::toHeader(std::string &str)
 {
   std::istringstream		tmp(str);
-  int				id;
-  int				trameId;
+  unsigned int			id;
+  unsigned int			trameId;
   std::string			proto;
   std::string			content;
 

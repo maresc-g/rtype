@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:12:01 2013 laurent ansel
-// Last update Tue Oct 29 15:24:11 2013 laurent ansel
+// Last update Fri Nov  1 15:28:21 2013 laurent ansel
 //
 
 #include			"CircularBufferManager/CircularBufferManager.hh"
@@ -34,14 +34,38 @@ void				CircularBufferManager::pushTrame(Trame *trame, enum eTypeBuffer const ty
 
 Trame const			&CircularBufferManager::getTrame(enum eTypeBuffer const type) const
 {
+  Trame const			*tmp;
+
   this->_mutex->enter();
-  return ((*this->_buffer)[type]->getFirstTrame());
+  tmp = &(*this->_buffer)[type]->getFirstTrame();
   this->_mutex->leave();
+  return (*tmp);
 }
 
 Trame				*CircularBufferManager::popTrame(enum eTypeBuffer const type) const
 {
+  Trame				*tmp;
+
   this->_mutex->enter();
-  return ((*this->_buffer)[type]->popFirstTrame());
+  tmp = (*this->_buffer)[type]->popFirstTrame();
+  this->_mutex->leave();
+  return (tmp);
+}
+
+Trame				*CircularBufferManager::popTrame(unsigned int const id, std::string const &proto, enum eTypeBuffer const type) const
+{
+  Trame				*tmp;
+
+  this->_mutex->enter();
+  tmp = (*this->_buffer)[type]->popFirstTrame(id, proto);
+  this->_mutex->leave();
+  return (tmp);
+}
+
+void				CircularBufferManager::deleteTrame(unsigned int const id)
+{
+  this->_mutex->enter();
+  (*this->_buffer)[CircularBufferManager::READ_BUFFER]->deleteTrame(id);
+  (*this->_buffer)[CircularBufferManager::WRITE_BUFFER]->deleteTrame(id);
   this->_mutex->leave();
 }

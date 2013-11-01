@@ -5,11 +5,12 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:26:32 2013 laurent ansel
-// Last update Thu Oct 31 13:17:21 2013 laurent ansel
+// Last update Fri Nov  1 16:15:08 2013 laurent ansel
 //
 
 #ifndef _WIN32
 
+#include		<iostream>
 #include		"Socket/UnixSocketClient.hh"
 
 UnixSocketClient::UnixSocketClient(int const socket, std::string const &protocole, struct sockaddr_in *addr):
@@ -24,7 +25,7 @@ UnixSocketClient::~UnixSocketClient()
 {
 }
 
-int			UnixSocketClient::readSocket(char *buf, int const size)
+int			UnixSocketClient::readSocket(char *buf, int const size) const
 {
   int			ret = 0;
   socklen_t		addrlen = sizeof(*this->_addr);
@@ -33,10 +34,11 @@ int			UnixSocketClient::readSocket(char *buf, int const size)
     ret = recvfrom(this->_socket, buf, size, 0, (struct sockaddr *)this->_addr, &addrlen);
   else
     ret = recv(this->_socket, buf, size, MSG_DONTWAIT);
+  std::cout << "READ : [" << buf << "]" << std::endl;
   return (ret);
 }
 
-int			UnixSocketClient::writeSocket(char *buf, int const size)
+int			UnixSocketClient::writeSocket(char *buf, int const size) const
 {
   int			ret = 0;
   socklen_t		addrlen = sizeof(*this->_addr);
@@ -61,6 +63,11 @@ int			UnixSocketClient::getSocket() const
 void			UnixSocketClient::setAddr(struct sockaddr_in *addr)
 {
   this->_addr = addr;
+}
+
+struct sockaddr_in	*UnixSocketClient::getAddr() const
+{
+  return (this->_addr);
 }
 
 #endif

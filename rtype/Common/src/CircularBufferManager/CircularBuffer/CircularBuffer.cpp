@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:13:43 2013 laurent ansel
-// Last update Tue Oct 29 15:19:07 2013 laurent ansel
+// Last update Fri Nov  1 15:25:47 2013 laurent ansel
 //
 
 #include			"CircularBufferManager/CircularBuffer/CircularBuffer.hh"
@@ -32,7 +32,8 @@ void				CircularBuffer::pushTrame(Trame *trame)
   for (std::list<Trame *>::iterator it = _buffer->begin() ; it != _buffer->end() ; ++it)
     {
       if ((*it)->getHeader().getId() == trame->getHeader().getId() &&
-	  (*it)->getHeader().getTrameId() == trame->getHeader().getTrameId())
+	  (*it)->getHeader().getTrameId() == trame->getHeader().getTrameId() &&
+	  (*it)->getHeader().getProto() == trame->getHeader().getProto())
 	(*it)->appendContent(trame->getContent());
     }
   if (!append)
@@ -46,8 +47,41 @@ Trame const			&CircularBuffer::getFirstTrame() const
 
 Trame				*CircularBuffer::popFirstTrame()
 {
-  Trame				*tmp = this->_buffer->front();
+  Trame				*tmp = NULL;
 
-  this->_buffer->pop_front();
+  if (!this->_buffer->empty())
+    {
+      tmp = this->_buffer->front();
+      this->_buffer->pop_front();
+    }
   return (tmp);
+}
+
+Trame				*CircularBuffer::popFirstTrame(unsigned int const id, std::string const &proto)
+{
+  Trame				*tmp = NULL;
+
+  for (std::list<Trame *>::iterator it = _buffer->begin() ; it != _buffer->end() ; ++it)
+    {
+      if ((*it)->getHeader().getId() == id &&
+	  (*it)->getHeader().getProto() == proto)
+	{
+	  tmp = (*it);
+	  it = this->_buffer->erase(it);
+	  return (tmp);
+	}
+    }
+  return (tmp);
+}
+
+void				CircularBuffer::deleteTrame(unsigned int const id)
+{
+  for (std::list<Trame *>::iterator it = _buffer->begin() ; it != _buffer->end() && !this->_buffer->empty(); ++it)
+    {
+      if ((*it)->getHeader().getId() == id)
+	{
+	  delete (*it);
+	  it = this->_buffer->erase(it);
+	}
+    }
 }

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:20:50 2013 laurent ansel
-// Last update Thu Oct 31 12:51:48 2013 laurent ansel
+// Last update Thu Oct 31 15:28:40 2013 laurent ansel
 //
 
 #ifndef _WIN32
@@ -90,17 +90,17 @@ SocketClient const		&UnixSocket::getSocket() const
 
 SocketClient			*UnixSocket::connectToAddr(std::string const &addr, int const port)
 {
-  struct sockaddr_in		sin;
+  struct sockaddr_in		*sin = new struct sockaddr_in;
 
-  sin.sin_family = AF_INET;
-  sin.sin_port = htons(port);
-  sin.sin_addr.s_addr = inet_addr(addr.c_str());
-  if (this->_proto == "TCP" && (connect(this->_socket, (struct sockaddr *)&sin, sizeof(sin))) == -1)
+  sin->sin_family = AF_INET;
+  sin->sin_port = htons(port);
+  sin->sin_addr.s_addr = inet_addr(addr.c_str());
+  if (this->_proto == "TCP" && (connect(this->_socket, (struct sockaddr *)sin, sizeof(*sin))) == -1)
     {
       throw SocketError("server not found");
       return (NULL);
     }
-  this->_currentSocket->setAddr(&sin);
+  this->_currentSocket->setAddr(sin);
   return (this->_currentSocket);
 }
 
