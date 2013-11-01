@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 16:17:37 2013 antoine maitre
-// Last update Tue Oct 29 16:24:09 2013 antoine maitre
+// Last update Fri Nov  1 10:56:08 2013 arthur rucquois
 //
 
 #ifndef	__LEVEL_HH__
@@ -13,6 +13,14 @@
 
 class	Level
 {
+private:
+  int		adv;
+
+public:
+  const int	getAdv() const;
+  void		incAdv();
+
+public:
   Level();
   ~Level();
 };

@@ -5,17 +5,15 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Tue Oct 29 15:55:31 2013 antoine maitre
+// Last update Fri Nov  1 10:46:43 2013 arthur rucquois
 //
 
 #include "Game/Game.hh"
 
 Game::Game()
 {
-
 }
 
 Game::~Game()
 {
-
 }
