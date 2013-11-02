@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Fri Nov  1 16:36:12 2013 laurent ansel
+// Last update Sat Nov  2 16:54:01 2013 laurent ansel
 //
 
 #include			"ClientInfo/ClientInfo.hh"
@@ -55,10 +55,10 @@ Command const			&ClientInfo::getFirstCommand() const
 void				ClientInfo::setCommand()
 {
   this->_mutex->enter();
-  if ((*this->_nbTrame)["TCP"] > 0 || (*this->_nbTrame)["UDP"] > 0)
-    {
+  // if ((*this->_nbTrame)["TCP"] > 0 || (*this->_nbTrame)["UDP"] > 0)
+  //   {
 
-    }
+  //   }
   this->_mutex->leave();
 }
 
@@ -147,11 +147,11 @@ SocketClient			*ClientInfo::getClientUdp() const
   return (tmp);
 }
 
-void				ClientInfo::wantWrite(Trame *trame)
+void				ClientInfo::wantWrite(std::string const &proto, Trame *trame)
 {
   this->_mutex->enter();
   CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
-  this->_nbTrame++;
+  (*this->_nbTrame)[proto]++;
   this->_mutex->leave();
 }
 
@@ -163,9 +163,12 @@ void				ClientInfo::writeOneTrame(std::string const &proto)
   if ((*this->_nbTrame)[proto] > 0)
     {
       tmp = CircularBufferManager::getInstance()->popTrame(this->_id, proto, CircularBufferManager::WRITE_BUFFER);
-      (*this->_clientInfo)[proto]->writeSocket(const_cast<char *>(tmp->toString().c_str()), tmp->toString().size());
-      delete tmp;
-      this->_nbTrame--;
+      if (tmp)
+	{
+	  (*this->_clientInfo)[proto]->writeSocket(const_cast<char *>(tmp->toString().c_str()), tmp->toString().size());
+	  delete tmp;
+	}
+      (*this->_nbTrame)[proto]--;
     }
   this->_mutex->leave();
 }

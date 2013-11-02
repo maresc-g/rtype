@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Fri Nov  1 16:04:43 2013 laurent ansel
+// Last update Sat Nov  2 16:54:46 2013 laurent ansel
 //
 
 #include			<signal.h>
@@ -102,7 +102,7 @@ void				Server::newClient()
 	  std::cout << "New Client: " << this->_clientId << std::endl;
 #endif
 	  this->_client->push_back(new ClientInfo(client, NULL, this->_clientId));
-	  this->_client->back()->pushCommand(new Trame(this->_clientId, 0, "TCP", "Bienvenue"));
+	  this->_client->back()->wantWrite("TCP", new Trame(this->_clientId, 0, "TCP", "Bienvenue", true));
 	  this->_clientId++;
 	}
     }
@@ -131,7 +131,7 @@ void				Server::recvTrameUdp()
 		  (*it)->setClientUdp(new SocketClient((*this->_socket)["UDP"]->getSocket().getSocket(), "UDP", (*this->_socket)["UDP"]->getSocket().getAddr()));
 		  trame->getHeader().setTrameId(0);
 		  trame->getHeader().setProto("TCP");
-		  trame->setContent("CHECK");
+		  trame->setContent("CHECK" + std::string(END_TRAME));
 		  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
 		}
 	    }
@@ -217,5 +217,4 @@ void				Server::run()
 	this->setCommand();
     }
   this->debug("Shutdown Server");
-
 }

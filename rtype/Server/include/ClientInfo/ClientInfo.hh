@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:46:04 2013 laurent ansel
-// Last update Fri Nov  1 16:05:15 2013 laurent ansel
+// Last update Sat Nov  2 16:52:56 2013 laurent ansel
 //
 
 #ifndef 			__CLIENTINFO_HH__
@@ -39,7 +39,7 @@ public:
   bool				alreadySetUdp() const;
   SocketClient			*getClientTcp() const;
   SocketClient			*getClientUdp() const;
-  void				wantWrite(Trame *trame);
+  void				wantWrite(std::string const &proto, Trame *trame);
   void				writeOneTrame(std::string const &proto);
   int				readSomethingInSocket(std::string const &proto);
 };
