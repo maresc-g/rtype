@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sat Nov  2 16:54:11 2013 alexis mestag
-// Last update Sat Nov  2 17:59:41 2013 alexis mestag
+// Last update Sun Nov  3 18:05:48 2013 alexis mestag
 //
 
 #ifndef			__UNIXDYNAMICLIBRARY_HH__
@@ -19,9 +19,9 @@ private:
   std::string		_path;
   void			*_lib;
 
-private:
+protected:
   UnixDynamicLibrary();
-  UnixDynamicLibrary(UnixDynamicLibrary const &);
+  UnixDynamicLibrary(UnixDynamicLibrary const &rhs);
   UnixDynamicLibrary	&operator=(UnixDynamicLibrary const &rhs);
 
 public:

@@ -5,10 +5,11 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Sat Nov  2 18:00:02 2013 alexis mestag
-## Last update Sat Nov  2 18:03:26 2013 alexis mestag
+## Last update Sun Nov  3 18:10:04 2013 alexis mestag
 ##
 
-SRCSERVER +=	$(DYNAMICLIBRARY)/UnixDynamicLibrary.cpp
+SRCSERVER +=	$(DYNAMICLIBRARY)/UnixDynamicLibrary.cpp	\
+		$(DYNAMICLIBRARY)/DynamicLibrary.cpp
 
 ifndef _WIN32
 LDFLAGS +=	-ldl
