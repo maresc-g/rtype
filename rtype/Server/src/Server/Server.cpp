@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Mon Nov  4 11:22:41 2013 laurent ansel
+// Last update Mon Nov  4 17:54:37 2013 laurent ansel
 //
 
 #include			<signal.h>
@@ -194,7 +194,7 @@ void				Server::readAndWriteClient()
     }
 }
 
-void				Server::setCommand() const
+void				Server::execCommand()
 {
   for (std::list<ClientInfo *>::iterator it = this->_client->begin() ; it != this->_client->end() && !this->_client->empty() ; ++it)
     {
@@ -202,6 +202,21 @@ void				Server::setCommand() const
 	{
 	  this->debug("New Command ...");
 	  (*it)->setCommand();
+	  this->debug("Done");
+	  this->debug("Check Command ...");
+	  if ((*it)->standbyCommand())
+	    {
+	    if ((*it)->getFirstCommand().getAction().getQuitGame())
+	      {
+		/* QUIT CLIENT GAME*/
+		(*it)->getFirstCommand().getAction().setQuitGame(false);
+	      }
+	    if ((*it)->getFirstCommand().getAction().getQuitAll())
+	      {
+		(*it)->getFirstCommand().getAction().setQuitAll(false);
+	      it = this->deleteClient(it);
+	      }
+	    }
 	  this->debug("Done");
 	}
     }
@@ -230,7 +245,7 @@ void				Server::run()
       if (!quit)
 	this->readAndWriteClient();
       if (!quit)
-	this->setCommand();
+	this->execCommand();
     }
   this->debug("Shutdown Server ...");
   this->quitAllClient();

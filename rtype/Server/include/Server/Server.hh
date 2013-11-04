@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Sat Nov  2 17:23:11 2013 laurent ansel
+// Last update Mon Nov  4 13:19:40 2013 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -38,7 +38,7 @@ private:
   void				recvTrameUdp();
   void				readAndWriteClient();
   std::list<ClientInfo *>::iterator	&deleteClient(std::list<ClientInfo *>::iterator &it);
-  void				setCommand() const;
+  void				execCommand();
   void				debug(std::string const &str) const;
   void				quitAllClient() const;
 };

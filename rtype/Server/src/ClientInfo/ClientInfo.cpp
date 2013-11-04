@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Mon Nov  4 11:18:21 2013 laurent ansel
+// Last update Mon Nov  4 13:22:18 2013 laurent ansel
 //
 
 #include			"ClientInfo/ClientInfo.hh"
@@ -44,12 +44,20 @@ ClientInfo::~ClientInfo()
   delete this->_mutex;
 }
 
+bool				ClientInfo::standbyCommand() const
+{
+  if (this->_command->empty())
+    return (false);
+  return (true);
+}
+
 Command const			&ClientInfo::getFirstCommand() const
 {
   Command			*command = this->_command->front();
 
   this->_mutex->enter();
-  this->_command->pop_front();
+  if (this->_command->front()->getAction().empty())
+    this->_command->pop_front();
   this->_mutex->leave();
   return (*command);
 }
@@ -63,6 +71,7 @@ void				ClientInfo::setCommand()
   if (tmp)
     {
       this->_command->push_back(new Command(tmp));
+      this->_command->back()->trameToAction();
     }
   else
     {
@@ -70,6 +79,7 @@ void				ClientInfo::setCommand()
       if (tmp)
 	{
 	  this->_command->push_back(new Command(tmp));
+	  this->_command->back()->trameToAction();
 	}
     }
   this->_mutex->leave();

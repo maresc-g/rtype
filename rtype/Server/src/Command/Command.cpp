@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 16:01:59 2013 laurent ansel
-// Last update Mon Nov  4 11:06:48 2013 laurent ansel
+// Last update Mon Nov  4 19:24:47 2013 laurent ansel
 //
 
 #include			"Command/Command.hh"
@@ -97,23 +97,30 @@ void				Command::trameToAction()
       {"RIGHT", &Command::downCommand},
       {"FIRE", &Command::fireCommand},
       {"QUITGAME", &Command::quitGameCommand},
-      {"QUITALL", &Command::quitAllCommand},
+      {"QUITSERVER", &Command::quitAllCommand},
       {"GAMELIST", &Command::gameListCommand},
       {"JOIN", &Command::joinCommand},
       {"CREATE", &Command::createCommand}
     };
   static unsigned int		size = sizeof(tab) / sizeof(*tab);
+
   if (this->_trame)
     {
       std::istringstream	str(this->_trame->getContent());
       std::string		content;
+      size_t			pos;
 
-      for (unsigned int i = 0 ; i < size ; i++)
+      while (str.good())
 	{
 	  content = "";
 	  str >> content;
-	  if (content == tab[i].command)
-	    (this->*tab[i].func)(str);
+	  if ((pos = content.find(END_TRAME)) != std::string::npos)
+	    content = content.substr(0, pos);
+	  for (unsigned int i = 0 ; i < size ; i++)
+	    {
+	      if (content == tab[i].command)
+		(this->*tab[i].func)(str);
+	    }
 	}
     }
 }

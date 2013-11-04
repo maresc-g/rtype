@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:13:43 2013 laurent ansel
-// Last update Mon Nov  4 11:01:58 2013 laurent ansel
+// Last update Mon Nov  4 13:22:30 2013 laurent ansel
 //
 
 #include			"CircularBufferManager/CircularBuffer/CircularBuffer.hh"
@@ -67,11 +67,11 @@ Trame				*CircularBuffer::popFirstTrame(unsigned int const id, std::string const
 
   for (std::list<Trame *>::iterator it = _buffer->begin() ; it != _buffer->end() ; ++it)
     {
-      std::cout << "content = " << (*it)->getContent()<< std::endl;
       if ((*it)->getHeader().getId() == id &&
 	  (*it)->getHeader().getProto() == proto &&
 	  (*it)->isSetEndTrame())
 	{
+	  std::cout << "content = " << (*it)->getContent()<< std::endl;
 	  tmp = (*it);
 	  it = this->_buffer->erase(it);
 	  return (tmp);
