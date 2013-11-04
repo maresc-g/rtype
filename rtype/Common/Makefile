@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Mon Oct 28 16:05:51 2013 laurent ansel
-## Last update Tue Oct 29 14:39:03 2013 laurent ansel
+## Last update Mon Nov  4 23:00:52 2013 antoine maitre
 ##
 
 THREAD=		$(COMMON_SRC)/Thread
