@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:20:50 2013 laurent ansel
-// Last update Tue Oct 29 16:56:21 2013 laurent ansel
+// Last update Thu Oct 31 15:28:40 2013 laurent ansel
 //
 
 #ifndef _WIN32
@@ -13,14 +13,18 @@
 #include			<map>
 #include			"Socket/UnixSocket.hh"
 #include			"Socket/UnixSocketClient.hh"
+#include			"Error/SocketError.hpp"
 
 UnixSocket::UnixSocket():
-  _socket(0)
+  _socket(0),
+  _currentSocket(NULL)
 {
 }
 
 UnixSocket::~UnixSocket()
 {
+  if (this->_currentSocket)
+    delete this->_currentSocket;
 }
 
 int				UnixSocket::initialize(std::string const &protocole)
@@ -32,12 +36,15 @@ int				UnixSocket::initialize(std::string const &protocole)
     };
   struct protoent		*proto;
 
+  this->_proto = protocole;
   proto = getprotobyname(protocole.c_str());
   if ((this->_socket = socket(AF_INET, protoType[protocole], proto->p_proto)) == -1)
     {
-      dprintf(2, "socket fail\n");
+      throw SocketError("initialize socket failed");
       return (-1);
     }
+  if (!this->_currentSocket)
+    this->_currentSocket = new SocketClient(this->_socket, this->_proto);
   return (0);
 }
 
@@ -58,7 +65,7 @@ int				UnixSocket::bindSocket(int const port)
   sin.sin_addr.s_addr = INADDR_ANY;
   if (bind(this->_socket, (struct sockaddr *)&sin, sizeof(sin)) == -1)
     {
-      dprintf(2, "bind fail\n");
+      throw SocketError("bind socket failed");
       close(this->_socket);
       return (-1);
     }
@@ -69,37 +76,44 @@ int				UnixSocket::listenSocket()
 {
   if (listen(this->_socket, SOMAXCONN) == -1)
     {
+      throw SocketError("listen socket failed");
       close(this->_socket);
       return (-1);
     }
   return (0);
 }
 
-ISocketClient			*UnixSocket::connectToAddr(std::string const &addr, int const port)
+SocketClient const		&UnixSocket::getSocket() const
 {
-  struct sockaddr_in		sin;
-
-  sin.sin_family = AF_INET;
-  sin.sin_port = htons(port);
-  sin.sin_addr.s_addr = inet_addr(addr.c_str());
-  if ((connect(this->_socket, (struct sockaddr *)&sin, sizeof(sin))) == -1)
-    {
-      dprintf(2, "Error: server not found\n");
-      return (NULL);
-    }
-  return (new UnixSocketClient(this->_socket));
+  return (*this->_currentSocket);
 }
 
-ISocketClient			*UnixSocket::acceptConnection()
+SocketClient			*UnixSocket::connectToAddr(std::string const &addr, int const port)
+{
+  struct sockaddr_in		*sin = new struct sockaddr_in;
+
+  sin->sin_family = AF_INET;
+  sin->sin_port = htons(port);
+  sin->sin_addr.s_addr = inet_addr(addr.c_str());
+  if (this->_proto == "TCP" && (connect(this->_socket, (struct sockaddr *)sin, sizeof(*sin))) == -1)
+    {
+      throw SocketError("server not found");
+      return (NULL);
+    }
+  this->_currentSocket->setAddr(sin);
+  return (this->_currentSocket);
+}
+
+SocketClient			*UnixSocket::acceptConnection()
 {
   int				fd;
   unsigned int			size;
   struct sockaddr_in		sin;
 
   size = sizeof(sin);
-  if ((fd = accept(this->_socket, (struct sockaddr *)&sin, (socklen_t *)&size)) != -1)
+  if ((fd = accept(this->_socket, (struct sockaddr *)&sin, (socklen_t *)&size)) == -1)
     return (NULL);
-  return (new UnixSocketClient(fd));
+  return (new SocketClient(fd, this->_proto));
 }
 
 #endif

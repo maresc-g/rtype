@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Oct 30 17:51:08 2013 antoine maitre
+// Last update Mon Nov  4 11:38:37 2013 antoine maitre
 //
 
 #include "Game/Game.hh"
@@ -13,12 +13,10 @@
 Game::Game()
   : _currentScreen(0)
 {
-
 }
 
 Game::~Game()
 {
-
 }
 
 void Game::Initialize()

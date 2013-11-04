@@ -5,14 +5,14 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 16:36:48 2013 laurent ansel
-// Last update Mon Oct 28 16:37:33 2013 laurent ansel
+// Last update Thu Oct 31 11:16:27 2013 laurent ansel
 //
 
 #ifndef 			__ISOCKET_HH__
 # define 			__ISOCKET_HH__
 
 #include			<string>
-#include			"Socket/ISocketClient.hh"
+#include			"Socket/SocketClient.hpp"
 
 class				ISocket
 {
@@ -22,8 +22,9 @@ public:
   virtual int			destroy() = 0;
   virtual int			bindSocket(int const) = 0;
   virtual int			listenSocket() = 0;
-  virtual ISocketClient		*connectToAddr(std::string const &, int const) = 0;
-  virtual ISocketClient		*acceptConnection() = 0;
+  virtual SocketClient const	&getSocket() const = 0;
+  virtual SocketClient		*connectToAddr(std::string const &, int const) = 0;
+  virtual SocketClient		*acceptConnection() = 0;
 };
 
 #endif

@@ -5,37 +5,37 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 12:58:03 2013 laurent ansel
-// Last update Mon Oct 28 16:36:05 2013 laurent ansel
+// Last update Wed Oct 30 15:58:43 2013 laurent ansel
 //
 
-#include		"Thread/UnixThread.hh"
+#include		<string>
+#include		<iostream>
+#include		<sstream>
+#include		"Server/Server.hh"
+#include		"Error/SocketError.hpp"
 
-IMutex			*mutex = new UnixMutex;
-
-void			*run(void *data)
+int			main(int argc, char **argv)
 {
-  mutex->enter();
-  int			*toto = reinterpret_cast<int *>(data);
-  (*toto)--;
-  std::cout << *toto << std::endl;
-  mutex->leave();
-  return (NULL);
-}
+  if (argc == 2)
+    {
+      std::string	tmp(argv[1]);
+      std::istringstream	str(tmp);
+      int		port;
 
-int			main()
-{
-  int			titi = 10;
-  IThread		*thread = new UnixThread;
-  IThread		*thread2 = new UnixThread;
+      str >> port;
+      try
+	{
+	  Server		*server = new Server(port);
 
-  mutex->initialize();
-  thread->createThread(&run, &titi);
-  thread2->createThread(&run, &titi);
-  std::cout << "begin ..." << std::endl;
-  thread->start();
-  thread2->start();
-  thread->waitThread();
-  thread2->waitThread();
-  std::cout << "end" << std::endl;
+	  server->run();
+	}
+      catch (SocketError const &e)
+	{
+	  std::cerr << e.what() << std::endl;
+	  return (-1);
+	}
+    }
+  else
+    std::cerr << "Usage:\n\t" << argv[0] << " [port]" << std::endl;
   return (0);
 }

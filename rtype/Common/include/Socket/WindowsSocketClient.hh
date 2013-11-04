@@ -5,11 +5,11 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:22:49 2013 laurent ansel
-// Last update Mon Oct 28 16:37:58 2013 laurent ansel
+// Last update Thu Oct 31 15:03:32 2013 laurent ansel
 //
 
 #ifndef			__WINDOWSSOCKETCLIENT_HH__
-#define			__WINDOWSSOCKETCLIENT_HH__
+# define		__WINDOWSSOCKETCLIENT_HH__
 
 #ifdef _WIN32
 
@@ -22,12 +22,17 @@ class			WindowsSocketClient : public ISocketClient
 {
 private:
   SOCKET		_socket;
+  std::string		_proto;
+  struct sockaddr_in	*_addr;
 public:
-  WindowsSocketClient(SOCKET const);
+  WindowsSocketClient(SOCKET const fd, std::string const &protocole, struct sockaddr_in *addr = NULL);
   virtual ~WindowsSocketClient();
-  virtual int		readSocket(std::string &, int const);
-  virtual int		writeSocket(char *, int const);
-  virtual void		closeSocket();
+  virtual int		readSocket(char *data, int const size) const;
+  virtual int		writeSocket(char *data, int const size) const;
+  virtual void		closeSocket() const;
+  virtual int		getSocket() const;
+  virtual void		setAddr(struct sockaddr_in *addr);
+  virtual struct sockaddr_in	*getAddr() const;
 };
 
 #endif

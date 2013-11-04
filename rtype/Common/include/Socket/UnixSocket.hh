@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:23:27 2013 laurent ansel
-// Last update Mon Oct 28 16:37:52 2013 laurent ansel
+// Last update Thu Oct 31 11:16:41 2013 laurent ansel
 //
 
 #ifndef 			__UNIXSOCKET_HH__
@@ -28,6 +28,8 @@ class				UnixSocket : public ISocket
 {
 private:
   int				_socket;
+  std::string			_proto;
+  SocketClient			*_currentSocket;
 public:
   UnixSocket();
   virtual ~UnixSocket();
@@ -35,8 +37,9 @@ public:
   virtual int			destroy();
   virtual int			bindSocket(int const);
   virtual int			listenSocket();
-  virtual ISocketClient		*connectToAddr(std::string const &, int const);
-  virtual ISocketClient		*acceptConnection();
+  virtual SocketClient const	&getSocket() const;
+  virtual SocketClient		*connectToAddr(std::string const &, int const);
+  virtual SocketClient		*acceptConnection();
 };
 
 #endif

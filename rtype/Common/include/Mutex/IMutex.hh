@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 12:50:57 2013 laurent ansel
-// Last update Thu Oct 24 13:13:00 2013 laurent ansel
+// Last update Fri Nov  1 15:55:45 2013 laurent ansel
 //
 
 #ifndef 			__IMUTEX_HH__

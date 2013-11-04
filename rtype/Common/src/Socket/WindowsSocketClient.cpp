@@ -5,15 +5,18 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:26:41 2013 laurent ansel
-// Last update Mon Oct 28 16:39:40 2013 laurent ansel
+// Last update Thu Oct 31 15:04:15 2013 laurent ansel
 //
 
 #ifdef _WIN32
 
+#include		<string.h>
 #include		"Socket/WindowsSocketClient.hh"
 
-WindowsSocketClient::WindowsSocketClient(SOCKET const socket):
-  _socket(socket)
+WindowsSocketClient::WindowsSocketClient(SOCKET const socket, std::string const &protocole, struct sockaddr_in *addr):
+  _socket(socket),
+  _proto(protocole),
+  _addr(addr)
 {
 
 }
@@ -22,21 +25,19 @@ WindowsSocketClient::~WindowsSocketClient()
 {
 }
 
-int			WindowsSocketClient::readSocket(std::string &buf, int const size)
+int			WindowsSocketClient::readSocket(char *buf, int const size) const
 {
   DWORD			ret = 0;
   WSABUF		dataBuf;
-  char			tmp[SIZE_BUFFER] = "";
 
   dataBuf.len = SIZE_BUFFER;
-  dataBuf.buf = tmp;
+  dataBuf.buf = buf;
   if (WSARecv(this->_socket, &dataBuf, 1, &ret, 0, NULL, NULL) == SOCKET_ERROR)
     return (-1);
-  buf.assign(tmp);
   return (ret);
 }
 
-int			WindowsSocketClient::writeSocket(char *buf, int const size)
+int			WindowsSocketClient::writeSocket(char *buf, int const size) const
 {
   DWORD			ret = 0;
   WSABUF		dataBuf;
@@ -48,9 +49,24 @@ int			WindowsSocketClient::writeSocket(char *buf, int const size)
   return (ret);
 }
 
-void			WindowsSocketClient::closeSocket()
+void			WindowsSocketClient::closeSocket() const
 {
   closesocket(this->_socket);
+}
+
+int			WindowsSocketClient::getSocket() const
+{
+  return (this->_socket);
+}
+
+void			WindowsSocketClient::setAddr(struct sockaddr_in *addr)
+{
+  this->_addr = addr;
+}
+
+struct sockaddr_in	*WindowsSocketClient::getAddr() const
+{
+  return (this->_addr);
 }
 
 #endif

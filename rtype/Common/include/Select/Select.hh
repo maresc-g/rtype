@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 21:02:23 2013 laurent ansel
-// Last update Mon Oct 28 21:34:50 2013 laurent ansel
+// Last update Thu Oct 31 10:38:15 2013 laurent ansel
 //
 
 #ifndef 			__SELECT_HH__
@@ -30,11 +30,11 @@ private:
 public:
   Select();
   virtual ~Select();
-  void				pushFd(int const, enum Select::eSelect const);
+  void				pushFd(int const fd, enum Select::eSelect const type);
   void				clear();
-  void				setTimeout(long const, long const);
-  bool				isSet(int const, enum Select::eSelect const);
-  int				runSelect(bool const) const;
+  void				setTimeout(long const second, long const microsecond);
+  bool				isSet(int const fd, enum Select::eSelect const type);
+  int				runSelect(bool const set) const;
 };
 
 #endif

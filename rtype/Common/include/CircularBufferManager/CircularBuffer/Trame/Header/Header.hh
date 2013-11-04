@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:07:45 2013 laurent ansel
-// Last update Tue Oct 29 14:32:51 2013 laurent ansel
+// Last update Thu Oct 31 15:19:51 2013 laurent ansel
 //
 
 #ifndef 			__HEADER_HH__
@@ -17,15 +17,20 @@
 class				Header
 {
 private:
-  int				_id;
-  int				_trameId;
+  unsigned int			_id;
+  unsigned int			_trameId;
+  std::string			_proto;
 public:
-  Header(int const id, int const trameId);
+  Header(unsigned int const id, unsigned int const trameId, std::string const &proto);
   virtual ~Header();
-  int				getId() const;
-  int				getTrameId() const;
-  void				setId(int const id);
-  void				setTrameId(int const trameId);
+  unsigned int			getId() const;
+  unsigned int			getTrameId() const;
+  std::string const		&getProto() const;
+  void				setId(unsigned int const id);
+  void				setTrameId(unsigned int const trameId);
+  void				setProto(std::string const &proto);
+  std::string const		toString() const;
+  static Header			*toHeader(std::string &str);
 };
 
 #endif
