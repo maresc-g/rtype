@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Sat Nov  2 16:54:46 2013 laurent ansel
+// Last update Sat Nov  2 17:22:02 2013 laurent ansel
 //
 
 #include			<signal.h>
@@ -201,6 +201,13 @@ void				Server::setCommand() const
     }
 }
 
+void				Server::quitAllClient() const
+{
+  /*bloquer les games*/
+  for (std::list<ClientInfo *>::iterator it = this->_client->begin() ; it != this->_client->end() ; ++it)
+    (*it)->wantWriteImmediately("TCP", new Trame(this->_clientId, 0, "TCP", "Server Shutdown ...\nSorry for the inconvenience", true));
+}
+
 void				Server::run()
 {
   signal(SIGINT, &ctrl_c);
@@ -216,5 +223,7 @@ void				Server::run()
       if (!quit)
 	this->setCommand();
     }
-  this->debug("Shutdown Server");
+  this->debug("Shutdown Server ...");
+  this->quitAllClient();
+  this->debug("GoobBye !");
 }

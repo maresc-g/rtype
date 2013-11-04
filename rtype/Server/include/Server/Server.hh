@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Fri Nov  1 15:37:38 2013 laurent ansel
+// Last update Sat Nov  2 17:23:11 2013 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -40,6 +40,7 @@ private:
   std::list<ClientInfo *>::iterator	&deleteClient(std::list<ClientInfo *>::iterator &it);
   void				setCommand() const;
   void				debug(std::string const &str) const;
+  void				quitAllClient() const;
 };
 
 #endif

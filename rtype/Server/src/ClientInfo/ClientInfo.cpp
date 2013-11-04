@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Sat Nov  2 16:54:01 2013 laurent ansel
+// Last update Sat Nov  2 17:22:37 2013 laurent ansel
 //
 
 #include			"ClientInfo/ClientInfo.hh"
@@ -152,6 +152,17 @@ void				ClientInfo::wantWrite(std::string const &proto, Trame *trame)
   this->_mutex->enter();
   CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
   (*this->_nbTrame)[proto]++;
+  this->_mutex->leave();
+}
+
+void				ClientInfo::wantWriteImmediately(std::string const &proto, Trame *trame) const
+{
+  this->_mutex->enter();
+  if (trame)
+    {
+      (*this->_clientInfo)[proto]->writeSocket(const_cast<char *>(trame->toString().c_str()), trame->toString().size());
+      delete trame;
+    }
   this->_mutex->leave();
 }
 
