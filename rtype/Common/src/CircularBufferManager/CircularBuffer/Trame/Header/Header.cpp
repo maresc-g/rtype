@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:16:57 2013 laurent ansel
-// Last update Mon Nov  4 10:13:15 2013 laurent ansel
+// Last update Mon Nov  4 15:25:21 2013 guillaume marescaux
 //
 
 #include			<sstream>
@@ -65,16 +65,19 @@ Header				*Header::toHeader(std::string &str)
   std::istringstream		tmp(str);
   unsigned int			id;
   unsigned int			trameId;
+  std::string			idString;
+  std::string			trameIdString;
   std::string			proto;
   std::string			content;
   bool				good = true;
+  size_t			pos = 0;
 
   if (tmp.good())
-    tmp >> id;
+    tmp >> idString;
   else
     good = false;
   if (tmp.good())
-    tmp >> trameId;
+    tmp >> trameIdString;
   else
     good = false;
   if (tmp.good())
@@ -82,6 +85,13 @@ Header				*Header::toHeader(std::string &str)
   else
     good = false;
   tmp >> content;
+  tmp.str(idString);
+  tmp >> id;
+  tmp.str(trameIdString);
+  tmp >> trameId;
+  content = str;
+  pos = idString.size() + 1 + trameIdString.size() + 1 + proto.size() + 1;
+  content.erase(0, pos);
   str = content;
   if (good)
     return (new Header(id, trameId, proto));
