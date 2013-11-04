@@ -12,6 +12,8 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <dirent.h>
+#else
+# include <Windows.h>
 #endif
 
 #include			"FileSystem/Directory.hh"
@@ -88,6 +90,32 @@ namespace			FileSystem
 	  }
 	closedir(dirp);
       }
+  }
+#else
+  void				Directory::updateEntries()
+  {
+	HANDLE			dirp;
+    WIN32_FIND_DATA	dirpEntry;
+	std::string		fullPath;
+	Entry			*entry;
+	
+	this->deleteEntries();
+    if ((dirp = FindFirstFile((this->getPath() + "/*").c_str(), &dirpEntry)) != INVALID_HANDLE_VALUE)
+	{
+		_entries = new std::list<Entry *>;
+	    do
+		{
+			fullPath = this->getPath() + "/" + dirpEntry.cFileName;
+			if (dirpEntry.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+				entry = new FileSystem::Directory(fullPath);
+			else if (dirpEntry.dwFileAttributes & FILE_ATTRIBUTE_ARCHIVE)
+				entry = new FileSystem::File(fullPath);
+			else
+				entry = new FileSystem::Entry(fullPath, eType::UNKNOWN);
+			_entries->push_back(entry);
+		} while (FindNextFile(dirp, &dirpEntry));
+		FindClose(dirp);
+	}
   }
 #endif
 
