@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:48 2013 antoine maitre
-// Last update Tue Oct 29 17:25:08 2013 antoine maitre
+// Last update Wed Oct 30 17:20:55 2013 antoine maitre
 //
 
 #ifndef __LEVELMANAGER_HH__
@@ -17,12 +17,17 @@
 
 class	LevelManager
 {
-  std::string _path;
+  int _diff;
   std::list<Level *> _levels;
   Level *_currentLevel;
+  bool _endGame;
 public:
   LevelManager();
   ~LevelManager();
+  void Initialize();
+  void nextLevel();
+  Level *getCurrentLevel();
+  bool getEndGame();
 };
 
 #endif

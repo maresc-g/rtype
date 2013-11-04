@@ -5,23 +5,28 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Wed Oct 30 09:49:33 2013 antoine maitre
+// Last update Wed Oct 30 17:34:53 2013 antoine maitre
 //
 
 #ifndef	__GAME_HH__
 #define __GAME_HH__
 
+#include <unistd.h>
 #include "Level/LevelManager.hh"
 
 class	Game
 {
   LevelManager *_levelManag;
+  int _currentScreen;
 public:
   Game();
   ~Game();
   void	loop();
+  void	recupScreen();
   void	newPlayer();
   void	deadPlayer();
+  void	Initialize();
+  void	spawnMob();
   //  void	execCommand(Command* command);
 };
 

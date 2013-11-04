@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:14:47 2013 guillaume marescaux
-// Last update Mon Oct 28 14:19:00 2013 guillaume marescaux
+// Last update Wed Oct 30 14:19:32 2013 antoine maitre
 //
 
 #include			"Entities/Coordinate.hh"

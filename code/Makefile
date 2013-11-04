@@ -5,7 +5,7 @@
 ## Login   <maresc_g@epitech.net>
 ##
 ## Started on  Fri Oct 25 11:19:10 2013 guillaume marescaux
-## Last update Fri Oct 25 13:35:13 2013 guillaume marescaux
+## Last update Wed Oct 30 14:21:57 2013 antoine maitre
 ##
 
 NAME=		server
@@ -21,7 +21,7 @@ INCLUDES=	-I include
 
 include		$(SRC_PATH)/Makefile
 
-CPPFLAGS=	-W -Wall -Wextra $(INCLUDES) --std=c++0x
+CPPFLAGS=	-W -Wall -Wextra $(INCLUDES) --std=c++0x -g
 
 RM=		rm -f
 

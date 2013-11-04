@@ -5,13 +5,15 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Oct 25 11:18:47 2013 guillaume marescaux
-// Last update Wed Oct 30 10:15:42 2013 antoine maitre
+// Last update Wed Oct 30 17:00:52 2013 antoine maitre
 //
 
-#include "Level/Level.hh"
+#include "Game/Game.hh"
 
 int		main()
 {
-  Level *toto = new Level(1);
+  Game *toto = new Game();
+
+  toto->Initialize();
   return (0);
 }

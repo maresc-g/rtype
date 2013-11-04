@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Tue Oct 29 16:37:46 2013 antoine maitre
+// Last update Wed Oct 30 12:39:55 2013 antoine maitre
 //
 
 #include		"Entities/AEntity.hh"
@@ -89,4 +89,14 @@ bool			AEntity::getDestructible() const
 void			AEntity::setDestructible(bool const &destructible)
 {
   _destructible = destructible;
+}
+
+int			AEntity::getLargeur() const
+{
+  return (this->_L);
+}
+
+int			AEntity::getLongueur() const
+{
+  return (this->_l);
 }

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Tue Oct 29 15:16:57 2013 alexis mestag
+// Last update Wed Oct 30 13:29:53 2013 antoine maitre
 //
 
 #ifndef 		__AENTITY_HH__
@@ -16,13 +16,15 @@
 
 class			AEntity
 {
-private:
+
+protected:
+  int			_l;
+  int			_L;
   Coordinate		*_coord;
   std::string		_path;
   int			_speed;
   bool			_destructible;
 
-protected:
   AEntity();
 public:
   AEntity(int const x, int const y, std::string const &path, int const speed, bool const destructible);
@@ -44,6 +46,8 @@ public:
 
   bool			getDestructible() const;
   void			setDestructible(bool const &destructible);
+  int			getLargeur() const;
+  int			getLongueur() const;
 };
 
 #endif
