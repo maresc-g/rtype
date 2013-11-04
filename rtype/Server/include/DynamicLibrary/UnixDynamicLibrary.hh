@@ -5,15 +5,15 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sat Nov  2 16:54:11 2013 alexis mestag
-// Last update Mon Nov  4 10:22:18 2013 laurent ansel
+// Last update Mon Nov  4 12:54:01 2013 alexis mestag
 //
 
 #ifndef			__UNIXDYNAMICLIBRARY_HH__
 # define		__UNIXDYNAMICLIBRARY_HH__
 
-#ifndef _WIN32
+# ifndef _WIN32
 
-#include		"DynamicLibrary/IDynamicLibrary.hh"
+#  include		"DynamicLibrary/IDynamicLibrary.hh"
 
 class			UnixDynamicLibrary : public IDynamicLibrary
 {
@@ -35,6 +35,6 @@ public:
   virtual void		*getSymbol(std::string const &obj);
 };
 
-#endif
+# endif
 
 #endif
