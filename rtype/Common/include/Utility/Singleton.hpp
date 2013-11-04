@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Mar 12 11:54:01 2013 guillaume marescaux
-// Last update Sat Mar 23 12:37:27 2013 guillaume marescaux
+// Last update Sun Nov  3 18:45:16 2013 alexis mestag
 //
 
 #ifndef			__SINGLETON_HPP__
@@ -18,7 +18,7 @@ class			Singleton
 {
 private:
 
-  // Attributs
+  // Attributes
   static T		*_instance;
 
 protected:
@@ -29,7 +29,7 @@ protected:
 
 public:
 
-  // Ctor / Dtor singletone
+  // Ctor / Dtor singleton
   static T		*getInstance()
   {
     if (_instance == NULL)

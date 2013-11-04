@@ -5,18 +5,18 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Nov  3 17:58:12 2013 alexis mestag
-// Last update Mon Nov  4 10:22:03 2013 laurent ansel
+// Last update Mon Nov  4 12:54:31 2013 alexis mestag
 //
 
 
 #ifndef			__WINDOWSDYNAMICLIBRARY_HH__
 # define		__WINDOWSDYNAMICLIBRARY_HH__
 
-#ifdef _WIN32
+# ifdef _WIN32
 
-#include		<Windows.h>
-#include		<direct.h>
-#include		"DynamicLibrary/IDynamicLibrary.hh"
+#  include		<Windows.h>
+#  include		<direct.h>
+#  include		"DynamicLibrary/IDynamicLibrary.hh"
 
 class			WindowsDynamicLibrary : public IDynamicLibrary
 {
@@ -38,6 +38,6 @@ public:
   virtual void	*getSymbol(std::string const &sym);
 };
 
-#endif
+# endif
 
 #endif // !__WINDOWSDYNAMICLIBRARY_HH__

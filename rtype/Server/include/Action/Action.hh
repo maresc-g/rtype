@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 17:50:22 2013 laurent ansel
-// Last update Sun Nov  3 21:32:21 2013 laurent ansel
+// Last update Mon Nov  4 13:15:24 2013 laurent ansel
 //
 
 #ifndef 			__ACTION_HH__
@@ -57,6 +57,7 @@ public:
   void				setJoin(bool const set);
   void				setCreate(bool const set);
   void				setParam(std::string const &param);
+  bool				empty() const;
 };
 
 #endif

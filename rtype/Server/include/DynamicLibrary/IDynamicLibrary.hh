@@ -5,13 +5,13 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sat Nov  2 16:41:20 2013 alexis mestag
-// Last update Sat Nov  2 17:26:02 2013 alexis mestag
+// Last update Mon Nov  4 12:54:16 2013 alexis mestag
 //
 
 #ifndef			__IDYNAMICLIBRARY_HH__
 # define		__IDYNAMICLIBRARY_HH__
 
-#include		<string>
+# include		<string>
 
 class			IDynamicLibrary
 {

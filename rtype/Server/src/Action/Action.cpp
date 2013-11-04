@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 18:02:37 2013 laurent ansel
-// Last update Sun Nov  3 21:32:28 2013 laurent ansel
+// Last update Mon Nov  4 13:15:12 2013 laurent ansel
 //
 
 #include			"Action/Action.hh"
@@ -158,4 +158,11 @@ void				Action::setCreate(bool const set)
 void				Action::setParam(std::string const &param)
 {
   this->_param = param;
+}
+
+bool				Action::empty() const
+{
+  if (this->_action == 0)
+    return (true);
+  return (false);
 }

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:46:04 2013 laurent ansel
-// Last update Mon Nov  4 10:30:18 2013 laurent ansel
+// Last update Mon Nov  4 13:04:55 2013 laurent ansel
 //
 
 #ifndef 			__CLIENTINFO_HH__
@@ -32,6 +32,7 @@ public:
   Command const			&getFirstCommand() const;
   void				pushCommand(Trame *trame);
   void				setCommand();
+  bool				standbyCommand() const;
   void				setId(unsigned int const id);
   void				setTrameId(unsigned int const trameId);
   unsigned int			getId() const;

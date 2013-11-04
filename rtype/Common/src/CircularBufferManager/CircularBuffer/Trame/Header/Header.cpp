@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:16:57 2013 laurent ansel
-// Last update Mon Nov  4 10:13:15 2013 laurent ansel
+// Last update Mon Nov  4 19:17:45 2013 laurent ansel
 //
 
 #include			<sstream>
@@ -65,6 +65,7 @@ Header				*Header::toHeader(std::string &str)
   std::istringstream		tmp(str);
   unsigned int			id;
   unsigned int			trameId;
+  unsigned int			pos;
   std::string			proto;
   std::string			content;
   bool				good = true;
@@ -81,9 +82,10 @@ Header				*Header::toHeader(std::string &str)
     tmp >> proto;
   else
     good = false;
-  tmp >> content;
-  str = content;
   if (good)
-    return (new Header(id, trameId, proto));
+    {
+      content = tmp.str().substr((pos = tmp.tellg()) + 1);
+      return (new Header(id, trameId, proto));
+    }
   return (NULL);
 }
