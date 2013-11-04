@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Sat Nov  2 17:22:02 2013 laurent ansel
+// Last update Mon Nov  4 11:22:41 2013 laurent ansel
 //
 
 #include			<signal.h>
@@ -58,6 +58,12 @@ Server::~Server()
       delete (*this->_socket)["UDP"];
     }
   delete _socket;
+  for (std::list<ClientInfo *>::iterator it = this->_client->begin() ; it != this->_client->end() ; ++it)
+    if (*it)
+      delete *it;
+  delete _client;
+  delete _select;
+  CircularBufferManager::deleteInstance();
 }
 
 void				Server::debug(std::string const &str) const
@@ -177,7 +183,7 @@ void				Server::readAndWriteClient()
 	{
 	  this->debug("Write TCP Trame ...");
 	  (*it)->writeOneTrame("TCP");
-	    this->debug("Done");
+	  this->debug("Done");
 	}
       if (this->_select->isSet((*this->_socket)["UDP"]->getSocket().getSocket(), Select::WRITE))
 	{
@@ -205,7 +211,10 @@ void				Server::quitAllClient() const
 {
   /*bloquer les games*/
   for (std::list<ClientInfo *>::iterator it = this->_client->begin() ; it != this->_client->end() ; ++it)
-    (*it)->wantWriteImmediately("TCP", new Trame(this->_clientId, 0, "TCP", "Server Shutdown ...\nSorry for the inconvenience", true));
+    {
+      CircularBufferManager::getInstance()->deleteTrame((*it)->getId());
+      (*it)->wantWriteImmediately("TCP", new Trame(this->_clientId, 0, "TCP", "Server Shutdown ...\nSorry for the inconvenience", true));
+    }
 }
 
 void				Server::run()

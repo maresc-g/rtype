@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Nov  3 18:06:07 2013 alexis mestag
-// Last update Sun Nov  3 18:09:40 2013 alexis mestag
+// Last update Mon Nov  4 10:21:37 2013 laurent ansel
 //
 
 #include		"DynamicLibrary/DynamicLibrary.hh"
@@ -28,7 +28,7 @@ DynamicLibrary::DynamicLibrary(std::string const &path) :
 #endif
 {
 
-}  
+}
 
 DynamicLibrary::DynamicLibrary(DynamicLibrary const &rhs) :
 #ifdef	_WIN32

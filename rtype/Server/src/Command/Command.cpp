@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 16:01:59 2013 laurent ansel
-// Last update Sun Nov  3 21:35:34 2013 laurent ansel
+// Last update Mon Nov  4 11:06:48 2013 laurent ansel
 //
 
 #include			"Command/Command.hh"
@@ -20,6 +20,7 @@ Command::~Command()
 {
   if (this->_trame)
     delete this->_trame;
+  delete this->_action;
 }
 
 Action				&Command::getAction() const

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:15:14 2013 laurent ansel
-// Last update Sat Nov  2 16:31:55 2013 laurent ansel
+// Last update Mon Nov  4 11:13:58 2013 laurent ansel
 //
 
 #include			<list>
@@ -38,6 +38,8 @@ Trame::Trame(unsigned int const id, unsigned int const trameId, std::string cons
 
 Trame::~Trame()
 {
+  if (this->_header)
+    delete this->_header;
 }
 
 std::string const		&Trame::getContent() const
@@ -86,7 +88,9 @@ Trame				*Trame::toTrame(std::string &str)
   Header			*header;
 
   header = Header::toHeader(str);
-  return (new Trame(header, str));
+  if (header)
+    return (new Trame(header, str));
+  return (NULL);
 }
 
 std::list<Trame *>		*Trame::ToListTrame(unsigned int const id, unsigned int const trameId, std::string const &proto, std::string const &str)
@@ -94,8 +98,18 @@ std::list<Trame *>		*Trame::ToListTrame(unsigned int const id, unsigned int cons
   std::list<Trame *>		*list = new std::list<Trame *>;
   unsigned int			pos = SIZE_BUFFER - std::string(END_TRAME).size();
   unsigned int			size = SIZE_BUFFER - std::string(END_TRAME).size();
+  Trame				*tmp = NULL;
+  bool				good = true;
 
-  for (; pos < str.size() ; pos += size)
-    list->push_back(new Trame(id, trameId, proto, str.substr(pos - size, pos)));
-  return (list);
+  for (; pos < str.size() && good; pos += size)
+    {
+      tmp = new Trame(id, trameId, proto, str.substr(pos - size, pos));
+      if (tmp)
+	list->push_back(tmp);
+      else
+	good = false;
+    }
+  if (good)
+    return (list);
+  return (NULL);
 }

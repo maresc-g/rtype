@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:12:01 2013 laurent ansel
-// Last update Fri Nov  1 15:28:21 2013 laurent ansel
+// Last update Mon Nov  4 09:29:34 2013 laurent ansel
 //
 
 #include			"CircularBufferManager/CircularBufferManager.hh"
@@ -16,6 +16,7 @@ CircularBufferManager::CircularBufferManager():
 {
   this->_buffer->insert(std::make_pair(CircularBufferManager::READ_BUFFER, new CircularBuffer));
   this->_buffer->insert(std::make_pair(CircularBufferManager::WRITE_BUFFER, new CircularBuffer));
+  this->_mutex->initialize();
 }
 
 CircularBufferManager::~CircularBufferManager()
@@ -23,6 +24,8 @@ CircularBufferManager::~CircularBufferManager()
   delete (*this->_buffer)[CircularBufferManager::READ_BUFFER];
   delete (*this->_buffer)[CircularBufferManager::WRITE_BUFFER];
   delete this->_buffer;
+  this->_mutex->destroy();
+  delete this->_mutex;
 }
 
 void				CircularBufferManager::pushTrame(Trame *trame, enum eTypeBuffer const type)

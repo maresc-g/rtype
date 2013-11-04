@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 12:58:03 2013 laurent ansel
-// Last update Wed Oct 30 15:58:43 2013 laurent ansel
+// Last update Mon Nov  4 10:47:59 2013 laurent ansel
 //
 
 #include		<string>
@@ -16,6 +16,8 @@
 
 int			main(int argc, char **argv)
 {
+  int			ret = 0;
+
   if (argc == 2)
     {
       std::string	tmp(argv[1]);
@@ -28,14 +30,18 @@ int			main(int argc, char **argv)
 	  Server		*server = new Server(port);
 
 	  server->run();
+	  delete server;
 	}
       catch (SocketError const &e)
 	{
 	  std::cerr << e.what() << std::endl;
-	  return (-1);
+	  ret = -1;
 	}
     }
   else
-    std::cerr << "Usage:\n\t" << argv[0] << " [port]" << std::endl;
-  return (0);
+    {
+      std::cerr << "Usage:\n\t" << argv[0] << " [port]" << std::endl;
+      ret = -1;
+    }
+  return (ret);
 }

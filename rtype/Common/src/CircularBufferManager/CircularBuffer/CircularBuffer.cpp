@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:13:43 2013 laurent ansel
-// Last update Sat Nov  2 16:47:09 2013 laurent ansel
+// Last update Mon Nov  4 11:01:58 2013 laurent ansel
 //
 
 #include			"CircularBufferManager/CircularBuffer/CircularBuffer.hh"
@@ -82,7 +82,7 @@ Trame				*CircularBuffer::popFirstTrame(unsigned int const id, std::string const
 
 void				CircularBuffer::deleteTrame(unsigned int const id)
 {
-  for (std::list<Trame *>::iterator it = _buffer->begin() ; it != _buffer->end() && !this->_buffer->empty(); ++it)
+  for (std::list<Trame *>::iterator it = _buffer->begin() ; it != _buffer->end()&& !this->_buffer->empty(); ++it)
     {
       if ((*it)->getHeader().getId() == id)
 	{

@@ -5,8 +5,10 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sat Nov  2 16:55:11 2013 alexis mestag
-// Last update Sat Nov  2 17:59:21 2013 alexis mestag
+// Last update Mon Nov  4 10:21:30 2013 laurent ansel
 //
+
+#ifndef _WIN32
 
 #include		<iostream>
 #include		<dlfcn.h>
@@ -71,3 +73,5 @@ void			*UnixDynamicLibrary::getSymbol(std::string const &sym)
     std::cerr << dlerror() << std::endl;
   return (symbol);
 }
+
+#endif

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:46:04 2013 laurent ansel
-// Last update Sat Nov  2 17:22:45 2013 laurent ansel
+// Last update Mon Nov  4 10:30:18 2013 laurent ansel
 //
 
 #ifndef 			__CLIENTINFO_HH__
@@ -25,6 +25,7 @@ private:
   std::map<std::string, int>	*_nbTrame;
   unsigned int			_id;
   Mutex				*_mutex;
+  unsigned int			_trameId;
 public:
   ClientInfo(SocketClient *clientTcp, SocketClient *clientUdp = NULL, unsigned int const id = 0);
   virtual ~ClientInfo();
@@ -32,7 +33,9 @@ public:
   void				pushCommand(Trame *trame);
   void				setCommand();
   void				setId(unsigned int const id);
+  void				setTrameId(unsigned int const trameId);
   unsigned int			getId() const;
+  unsigned int			getTrameId() const;
   int				getFdTcp() const;
   bool				writeSomething() const;
   void				setClientUdp(SocketClient *client);
@@ -40,7 +43,7 @@ public:
   SocketClient			*getClientTcp() const;
   SocketClient			*getClientUdp() const;
   void				wantWrite(std::string const &proto, Trame *trame);
-  void				wantWriteImmediately(std::string const &proto, Trame *trame) const;
+  void				wantWriteImmediately(std::string const &proto, Trame *trame);
   void				writeOneTrame(std::string const &proto);
   int				readSomethingInSocket(std::string const &proto);
 };

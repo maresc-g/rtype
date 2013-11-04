@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Sat Nov  2 17:22:37 2013 laurent ansel
+// Last update Mon Nov  4 11:18:21 2013 laurent ansel
 //
 
 #include			"ClientInfo/ClientInfo.hh"
@@ -15,7 +15,8 @@ ClientInfo::ClientInfo(SocketClient *clientTcp, SocketClient *clientUdp, unsigne
   _command(new std::list<Command *>),
   _nbTrame(new std::map<std::string, int>),
   _id(id),
-  _mutex(new Mutex)
+  _mutex(new Mutex),
+  _trameId(1)
 {
   this->_mutex->initialize();
   this->_clientInfo->insert(std::make_pair("TCP", clientTcp));
@@ -40,6 +41,7 @@ ClientInfo::~ClientInfo()
   delete this->_nbTrame;
   delete this->_clientInfo;
   this->_mutex->destroy();
+  delete this->_mutex;
 }
 
 Command const			&ClientInfo::getFirstCommand() const
@@ -54,11 +56,22 @@ Command const			&ClientInfo::getFirstCommand() const
 
 void				ClientInfo::setCommand()
 {
-  this->_mutex->enter();
-  // if ((*this->_nbTrame)["TCP"] > 0 || (*this->_nbTrame)["UDP"] > 0)
-  //   {
+  Trame				*tmp = NULL;
 
-  //   }
+  this->_mutex->enter();
+  tmp = CircularBufferManager::getInstance()->popTrame(this->_id, "TCP", CircularBufferManager::READ_BUFFER);
+  if (tmp)
+    {
+      this->_command->push_back(new Command(tmp));
+    }
+  else
+    {
+      tmp = CircularBufferManager::getInstance()->popTrame(this->_id, "UDP", CircularBufferManager::READ_BUFFER);
+      if (tmp)
+	{
+	  this->_command->push_back(new Command(tmp));
+	}
+    }
   this->_mutex->leave();
 }
 
@@ -76,12 +89,29 @@ void				ClientInfo::setId(unsigned int const id)
   this->_mutex->leave();
 }
 
+void				ClientInfo::setTrameId(unsigned int const trameId)
+{
+  this->_mutex->enter();
+  this->_trameId = trameId;
+  this->_mutex->leave();
+}
+
 unsigned int			ClientInfo::getId() const
 {
   unsigned int			id;
 
   this->_mutex->enter();
   id = this->_id;
+  this->_mutex->leave();
+  return (id);
+}
+
+unsigned int			ClientInfo::getTrameId() const
+{
+  unsigned int			id;
+
+  this->_mutex->enter();
+  id = this->_trameId;
   this->_mutex->leave();
   return (id);
 }
@@ -150,16 +180,21 @@ SocketClient			*ClientInfo::getClientUdp() const
 void				ClientInfo::wantWrite(std::string const &proto, Trame *trame)
 {
   this->_mutex->enter();
-  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
-  (*this->_nbTrame)[proto]++;
+  if (trame)
+    {
+      CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+      (*this->_nbTrame)[proto]++;
+    }
   this->_mutex->leave();
 }
 
-void				ClientInfo::wantWriteImmediately(std::string const &proto, Trame *trame) const
+void				ClientInfo::wantWriteImmediately(std::string const &proto, Trame *trame)
 {
   this->_mutex->enter();
   if (trame)
     {
+      trame->getHeader().setTrameId(this->_trameId);
+      this->_trameId++;
       (*this->_clientInfo)[proto]->writeSocket(const_cast<char *>(trame->toString().c_str()), trame->toString().size());
       delete trame;
     }
@@ -195,8 +230,15 @@ int				ClientInfo::readSomethingInSocket(std::string const &proto)
   ret = (*this->_clientInfo)[proto]->readSocket(tmp, SIZE_BUFFER);
   str = tmp;
   trame = Trame::toTrame(str);
-  if (ret > 0)
+  if (ret > 0 && trame)
     CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);
+  else if (!trame)
+    {
+      CircularBufferManager::getInstance()->pushTrame(new Trame(this->_id, this->_trameId, proto, "ERROR TRAME", true), CircularBufferManager::WRITE_BUFFER);
+      (*this->_nbTrame)[proto]++;
+      this->_trameId++;
+    }
   this->_mutex->leave();
   return (ret);
 }
+

@@ -5,12 +5,14 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Nov  3 17:58:12 2013 alexis mestag
-// Last update Sun Nov  3 18:05:03 2013 alexis mestag
+// Last update Mon Nov  4 10:22:03 2013 laurent ansel
 //
 
 
 #ifndef			__WINDOWSDYNAMICLIBRARY_HH__
 # define		__WINDOWSDYNAMICLIBRARY_HH__
+
+#ifdef _WIN32
 
 #include		<Windows.h>
 #include		<direct.h>
@@ -35,5 +37,7 @@ public:
   virtual void	destroy();
   virtual void	*getSymbol(std::string const &sym);
 };
+
+#endif
 
 #endif // !__WINDOWSDYNAMICLIBRARY_HH__
