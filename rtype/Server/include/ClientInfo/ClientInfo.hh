@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:46:04 2013 laurent ansel
-// Last update Tue Nov  5 17:25:25 2013 laurent ansel
+// Last update Tue Nov  5 19:08:06 2013 laurent ansel
 //
 
 #ifndef 			__CLIENTINFO_HH__
@@ -34,22 +34,30 @@ public:
   void				pushCommand(Trame *trame);
   void				setCommand();
   bool				standbyCommand() const;
+
+  bool				canWriteSomething(std::string const &proto) const;
+  void				pushWriteTrame(std::string const &proto, Trame *trame);
+  void				writeImmediately(std::string const &proto, Trame *trame);
+  void				writeOneTrame(std::string const &proto);
+  int				readSomethingInSocket(std::string const &proto);
+
+  bool				alreadySetUdp() const;
+  void				setClientUdp(SocketClient *client);
+
   void				setId(unsigned int const id);
   void				setTrameId(unsigned int const trameId);
   unsigned int			getId() const;
   unsigned int			getTrameId() const;
+
   int				getFdTcp() const;
-  bool				writeSomething(std::string const &proto) const;
-  void				setClientUdp(SocketClient *client);
-  bool				alreadySetUdp() const;
+
   SocketClient			*getClientTcp() const;
   SocketClient			*getClientUdp() const;
-  void				wantWrite(std::string const &proto, Trame *trame);
-  void				wantWriteImmediately(std::string const &proto, Trame *trame);
-  void				writeOneTrame(std::string const &proto);
-  int				readSomethingInSocket(std::string const &proto);
+
   unsigned int			getIdGame() const;
   void				setIdGame(unsigned int const idGame);
+
+  Action const			&getAction() const;
 };
 
 #endif

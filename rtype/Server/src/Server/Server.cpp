@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Tue Nov  5 18:22:31 2013 laurent ansel
+// Last update Tue Nov  5 19:12:09 2013 laurent ansel
 //
 
 #include			<list>
@@ -88,12 +88,12 @@ void				Server::initializeSelect() const
   for (std::list<ClientInfo *>::iterator it = this->_client->begin() ; it != this->_client->end() ; ++it)
     {
       this->_select->pushFd((*it)->getFdTcp(), Select::READ);
-      if ((*it)->writeSomething("TCP"))
+      if ((*it)->canWriteSomething("TCP"))
 	{
 	  this->_select->pushFd((*it)->getFdTcp(), Select::WRITE);
 	  timeout = true;
 	}
-      if ((*it)->writeSomething("UDP"))
+      if ((*it)->canWriteSomething("UDP"))
 	{
 	  this->_select->pushFd((*this->_socket)["UDP"]->getSocket().getSocket(), Select::WRITE);
 	  timeout = true;
@@ -118,7 +118,7 @@ void				Server::newClient()
 	  std::cout << "New Client: " << this->_clientId << std::endl;
 #endif
 	  this->_client->push_back(new ClientInfo(client, NULL, this->_clientId));
-	  this->_client->back()->wantWrite("TCP", new Trame(this->_clientId, 0, "TCP", "BIENVENUE", true));
+	  this->_client->back()->pushWriteTrame("TCP", new Trame(this->_clientId, 0, "TCP", "BIENVENUE", true));
 	  this->_clientId++;
 	}
     }
@@ -141,19 +141,14 @@ void				Server::recvTrameUdp()
 	{
 	  this->debug("Initialize UDP ...");
 	  for (std::list<ClientInfo *>::iterator it = this->_client->begin() ; it != this->_client->end() ; ++it)
-	    {
-	      std::cout << "id : " << (*it)->getId() << "\tclient id : " << trame->getHeader().getId() << "\tAlreadySetUdp : " << (*it)->alreadySetUdp() << std::endl;
-	      if ((*it)->getId() == trame->getHeader().getId() && !(*it)->alreadySetUdp())
-		{
-		  this->debug("Initialize UDP2 ...");
-		  (*it)->setClientUdp(new SocketClient((*this->_socket)["UDP"]->getSocket().getSocket(), "UDP", (*this->_socket)["UDP"]->getSocket().getAddr()));
-		  trame->getHeader().setTrameId(0);
-		  trame->getHeader().setProto("TCP");
-		  trame->setContent("CHECK" + std::string(END_TRAME));
-		  (*it)->wantWrite("TCP", trame);
-		  //		  CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
-		}
-	    }
+	    if ((*it)->getId() == trame->getHeader().getId() && !(*it)->alreadySetUdp())
+	      {
+		(*it)->setClientUdp(new SocketClient((*this->_socket)["UDP"]->getSocket().getSocket(), "UDP", (*this->_socket)["UDP"]->getSocket().getAddr()));
+		trame->getHeader().setTrameId(0);
+		trame->getHeader().setProto("TCP");
+		trame->setContent("CHECK" + std::string(END_TRAME));
+		(*it)->pushWriteTrame("TCP", trame);
+	      }
 	  this->debug("Done");
 	}
       else
@@ -207,83 +202,77 @@ void				Server::readAndWriteClient()
     }
 }
 
-bool				Server::manageQuit(std::list<ClientInfo *>::iterator &it)
+bool				Server::manageQuit(std::list<ClientInfo *>::iterator &it, Action &action)
 {
   bool				ret = false;
 
-  if ((*it)->standbyCommand())
+  if (action.getQuitGame())
     {
-      if ((*it)->getFirstCommand() && (*it)->getFirstCommand()->getAction().getQuitGame())
+      if (GameLoopManager::getInstance()->deletePlayer(*it))
 	{
-	  if (GameLoopManager::getInstance()->deletePlayer(*it))
-	    {
-	      ret = true;
-	      (*it)->getFirstCommand()->getAction().setQuitGame(false);
-	      this->debug("Client Quit Game");
-	    }
-	  else
-	    this->debug("Game Not Exist");
-	}
-      if ((*it)->getFirstCommand() && (*it)->getFirstCommand()->getAction().getQuitAll())
-	{
-	  (*it)->getFirstCommand()->getAction().setQuitAll(false);
-	  it = this->deleteClient(it);
-	  this->debug("Client Quit All");
 	  ret = true;
+	  action.setQuitGame(false);
+	  this->debug("Client Quit Game");
 	}
+      else
+	this->debug("Game Not Exist");
+    }
+  if (action.getQuitAll())
+    {
+      action.setQuitAll(false);
+      it = this->deleteClient(it);
+      this->debug("Client Quit All");
+      ret = true;
     }
   return (ret);
 }
 
-bool				Server::manageGame(std::list<ClientInfo *>::iterator &it)
+bool				Server::manageGame(std::list<ClientInfo *>::iterator &it, Action &action)
 {
   bool				ret = false;
 
-  if ((*it)->standbyCommand())
+  if (action.getGameList())
     {
-      if ((*it)->getFirstCommand() && (*it)->getFirstCommand()->getAction().getGameList())
-	{
-	  std::ostringstream	tmp;
-	  std::list<Trame *>	*trame;
+      std::ostringstream	tmp;
+      std::list<Trame *>	*trame;
 
-	  tmp << "GAMELIST" << GameLoopManager::getInstance()->listInfoGame();
-	  trame = Trame::ToListTrame((*it)->getId(), (*it)->getTrameId(), "UDP", tmp.str());
-	  if (trame)
-	    {
-	      for (std::list<Trame *>::iterator itT = trame->begin() ; itT != trame->end() ; ++itT)
-		{
-		  this->debug((*itT)->toString());
-		  (*it)->wantWrite("UDP", (*itT));
-		}
-	    }
-	  (*it)->getFirstCommand()->getAction().setGameList(false);
-	}
-      if ((*it)->getFirstCommand() && (*it)->getFirstCommand()->getAction().getJoin())
-	{
-	  std::istringstream	str((*it)->getFirstCommand()->getAction().getParam());
-	  size_t		id;
+      tmp << "GAMELIST" << GameLoopManager::getInstance()->listInfoGame();
+      trame = Trame::ToListTrame((*it)->getId(), (*it)->getTrameId(), "UDP", tmp.str());
+      if (trame)
+	for (std::list<Trame *>::iterator itT = trame->begin() ; itT != trame->end() ; ++itT)
+	  {
+	    this->debug((*itT)->toString());
+	    (*it)->pushWriteTrame("UDP", (*itT));
+	  }
+      action.setGameList(false);
+    }
+  if (action.getJoin())
+    {
+      std::istringstream	str(action.getParam());
+      size_t		id;
 
-	  str >> id;
-	  if (GameLoopManager::getInstance()->addPlayerInGame(*it, id))
-	    {
-	      (*it)->getFirstCommand()->getAction().setJoin(false);
-	      this->debug("Join Game");
-	      ret = true;
-	    }
-	}
-      if ((*it)->getFirstCommand() && (*it)->getFirstCommand()->getAction().getCreate())
+      str >> id;
+      if (GameLoopManager::getInstance()->addPlayerInGame(*it, id))
 	{
-	  GameLoopManager::getInstance()->pushNewGame((*it)->getFirstCommand()->getAction().getParam());
-	  (*it)->getFirstCommand()->getAction().setCreate(false);
-	  this->debug("Create Game");
+	  action.setJoin(false);
+	  this->debug("Join Game");
 	  ret = true;
 	}
+    }
+  if (action.getCreate())
+    {
+      GameLoopManager::getInstance()->pushNewGame((*it)->getFirstCommand()->getAction().getParam());
+      action.setCreate(false);
+      this->debug("Create Game");
+      ret = true;
     }
   return (ret);
 }
 
 void				Server::execCommand()
 {
+  Action			action;
+
   for (std::list<ClientInfo *>::iterator it = this->_client->begin() ; it != this->_client->end() && !this->_client->empty() ; ++it)
     {
       if (*it)
@@ -292,8 +281,12 @@ void				Server::execCommand()
 	  (*it)->setCommand();
 	  this->debug("Done");
 	  this->debug("Check Command ...");
-	  if (!this->manageQuit(it))
-	    this->manageGame(it);
+	  if ((*it)->standbyCommand())
+	    {
+	      action = (*it)->getAction();
+	      if (!this->manageQuit(it, action))
+		this->manageGame(it, action);
+	    }
 	  this->debug("Done");
 	}
     }
@@ -305,7 +298,7 @@ void				Server::quitAllClient() const
   for (std::list<ClientInfo *>::iterator it = this->_client->begin() ; it != this->_client->end() ; ++it)
     {
       CircularBufferManager::getInstance()->deleteTrame((*it)->getId());
-      (*it)->wantWriteImmediately("TCP", new Trame(this->_clientId, 0, "TCP", "Server Shutdown ...\nSorry for the inconvenience", true));
+      (*it)->writeImmediately("TCP", new Trame(this->_clientId, 0, "TCP", "Server Shutdown ...\nSorry for the inconvenience", true));
     }
 }
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Tue Nov  5 17:59:02 2013 laurent ansel
+// Last update Tue Nov  5 19:11:42 2013 laurent ansel
 //
 
 #include			"ClientInfo/ClientInfo.hh"
@@ -59,12 +59,6 @@ bool				ClientInfo::standbyCommand() const
 
 Command const			*ClientInfo::getFirstCommand() const
 {
-  this->_mutex->enter();
-  if (this->_command->empty())
-    {
-      this->_mutex->leave();
-      return (NULL);
-    }
   Command			*command = this->_command->front();
 
   if (command->getAction().empty())
@@ -109,51 +103,7 @@ void				ClientInfo::pushCommand(Trame *trame)
   this->_mutex->leave();
 }
 
-void				ClientInfo::setId(unsigned int const id)
-{
-  this->_mutex->enter();
-  this->_id = id;
-  this->_mutex->leave();
-}
-
-void				ClientInfo::setTrameId(unsigned int const trameId)
-{
-  this->_mutex->enter();
-  this->_trameId = trameId;
-  this->_mutex->leave();
-}
-
-unsigned int			ClientInfo::getId() const
-{
-  unsigned int			id;
-
-  this->_mutex->enter();
-  id = this->_id;
-  this->_mutex->leave();
-  return (id);
-}
-
-unsigned int			ClientInfo::getTrameId() const
-{
-  unsigned int			id;
-
-  this->_mutex->enter();
-  id = this->_trameId;
-  this->_mutex->leave();
-  return (id);
-}
-
-int				ClientInfo::getFdTcp() const
-{
-  int				fd;
-
-  this->_mutex->enter();
-  fd = (*this->_clientInfo)["TCP"]->getSocket();
-  this->_mutex->leave();
-  return (fd);
-}
-
-bool				ClientInfo::writeSomething(std::string const &proto) const
+bool				ClientInfo::canWriteSomething(std::string const &proto) const
 {
   this->_mutex->enter();
   if ((*this->_nbTrame)[proto] == 0)
@@ -165,46 +115,8 @@ bool				ClientInfo::writeSomething(std::string const &proto) const
   return (true);
 }
 
-void				ClientInfo::setClientUdp(SocketClient *client)
-{
-  this->_mutex->enter();
-  (*this->_clientInfo)["UDP"] = client;
-  this->_mutex->leave();
-}
 
-bool				ClientInfo::alreadySetUdp() const
-{
-  this->_mutex->enter();
-  if ((*this->_clientInfo)["UDP"])
-    {
-      this->_mutex->leave();
-      return (true);
-    }
-  this->_mutex->leave();
-  return (false);
-}
-
-SocketClient			*ClientInfo::getClientTcp() const
-{
-  SocketClient			*tmp;
-
-  this->_mutex->enter();
-  tmp = (*this->_clientInfo)["TCP"];
-  this->_mutex->leave();
-  return (tmp);
-}
-
-SocketClient			*ClientInfo::getClientUdp() const
-{
-  SocketClient			*tmp;
-
-  this->_mutex->enter();
-  tmp = (*this->_clientInfo)["UDP"];
-  this->_mutex->leave();
-  return (tmp);
-}
-
-void				ClientInfo::wantWrite(std::string const &proto, Trame *trame)
+void				ClientInfo::pushWriteTrame(std::string const &proto, Trame *trame)
 {
   this->_mutex->enter();
   if (trame)
@@ -215,7 +127,7 @@ void				ClientInfo::wantWrite(std::string const &proto, Trame *trame)
   this->_mutex->leave();
 }
 
-void				ClientInfo::wantWriteImmediately(std::string const &proto, Trame *trame)
+void				ClientInfo::writeImmediately(std::string const &proto, Trame *trame)
 {
   this->_mutex->enter();
   if (trame)
@@ -285,4 +197,93 @@ void				ClientInfo::setIdGame(unsigned int const idGame)
   this->_mutex->enter();
   this->_idGame = idGame;
   this->_mutex->leave();
+}
+
+Action const			&ClientInfo::getAction() const
+{
+  return (this->getFirstCommand()->getAction());
+}
+
+
+void				ClientInfo::setId(unsigned int const id)
+{
+  this->_mutex->enter();
+  this->_id = id;
+  this->_mutex->leave();
+}
+
+void				ClientInfo::setTrameId(unsigned int const trameId)
+{
+  this->_mutex->enter();
+  this->_trameId = trameId;
+  this->_mutex->leave();
+}
+
+unsigned int			ClientInfo::getId() const
+{
+  unsigned int			id;
+
+  this->_mutex->enter();
+  id = this->_id;
+  this->_mutex->leave();
+  return (id);
+}
+
+unsigned int			ClientInfo::getTrameId() const
+{
+  unsigned int			id;
+
+  this->_mutex->enter();
+  id = this->_trameId;
+  this->_mutex->leave();
+  return (id);
+}
+
+int				ClientInfo::getFdTcp() const
+{
+  int				fd;
+
+  this->_mutex->enter();
+  fd = (*this->_clientInfo)["TCP"]->getSocket();
+  this->_mutex->leave();
+  return (fd);
+}
+
+void				ClientInfo::setClientUdp(SocketClient *client)
+{
+  this->_mutex->enter();
+  (*this->_clientInfo)["UDP"] = client;
+  this->_mutex->leave();
+}
+
+bool				ClientInfo::alreadySetUdp() const
+{
+  this->_mutex->enter();
+  if ((*this->_clientInfo)["UDP"])
+    {
+      this->_mutex->leave();
+      return (true);
+    }
+  this->_mutex->leave();
+  return (false);
+}
+
+SocketClient			*ClientInfo::getClientTcp() const
+{
+  SocketClient			*tmp;
+
+  this->_mutex->enter();
+  tmp = (*this->_clientInfo)["TCP"];
+  this->_mutex->leave();
+  return (tmp);
+}
+
+SocketClient			*ClientInfo::getClientUdp() const
+{
+  SocketClient			*tmp;
+
+  this->_mutex->enter();
+  tmp = (*this->_clientInfo)["UDP"];
+  this->_mutex->leave();
+  return (tmp);
 }

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Tue Nov  5 13:27:27 2013 laurent ansel
+// Last update Tue Nov  5 18:57:46 2013 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -41,8 +41,8 @@ private:
   void				execCommand();
   void				debug(std::string const &str) const;
   void				quitAllClient() const;
-  bool				manageGame(std::list<ClientInfo *>::iterator &it);
-  bool				manageQuit(std::list<ClientInfo *>::iterator &it);
+  bool				manageGame(std::list<ClientInfo *>::iterator &it, Action &action);
+  bool				manageQuit(std::list<ClientInfo *>::iterator &it, Action &action);
 };
 
 #endif
