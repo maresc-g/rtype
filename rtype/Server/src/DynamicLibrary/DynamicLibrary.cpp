@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Nov  3 18:06:07 2013 alexis mestag
-// Last update Mon Nov  4 10:21:37 2013 laurent ansel
+// Last update Tue Nov  5 11:22:47 2013 alexis mestag
 //
 
 #include		"DynamicLibrary/DynamicLibrary.hh"
@@ -52,4 +52,9 @@ DynamicLibrary		&DynamicLibrary::operator=(DynamicLibrary const &rhs)
 
     }
   return (*this);
+}
+
+IDynamicLibrary		&DynamicLibrary::getDeepCopy() const
+{
+  return (*new DynamicLibrary(*this));
 }
