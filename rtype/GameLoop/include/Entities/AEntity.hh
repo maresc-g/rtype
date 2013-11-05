@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Wed Oct 30 13:29:53 2013 antoine maitre
+// Last update Tue Nov  5 10:48:59 2013 antoine maitre
 //
 
 #ifndef 		__AENTITY_HH__
@@ -13,6 +13,13 @@
 
 #include		<string>
 #include		"Coordinate.hh"
+
+enum			eObject
+  {
+    ROCKET,
+    PLAYER,
+    MOB
+  };
 
 class			AEntity
 {
@@ -48,6 +55,7 @@ public:
   void			setDestructible(bool const &destructible);
   int			getLargeur() const;
   int			getLongueur() const;
+  eObject		getType() const;
 };
 
 #endif

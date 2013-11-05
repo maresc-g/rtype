@@ -5,13 +5,13 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Oct 30 11:19:56 2013 antoine maitre
-// Last update Wed Oct 30 13:31:30 2013 antoine maitre
+// Last update Tue Nov  5 10:50:25 2013 antoine maitre
 //
 
 #include "Entities/Mob.hh"
 
 Mob::Mob(int const x, int const y, std::string const &path, int const speed, bool const destructible)
-  : AEntity(x, y, path, speed, destructible)
+  : ACharacter(x, y, path, speed, destructible)
 {
   std::ifstream fichier(path.c_str(), std::ios::in);
   std::string contenu;
@@ -28,4 +28,9 @@ Mob::Mob(int const x, int const y, std::string const &path, int const speed, boo
 Mob::~Mob()
 {
 
+}
+
+eObject		Mob::getType() const
+{
+  return (MOB);
 }

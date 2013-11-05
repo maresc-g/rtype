@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Wed Oct 30 17:34:53 2013 antoine maitre
+// Last update Tue Nov  5 11:24:48 2013 antoine maitre
 //
 
 #ifndef	__GAME_HH__
@@ -13,6 +13,7 @@
 
 #include <unistd.h>
 #include "Level/LevelManager.hh"
+#include "ClientInfo/ClientInfo.hh"
 
 class	Game
 {
