@@ -18,6 +18,7 @@ class				PthreadCondition : protected UnixMutex
 {
 private:
   pthread_cond_t		_cond;
+  bool					_init;
 public:
   PthreadCondition();
   virtual ~PthreadCondition();

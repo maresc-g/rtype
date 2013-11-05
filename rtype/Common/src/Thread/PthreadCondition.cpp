@@ -10,7 +10,8 @@
 
 #include			"Thread/PthreadCondition.hh"
 
-PthreadCondition::PthreadCondition()
+PthreadCondition::PthreadCondition():
+		_init(false)
 {
 }
 
@@ -20,12 +21,15 @@ PthreadCondition::~PthreadCondition()
 
 int				PthreadCondition::initializeCond()
 {
+  this->_init = true;
   return (pthread_cond_init(&this->_cond, NULL));
 }
 
 int				PthreadCondition::destroyCond()
 {
-  return (pthread_cond_destroy(&this->_cond));
+  if (this->_init)
+	return (pthread_cond_destroy(&this->_cond));
+  return (-1);
 }
 
 int				PthreadCondition::wakeUp()
