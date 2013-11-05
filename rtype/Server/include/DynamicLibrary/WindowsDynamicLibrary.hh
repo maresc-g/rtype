@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Nov  3 17:58:12 2013 alexis mestag
-// Last update Tue Nov  5 08:59:11 2013 alexis mestag
+// Last update Mon Nov  4 12:54:31 2013 alexis mestag
 //
 
 
@@ -16,11 +16,12 @@
 
 #  include		<Windows.h>
 #  include		<direct.h>
-#  include		"DynamicLibrary/ADynamicLibrary.hh"
+#  include		"DynamicLibrary/IDynamicLibrary.hh"
 
-class			WindowsDynamicLibrary : public ADynamicLibrary
+class			WindowsDynamicLibrary : public IDynamicLibrary
 {
 private:
+  std::string		_path;
   HMODULE		_lib;
 
 protected:

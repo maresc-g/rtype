@@ -5,20 +5,15 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:43:58 2013 guillaume marescaux
-// Last update Tue Nov  5 10:55:52 2013 antoine maitre
+// Last update Mon Oct 28 14:44:05 2013 guillaume marescaux
 //
 
 #ifndef 		__PLAYER_HH__
 # define 		__PLAYER_HH__
 
-#include		"ACharacter.hh"
-
-class			Player : public ACharacter
+class			Player
 {
-public:
-  Player(int const x, int const y, std::string const &path, int const speed, bool const destructible);
-  ~Player();
-  eObject		getType() const;
+
 };
 
 #endif

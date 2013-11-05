@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:24:56 2013 laurent ansel
-// Last update Thu Oct 31 15:06:28 2013 laurent ansel
+// Last update Tue Nov  5 18:17:21 2013 laurent ansel
 //
 
 #ifndef 			__ISOCKETCLIENT_HH__

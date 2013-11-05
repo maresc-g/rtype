@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:15:14 2013 laurent ansel
-// Last update Mon Nov  4 15:44:09 2013 laurent ansel
+// Last update Tue Nov  5 17:20:51 2013 laurent ansel
 //
 
 #include			<list>
@@ -109,6 +109,9 @@ std::list<Trame *>		*Trame::ToListTrame(unsigned int const id, unsigned int cons
       else
 	good = false;
     }
+  tmp = new Trame(id, trameId, proto, str.substr(pos - size, str.size()), true);
+  if (tmp)
+    list->push_back(tmp);
   if (good)
     return (list);
   return (NULL);

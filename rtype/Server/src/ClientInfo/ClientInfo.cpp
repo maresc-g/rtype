@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Mon Nov  4 13:22:18 2013 laurent ansel
+// Last update Tue Nov  5 17:59:02 2013 laurent ansel
 //
 
 #include			"ClientInfo/ClientInfo.hh"
@@ -16,7 +16,8 @@ ClientInfo::ClientInfo(SocketClient *clientTcp, SocketClient *clientUdp, unsigne
   _nbTrame(new std::map<std::string, int>),
   _id(id),
   _mutex(new Mutex),
-  _trameId(1)
+  _trameId(1),
+  _idGame(0)
 {
   this->_mutex->initialize();
   this->_clientInfo->insert(std::make_pair("TCP", clientTcp));
@@ -46,20 +47,36 @@ ClientInfo::~ClientInfo()
 
 bool				ClientInfo::standbyCommand() const
 {
+  this->_mutex->enter();
   if (this->_command->empty())
-    return (false);
+    {
+      this->_mutex->leave();
+      return (false);
+    }
+  this->_mutex->leave();
   return (true);
 }
 
-Command const			&ClientInfo::getFirstCommand() const
+Command const			*ClientInfo::getFirstCommand() const
 {
+  this->_mutex->enter();
+  if (this->_command->empty())
+    {
+      this->_mutex->leave();
+      return (NULL);
+    }
   Command			*command = this->_command->front();
 
-  this->_mutex->enter();
-  if (this->_command->front()->getAction().empty())
-    this->_command->pop_front();
+  if (command->getAction().empty())
+    {
+      this->_command->pop_front();
+      if (!this->_command->empty())
+	command = this->_command->front();
+      else
+	command = NULL;
+    }
   this->_mutex->leave();
-  return (*command);
+  return (command);
 }
 
 void				ClientInfo::setCommand()
@@ -136,10 +153,10 @@ int				ClientInfo::getFdTcp() const
   return (fd);
 }
 
-bool				ClientInfo::writeSomething() const
+bool				ClientInfo::writeSomething(std::string const &proto) const
 {
   this->_mutex->enter();
-  if ((*this->_nbTrame)["TCP"] == 0)
+  if ((*this->_nbTrame)[proto] == 0)
     {
       this->_mutex->leave();
       return (false);
@@ -252,3 +269,20 @@ int				ClientInfo::readSomethingInSocket(std::string const &proto)
   return (ret);
 }
 
+unsigned int			ClientInfo::getIdGame() const
+{
+  unsigned int			id;
+
+  this->_mutex->enter();
+  id = this->_idGame;
+  this->_mutex->leave();
+  return (id);
+
+}
+
+void				ClientInfo::setIdGame(unsigned int const idGame)
+{
+  this->_mutex->enter();
+  this->_idGame = idGame;
+  this->_mutex->leave();
+}

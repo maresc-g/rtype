@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 16:01:59 2013 laurent ansel
-// Last update Mon Nov  4 19:24:47 2013 laurent ansel
+// Last update Tue Nov  5 17:51:30 2013 laurent ansel
 //
 
 #include			"Command/Command.hh"
@@ -116,6 +116,7 @@ void				Command::trameToAction()
 	  str >> content;
 	  if ((pos = content.find(END_TRAME)) != std::string::npos)
 	    content = content.substr(0, pos);
+	  //	  std::cout << "content [" << content << "]" << std::endl;
 	  for (unsigned int i = 0 ; i < size ; i++)
 	    {
 	      if (content == tab[i].command)

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:23:27 2013 laurent ansel
-// Last update Thu Oct 31 11:16:41 2013 laurent ansel
+// Last update Tue Nov  5 18:17:08 2013 laurent ansel
 //
 
 #ifndef 			__UNIXSOCKET_HH__
@@ -40,6 +40,7 @@ public:
   virtual SocketClient const	&getSocket() const;
   virtual SocketClient		*connectToAddr(std::string const &, int const);
   virtual SocketClient		*acceptConnection();
+  virtual void			initAddr();
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:21:19 2013 laurent ansel
-// Last update Thu Oct 31 15:29:54 2013 laurent ansel
+// Last update Tue Nov  5 18:18:20 2013 laurent ansel
 //
 
 #ifdef _WIN32
@@ -122,6 +122,11 @@ SocketClient			*WindowsSocket::acceptConnection()
   if ((socketClient = WSAAccept(this->_socket, (SOCKADDR*)&client, &size, NULL, NULL)) != SOCKET_ERROR)
     return (new SocketClient(socketClient, this->_proto));
   return (NULL);
+}
+
+void				WindowsSocket::initAddr()
+{
+  this->_addr = new sockaddr_in;
 }
 
 #endif

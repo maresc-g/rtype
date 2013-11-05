@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:22:49 2013 laurent ansel
-// Last update Thu Oct 31 15:03:32 2013 laurent ansel
+// Last update Tue Nov  5 18:17:25 2013 laurent ansel
 //
 
 #ifndef			__WINDOWSSOCKETCLIENT_HH__

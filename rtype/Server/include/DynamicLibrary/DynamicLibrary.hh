@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Nov  3 17:59:31 2013 alexis mestag
-// Last update Tue Nov  5 11:30:14 2013 alexis mestag
+// Last update Sun Nov  3 18:04:42 2013 alexis mestag
 //
 
 #ifndef			__DYNAMICLIBRARY_HH__
@@ -31,8 +31,6 @@ private:
 public:
   DynamicLibrary(std::string const &path);
   virtual ~DynamicLibrary();
-
-  IDynamicLibrary	&getDeepCopy() const;
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:46:04 2013 laurent ansel
-// Last update Mon Nov  4 13:04:55 2013 laurent ansel
+// Last update Tue Nov  5 17:25:25 2013 laurent ansel
 //
 
 #ifndef 			__CLIENTINFO_HH__
@@ -26,10 +26,11 @@ private:
   unsigned int			_id;
   Mutex				*_mutex;
   unsigned int			_trameId;
+  unsigned int			_idGame;
 public:
   ClientInfo(SocketClient *clientTcp, SocketClient *clientUdp = NULL, unsigned int const id = 0);
   virtual ~ClientInfo();
-  Command const			&getFirstCommand() const;
+  Command const			*getFirstCommand() const;
   void				pushCommand(Trame *trame);
   void				setCommand();
   bool				standbyCommand() const;
@@ -38,7 +39,7 @@ public:
   unsigned int			getId() const;
   unsigned int			getTrameId() const;
   int				getFdTcp() const;
-  bool				writeSomething() const;
+  bool				writeSomething(std::string const &proto) const;
   void				setClientUdp(SocketClient *client);
   bool				alreadySetUdp() const;
   SocketClient			*getClientTcp() const;
@@ -47,6 +48,8 @@ public:
   void				wantWriteImmediately(std::string const &proto, Trame *trame);
   void				writeOneTrame(std::string const &proto);
   int				readSomethingInSocket(std::string const &proto);
+  unsigned int			getIdGame() const;
+  void				setIdGame(unsigned int const idGame);
 };
 
 #endif

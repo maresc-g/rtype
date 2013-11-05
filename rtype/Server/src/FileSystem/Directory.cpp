@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 14:58:59 2013 alexis mestag
-// Last update Mon Nov  4 19:41:45 2013 alexis mestag
+// Last update Mon Nov  4 17:35:11 2013 alexis mestag
 //
 
 #ifndef	_WIN32
@@ -94,28 +94,28 @@ namespace			FileSystem
 #else
   void				Directory::updateEntries()
   {
-    HANDLE			dirp;
-    WIN32_FIND_DATA		dirpEntry;
-    std::string			fullPath;
-    Entry			*entry;
-
-    this->deleteEntries();
+	HANDLE			dirp;
+    WIN32_FIND_DATA	dirpEntry;
+	std::string		fullPath;
+	Entry			*entry;
+	
+	this->deleteEntries();
     if ((dirp = FindFirstFile((this->getPath() + "/*").c_str(), &dirpEntry)) != INVALID_HANDLE_VALUE)
-      {
-	_entries = new std::list<Entry *>;
-	do
-	  {
-	    fullPath = this->getPath() + "/" + dirpEntry.cFileName;
-	    if (dirpEntry.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-	      entry = new FileSystem::Directory(fullPath);
-	    else if (dirpEntry.dwFileAttributes & FILE_ATTRIBUTE_ARCHIVE)
-	      entry = new FileSystem::File(fullPath);
-	    else
-	      entry = new FileSystem::Entry(fullPath, eType::UNKNOWN);
-	    _entries->push_back(entry);
-	  } while (FindNextFile(dirp, &dirpEntry));
-	FindClose(dirp);
-      }
+	{
+		_entries = new std::list<Entry *>;
+	    do
+		{
+			fullPath = this->getPath() + "/" + dirpEntry.cFileName;
+			if (dirpEntry.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+				entry = new FileSystem::Directory(fullPath);
+			else if (dirpEntry.dwFileAttributes & FILE_ATTRIBUTE_ARCHIVE)
+				entry = new FileSystem::File(fullPath);
+			else
+				entry = new FileSystem::Entry(fullPath, eType::UNKNOWN);
+			_entries->push_back(entry);
+		} while (FindNextFile(dirp, &dirpEntry));
+		FindClose(dirp);
+	}
   }
 #endif
 

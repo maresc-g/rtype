@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:20:50 2013 laurent ansel
-// Last update Thu Oct 31 15:28:40 2013 laurent ansel
+// Last update Tue Nov  5 18:17:46 2013 laurent ansel
 //
 
 #ifndef _WIN32
@@ -114,6 +114,11 @@ SocketClient			*UnixSocket::acceptConnection()
   if ((fd = accept(this->_socket, (struct sockaddr *)&sin, (socklen_t *)&size)) == -1)
     return (NULL);
   return (new SocketClient(fd, this->_proto));
+}
+
+void				UnixSocket::initAddr()
+{
+  this->_currentSocket->setAddr(new sockaddr_in);
 }
 
 #endif

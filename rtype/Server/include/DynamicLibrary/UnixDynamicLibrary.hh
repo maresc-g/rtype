@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sat Nov  2 16:54:11 2013 alexis mestag
-// Last update Tue Nov  5 08:59:06 2013 alexis mestag
+// Last update Mon Nov  4 12:54:01 2013 alexis mestag
 //
 
 #ifndef			__UNIXDYNAMICLIBRARY_HH__
@@ -13,11 +13,12 @@
 
 # ifndef _WIN32
 
-#  include		"DynamicLibrary/ADynamicLibrary.hh"
+#  include		"DynamicLibrary/IDynamicLibrary.hh"
 
-class			UnixDynamicLibrary : public ADynamicLibrary
+class			UnixDynamicLibrary : public IDynamicLibrary
 {
 private:
+  std::string		_path;
   void			*_lib;
 
 protected:

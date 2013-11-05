@@ -5,24 +5,23 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Oct 30 11:14:28 2013 antoine maitre
-// Last update Tue Nov  5 11:46:41 2013 antoine maitre
+// Last update Wed Oct 30 12:38:33 2013 antoine maitre
 //
 
-#ifndef	__MOB_HH__
-#define __MOB_HH__
+#ifndef	__MOB_H__
+#define __MOB_H__
 
 #include	<string>
 #include	<iostream>
 #include	<sstream>
 #include	<fstream>
-#include	"ACharacter.hh"
+#include	"AEntity.hh"
 
-class	Mob : public ACharacter
+class	Mob : public AEntity
 {
 public:
   Mob(int const x, int const y, std::string const &path, int const speed, bool const destructible);
   ~Mob();
-  eObject getType() const;
 };
 
 #endif
