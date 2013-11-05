@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Tue Oct 29 16:06:09 2013 laurent ansel
-## Last update Mon Nov  4 17:48:01 2013 alexis mestag
+## Last update Tue Nov  5 10:22:07 2013 laurent ansel
 ##
 
 CLIENTINFO=		$(SERVER_SRC)/ClientInfo
@@ -14,6 +14,9 @@ SOURCESERVER=		$(SERVER_SRC)/Server
 ACTION=			$(SERVER_SRC)/Action
 DYNAMICLIBRARY=		$(SERVER_SRC)/DynamicLibrary
 FILESYSTEM=		$(SERVER_SRC)/FileSystem
+GAMELOOP=		$(SERVER_SRC)/GameLoop
+LEVEL=			$(SERVER_SRC)/Level
+ENTITIES=		$(SERVER_SRC)/Entities
 
 include			$(CLIENTINFO)/Makefile
 include			$(COMMAND)/Makefile
@@ -21,3 +24,6 @@ include			$(SOURCESERVER)/Makefile
 include			$(ACTION)/Makefile
 include			$(DYNAMICLIBRARY)/Makefile
 include			$(FILESYSTEM)/Makefile
+include			$(GAMELOOP)/Makefile
+include			$(LEVEL)/Makefile
+include			$(ENTITIES)/Makefile

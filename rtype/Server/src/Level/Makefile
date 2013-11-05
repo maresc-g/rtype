@@ -5,10 +5,10 @@
 ## Login   <maresc_g@epitech.net>
 ## 
 ## Started on  Mon Oct 28 13:56:38 2013 guillaume marescaux
-## Last update Mon Nov  4 23:17:00 2013 antoine maitre
+## Last update Tue Nov  5 10:13:15 2013 laurent ansel
 ##
 
-SRCGAMELOOP +=		$(LEVEL)/LevelManager.cpp \
+SRCSERVER +=		$(LEVEL)/LevelManager.cpp \
 			$(LEVEL)/Level.cpp	\
 			$(LEVEL)/Map.cpp
 

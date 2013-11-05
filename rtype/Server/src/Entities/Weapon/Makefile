@@ -5,9 +5,9 @@
 ## Login   <maresc_g@epitech.net>
 ## 
 ## Started on  Mon Oct 28 14:48:04 2013 guillaume marescaux
-## Last update Mon Nov  4 23:15:38 2013 antoine maitre
+## Last update Tue Nov  5 10:13:33 2013 laurent ansel
 ##
 
-SRCGAMELOOP +=	$(WEAPON)/Weapon.cpp \
+SRCSERVER +=	$(WEAPON)/Weapon.cpp \
 		$(WEAPON)/AProjectile.cpp \
 		$(WEAPON)/Rocket.cpp \

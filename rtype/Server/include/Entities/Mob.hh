@@ -5,11 +5,11 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Oct 30 11:14:28 2013 antoine maitre
-// Last update Tue Nov  5 10:50:00 2013 antoine maitre
+// Last update Tue Nov  5 11:46:41 2013 antoine maitre
 //
 
-#ifndef	__MOB_H__
-#define __MOB_H__
+#ifndef	__MOB_HH__
+#define __MOB_HH__
 
 #include	<string>
 #include	<iostream>

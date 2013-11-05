@@ -5,8 +5,8 @@
 ## Login   <maresc_g@epitech.net>
 ## 
 ## Started on  Mon Oct 28 13:56:38 2013 guillaume marescaux
-## Last update Mon Nov  4 23:30:27 2013 antoine maitre
+## Last update Tue Nov  5 10:20:29 2013 laurent ansel
 ##
 
-SRCGAMELOOP +=	$(GAME)/Game.cpp \
-		$(GAME)/PlayerInfo.cpp
+SRCSERVER +=	$(GAMELOOP)/GameLoop.cpp \
+		$(GAMELOOP)/PlayerInfo.cpp

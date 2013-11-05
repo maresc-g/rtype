@@ -1,31 +1,32 @@
+
 //
-// Game.cpp for game in /home/maitre_c/work/local/rtype/code/src/Game
+// GameLoop.cpp for game in /home/maitre_c/work/local/rtype/code/src/GameLoop
 // 
 // Made by antoine maitre
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Tue Nov  5 10:37:20 2013 antoine maitre
+// Last update Tue Nov  5 11:42:52 2013 antoine maitre
 //
 
-#include "Game/Game.hh"
+#include "GameLoop/GameLoop.hh"
 
-Game::Game()
+GameLoop::GameLoop()
   : _currentScreen(0)
 {
 }
 
-Game::~Game()
+GameLoop::~GameLoop()
 {
 }
 
-void Game::Initialize()
+void GameLoop::Initialize()
 {
   this->_levelManag = new LevelManager();
   this->_levelManag->Initialize();
 }
 
-void Game::loop()
+void GameLoop::loop()
 {
   while (!this->_levelManag->getEndGame())
     {
@@ -34,22 +35,22 @@ void Game::loop()
     }
 }
 
-void Game::recupScreen()
+void GameLoop::recupScreen()
 {
   
 }
 
-void Game::newPlayer()
+void GameLoop::newPlayer()
 {
   
 }
 
-void Game::deadPlayer()
+void GameLoop::deadPlayer()
 {
 
 }
 
-void Game::spawnMob()
+void GameLoop::spawnMob()
 {
   std::list<Mob *> yolo = this->_levelManag->getCurrentLevel()->getMap()->getDynamicEntities();
 
