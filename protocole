@@ -19,8 +19,8 @@ server -> "MAP %map" TCP map=<idObject;posx;posy>
 client -> "ACTION %action" UDP
 server -> "ENEMY %id;%type;%pos" UDP
 server -> "PROJECTILE %id;%type;%pos" UDP
-server -> "PLAYER %id;%pos" UDP
-server -> "DEFILEMENT %pos" UDP
+server -> "PLAYER %id;%numPlayer;%pos" UDP
+server -> "SCROLL %pos" UDP
 server -> "DEAD %id" TCP
 
 server -> "ENDGAME %<WIN|LOOSE>" TCP
