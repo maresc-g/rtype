@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F61AE31C-D059-404A-B23E-77672F07E96A}</ProjectGuid>
+    <RootNamespace>Rtype</RootNamespace>
+    <ProjectName>Client</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(SolutionDir)\</OutDir>
+    <IntDir>$(SolutionDir)\$(ProjectName)\</IntDir>
+    <IncludePath>$(SolutionDir)\Common\include;$(SolutionDir)\Client\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level2</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>false</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Client\src\Core\Client.cpp" />
+    <ClCompile Include="Client\src\Core\Protocol.cpp" />
+    <ClCompile Include="Client\src\Game\GameInfo.cpp" />
+    <ClCompile Include="Client\src\Game\GameList.cpp" />
+    <ClCompile Include="Client\src\main.cpp" />
+    <ClCompile Include="Client\src\Map\Entity.cpp" />
+    <ClCompile Include="Client\src\Map\Map.cpp" />
+    <ClCompile Include="Common\src\CircularBufferManager\CircularBufferManager.cpp" />
+    <ClCompile Include="Common\src\CircularBufferManager\CircularBuffer\CircularBuffer.cpp" />
+    <ClCompile Include="Common\src\CircularBufferManager\CircularBuffer\Trame\Header\Header.cpp" />
+    <ClCompile Include="Common\src\CircularBufferManager\CircularBuffer\Trame\Trame.cpp" />
+    <ClCompile Include="Common\src\Mutex\UnixMutex.cpp" />
+    <ClCompile Include="Common\src\Mutex\WindowsMutex.cpp" />
+    <ClCompile Include="Common\src\Select\Select.cpp" />
+    <ClCompile Include="Common\src\Socket\UnixSocket.cpp" />
+    <ClCompile Include="Common\src\Socket\UnixSocketClient.cpp" />
+    <ClCompile Include="Common\src\Socket\WindowsSocket.cpp" />
+    <ClCompile Include="Common\src\Socket\WindowsSocketClient.cpp" />
+    <ClCompile Include="Common\src\Thread\PthreadCondition.cpp" />
+    <ClCompile Include="Common\src\Thread\UnixThread.cpp" />
+    <ClCompile Include="Common\src\Thread\WindowsThread.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Client\include\Core\Client.hh" />
+    <None Include="Client\include\Core\Protocol.hh" />
+    <None Include="Client\include\Game\GameInfo.hh" />
+    <None Include="Client\include\Game\GameList.hh" />
+    <None Include="Client\include\Map\Entity.hh" />
+    <None Include="Client\include\Map\Map.hh" />
+    <None Include="Common\include\CircularBufferManager\CircularBufferManager.hh" />
+    <None Include="Common\include\CircularBufferManager\CircularBuffer\CircularBuffer.hh" />
+    <None Include="Common\include\CircularBufferManager\CircularBuffer\Trame\Header\Header.hh" />
+    <None Include="Common\include\CircularBufferManager\CircularBuffer\Trame\Trame.hh" />
+    <None Include="Common\include\Error\IError.hh" />
+    <None Include="Common\include\Mutex\IMutex.hh" />
+    <None Include="Common\include\Mutex\UnixMutex.hh" />
+    <None Include="Common\include\Mutex\WindowsMutex.hh" />
+    <None Include="Common\include\Select\Select.hh" />
+    <None Include="Common\include\Socket\ISocket.hh" />
+    <None Include="Common\include\Socket\ISocketClient.hh" />
+    <None Include="Common\include\Socket\UnixSocket.hh" />
+    <None Include="Common\include\Socket\UnixSocketClient.hh" />
+    <None Include="Common\include\Socket\WindowsSocket.hh" />
+    <None Include="Common\include\Socket\WindowsSocketClient.hh" />
+    <None Include="Common\include\Thread\IThread.hh" />
+    <None Include="Common\include\Thread\PthreadCondition.hh" />
+    <None Include="Common\include\Thread\UnixThread.hh" />
+    <None Include="Common\include\Thread\WindowsThread.hh" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Common\include\Error\SocketError.hpp" />
+    <ClInclude Include="Common\include\Mutex\Mutex.hpp" />
+    <ClInclude Include="Common\include\Socket\Socket.hpp" />
+    <ClInclude Include="Common\include\Socket\SocketClient.hpp" />
+    <ClInclude Include="Common\include\Thread\Thread.hpp" />
+    <ClInclude Include="Common\include\Utility\Singleton.hpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
