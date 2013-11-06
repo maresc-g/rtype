@@ -1,4 +1,4 @@
-Header(10) + content(255)
+﻿Header(10) + content(255)
 idClient + idMsg | Content
 
 server -> "BIENVENUE %id" TCP
@@ -17,9 +17,7 @@ server -> "LAUNCHGAME" UDP
 server -> "MAP %map" TCP map=<idObject;posx;posy>
 
 client -> "ACTION %action" UDP
-server -> "ENEMY %id;%type;%pos" UDP
-server -> "PROJECTILE %id;%type;%pos" UDP
-server -> "PLAYER %id;%numPlayer;%pos" UDP
+server -> "ENTITY %id;%type;%x;%y" UDP
 server -> "SCROLL %pos" UDP
 server -> "DEAD %id" TCP
 
