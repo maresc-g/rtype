@@ -5,14 +5,15 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 13:04:52 2013 laurent ansel
-// Last update Fri Nov  1 15:55:32 2013 laurent ansel
+// Last update Wed Nov  6 10:33:50 2013 laurent ansel
 //
 
 #ifndef			_WIN32
 
 #include		"Mutex/UnixMutex.hh"
 
-UnixMutex::UnixMutex()
+UnixMutex::UnixMutex():
+  _init(false)
 {
 }
 
@@ -23,27 +24,33 @@ UnixMutex::~UnixMutex()
 
 void			UnixMutex::initialize()
 {
+  this->_init = true;
   pthread_mutex_init(&this->_mutex, NULL);
 }
 
 void			UnixMutex::destroy()
 {
-  pthread_mutex_destroy(&this->_mutex);
+  if (this->_init)
+    pthread_mutex_destroy(&this->_mutex);
 }
 
 void			UnixMutex::enter()
 {
-  pthread_mutex_lock(&this->_mutex);
+  if (this->_init)
+    pthread_mutex_lock(&this->_mutex);
 }
 
 int			UnixMutex::tryEnter()
 {
-  return (pthread_mutex_trylock(&this->_mutex));
+  if (this->_init)
+    return (pthread_mutex_trylock(&this->_mutex));
+  return (-1);
 }
 
 void			UnixMutex::leave()
 {
-  pthread_mutex_unlock(&this->_mutex);
+  if (this->_init)
+    pthread_mutex_unlock(&this->_mutex);
 }
 
 #endif

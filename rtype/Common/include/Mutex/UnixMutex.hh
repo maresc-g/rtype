@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 13:00:53 2013 laurent ansel
-// Last update Fri Nov  1 15:55:42 2013 laurent ansel
+// Last update Wed Nov  6 10:41:36 2013 laurent ansel
 //
 
 #ifndef 			__UNIXMUTEX_HH__
@@ -20,6 +20,7 @@ class				UnixMutex : public IMutex
 {
 protected:
   pthread_mutex_t		_mutex;
+  bool				_init;
 public:
   UnixMutex();
   virtual ~UnixMutex();

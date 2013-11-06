@@ -5,13 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 14:19:41 2013 laurent ansel
-// Last update Mon Oct 28 16:40:08 2013 laurent ansel
+// Last update Wed Nov  6 10:42:08 2013 laurent ansel
 //
 
 #include			"Thread/PthreadCondition.hh"
 
 PthreadCondition::PthreadCondition():
-		_init(false)
+  _init(false)
 {
 }
 
@@ -22,13 +22,17 @@ PthreadCondition::~PthreadCondition()
 int				PthreadCondition::initializeCond()
 {
   this->_init = true;
+  this->initialize();
   return (pthread_cond_init(&this->_cond, NULL));
 }
 
 int				PthreadCondition::destroyCond()
 {
   if (this->_init)
-	return (pthread_cond_destroy(&this->_cond));
+    {
+      this->destroy();
+      return (pthread_cond_destroy(&this->_cond));
+    }
   return (-1);
 }
 
