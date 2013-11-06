@@ -1,10 +1,12 @@
-﻿Header(10) + content(255)
-idClient + idMsg | Content
+﻿Header:
+idClient + idMsg + protocol
 
-server -> "BIENVENUE %id" TCP
+
+Content:
+Sender	|      MSG
+server -> "WELCOME" TCP
 client -> "INITIALIZE" UDP
 server -> "CHECK" TCP
-#client -> "IDENTIFICATION %name" TCP
 
 client -> "GAMELIST" UDP
 server -> "GAMELIST %gamelist"  UDP gamelist=<id;name;numPlayer;lvl>
@@ -14,7 +16,6 @@ client -> "CREATE %gameName" TCP
 server -> "OK" | "KO" TCP
 
 server -> "LAUNCHGAME" UDP
-server -> "MAP %map" TCP map=<idObject;posx;posy>
 
 client -> "ACTION %action" UDP
 server -> "ENTITY %id;%type;%x;%y" UDP
@@ -29,4 +30,4 @@ server -> "ENDGAME %<WIN|LOOSE>" TCP
 client -> "QUITGAME>" TCP
 client -> "QUITSERVER>" TCP
 
-o0O°END°O0o
+<TRAMEEND>
