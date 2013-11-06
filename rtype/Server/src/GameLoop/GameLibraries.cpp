@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:18:29 2013 alexis mestag
-// Last update Tue Nov  5 12:53:35 2013 alexis mestag
+// Last update Tue Nov  5 13:29:06 2013 alexis mestag
 //
 
 #include			"GameLoop/GameLibraries.hh"
@@ -16,7 +16,8 @@ GameLibraries::GameLibraries() :
 
 }
 
-GameLibraries::GameLibraries(GameLibraries const &rhs)
+GameLibraries::GameLibraries(GameLibraries const &rhs) :
+  _libraries(NULL)
 {
   *this = rhs;
 }

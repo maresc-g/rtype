@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sat Nov  2 16:55:11 2013 alexis mestag
-// Last update Mon Nov  4 10:21:30 2013 laurent ansel
+// Last update Tue Nov  5 09:00:18 2013 alexis mestag
 //
 
 #ifndef _WIN32
@@ -15,18 +15,19 @@
 #include		"DynamicLibrary/UnixDynamicLibrary.hh"
 
 UnixDynamicLibrary::UnixDynamicLibrary() :
-  _path(""), _lib(NULL)
+  ADynamicLibrary(""), _lib(NULL)
 {
 
 }
 
 UnixDynamicLibrary::UnixDynamicLibrary(std::string const &path) :
-  _path(path), _lib(NULL)
+  ADynamicLibrary(path), _lib(NULL)
 {
 
 }
 
-UnixDynamicLibrary::UnixDynamicLibrary(UnixDynamicLibrary const &rhs)
+UnixDynamicLibrary::UnixDynamicLibrary(UnixDynamicLibrary const &rhs) :
+  ADynamicLibrary(rhs)
 {
   *this = rhs;
 }
@@ -49,7 +50,7 @@ bool			UnixDynamicLibrary::load()
 {
   bool			ret = true;
 
-  _lib = dlopen(_path.c_str(), RTLD_LAZY);
+  _lib = dlopen(this->getPath().c_str(), RTLD_LAZY);
   if (!_lib)
     {
       std::cerr << dlerror() << std::endl;

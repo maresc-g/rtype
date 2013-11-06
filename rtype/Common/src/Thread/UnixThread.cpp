@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 13:25:46 2013 laurent ansel
-// Last update Mon Nov  4 11:46:11 2013 laurent ansel
+// Last update Wed Nov  6 10:24:06 2013 alexis mestag
 //
 
 #ifndef			_WIN32
@@ -13,7 +13,7 @@
 #include		"Thread/UnixThread.hh"
 
 UnixThread::UnixThread():
-  _cond(new PthreadCondition), _func(NULL)
+  _allowedToStart(false), _cond(new PthreadCondition), _func(NULL)
 {
 
 }
@@ -22,15 +22,17 @@ UnixThread::~UnixThread()
 {
   if (this->_cond)
     {
-      this->_cond->destroyCond();
       delete this->_cond;
     }
 }
 
 int			UnixThread::start()
 {
+  _allowedToStart = true;
   return (this->_cond->wakeUp());
 }
+
+#include		<iostream>
 
 static void		*tmpThread(void *data)
 {
@@ -38,7 +40,8 @@ static void		*tmpThread(void *data)
 
   if (thread->getCond())
     {
-      thread->getCond()->waitEvent();
+      while (!thread->isAllowedToStart())
+	thread->getCond()->waitEvent();
       return (thread->getFunc()(thread->getData()));
     }
   return (NULL);
@@ -77,6 +80,11 @@ CallBack		UnixThread::getFunc()
 void			*UnixThread::getData()
 {
   return (this->_data);
+}
+
+bool			UnixThread::isAllowedToStart() const
+{
+  return (_allowedToStart);
 }
 
 #endif

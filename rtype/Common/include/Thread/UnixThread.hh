@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 13:22:02 2013 laurent ansel
-// Last update Mon Oct 28 16:38:27 2013 laurent ansel
+// Last update Tue Nov  5 21:08:34 2013 alexis mestag
 //
 
 #ifndef 			__UNIXTHREAD_HH__
@@ -23,9 +23,11 @@ class				UnixThread : public IThread
 {
 private:
   pthread_t			_thread;
+  bool				_allowedToStart;
   PthreadCondition		*_cond;
   void				*(*_func)(void *);
   void				*_data;
+
 public:
   UnixThread();
   virtual ~UnixThread();
@@ -36,7 +38,7 @@ public:
   PthreadCondition		*getCond();
   CallBack			getFunc();
   void				*getData();
-
+  bool				isAllowedToStart() const;
 };
 
 #endif

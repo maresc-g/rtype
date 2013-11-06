@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Nov  4 10:20:55 2013 laurent ansel
-// Last update Mon Nov  4 10:21:12 2013 laurent ansel
+// Last update Tue Nov  5 09:00:32 2013 alexis mestag
 //
 
 #include		<iostream>
@@ -14,17 +14,18 @@
 #ifdef _WIN32
 
 WindowsDynamicLibrary::WindowsDynamicLibrary() :
-  _path(""), _lib(NULL)
+  ADynamicLibrary(""), _lib(NULL)
 {
 }
 
 WindowsDynamicLibrary::WindowsDynamicLibrary(std::string const &path) :
-  _path(path)
+  ADynamicLibrary(path), _lib(NULL)
 {
 
 }
 
-WindowsDynamicLibrary::WindowsDynamicLibrary(WindowsDynamicLibrary const &rhs)
+WindowsDynamicLibrary::WindowsDynamicLibrary(WindowsDynamicLibrary const &rhs) :
+  ADynamicLibrary(rhs)
 {
   *this = rhs;
 }
@@ -47,7 +48,7 @@ WindowsDynamicLibrary	&WindowsDynamicLibrary::operator=(WindowsDynamicLibrary co
 bool		WindowsDynamicLibrary::load()
 {
   bool	ret = true;
-  _lib = LoadLibrary(_path.c_str());
+  _lib = LoadLibrary(this->getPath().c_str());
   if (!_lib) {
     std::cerr << GetLastError() << std::endl;
     ret = false;
