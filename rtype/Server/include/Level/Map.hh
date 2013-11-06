@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:50 2013 antoine maitre
-// Last update Wed Oct 30 17:39:20 2013 antoine maitre
+// Last update Wed Nov  6 12:23:38 2013 antoine maitre
 //
 
 #ifndef	__MAP_HH__
@@ -19,21 +19,26 @@
 #include <list>
 #include <sstream>
 #include "Entities/Mob.hh"
+#include "Entities/Player.hh"
+#include "Entities/Weapon/AProjectile.hh"
 
 class	Map
 {
   std::vector<std::string> *_map;
-  std::list<Mob *> _staticEntities;
-  std::list<Mob *> _dynamicEntities;
+  std::list<Mob *> _enemies;
+  std::list<Player *> _players;
+  std::list<AProjectile *> _proj;
   int _x;
   int _y;
 public:
   Map(std::string path);
   ~Map();
-  std::list<Mob *> getDynamicEntities();
-  std::list<Mob *> getStaticEntities();
+  std::list<Mob *> &getEnemies();
+  std::list<Player *> &getPlayers();
   std::vector<std::string> *getMap();
-  void setStaticEntitiesMap();
+  void setEnemies();
+  int getPosX() const;
+  int getPosY() const;
 };
 
 #endif

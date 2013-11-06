@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:48 2013 antoine maitre
-// Last update Mon Nov  4 11:42:54 2013 antoine maitre
+// Last update Wed Nov  6 14:21:25 2013 antoine maitre
 //
 
 #ifndef __LEVELMANAGER_HH__
@@ -31,10 +31,16 @@ public:
 public:
   LevelManager();
   ~LevelManager();
+  
   void Initialize();
   void nextLevel();
   Level *getCurrentLevel();
   bool getEndGame();
+  void incAdv();
+  Map *getMap();
+  int getAdv() const;
+  std::list<Mob *> &getEnemies();
+  std::list<Player *> &getPlayers();
 };
 
 #endif

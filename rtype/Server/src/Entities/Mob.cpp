@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Oct 30 11:19:56 2013 antoine maitre
-// Last update Wed Oct 30 13:31:30 2013 antoine maitre
+// Last update Wed Nov  6 12:19:33 2013 antoine maitre
 //
 
 #include "Entities/Mob.hh"
@@ -28,4 +28,9 @@ Mob::Mob(int const x, int const y, std::string const &path, int const speed, boo
 Mob::~Mob()
 {
 
+}
+
+eObject		Mob::getType() const
+{
+  return (MOB);
 }

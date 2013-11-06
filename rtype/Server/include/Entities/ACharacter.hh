@@ -5,15 +5,22 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:43:43 2013 guillaume marescaux
-// Last update Mon Oct 28 14:43:51 2013 guillaume marescaux
+// Last update Wed Nov  6 14:36:15 2013 antoine maitre
 //
 
 #ifndef 		__ACHARACTER_HH__
 # define 		__ACHARACTER_HH__
 
-class			ACharacter
-{
+#include <string>
+#include "AEntity.hh"
 
+class			ACharacter : public AEntity
+{
+protected:
+  int			_life;
+public:
+  ACharacter(int const x, int const y, std::string const &path, int const speed, bool const destructible);
+  ~ACharacter();
 };
 
 #endif

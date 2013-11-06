@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 16:17:37 2013 antoine maitre
-// Last update Wed Oct 30 17:43:38 2013 antoine maitre
+// Last update Wed Nov  6 12:30:59 2013 antoine maitre
 //
  
 #ifndef	__LEVEL_HH__
@@ -22,6 +22,7 @@ class	Level
   Map	*_map;
   std::string _path;
   bool _finish;
+  int _adv;
 public:
   Level(int diff);
   ~Level();
@@ -29,6 +30,10 @@ public:
   void Initialize();
   bool getEnd();
   int getDiff();
+  void incAdv();
+  int getAdv() const;
+  std::list<Mob *> &getEnemies();
+  std::list<Player *> &getPlayers();
 };
 
 #endif

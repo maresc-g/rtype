@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Tue Nov  5 13:59:48 2013 laurent ansel
+// Last update Wed Nov  6 14:27:32 2013 antoine maitre
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -17,12 +17,13 @@
 #include	<windows.h>
 #endif
 #include	"ClientInfo/ClientInfo.hh"
-#include "Level/LevelManager.hh"
+#include	"Level/LevelManager.hh"
+#include	"GameLoop/PlayerInfo.hh"
 
 class	GameLoop
 {
   LevelManager *_levelManag;
-  int _currentScreen;
+  std::list<PlayerInfo *> _clients;
 public:
   GameLoop();
   virtual ~GameLoop();
@@ -30,7 +31,7 @@ public:
   void	recupScreen();
   void	newPlayer();
   void	deadPlayer();
-  void	Initialize();
+  void	Initialize(ClientInfo *client);
   void	spawnMob();
   unsigned int		getId() const;
   std::string		getName() const;

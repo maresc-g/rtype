@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:06 2013 antoine maitre
-// Last update Wed Oct 30 17:21:38 2013 antoine maitre
+// Last update Wed Nov  6 12:17:20 2013 antoine maitre
 //
 
 #include	"Level/LevelManager.hh"
@@ -49,4 +49,29 @@ Level	*LevelManager::getCurrentLevel()
 bool	LevelManager::getEndGame()
 {
   return (this->_endGame);
+}
+
+void	LevelManager::incAdv()
+{
+  this->_currentLevel->incAdv();
+}
+
+std::list<Mob *> &LevelManager::getEnemies()
+{
+  return (this->_currentLevel->getEnemies());
+}
+
+std::list<Player *> &LevelManager::getPlayers()
+{
+  return (this->_currentLevel->getPlayers());
+}
+
+Map			*LevelManager::getMap()
+{
+  return (this->_currentLevel->getMap());
+}
+
+int			LevelManager::getAdv() const
+{
+  return (this->_currentLevel->getAdv());
 }

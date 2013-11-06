@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Oct 30 11:14:28 2013 antoine maitre
-// Last update Wed Oct 30 12:38:33 2013 antoine maitre
+// Last update Wed Nov  6 14:53:37 2013 antoine maitre
 //
 
 #ifndef	__MOB_H__
@@ -22,6 +22,7 @@ class	Mob : public AEntity
 public:
   Mob(int const x, int const y, std::string const &path, int const speed, bool const destructible);
   ~Mob();
+  eObject getType() const;
 };
 
 #endif

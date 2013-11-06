@@ -6,24 +6,27 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Tue Nov  5 13:59:31 2013 laurent ansel
+// Last update Wed Nov  6 14:30:36 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
 
 GameLoop::GameLoop()
-  : _currentScreen(0)
 {
+
 }
 
 GameLoop::~GameLoop()
 {
+
 }
 
-void GameLoop::Initialize()
+void GameLoop::Initialize(ClientInfo *client)
 {
   this->_levelManag = new LevelManager();
   this->_levelManag->Initialize();
+  this->_clients.push_back(new PlayerInfo(client, 1));
+  this->_levelManag->getPlayers().push_back(this->_clients.front()->getPlayer());
 }
 
 void GameLoop::loop()
@@ -31,7 +34,9 @@ void GameLoop::loop()
   while (!this->_levelManag->getEndGame())
     {
       usleep(125000);
-      this->_currentScreen++;
+      this->_levelManag->incAdv();
+      for (std::list<PlayerInfo *>::iterator it = _clients.begin(); it != _clients.end(); ++it)
+	(*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
     }
 }
 
@@ -52,7 +57,7 @@ void GameLoop::deadPlayer()
 
 void GameLoop::spawnMob()
 {
-  std::list<Mob *> yolo = this->_levelManag->getCurrentLevel()->getMap()->getDynamicEntities();
+  //  std::list<Mob *> yolo = this->_levelManag->getCurrentLevel()->getMap()->getDynamicEntities();
 
   
 }
