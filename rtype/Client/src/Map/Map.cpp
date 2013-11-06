@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:22:47 2013 guillaume marescaux
-// Last update Tue Nov  5 14:14:45 2013 guillaume marescaux
+// Last update Wed Nov  6 16:32:58 2013 guillaume marescaux
 //
 
 #include			"Map/Map.hh"
@@ -13,7 +13,7 @@
 //----------------------------------BEGIN CTOR / DTOR---------------------------------------
 
 Map::Map():
-  _map(new std::map<eMap, std::list<Entity *>*>)
+  _map(new std::list<Entity *>)
 {
 }
 
@@ -21,9 +21,7 @@ Map::~Map()
 {
   for (auto it = _map->begin() ; it != _map->end() ; it++)
     {
-      for (auto itList = (*it).second->begin() ; itList != (*it).second->end() ; itList++)
-	delete *itList;
-      delete (*it).second;
+      delete (*it);
     }
   delete _map;
 }
@@ -32,9 +30,9 @@ Map::~Map()
 
 //------------------------------------BEGIN METHODS-----------------------------------------
 
-void				Map::moveEntity(int const id, int const x, int const y, eMap const type)
+void				Map::moveEntity(int const id, int const x, int const y)
 {
-  for (auto it = (*_map)[type]->begin() ; it != (*_map)[type]->end() ; it++)
+  for (auto it = _map->begin() ; it != _map->end() ; it++)
     {
       if ((*it)->getId() == id)
 	{
@@ -45,37 +43,37 @@ void				Map::moveEntity(int const id, int const x, int const y, eMap const type)
     }
 }
 
-void				Map::addEntity(Entity *entity, eMap const type)
+void				Map::addEntity(Entity *entity)
 {
   if (entity)
-    (*_map)[type]->push_back(entity);
+    _map->push_back(entity);
 }
 
-void				Map::removeEntity(int const id, eMap const type)
+void				Map::removeEntity(int const id)
 {
-  for (auto it = (*_map)[type]->begin() ; it != (*_map)[type]->end() ; it++)
+  for (auto it = _map->begin() ; it != _map->end() ; it++)
     {
       if ((*it)->getId() == id)
 	{
 	  delete *it;
-	  (*_map)[type]->erase(it);
+	  _map->erase(it);
 	  break;
 	}      
     }
 }
 
-void				Map::clear(eMap const type)
+void				Map::clear()
 {
-  for (auto it = (*_map)[type]->begin() ; it != (*_map)[type]->end() ; it++)
+  for (auto it = _map->begin() ; it != _map->end() ; it++)
     {
       delete *it;
     }
-  (*_map)[type]->clear();
+  _map->clear();
 }
 
-bool				Map::exists(int const id, eMap const type) const
+bool				Map::exists(int const id) const
 {
-  for (auto it = (*_map)[type]->begin() ; it != (*_map)[type]->end() ; it++)
+  for (auto it = _map->begin() ; it != _map->end() ; it++)
     {
       if ((*it)->getId() == id)
 	return (true);

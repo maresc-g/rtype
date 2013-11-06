@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 23:37:40 2013 cyril jourdain
-// Last update Wed Nov  6 14:10:08 2013 cyril jourdain
+// Last update Wed Nov  6 17:50:46 2013 guillaume marescaux
 //
 
 #ifndef 		__LOBBYWINDOW_HH__
@@ -15,6 +15,7 @@
 #include		"Graphic/SFGraphics/Widgets/SFTextBox.hh"
 #include		"Graphic/SFGraphics/Widgets/SFImageBox.hh"
 #include		"Graphic/SFGraphics/Widgets/SFButton.hh"
+#include		"Core/Client.hh"
 
 class			LobbyWindow : public SFWindow
 {
@@ -25,9 +26,10 @@ private:
   SFButton		*_createButton;
   SFButton		*_refreshButton;
   SFButton		*_backButton;
-  
+  Client const		*_client;
+
 public:
-  LobbyWindow();
+  LobbyWindow(Client const *client);
   virtual ~LobbyWindow();
 
 public:

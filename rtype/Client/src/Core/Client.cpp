@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Tue Nov  5 18:22:26 2013 guillaume marescaux
+// Last update Wed Nov  6 17:44:53 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -16,16 +16,20 @@
 #include			"Core/Client.hh"
 #include			"Game/GameList.hh"
 #include			"Map/Map.hh"
+#include			"Error/SocketError.hpp"
 
 //----------------------------------BEGIN CTOR / DTOR---------------------------------------
 
 Client::Client():
+  Thread(),
   _ptrs(new std::map<Protocol::eProtocol, void(Client::*)(Trame const &)>),
   _sockets(new std::map<eSocket, Socket *>), _socketsClient(new std::map<eSocket, SocketClient *>),
-  _select(new Select), _protocol(new Protocol), _id(0)
+  _select(new Select), _protocol(new Protocol), _id(0),
+  _info(NULL)
 {
   // ptrs
   _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::WELCOME, &Client::welcome));
+  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::GAMELIST, &Client::gamelist));
   // sockets
   _sockets->insert(std::pair<eSocket, Socket *>(TCP, new Socket));
   _sockets->insert(std::pair<eSocket, Socket *>(UDP, new Socket));
@@ -68,12 +72,26 @@ std::map<std::string, std::string>	Client::initMapGameList()
 
 //--------------------------------BEGIN PRIVATE METHODS-------------------------------------
 
+void				Client::exec()
+{
+  bool				initialized = false;
+
+  while (!initialized)
+    {
+      while (!_info)
+	;
+      initialized = this->initialize();
+      delete _info;
+      _info = NULL;
+    }
+}
+
 void				Client::welcome(Trame const &trame)
 {
   _id = trame.getHeader().getId();
 }
 
-void				Client::getGamelist(Trame const &trame)
+void				Client::gamelist(Trame const &trame)
 {
   std::istringstream		iss(trame.getContent());
   std::istringstream		*tokenStream;
@@ -120,10 +138,10 @@ void				Client::entity(Trame const &trame)
   x = std::stoi(token);
   std::getline(iss, token, ';');
   y = std::stoi(token);
-  if (map->exists(id, Map::ENTITY))
-    map->moveEntity(id, x, y, Map::ENTITY);
+  if (map->exists(id))
+    map->moveEntity(id, x, y);
   else
-    map->addEntity(new Entity(id, x, y, static_cast<Entity::eEntity>(type)), Map::ENTITY);
+    map->addEntity(new Entity(id, x, y, static_cast<Entity::eEntity>(type)));
 }
 
 void				Client::scroll(Trame const &) { }
@@ -209,20 +227,23 @@ void				Client::read(long const sec, long const usec, bool setTimeout)
   this->readFromSocket(Client::UDP);
 }
 
-void				Client::initialize(void)
+bool				Client::initialize(void)
 {
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
   Trame				*tmp;
   Protocol::eProtocol		msgType;
 
-  (*_sockets)[TCP]->initialize("TCP");
-  (*_sockets)[UDP]->initialize("UDP");
-  (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr("10.11.46.148", 4241);
-  (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr("10.11.46.148", 4241);
-  if (!(*_socketsClient)[UDP] || !(*_socketsClient)[TCP])
+  try
     {
-      std::cerr << "SOCKET ERROR" << std::endl;
-      exit(1);
+      (*_sockets)[TCP]->initialize("TCP");
+      (*_sockets)[UDP]->initialize("UDP");
+      (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr("127.0.0.1", 4241);
+      (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr("127.0.0.1", 4241);
+    }
+  catch (SocketError &e)
+    {
+      std::cout << e.what() << std::endl;
+      return (false);
     }
   this->read(0, 0, false);
   tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
@@ -237,14 +258,11 @@ void				Client::initialize(void)
       this->read(0, 0, false);
       tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
       msgType = _protocol->getMsg(tmp);
+      if (msgType == Protocol::SERVERQUIT)
+	return (false);
       delete tmp;
     }
-  manager->pushTrame(new Trame(_id, 5, "UDP", "GAMELIST", true), CircularBufferManager::WRITE_BUFFER);
-  this->write();
-  this->read(0, 0, false);
-  tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
-  msgType = _protocol->getMsg(tmp);
-  this->getGamelist(*tmp);
+  return (true);
 }
 
 void				Client::destroy(void)
@@ -255,12 +273,19 @@ void				Client::destroy(void)
 
 void				Client::loop(void)
 {
-  // CircularBufferManager		*manager = CircularBufferManager::getInstance();
-  // Trame				*trame;
+  CircularBufferManager		*manager = CircularBufferManager::getInstance();
+  bool				run = true;
+  Trame				*tmp;
+  Protocol::eProtocol		msgType;
 
-  while (1)
+  while (run)
     {
-      // trame = new Trame(new Header(1), "toto\n");
+      manager->pushTrame(new Trame(_id, 5, "UDP", "GAMELIST", true), CircularBufferManager::WRITE_BUFFER);
+      this->write();
+      this->read(0, 0, false);
+      tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
+      msgType = _protocol->getMsg(tmp);
+      (this->*(*_ptrs)[msgType])(*tmp);
     }
 }
 

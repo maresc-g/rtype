@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 19:22:13 2013 cyril jourdain
-// Last update Wed Nov  6 14:14:13 2013 cyril jourdain
+// Last update Wed Nov  6 17:51:17 2013 guillaume marescaux
 //
 
 #ifndef 		__LOGINWINDOW_HH__
@@ -17,6 +17,7 @@
 #include		"Graphic/SFGraphics/Widgets/SFLabel.hh"
 #include		"Graphic/SFGraphics/Widgets/SFImageBox.hh"
 #include		"Graphic/SFGraphics/Widgets/SFButton.hh"
+#include		"Core/Client.hh"
 
 class			LoginWindow : public SFWindow
 {
@@ -26,10 +27,10 @@ private:
   SFTextBox		*_tbAddress;
   SFButton		*_bConnect;
   SFLabel		*_label;
-
+  Client const		*_client;
 
 public:
-  LoginWindow();
+  LoginWindow(Client const *client);
   virtual ~LoginWindow();
 
 public:

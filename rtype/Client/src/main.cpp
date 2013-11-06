@@ -5,23 +5,34 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Oct 25 11:18:47 2013 guillaume marescaux
-// Last update Wed Nov  6 14:17:41 2013 cyril jourdain
+// Last update Wed Nov  6 17:53:50 2013 guillaume marescaux
 //
 
 #include	"Socket/Socket.hpp"
 #include	"Game/GameList.hh"
 #include	"Core/Client.hh"
+#include	"Error/IError.hh"
 #include	"Graphic/ClientMain.hh"
+
+static void	*trampoline(void *param)
+{
+  Client	*tmp = reinterpret_cast<Client *>(param);
+
+  tmp->exec();
+  return (NULL);
+}
 
 int		main()
 {
-  //Client	*client = new Client;
-  ClientMain	*cMain = new ClientMain();
+  // Client	*client = new Client;
 
-  //client->initialize();
-  //client->destroy();
-  cMain->init();
-  cMain->launch();
-  //delete client;
+  // client->createThread(&trampoline, client);
+  // client->start();
+  // client->waitThread();
+  // client->destroy();
+  // delete client;
+  ClientMain	*clientMain = new ClientMain;
+
+  clientMain->init();
   return (0);
 }

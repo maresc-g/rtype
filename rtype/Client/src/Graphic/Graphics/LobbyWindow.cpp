@@ -5,15 +5,15 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Nov  4 16:14:46 2013 cyril jourdain
-// Last update Wed Nov  6 14:10:35 2013 cyril jourdain
+// Last update Wed Nov  6 17:51:40 2013 guillaume marescaux
 //
 
 #include		"Graphic/Graphics/LobbyWindow.hh"
 #include		"Graphic/Global.hh"
 #include		"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
 
-LobbyWindow::LobbyWindow() :
-  SFWindow(sf::FloatRect(0,0,WIN_X,WIN_Y))
+LobbyWindow::LobbyWindow(Client const *client) :
+  SFWindow(sf::FloatRect(0,0,WIN_X,WIN_Y)), _client(client)
 {
 
 }

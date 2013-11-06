@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:39:28 2013 guillaume marescaux
-// Last update Tue Nov  5 13:37:39 2013 guillaume marescaux
+// Last update Wed Nov  6 11:05:29 2013 guillaume marescaux
 //
 
 #include			<sstream>
@@ -38,6 +38,7 @@ Protocol::Protocol():
   _equivalent->insert(std::pair<std::string, eProtocol>("SCROLL", SCROLL));
   _equivalent->insert(std::pair<std::string, eProtocol>("DEAD", DEAD));
   _equivalent->insert(std::pair<std::string, eProtocol>("ENDGAME", ENDGAME));
+  _equivalent->insert(std::pair<std::string, eProtocol>("SERVERQUIT", SERVERQUIT));
 }
 
 Protocol::~Protocol()
