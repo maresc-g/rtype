@@ -5,12 +5,17 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Mon Nov  4 17:29:55 2013 guillaume marescaux
+// Last update Tue Nov  5 18:22:26 2013 guillaume marescaux
 //
 
-#include <string.h>
 #include <iostream>
+
+#include			<string.h>
+#include			<map>
+#include			<sstream>
 #include			"Core/Client.hh"
+#include			"Game/GameList.hh"
+#include			"Map/Map.hh"
 
 //----------------------------------BEGIN CTOR / DTOR---------------------------------------
 
@@ -50,6 +55,17 @@ Client::~Client()
 
 //-----------------------------------END CTOR / DTOR----------------------------------------
 
+std::map<std::string, std::string>	Client::initMapGameList()
+{
+  std::map<std::string, std::string>	map;
+
+  map.insert(std::pair<std::string, std::string>("id", ""));
+  map.insert(std::pair<std::string, std::string>("name", ""));
+  map.insert(std::pair<std::string, std::string>("numPlayer", ""));
+  map.insert(std::pair<std::string, std::string>("level", ""));
+  return (map);
+}
+
 //--------------------------------BEGIN PRIVATE METHODS-------------------------------------
 
 void				Client::welcome(Trame const &trame)
@@ -57,16 +73,59 @@ void				Client::welcome(Trame const &trame)
   _id = trame.getHeader().getId();
 }
 
-void				Client::getGamelist(Trame const &)
+void				Client::getGamelist(Trame const &trame)
 {
+  std::istringstream		iss(trame.getContent());
+  std::istringstream		*tokenStream;
+  std::string			token;
+  static std::map<std::string, std::string>	map = Client::initMapGameList();
+  GameList			*gameList = GameList::getInstance();
+
+  while (iss.good() && !iss.str().empty())
+    {
+      iss >> token;
+      std::cout << token << std::endl;
+      tokenStream = new std::istringstream(token);
+      std::getline(*tokenStream, map["id"], ';');
+      std::getline(*tokenStream, map["name"], ';');
+      std::getline(*tokenStream, map["numPlayer"], ';');
+      std::getline(*tokenStream, map["level"], ';');
+      gameList->addGame(new GameInfo(std::stoi(map["id"]), map["name"], std::stoi(map["numPlayer"]), std::stoi(map["level"])));
+      delete tokenStream;
+    }
 }
+
 void				Client::ok(Trame const &) { }
 void				Client::ko(Trame const &) { }
 void				Client::launchGame(Trame const &) { }
-void				Client::map(Trame const &) { }
-void				Client::enemy(Trame const &) { }
-void				Client::projectile(Trame const &) { }
-void				Client::player(Trame const &) { }
+void				Client::map(Trame const &)
+{
+}
+
+void				Client::entity(Trame const &trame)
+{
+  Map				*map = Map::getInstance();
+  std::istringstream		iss(trame.getContent());
+  std::string			token;
+  int				id;
+  int				type;
+  int				x;
+  int				y;
+
+  std::getline(iss, token, ';');
+  id = std::stoi(token);
+  std::getline(iss, token, ';');
+  type = std::stoi(token);
+  std::getline(iss, token, ';');
+  x = std::stoi(token);
+  std::getline(iss, token, ';');
+  y = std::stoi(token);
+  if (map->exists(id, Map::ENTITY))
+    map->moveEntity(id, x, y, Map::ENTITY);
+  else
+    map->addEntity(new Entity(id, x, y, static_cast<Entity::eEntity>(type)), Map::ENTITY);
+}
+
 void				Client::scroll(Trame const &) { }
 void				Client::dead(Trame const &) { }
 void				Client::endGame(Trame const &) { }
@@ -158,8 +217,13 @@ void				Client::initialize(void)
 
   (*_sockets)[TCP]->initialize("TCP");
   (*_sockets)[UDP]->initialize("UDP");
-  (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr("127.0.0.1", 4243);
-  (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr("127.0.0.1", 4243);
+  (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr("10.11.46.148", 4241);
+  (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr("10.11.46.148", 4241);
+  if (!(*_socketsClient)[UDP] || !(*_socketsClient)[TCP])
+    {
+      std::cerr << "SOCKET ERROR" << std::endl;
+      exit(1);
+    }
   this->read(0, 0, false);
   tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
   msgType = _protocol->getMsg(tmp);
@@ -168,9 +232,19 @@ void				Client::initialize(void)
   delete tmp;
   _protocol->protocolMsg(Protocol::INITIALIZE, _id, NULL);
   this->write();
+  while (msgType != Protocol::CHECK)
+    {
+      this->read(0, 0, false);
+      tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
+      msgType = _protocol->getMsg(tmp);
+      delete tmp;
+    }
+  manager->pushTrame(new Trame(_id, 5, "UDP", "GAMELIST", true), CircularBufferManager::WRITE_BUFFER);
+  this->write();
   this->read(0, 0, false);
   tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
-  delete tmp;
+  msgType = _protocol->getMsg(tmp);
+  this->getGamelist(*tmp);
 }
 
 void				Client::destroy(void)

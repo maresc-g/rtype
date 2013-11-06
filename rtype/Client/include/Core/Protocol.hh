@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:33:27 2013 guillaume marescaux
-// Last update Mon Nov  4 16:12:32 2013 guillaume marescaux
+// Last update Tue Nov  5 13:35:45 2013 guillaume marescaux
 //
 
 #ifndef 		__PROTOCOL_HH__
@@ -35,9 +35,7 @@ public:
       KO,
       LAUNCHGAME,
       MAP,
-      ENEMY,
-      PROJECTILE,
-      PLAYER,
+      ENTITY,
       SCROLL,
       DEAD,
       ENDGAME,

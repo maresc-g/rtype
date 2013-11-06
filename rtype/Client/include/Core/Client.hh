@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:26 2013 guillaume marescaux
-// Last update Mon Nov  4 16:43:23 2013 guillaume marescaux
+// Last update Tue Nov  5 13:36:54 2013 guillaume marescaux
 //
 
 #ifndef 		__CLIENT_HH__
@@ -56,6 +56,7 @@ private:
   // Private Methods
   void			writeToSocket(Trame const &trame, eSocket sock);
   void			readFromSocket(eSocket sock);
+  static std::map<std::string, std::string>	initMapGameList(void);
 
   void			welcome(Trame const &trame);
   void			getGamelist(Trame const &trame);
@@ -63,9 +64,7 @@ private:
   void			ko(Trame const &trame);
   void			launchGame(Trame const &trame);
   void			map(Trame const &trame);
-  void			enemy(Trame const &trame);
-  void			projectile(Trame const &trame);
-  void			player(Trame const &trame);
+  void			entity(Trame const &trame);
   void			scroll(Trame const &trame);
   void			dead(Trame const &trame);
   void			endGame(Trame const &trame);

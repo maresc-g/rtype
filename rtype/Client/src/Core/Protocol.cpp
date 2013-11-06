@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:39:28 2013 guillaume marescaux
-// Last update Mon Nov  4 16:03:36 2013 guillaume marescaux
+// Last update Tue Nov  5 13:37:39 2013 guillaume marescaux
 //
 
 #include			<sstream>
@@ -34,9 +34,7 @@ Protocol::Protocol():
   _equivalent->insert(std::pair<std::string, eProtocol>("KO", KO));
   _equivalent->insert(std::pair<std::string, eProtocol>("LAUNCHGAME", LAUNCHGAME));
   _equivalent->insert(std::pair<std::string, eProtocol>("MAP", MAP));
-  _equivalent->insert(std::pair<std::string, eProtocol>("ENEMY", ENEMY));
-  _equivalent->insert(std::pair<std::string, eProtocol>("PROJECTILE", PROJECTILE));
-  _equivalent->insert(std::pair<std::string, eProtocol>("PLAYER", PLAYER));
+  _equivalent->insert(std::pair<std::string, eProtocol>("ENTITY", ENTITY));
   _equivalent->insert(std::pair<std::string, eProtocol>("SCROLL", SCROLL));
   _equivalent->insert(std::pair<std::string, eProtocol>("DEAD", DEAD));
   _equivalent->insert(std::pair<std::string, eProtocol>("ENDGAME", ENDGAME));
@@ -69,6 +67,9 @@ Protocol::eProtocol		Protocol::getMsg(Trame *trame)
   pos = tmp2.find(END_TRAME);
   if (pos != std::string::npos)
     tmp2.erase(pos, pos + std::string(END_TRAME).size());
+  pos = tmp.find(END_TRAME);
+  if (pos != std::string::npos)
+    tmp.erase(pos, pos + std::string(END_TRAME).size());
   trame->setContent(tmp2);
   return ((*_equivalent)[tmp]);
 }

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 15:03:05 2013 guillaume marescaux
-// Last update Tue Oct 29 15:32:50 2013 guillaume marescaux
+// Last update Tue Nov  5 12:55:29 2013 guillaume marescaux
 //
 
 #include			"Game/GameList.hh"
@@ -15,20 +15,6 @@
 GameList::GameList():
   _games(new std::list<GameInfo *>)
 {
-}
-
-GameList::GameList(GameList const &other):
-  _games(new std::list<GameInfo *>(*other._games))
-{
-}
-
-GameList			&GameList::operator=(GameList const &other)
-{
-  if (this != &other)
-    {
-      _games = new std::list<GameInfo *>(*other._games);
-    }
-  return (*this);
 }
 
 GameList::~GameList()
@@ -46,7 +32,30 @@ GameList::~GameList()
 
 void				GameList::addGame(GameInfo *gameInfo)
 {
-  _games->push_back(gameInfo);
+  if (gameInfo)
+    _games->push_back(gameInfo);
+}
+
+void				GameList::removeGame(int id)
+{
+  for (auto it = _games->begin() ; it != _games->end() ; it++)
+    {
+      if ((*it)->getId() == id)
+	{
+	  delete *it;
+	  _games->erase(it);
+	  break;
+	}      
+    }
+}
+
+void				GameList::clear()
+{
+  for (auto it = _games->begin() ; it != _games->end() ; it++)
+    {
+      delete *it;
+    }
+  _games->clear();
 }
 
 //------------------------------------END METHODS--------------------------------------
