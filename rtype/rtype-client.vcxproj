@@ -49,10 +49,13 @@
       <WarningLevel>Level2</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
+      <AdditionalIncludeDirectories>C:\SFML-2.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
+      <AdditionalLibraryDirectories>C:\SFML-2.1\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>sfml-graphics.lib;sfml-window.lib;sfml-system.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -74,6 +77,19 @@
     <ClCompile Include="Client\src\Core\Protocol.cpp" />
     <ClCompile Include="Client\src\Game\GameInfo.cpp" />
     <ClCompile Include="Client\src\Game\GameList.cpp" />
+    <ClCompile Include="Client\src\Graphic\ClientMain.cpp" />
+    <ClCompile Include="Client\src\Graphic\Graphics\LobbyWindow.cpp" />
+    <ClCompile Include="Client\src\Graphic\Graphics\LoginWindow.cpp" />
+    <ClCompile Include="Client\src\Graphic\SFGraphics\SFButton.cpp" />
+    <ClCompile Include="Client\src\Graphic\SFGraphics\SFFontLoader.cpp" />
+    <ClCompile Include="Client\src\Graphic\SFGraphics\SFImageBox.cpp" />
+    <ClCompile Include="Client\src\Graphic\SFGraphics\SFImageLoader.cpp" />
+    <ClCompile Include="Client\src\Graphic\SFGraphics\SFLabel.cpp" />
+    <ClCompile Include="Client\src\Graphic\SFGraphics\SFRessourcesManager.cpp" />
+    <ClCompile Include="Client\src\Graphic\SFGraphics\SFTextBox.cpp" />
+    <ClCompile Include="Client\src\Graphic\SFGraphics\SFWidget.cpp" />
+    <ClCompile Include="Client\src\Graphic\SFGraphics\SFWindow.cpp" />
+    <ClCompile Include="Client\src\Graphic\SFGraphics\WindowManager.cpp" />
     <ClCompile Include="Client\src\main.cpp" />
     <ClCompile Include="Client\src\Map\Entity.cpp" />
     <ClCompile Include="Client\src\Map\Map.cpp" />
@@ -97,6 +113,21 @@
     <None Include="Client\include\Core\Protocol.hh" />
     <None Include="Client\include\Game\GameInfo.hh" />
     <None Include="Client\include\Game\GameList.hh" />
+    <None Include="Client\include\Graphic\ClientMain.hh" />
+    <None Include="Client\include\Graphic\Global.hh" />
+    <None Include="Client\include\Graphic\Graphics\LobbyWindow.hh" />
+    <None Include="Client\include\Graphic\Graphics\LoginWindow.hh" />
+    <None Include="Client\include\Graphic\SFGraphics\Ressources\SFFontLoader.hh" />
+    <None Include="Client\include\Graphic\SFGraphics\Ressources\SFImageLoader.hh" />
+    <None Include="Client\include\Graphic\SFGraphics\Ressources\SFRessourcesManager.hh" />
+    <None Include="Client\include\Graphic\SFGraphics\Widgets\SFButton.hh" />
+    <None Include="Client\include\Graphic\SFGraphics\Widgets\SFConnect.hh" />
+    <None Include="Client\include\Graphic\SFGraphics\Widgets\SFImageBox.hh" />
+    <None Include="Client\include\Graphic\SFGraphics\Widgets\SFLabel.hh" />
+    <None Include="Client\include\Graphic\SFGraphics\Widgets\SFTextBox.hh" />
+    <None Include="Client\include\Graphic\SFGraphics\Widgets\SFWidget.hh" />
+    <None Include="Client\include\Graphic\SFGraphics\Widgets\SFWindow.hh" />
+    <None Include="Client\include\Graphic\SFGraphics\Widgets\WindowManager.hh" />
     <None Include="Client\include\Map\Entity.hh" />
     <None Include="Client\include\Map\Map.hh" />
     <None Include="Common\include\CircularBufferManager\CircularBufferManager.hh" />
