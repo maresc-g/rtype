@@ -94,9 +94,11 @@
     <ClCompile Include="Server\src\DynamicLibrary\DynamicLibraryUpdater.cpp" />
     <ClCompile Include="Server\src\DynamicLibrary\UnixDynamicLibrary.cpp" />
     <ClCompile Include="Server\src\DynamicLibrary\WindowsDynamicLibrary.cpp" />
+    <ClCompile Include="Server\src\Entities\ACharacter.cpp" />
     <ClCompile Include="Server\src\Entities\AEntity.cpp" />
     <ClCompile Include="Server\src\Entities\Coordinate.cpp" />
     <ClCompile Include="Server\src\Entities\Mob.cpp" />
+    <ClCompile Include="Server\src\Entities\Player.cpp" />
     <ClCompile Include="Server\src\FileSystem\Directory.cpp" />
     <ClCompile Include="Server\src\FileSystem\Entry.cpp" />
     <ClCompile Include="Server\src\FileSystem\File.cpp" />
@@ -140,9 +142,11 @@
     <None Include="Server\include\DynamicLibrary\IDynamicLibrary.hh" />
     <None Include="Server\include\DynamicLibrary\UnixDynamicLibrary.hh" />
     <None Include="Server\include\DynamicLibrary\WindowsDynamicLibrary.hh" />
+    <None Include="Server\include\Entities\ACharacter.hh" />
     <None Include="Server\include\Entities\AEntity.hh" />
     <None Include="Server\include\Entities\Coordinate.hh" />
     <None Include="Server\include\Entities\Mob.hh" />
+    <None Include="Server\include\Entities\Player.hh" />
     <None Include="Server\include\FileSystem\Directory.hh" />
     <None Include="Server\include\FileSystem\Entry.hh" />
     <None Include="Server\include\FileSystem\File.hh" />
