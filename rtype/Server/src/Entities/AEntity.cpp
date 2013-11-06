@@ -45,7 +45,7 @@ AEntity			&AEntity::operator=(AEntity const &rhs)
   return (*this);
 }
 
-bool			AEntity::checkCollision(AEntity const &other __attribute__((unused))) const
+bool			AEntity::checkCollision(AEntity const &) const
 {
   return (false);
 }

@@ -14,7 +14,8 @@
 #ifndef _WIN32
 #include <unistd.h>
 #else
-#include	<windows.h>
+#define _WINSOCKAPI_ 
+#include	<Windows.h>
 #endif
 #include	"ClientInfo/ClientInfo.hh"
 #include	"Level/LevelManager.hh"

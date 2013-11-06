@@ -6,7 +6,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov  6 14:30:36 2013 antoine maitre
+// Last update Wed Nov  6 15:05:28 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -33,10 +33,12 @@ void GameLoop::loop()
 {
   while (!this->_levelManag->getEndGame())
     {
+#ifndef _WIN32
       usleep(125000);
       this->_levelManag->incAdv();
       for (std::list<PlayerInfo *>::iterator it = _clients.begin(); it != _clients.end(); ++it)
 	(*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
+#endif
     }
 }
 

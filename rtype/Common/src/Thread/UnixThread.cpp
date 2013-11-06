@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 13:25:46 2013 laurent ansel
-// Last update Wed Nov  6 10:24:06 2013 alexis mestag
+// Last update Wed Nov  6 10:43:30 2013 laurent ansel
 //
 
 #ifndef			_WIN32
@@ -13,7 +13,7 @@
 #include		"Thread/UnixThread.hh"
 
 UnixThread::UnixThread():
-  _allowedToStart(false), _cond(new PthreadCondition), _func(NULL)
+  _cond(new PthreadCondition), _func(NULL), _start(false)
 {
 
 }
@@ -22,17 +22,21 @@ UnixThread::~UnixThread()
 {
   if (this->_cond)
     {
+      this->_cond->destroyCond();
       delete this->_cond;
     }
 }
 
-int			UnixThread::start()
+bool			UnixThread::getStart() const
 {
-  _allowedToStart = true;
-  return (this->_cond->wakeUp());
+  return (this->_start);
 }
 
-#include		<iostream>
+int			UnixThread::start()
+{
+  this->_start = true;
+  return (this->_cond->wakeUp());
+}
 
 static void		*tmpThread(void *data)
 {
@@ -40,7 +44,7 @@ static void		*tmpThread(void *data)
 
   if (thread->getCond())
     {
-      while (!thread->isAllowedToStart())
+      while (!thread->getStart())
 	thread->getCond()->waitEvent();
       return (thread->getFunc()(thread->getData()));
     }
@@ -57,8 +61,6 @@ int			UnixThread::createThread(void *(*func)(void *), void *data)
 
 void			UnixThread::destroyThread()
 {
-  if (this->_cond)
-    delete this->_cond;
   pthread_exit(&this->_thread);
 }
 
@@ -80,11 +82,6 @@ CallBack		UnixThread::getFunc()
 void			*UnixThread::getData()
 {
   return (this->_data);
-}
-
-bool			UnixThread::isAllowedToStart() const
-{
-  return (_allowedToStart);
 }
 
 #endif

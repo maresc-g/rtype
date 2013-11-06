@@ -8,7 +8,11 @@
 // Last update Tue Nov  5 21:52:45 2013 alexis mestag
 //
 
+#ifndef _WIN32
 #include			<unistd.h>
+#else
+#include			<Windows.h>
+#endif
 #include			<iostream>
 #include			"DynamicLibrary/DynamicLibraryUpdater.hh"
 
@@ -22,7 +26,11 @@ static void			*run(void *data)
   i = 0;
   while (i < 5)
     {
-      sleep(dlu->getTimer());
+#ifndef _WIN32
+		sleep(dlu->getTimer());
+#else
+		Sleep(dlu->getTimer());
+#endif
       std::cout << "Coucou, I'm watching the '" << dlu->getDirectory().getPath() << "' directory"
 		<< std::endl;
       dlu->updateLibraries();

@@ -5,13 +5,14 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:43:58 2013 guillaume marescaux
-// Last update Wed Nov  6 14:41:14 2013 antoine maitre
+// Last update Wed Nov  6 15:04:25 2013 antoine maitre
 //
 
 #ifndef 		__PLAYER_HH__
 # define 		__PLAYER_HH__
 
 #include		"ACharacter.hh"
+#include		<string>
 
 class			Player : public ACharacter
 {

@@ -12,7 +12,11 @@
 # define 			__SELECT_HH__
 
 #include			<map>
+#ifndef _WIN32
 #include			<sys/select.h>
+#else
+#include			<Windows.h>
+#endif
 #include			<stdlib.h>
 
 class				Select

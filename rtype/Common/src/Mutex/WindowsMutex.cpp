@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 12:57:22 2013 laurent ansel
-// Last update Mon Oct 28 16:38:55 2013 laurent ansel
+// Last update Wed Nov  6 10:34:29 2013 laurent ansel
 //
 
 #ifdef _WIN32
@@ -23,27 +23,33 @@ WindowsMutex::~WindowsMutex()
 
 void			WindowsMutex::initialize()
 {
+  this->_init = true;
   InitializeCriticalSection(&_section);
 }
 
 void			WindowsMutex::destroy()
 {
-  DeleteCriticalSection(&_section);
+  if (this->_init)
+    DeleteCriticalSection(&_section);
 }
 
 void			WindowsMutex::enter()
 {
-  EnterCriticalSection(&_section);
+  if (this->_init)
+    EnterCriticalSection(&_section);
 }
 
 int			WindowsMutex::tryEnter()
 {
-  return (TryEnterCriticalSection(&_section));
+  if (this->_init)
+    return (TryEnterCriticalSection(&_section));
+  return (-1);
 }
 
 void			WindowsMutex::leave()
 {
-  LeaveCriticalSection(&_section);
+  if (this->_init)
+    LeaveCriticalSection(&_section);
 }
 
 #endif
