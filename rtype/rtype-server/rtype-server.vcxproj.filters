@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Fichiers sources">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Fichiers d%27en-tête">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Fichiers de ressources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Server\src\Action\Action.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\ClientInfo\ClientInfo.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\Command\Command.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\DynamicLibrary\ADynamicLibrary.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\DynamicLibrary\DynamicLibrary.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\DynamicLibrary\DynamicLibraryManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\DynamicLibrary\DynamicLibraryUpdater.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\DynamicLibrary\UnixDynamicLibrary.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\DynamicLibrary\WindowsDynamicLibrary.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\Entities\AEntity.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\Entities\Coordinate.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\Entities\Mob.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\FileSystem\Directory.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\FileSystem\Entry.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\FileSystem\File.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\GameLoop\GameLibraries.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\GameLoop\GameLoop.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\GameLoop\GameLoopManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\GameLoop\PlayerInfo.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\Level\Level.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\Level\LevelManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\Level\Map.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\Server\Server.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Server\src\main.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\src\CircularBufferManager\CircularBufferManager.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\src\CircularBufferManager\CircularBuffer\CircularBuffer.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\src\CircularBufferManager\CircularBuffer\Trame\Trame.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\src\CircularBufferManager\CircularBuffer\Trame\Header\Header.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\src\Mutex\UnixMutex.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\src\Mutex\WindowsMutex.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\src\Select\Select.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\src\Socket\UnixSocket.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\src\Socket\UnixSocketClient.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\src\Socket\WindowsSocket.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\src\Socket\WindowsSocketClient.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\src\Thread\PthreadCondition.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\src\Thread\UnixThread.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Common\src\Thread\WindowsThread.cpp">
+      <Filter>Fichiers sources</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Common\include\CircularBufferManager\CircularBufferManager.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\CircularBufferManager\CircularBuffer\CircularBuffer.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\CircularBufferManager\CircularBuffer\Trame\Trame.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\CircularBufferManager\CircularBuffer\Trame\Header\Header.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\Error\IError.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\Mutex\IMutex.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\Mutex\UnixMutex.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\Mutex\WindowsMutex.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\Select\Select.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\Socket\ISocket.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\Socket\ISocketClient.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\Socket\UnixSocket.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\Socket\UnixSocketClient.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\Socket\WindowsSocket.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\Socket\WindowsSocketClient.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\Thread\IThread.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\Thread\PthreadCondition.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\Thread\UnixThread.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Common\include\Thread\WindowsThread.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\Action\Action.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\ClientInfo\ClientInfo.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\Command\Command.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\DynamicLibrary\ADynamicLibrary.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\DynamicLibrary\DynamicLibrary.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\DynamicLibrary\DynamicLibraryManager.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\DynamicLibrary\DynamicLibraryUpdater.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\DynamicLibrary\IDynamicLibrary.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\DynamicLibrary\UnixDynamicLibrary.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\DynamicLibrary\WindowsDynamicLibrary.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\Entities\AEntity.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\Entities\Coordinate.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\Entities\Mob.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\FileSystem\Directory.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\FileSystem\Entry.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\FileSystem\File.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\GameLoop\GameLibraries.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\GameLoop\GameLoop.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\GameLoop\GameLoopManager.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\GameLoop\PlayerInfo.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\Level\Level.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\Level\LevelManager.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\Level\Map.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+    <None Include="..\Server\include\Server\Server.hh">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Common\include\Error\SocketError.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\include\Mutex\Mutex.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\include\Socket\Socket.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\include\Socket\SocketClient.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\include\Thread\Thread.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Common\include\Utility\Singleton.hpp">
+      <Filter>Fichiers d%27en-tête</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
