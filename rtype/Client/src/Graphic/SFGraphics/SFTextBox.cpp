@@ -102,9 +102,9 @@ void		SFTextBox::setMask(StringMask mask)
 
 void		SFTextBox::setBoxSize(int const size)
 {
-  _vertices[1].position.x = size;
-  _vertices[2].position.x = size;
-  _size->x = size;
+  _vertices[1].position.x = static_cast<float>(size);
+  _vertices[2].position.x = static_cast<float>(size);
+  _size->x = static_cast<float>(size);
   *_bounds = _vertices.getBounds();
 }
 

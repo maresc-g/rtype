@@ -20,9 +20,9 @@ SFImageBox::SFImageBox(sf::Texture *texture) :
 {
   if (texture) {
     _vertices[0].texCoords = sf::Vector2f(0, 0);
-    _vertices[1].texCoords = sf::Vector2f(texture->getSize().x, 0);
-    _vertices[2].texCoords = sf::Vector2f(texture->getSize().x, texture->getSize().y);
-    _vertices[3].texCoords = sf::Vector2f(0, texture->getSize().y);
+    _vertices[1].texCoords = sf::Vector2f(static_cast<float>(texture->getSize().x), 0);
+    _vertices[2].texCoords = sf::Vector2f(static_cast<float>(texture->getSize().x), static_cast<float>(texture->getSize().y));
+    _vertices[3].texCoords = sf::Vector2f(0, static_cast<float>(texture->getSize().y));
   }
 }
 
@@ -35,9 +35,9 @@ void			SFImageBox::setTexture(sf::Texture *texture)
   if (texture)
     {
       _vertices[0].texCoords = sf::Vector2f(0, 0);
-      _vertices[1].texCoords = sf::Vector2f(texture->getSize().x, 0);
-      _vertices[2].texCoords = sf::Vector2f(texture->getSize().x, texture->getSize().y);
-      _vertices[3].texCoords = sf::Vector2f(0, texture->getSize().y);
+      _vertices[1].texCoords = sf::Vector2f(static_cast<float>(texture->getSize().x), 0);
+      _vertices[2].texCoords = sf::Vector2f(static_cast<float>(texture->getSize().x), static_cast<float>(texture->getSize().y));
+      _vertices[3].texCoords = sf::Vector2f(0, static_cast<float>(texture->getSize().y));
     }
   _backgroundTexture = texture;
 }

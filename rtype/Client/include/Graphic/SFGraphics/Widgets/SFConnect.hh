@@ -30,8 +30,10 @@ private:
   };
   struct s_ObjConnect
   {
+  public:
+	  s_ObjConnect() : _callbackList(new std::map<sf::Event::EventType, EventCallback *>){}
   private:
-    std::map<sf::Event::EventType, EventCallback *>	_callbackList;
+    std::map<sf::Event::EventType, EventCallback *>	*_callbackList;
     SFWidget			*_caller;
   public:
     SFWidget			*getCaller() {return _caller;};
@@ -53,9 +55,9 @@ private:
 					    void *param,
 					    const T& target)
     {
-      _callbackList[type] = new EventCallback();
-      _callbackList[type]->_function = std::bind(func, target, std::placeholders::_1);
-      _callbackList[type]->_param = param;
+      (*_callbackList)[type] = new EventCallback();
+      (*_callbackList)[type]->_function = std::bind(func, target, std::placeholders::_1);
+      (*_callbackList)[type]->_param = param;
     }
     void			setCaller(SFWidget *caller)
     {
@@ -63,8 +65,8 @@ private:
     }
     void			call(sf::Event::EventType type)
     {
-      if (_callbackList.find(type) != _callbackList.end())
-	_callbackList[type]->_function(_callbackList[type]->_param);
+		if (_callbackList->find(type) != _callbackList->end())
+		(*_callbackList)[type]->_function((*_callbackList)[type]->_param);
     }
   };
 
@@ -93,8 +95,9 @@ public:
   {
     if (focus)
       {
-	auto obj = find(_functionList.begin(), _functionList.end(), focus);
-	obj->call(event->type);
+		auto obj = find(_functionList.begin(), _functionList.end(), focus);
+		if (obj != _functionList.end())
+			obj->call(event->type);
       }
   }
 };

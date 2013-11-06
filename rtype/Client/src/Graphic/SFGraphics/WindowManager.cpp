@@ -47,7 +47,7 @@ void		WindowManager::draw() const
 
 bool		WindowManager::clickEvent(sf::Event const &mouse)
 {
-  int x, y;
+  float x, y;
   bool	obj = false;
   bool	win = false;
 
