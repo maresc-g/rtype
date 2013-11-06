@@ -11,6 +11,8 @@
 #ifndef 			__PTHREADCONDITION_HH__
 # define 			__PTHREADCONDITION_HH__
 
+#ifndef _WIN32
+
 #include			<pthread.h>
 #include			"Mutex/UnixMutex.hh"
 
@@ -28,5 +30,7 @@ public:
   int				wakeUpAll();
   int				waitEvent();
 };
+
+#endif
 
 #endif

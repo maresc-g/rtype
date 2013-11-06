@@ -10,6 +10,7 @@
 
 #ifdef _WIN32
 
+#include			"Error/SocketError.hpp"
 #include			"Socket/WindowsSocket.hh"
 #include			"Socket/WindowsSocketClient.hh"
 
@@ -88,7 +89,7 @@ int				WindowsSocket::listenSocket()
   return (0);
 }
 
-SocketClient const		&UnixSocket::getSocket() const
+SocketClient const		&WindowsSocket::getSocket() const
 {
   return (*this->_currentSocket);
 }
@@ -104,12 +105,12 @@ SocketClient			*WindowsSocket::connectToAddr(std::string const &addr, int const 
   thisHost = gethostbyname(addr.c_str());
   ip = inet_ntoa(*(struct in_addr *)*thisHost->h_addr_list);
   addrClient->sin_addr.s_addr = inet_addr(ip);
-  if (this->_proto == "TCP" && (WSAConnect(this->_socket, (SOCKADDR *)addrClient, *sizeof(addrClient), NULL, NULL, NULL, NULL)) == SOCKET_ERROR)
+  if (this->_proto == "TCP" && (WSAConnect(this->_socket, (SOCKADDR *)addrClient, sizeof(*addrClient), NULL, NULL, NULL, NULL)) == SOCKET_ERROR)
     {
       throw SocketError("server not found");
       return (NULL);
     }
-  this->_currentSocket->setAddr(sin);
+  this->_currentSocket->setAddr(addrClient);
   return (this->_currentSocket);
 }
 
@@ -126,7 +127,7 @@ SocketClient			*WindowsSocket::acceptConnection()
 
 void				WindowsSocket::initAddr()
 {
-  this->_addr = new sockaddr_in;
+   this->_currentSocket->setAddr(new sockaddr_in);
 }
 
 #endif

@@ -31,7 +31,7 @@ public:
   virtual int			destroy();
   virtual int			bindSocket(int const);
   virtual int			listenSocket();
-  virtual SocketClient		*getSocket() const;
+  virtual SocketClient const		&getSocket() const;
   virtual SocketClient		*connectToAddr(std::string const &, int const);
   virtual SocketClient		*acceptConnection();
   virtual void			initAddr();

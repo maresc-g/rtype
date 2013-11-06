@@ -14,6 +14,7 @@
 
 # ifdef _WIN32
 
+#define _WINSOCKAPI_
 #  include		<Windows.h>
 #  include		<direct.h>
 #  include		"DynamicLibrary/ADynamicLibrary.hh"

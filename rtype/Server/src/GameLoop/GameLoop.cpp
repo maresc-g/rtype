@@ -30,7 +30,9 @@ void GameLoop::loop()
 {
   while (!this->_levelManag->getEndGame())
     {
+#ifndef _WIN32
       usleep(125000);
+#endif
       this->_currentScreen++;
     }
 }

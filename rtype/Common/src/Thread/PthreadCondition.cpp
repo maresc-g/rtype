@@ -10,6 +10,8 @@
 
 #include			"Thread/PthreadCondition.hh"
 
+#ifndef _WIN32
+
 PthreadCondition::PthreadCondition():
   _init(false)
 {
@@ -50,3 +52,5 @@ int				PthreadCondition::waitEvent()
 {
   return (pthread_cond_wait(&this->_cond, &this->_mutex));
 }
+
+#endif

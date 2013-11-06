@@ -11,6 +11,8 @@
 #ifndef 		__PLAYER_HH__
 # define 		__PLAYER_HH__
 
+#include		<string>
+
 class			Player
 {
 
