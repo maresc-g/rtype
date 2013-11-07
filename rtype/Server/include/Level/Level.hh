@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 16:17:37 2013 antoine maitre
-// Last update Wed Nov  6 12:30:59 2013 antoine maitre
+// Last update Thu Nov  7 13:21:55 2013 antoine maitre
 //
  
 #ifndef	__LEVEL_HH__
@@ -32,8 +32,8 @@ public:
   int getDiff();
   void incAdv();
   int getAdv() const;
-  std::list<Mob *> &getEnemies();
-  std::list<Player *> &getPlayers();
+  std::list<AEntity *> &getEnemies();
+  std::list<AEntity *> &getPlayers();
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Wed Nov  6 14:49:23 2013 antoine maitre
+// Last update Wed Nov  6 17:41:52 2013 antoine maitre
 //
 
 #include "GameLoop/PlayerInfo.hh"
@@ -22,7 +22,7 @@ PlayerInfo::~PlayerInfo()
 
 }
 
-Player		*PlayerInfo::getPlayer() const
+AEntity		*PlayerInfo::getPlayer() const
 {
   return (this->_player);
 }
@@ -61,4 +61,6 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
     {
       act.setFire(false);
     }
+  if (coord->getX() == adv)
+    this->_player->move(coord->getX() + 1, coord->getY());
 }

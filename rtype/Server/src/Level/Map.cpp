@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Wed Nov  6 14:51:28 2013 antoine maitre
+// Last update Thu Nov  7 16:05:28 2013 antoine maitre
 //
 
 #include "Level/Map.hh"
@@ -21,7 +21,6 @@ Map::Map(std::string _path)
   int y;
   std::ostringstream oss;
 
-
   if(fichier)
     {
       std::getline(fichier, contenu);
@@ -30,8 +29,8 @@ Map::Map(std::string _path)
       contenu = contenu.substr(contenu.find("x") + 1, contenu.size() - contenu.find("x"));
       this->_y = std::stoi(contenu);
       this->_map = new std::vector<std::string>();
-      for (int i = 0; i < this->_y ; i++)
-	(*this->_map).push_back(std::string(this->_x, '0'));
+      for (int i = 0; i < SCREENY ; i++)
+	(*this->_map).push_back(std::string(SCREENX, '0'));
       while (std::getline(fichier, contenu))
       	{
       	  op = contenu.substr(0, contenu.find(";"));
@@ -44,7 +43,7 @@ Map::Map(std::string _path)
 	  oss << type;
 	  pathMob = _path.substr(0, _path.size() - 3) + oss.str() + ".conf";
 	  oss.str("");
-      	  _enemies.push_back(new Mob(x, y, pathMob, 0, true));
+      	  _enemiesStatic.push_back(new Mob(x, y, pathMob, 0, true));
       	}
       fichier.close();
     }
@@ -66,26 +65,30 @@ void	Map::setEnemies()
 {
   const Coordinate *toto;
 
-  for (std::list<Mob *>::iterator it = _enemies.begin(); it != _enemies.end(); ++it)
+  for (std::list<AEntity *>::iterator it = _enemies.begin(); it != _enemies.end(); ++it)
     {
       toto = (*it)->getCoord();
-      for (int i = toto->getY(); i < toto->getY() + (*it)->getLargeur(); i++)
-	for (int j = toto->getX(); j < toto->getX() + (*it)->getLongueur(); j++)
-	  {
-	    std::cout << i << " " << j << std::endl;
-	    (*this->_map)[i][j] = 'X';
-	  }
+      for (int i = toto->getY(); i < toto->getY() + SCREENY; i++)
+	for (int j = toto->getX(); j < toto->getX() + SCREENX; j++)
+	  (*this->_map)[i][j] = 'X';
     }
-  for (int i=0; i < 80; i++)
+  for (std::list<AEntity *>::iterator it = _players.begin(); it != _players.end(); ++it)
+    {
+      toto = (*it)->getCoord();
+      for (int i = toto->getY(); i < toto->getY() + SCREENY; i++)
+	for (int j = toto->getX(); j < toto->getX() + SCREENX; j++)
+	  (*this->_map)[i][j] = 'X';
+    }
+  for (int i=0; i < SCREENY; i++)
     std::cout << (*this->_map)[i].c_str() << std::endl;
 }
 
-std::list<Mob *> &Map::getEnemies()
+std::list<AEntity *> &Map::getEnemies()
 {
   return (this->_enemies);
 }
 
-std::list<Player *> &Map::getPlayers()
+std::list<AEntity *> &Map::getPlayers()
 {
   return (this->_players);
 }

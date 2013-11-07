@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:50 2013 antoine maitre
-// Last update Wed Nov  6 12:23:38 2013 antoine maitre
+// Last update Thu Nov  7 16:05:15 2013 antoine maitre
 //
 
 #ifndef	__MAP_HH__
@@ -22,19 +22,23 @@
 #include "Entities/Player.hh"
 #include "Entities/Weapon/AProjectile.hh"
 
+#define SCREENX 80
+#define SCREENY 80
+
 class	Map
 {
   std::vector<std::string> *_map;
-  std::list<Mob *> _enemies;
-  std::list<Player *> _players;
-  std::list<AProjectile *> _proj;
+  std::list<AEntity *> _enemies;
+  std::list<AEntity *> _players;
+  std::list<AEntity *> _enemiesStatic;
+  //  std::list<AProjectile *> _proj;
   int _x;
   int _y;
 public:
   Map(std::string path);
   ~Map();
-  std::list<Mob *> &getEnemies();
-  std::list<Player *> &getPlayers();
+  std::list<AEntity *> &getEnemies();
+  std::list<AEntity *> &getPlayers();
   std::vector<std::string> *getMap();
   void setEnemies();
   int getPosX() const;

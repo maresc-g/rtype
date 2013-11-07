@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 12:58:03 2013 laurent ansel
-// Last update Mon Nov  4 10:47:59 2013 laurent ansel
+// Last update Thu Nov  7 13:11:27 2013 antoine maitre
 //
 
 #include		<string>
@@ -17,7 +17,7 @@
 int			main(int argc, char **argv)
 {
   int			ret = 0;
-
+ 
   if (argc == 2)
     {
       std::string	tmp(argv[1]);

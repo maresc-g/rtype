@@ -5,13 +5,13 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 16:09:33 2013 antoine maitre
-// Last update Wed Nov  6 12:16:55 2013 antoine maitre
+// Last update Thu Nov  7 13:40:13 2013 antoine maitre
 //
 
 #include	"Level/Level.hh"
 
 Level::Level(int diff)
-  : _diff(diff), _finish(false), _adv(0)
+  : _diff(diff), _finish(false), _adv(20)
 {
   std::string pathMap;
   std::ostringstream oss;
@@ -54,12 +54,12 @@ void	Level::incAdv()
     this->_adv++;
 }
 
-std::list<Mob *> &Level::getEnemies()
+std::list<AEntity *> &Level::getEnemies()
 {
   return (this->_map->getEnemies());
 }
 
-std::list<Player *> &Level::getPlayers()
+std::list<AEntity *> &Level::getPlayers()
 {
   return (this->_map->getPlayers());
 }

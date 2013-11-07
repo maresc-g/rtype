@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:22:19 2013 antoine maitre
-// Last update Wed Nov  6 14:47:44 2013 antoine maitre
+// Last update Thu Nov  7 13:26:28 2013 antoine maitre
 //
 
 #ifndef		__PLAYERINFO_HH__
@@ -24,7 +24,7 @@ class		PlayerInfo
 public:
   PlayerInfo(ClientInfo *, int num);
   ~PlayerInfo();
-  Player	*getPlayer() const;
+  AEntity	*getPlayer() const;
   void		actionPlayer(Map *map, int);
 };
 
