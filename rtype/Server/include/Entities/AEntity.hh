@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Wed Nov  6 14:45:54 2013 antoine maitre
+// Last update Thu Nov  7 21:38:31 2013 laurent ansel
 //
 
 #ifndef 		__AENTITY_HH__
@@ -14,15 +14,15 @@
 #include		<string>
 #include		"Coordinate.hh"
 
-enum			eObject
-  {
-    ROCKET,
-    PLAYER,
-    MOB
-  };
-
 class			AEntity
 {
+public:
+  enum			eObject
+    {
+      ROCKET,
+      PLAYER,
+      MOB
+    };
 
 protected:
   int			_l;

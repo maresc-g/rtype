@@ -1,0 +1,50 @@
+//
+// ObjectPoolManager.cpp for  in /home/ansel_l/Documents/Rtype/work/Server/include/ObjectPoolManager
+// 
+// Made by laurent ansel
+// Login   <ansel_l@epitech.net>
+// 
+// Started on  Wed Nov  6 17:04:40 2013 laurent ansel
+// Last update Thu Nov  7 21:52:33 2013 laurent ansel
+//
+
+#include		"ObjectPoolManager/ObjectPoolManager.hh"
+
+ObjectPoolManager::ObjectPoolManager():
+  _listEntities(new std::map<AEntity::eObject, std::list<AEntity *> *>),
+  _mutex(new Mutex),
+  _quit(false),
+  _updater(new ObjectPoolUpdater(_listEntities, *_mutex, _quit))
+{
+  this->_mutex->initialize();
+  this->_mutex->enter();
+  (*this->_listEntities)[AEntity::MOB] = new std::list<AEntity *>;
+  this->_mutex->leave();
+
+  this->_updater->start();
+}
+
+ObjectPoolManager::~ObjectPoolManager()
+{
+  this->_mutex->enter();
+  this->_quit = true;
+  this->_mutex->leave();
+  this->_updater->waitThread();
+  this->_mutex->destroy();
+}
+
+AEntity			*ObjectPoolManager::getCopy(enum AEntity::eObject const type)
+{
+  this->_mutex->enter();
+  std::map<AEntity::eObject, std::list<AEntity *> *>::iterator	it;
+  AEntity		*tmp = NULL;
+
+  if ((it = _listEntities->find(type)) != _listEntities->end())
+    if (!it->second->empty())
+      {
+	tmp = it->second->front();
+	it->second->pop_front();
+      }
+  this->_mutex->leave();
+  return (tmp);
+}
