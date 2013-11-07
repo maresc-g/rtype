@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Oct 25 11:18:47 2013 guillaume marescaux
-// Last update Wed Nov  6 17:53:50 2013 guillaume marescaux
+// Last update Wed Nov  6 20:24:25 2013 cyril jourdain
 //
 
 #include	"Socket/Socket.hpp"
@@ -34,5 +34,6 @@ int		main()
   ClientMain	*clientMain = new ClientMain;
 
   clientMain->init();
+  clientMain->launch();
   return (0);
 }

@@ -5,14 +5,14 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 14:12:11 2013 cyril jourdain
-// Last update Wed Nov  6 17:51:54 2013 guillaume marescaux
+// Last update Wed Nov  6 21:24:10 2013 cyril jourdain
 //
 
 #include			"Graphic/Graphics/LoginWindow.hh"
 #include			"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
 #include			"Graphic/SFGraphics/Widgets/SFConnect.hh"
 
-LoginWindow::LoginWindow(Client const *client) :
+LoginWindow::LoginWindow(Client *client) :
   SFWindow(sf::FloatRect(0,0,WIN_X, WIN_Y)), _client(client)
 {
 
@@ -48,15 +48,15 @@ void		LoginWindow::init()
   _bConnect->setPosition(_tbAddress->getPosition().x, _tbAddress->getPosition().y + 30);
   _bConnect->setBackgroundTexture((*(rMan->Images))[LOGIN_BUTTON_IMAGE]);
   setPosition(sf::Vector2f(0,0));
-  setSize(sf::Vector2f(WIN_X,WIN_Y));
+  setSize(sf::Vector2f(WIN_X-200,WIN_Y));
   updateBound();
 
   /* TEST ONLY */
 
   connect->makeConnect(sf::Event::MouseButtonPressed,
 		       _bConnect,
-		       &SFButton::test,
+		       &Client::test,
 		       _tbAddress,
-		       _bConnect);
+		       _client);
   /**/
 }

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 01:59:32 2013 cyril jourdain
-// Last update Wed Nov  6 14:11:17 2013 cyril jourdain
+// Last update Wed Nov  6 20:47:18 2013 cyril jourdain
 //
 
 #ifndef 		__SFCONNECT_HH__
@@ -53,7 +53,7 @@ private:
     void			addCallback(sf::Event::EventType type,
 					    void (T::*func)(void *const),
 					    void *param,
-					    const T& target)
+					    T* target)
     {
       (*_callbackList)[type] = new EventCallback();
       (*_callbackList)[type]->_function = std::bind(func, target, std::placeholders::_1);
@@ -83,12 +83,12 @@ public:
 					    SFWidget *caller,
 					    void (T::*f)(void *const),
 					    void *param,
-					    const T *target)
+					    T *target)
   {
     s_ObjConnect		obj;
 
     obj.setCaller(caller);
-    obj.addCallback(type, f, param, *target);
+    obj.addCallback(type, f, param, target);
     _functionList.push_back(obj);
   }
   void				callCallback(sf::Event *const event, SFWidget *focus)

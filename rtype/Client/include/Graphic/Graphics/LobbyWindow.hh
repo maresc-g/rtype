@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 23:37:40 2013 cyril jourdain
-// Last update Wed Nov  6 17:50:46 2013 guillaume marescaux
+// Last update Wed Nov  6 20:46:30 2013 cyril jourdain
 //
 
 #ifndef 		__LOBBYWINDOW_HH__
@@ -26,10 +26,10 @@ private:
   SFButton		*_createButton;
   SFButton		*_refreshButton;
   SFButton		*_backButton;
-  Client const		*_client;
+  Client		*_client;
 
 public:
-  LobbyWindow(Client const *client);
+  LobbyWindow(Client *client);
   virtual ~LobbyWindow();
 
 public:

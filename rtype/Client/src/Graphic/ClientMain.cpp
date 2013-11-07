@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Wed Nov  6 17:53:10 2013 guillaume marescaux
+// Last update Wed Nov  6 21:13:50 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -28,8 +28,8 @@ void			ClientMain::init()
   (*_windows)[LOBBY] = new LobbyWindow(_client);
   (*_windows)[LOGIN]->init();
   (*_windows)[LOBBY]->init();
-  _manager->addWindow((*_windows)[LOBBY]);
-  _manager->addWindow((*_windows)[LOGIN]);
+  _manager->addWindow("LOBBY",(*_windows)[LOBBY]);
+  _manager->addWindow("LOGIN",(*_windows)[LOGIN]);
 }
 
 void			ClientMain::launch()

@@ -5,13 +5,14 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:00:35 2013 cyril jourdain
-// Last update Wed Nov  6 14:11:48 2013 cyril jourdain
+// Last update Wed Nov  6 21:19:44 2013 cyril jourdain
 //
 
 #ifndef 		__WINDOWMANAGER_HH__
 # define 		__WINDOWMANAGER_HH__
 
 #include		<list>
+#include		<map>
 #include		<SFML/Window.hpp>
 #include		"Graphic/SFGraphics/Widgets/SFTextBox.hh"
 #include		"Graphic/SFGraphics/Widgets/SFButton.hh"
@@ -27,7 +28,7 @@ private:
   sf::RenderWindow	*_defaultRenderWindow;
   std::list<SFWidget*>	*_widgetList;
   SFWidget		*_focus;
-  std::list<SFWindow *>	*_windowList;
+  std::map<std::string, SFWindow *>	*_windowList;
   SFWindow		*_active;
   sf::Event		*_cEvent;
   sf::RenderWindow	*_window;
@@ -46,13 +47,16 @@ public:
   bool			clickEvent(sf::Event const &);
   void			manageEvent();
   void			addWidget(SFWidget *);
-  void			addWindow(SFWindow *);
+  void			addWindow(std::string const &name, SFWindow *);
   void			init();
   void			exec();
 
 public:
   sf::RenderWindow	*getRenderWindow() const;
   void			setRenderWindow(sf::RenderWindow*);
+
+private:
+  void			setFocusedWindow(sf::Event const &mouse);
 
 };
 

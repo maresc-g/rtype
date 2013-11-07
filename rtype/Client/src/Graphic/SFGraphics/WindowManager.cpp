@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:18:05 2013 cyril jourdain
-// Last update Wed Nov  6 14:14:45 2013 cyril jourdain
+// Last update Wed Nov  6 21:34:28 2013 cyril jourdain
 //
 
 #include	<iostream>
@@ -17,7 +17,7 @@
 
 WindowManager::WindowManager() :
   _widgetList(new std::list<SFWidget*>), _focus(NULL),
-  _windowList(new std::list<SFWindow*>), _active(NULL),
+  _windowList(new std::map<std::string, SFWindow*>), _active(NULL),
   _cEvent(new sf::Event)
 {
   _size.x = WIN_X;
@@ -34,15 +34,67 @@ SFWidget	*WindowManager::getFocused() const
   return _focus;
 }
 
+/*
+  Remaining problem :
+  If a window is over another one, the window selection bug,
+  due to the usage of a map, where there's no order
+  Need to find a way to sort map, in order to always take
+  the front one.
+  Idea : Make a list, not a map, of struct, containing a name a SFWindow
+  Then windows will be in the drawing order
+ */
 void		WindowManager::draw() const
 {
   _window->setView(*(_active->getView()));
   for (auto it = _windowList->begin(); it != _windowList->end(); it++)
     {
-      _window->setView(*(*it)->getView());
-      (*it)->draw(_window);
+      if (it->second != _active)
+	{
+	  _window->setView(*(it->second->getView()));
+	  it->second->draw(_window);
+	}
+    }
+  if (_active)
+    {
+      _window->setView(*(_active->getView()));
+      _active->draw(_window);
     }
   _window->setView(_window->getDefaultView());
+}
+
+void		WindowManager::setFocusedWindow(sf::Event const &mouse)
+{
+  float x, y;
+  bool	win = false;
+  std::string winName;
+  SFWindow	*winPtr;
+
+  sf::Vector2i  pos(mouse.mouseButton.x, mouse.mouseButton.y);
+  sf::Vector2f	worldPos = _window->mapPixelToCoords(pos);
+  std::map<std::string, SFWindow*>::iterator save = _windowList->end();
+
+  x = worldPos.x;
+  y = worldPos.y;
+  for (auto it = _windowList->begin(); it != _windowList->end(); it++)
+    {
+      if (x >= it->second->getVpBound()->left &&
+  	  x <= it->second->getVpBound()->width + it->second->getVpBound()->left &&
+  	  y >= it->second->getVpBound()->top &&
+  	  y <= it->second->getVpBound()->height + it->second->getVpBound()->top)
+  	{
+	  save = it;
+	  win = true;
+  	}
+    }
+  if (win)
+    {
+      std::cout << "Change active window" << std::endl;
+      _active = save->second;
+      winName = save->first;
+      winPtr = save->second;
+      _windowList->erase(save);
+      _windowList->insert(std::pair<std::string, SFWindow*>(winName, winPtr));
+    }
 }
 
 bool		WindowManager::clickEvent(sf::Event const &mouse)
@@ -53,27 +105,29 @@ bool		WindowManager::clickEvent(sf::Event const &mouse)
 
   sf::Vector2i  pos(mouse.mouseButton.x, mouse.mouseButton.y);
   sf::Vector2f	worldPos = _window->mapPixelToCoords(pos);
-  std::list<SFWindow*>::iterator save = _windowList->end();
+  std::map<std::string, SFWindow*>::iterator save = _windowList->end();
 
   x = worldPos.x;
   y = worldPos.y;
-  for (auto it = _windowList->begin(); it != _windowList->end(); it++)
-    {
-      if (x >= (*it)->getVpBound()->left &&
-  	  x <= (*it)->getVpBound()->width + (*it)->getVpBound()->left &&
-  	  y >= (*it)->getVpBound()->top &&
-  	  y <= (*it)->getVpBound()->height + (*it)->getVpBound()->top)
-  	{
-	  save = it;
-	  win = true;
-  	}
-    }
-  if (win)
-    {
-      _active = (*save);
-      _windowList->erase(save);
-      _windowList->push_back(_active);
-    }
+  
+  // for (auto it = _windowList->begin(); it != _windowList->end(); it++)
+  //   {
+  //     if (x >= it->second->getVpBound()->left &&
+  // 	  x <= it->second->getVpBound()->width + it->second->getVpBound()->left &&
+  // 	  y >= it->second->getVpBound()->top &&
+  // 	  y <= it->second->getVpBound()->height + it->second->getVpBound()->top)
+  // 	{
+  // 	  save = it;
+  // 	  win = true;
+  // 	}
+  //   }
+  // if (win)
+  //   {
+  //     _active = save->second;
+  //     _windowList->erase(save);
+  //     _windowList->insert(save);
+  //   }
+  setFocusedWindow(mouse);
   if (_active)
     {
       _widgetList = _active->getWidgetList();
@@ -131,9 +185,9 @@ void		WindowManager::addWidget(SFWidget *widget)
   _widgetList->push_back(widget);
 }
 
-void		WindowManager::addWindow(SFWindow *win)
+void		WindowManager::addWindow(std::string const &name, SFWindow *win)
 {
-  _windowList->push_back(win);
+  _windowList->insert(std::pair<std::string, SFWindow*>(name, win));
   _active = win;
 }
 

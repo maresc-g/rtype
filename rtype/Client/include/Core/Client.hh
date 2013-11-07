@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:26 2013 guillaume marescaux
-// Last update Wed Nov  6 17:37:42 2013 guillaume marescaux
+// Last update Wed Nov  6 20:43:34 2013 cyril jourdain
 //
 
 #ifndef 		__CLIENT_HH__
@@ -19,6 +19,7 @@
 #include		"Core/Protocol.hh"
 #include		"Thread/Thread.hpp"
 #include		"Core/ConnectInfo.hh"
+#include		"Graphic/SFGraphics/Widgets/SFTextBox.hh"
 
 class			Client : public Thread
 {
@@ -42,6 +43,11 @@ private:
   ConnectInfo		*_info;
 
 public:
+  void			test(void *param)
+  {
+    SFTextBox *box = static_cast<SFTextBox*>(param);
+    std::cout << "Box Content : " << box->getText() << std::endl;
+  }
 
   // Ctor / Dtor
   Client();

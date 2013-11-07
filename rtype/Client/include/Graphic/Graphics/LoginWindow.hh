@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 19:22:13 2013 cyril jourdain
-// Last update Wed Nov  6 17:51:17 2013 guillaume marescaux
+// Last update Wed Nov  6 20:46:25 2013 cyril jourdain
 //
 
 #ifndef 		__LOGINWINDOW_HH__
@@ -27,10 +27,10 @@ private:
   SFTextBox		*_tbAddress;
   SFButton		*_bConnect;
   SFLabel		*_label;
-  Client const		*_client;
+  Client 		*_client;
 
 public:
-  LoginWindow(Client const *client);
+  LoginWindow(Client *client);
   virtual ~LoginWindow();
 
 public:
