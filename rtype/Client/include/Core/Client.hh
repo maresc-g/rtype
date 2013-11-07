@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:26 2013 guillaume marescaux
-// Last update Tue Nov  5 13:36:54 2013 guillaume marescaux
+// Last update Wed Nov  6 20:43:34 2013 cyril jourdain
 //
 
 #ifndef 		__CLIENT_HH__
@@ -17,8 +17,11 @@
 #include		"Select/Select.hh"
 #include		"CircularBufferManager/CircularBufferManager.hh"
 #include		"Core/Protocol.hh"
+#include		"Thread/Thread.hpp"
+#include		"Core/ConnectInfo.hh"
+#include		"Graphic/SFGraphics/Widgets/SFTextBox.hh"
 
-class			Client
+class			Client : public Thread
 {
 public:
 
@@ -37,19 +40,26 @@ private:
   Select		*_select;
   Protocol		*_protocol;
   int			_id;
+  ConnectInfo		*_info;
 
 public:
+  void			test(void *param)
+  {
+    SFTextBox *box = static_cast<SFTextBox*>(param);
+    std::cout << "Box Content : " << box->getText() << std::endl;
+  }
 
   // Ctor / Dtor
   Client();
   virtual ~Client();
 
   // Methods
-  void			initialize(void);
+  bool			initialize(void);
   void			destroy(void);
   void			loop(void);
   void			write(void);
   void			read(long const sec, long const usec, bool timeout);
+  void			exec(void);
 
 private:
 
@@ -59,7 +69,7 @@ private:
   static std::map<std::string, std::string>	initMapGameList(void);
 
   void			welcome(Trame const &trame);
-  void			getGamelist(Trame const &trame);
+  void			gamelist(Trame const &trame);
   void			ok(Trame const &trame);
   void			ko(Trame const &trame);
   void			launchGame(Trame const &trame);
