@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Thu Nov  7 16:08:45 2013 cyril jourdain
+// Last update Fri Nov  8 14:36:41 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -111,7 +111,7 @@ void				Client::gamelist(Trame const &trame)
       std::getline(*tokenStream, map["name"], ';');
       std::getline(*tokenStream, map["numPlayer"], ';');
       std::getline(*tokenStream, map["level"], ';');
-      gameList->addGame(new GameInfo(std::stoi(map["id"]), map["name"], std::stoi(map["numPlayer"]), std::stoi(map["level"])));
+      gameList->addGame(new GameInfo(map["id"], map["name"], map["numPlayer"], map["level"]));
       delete tokenStream;
     }
 }
