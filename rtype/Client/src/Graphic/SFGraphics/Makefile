@@ -5,7 +5,7 @@
 ## Login   <jourda_c@epitech.net>
 ## 
 ## Started on  Wed Nov  6 13:52:16 2013 cyril jourdain
-## Last update Wed Nov  6 13:56:05 2013 cyril jourdain
+## Last update Thu Nov  7 16:56:22 2013 cyril jourdain
 ##
 
 SRCCLIENT += 	$(SFGRAPHICS)/SFTextBox.cpp \
@@ -18,3 +18,4 @@ SRCCLIENT += 	$(SFGRAPHICS)/SFTextBox.cpp \
 		$(SFGRAPHICS)/SFFontLoader.cpp \
 		$(SFGRAPHICS)/SFLabel.cpp \
 		$(SFGRAPHICS)/SFWindow.cpp \
+		$(SFGRAPHICS)/SFDialogBox.cpp

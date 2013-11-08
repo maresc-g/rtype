@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 13:32:13 2013 cyril jourdain
-// Last update Wed Nov  6 14:13:03 2013 cyril jourdain
+// Last update Thu Nov  7 17:31:48 2013 cyril jourdain
 //
 
 #include		"Graphic/SFGraphics/Widgets/SFLabel.hh"
@@ -23,6 +23,7 @@ SFLabel::~SFLabel()
 void			SFLabel::setText(std::string const &text)
 {
   _label->setString(text);
+  *_bounds = _label->getGlobalBounds();
 }
 
 void			SFLabel::init()
@@ -32,6 +33,11 @@ void			SFLabel::init()
   _label->setCharacterSize(13);
   _label->setPosition(sf::Vector2f(0,0));
   *_bounds = _label->getGlobalBounds();
+}
+
+void			SFLabel::setTextSize(unsigned int const size)
+{
+  _label->setCharacterSize(size);
 }
 
 sf::FloatRect		&SFLabel::getBound() const

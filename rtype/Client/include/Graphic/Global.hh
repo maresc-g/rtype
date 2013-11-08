@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Oct 28 15:04:47 2013 cyril jourdain
-// Last update Wed Nov  6 14:20:25 2013 cyril jourdain
+// Last update Thu Nov  7 13:10:30 2013 cyril jourdain
 //
 
 #ifndef 		__GLOBAL_HH__
@@ -14,6 +14,10 @@
 // WINDOWS
 #define			WIN_X 1280
 #define			WIN_Y 720
+
+// WINDOWS ID
+#define			LOGIN 0
+#define			LOBBY 1
 
 // RESSOURCES
 #define			LOGIN_BACKGROUND_RES		"Res/background.jpg"

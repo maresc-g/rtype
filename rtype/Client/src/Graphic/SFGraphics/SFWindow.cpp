@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 19:36:18 2013 cyril jourdain
-// Last update Wed Nov  6 14:13:28 2013 cyril jourdain
+// Last update Thu Nov  7 12:50:28 2013 cyril jourdain
 //
 
 #include			"Graphic/SFGraphics/Widgets/SFWindow.hh"
@@ -18,6 +18,7 @@ SFWindow::SFWindow() :
   _vpBounds(new sf::FloatRect(0,0,0,0)),
   _view(new sf::View())
 {
+  _visible = true;
 }
 
 SFWindow::SFWindow(sf::FloatRect const &rect) :
@@ -26,6 +27,7 @@ SFWindow::SFWindow(sf::FloatRect const &rect) :
   _view(new sf::View(rect))
 {
   _view->setViewport(sf::FloatRect(0,0,1,1));
+  _visible = true;
 }
 
 SFWindow::~SFWindow()
@@ -103,6 +105,16 @@ void				SFWindow::setSize(sf::Vector2f const &size)
 std::list<SFWidget *>		*SFWindow::getWidgetList() const
 {
   return _widgetList;
+}
+
+void				SFWindow::setVisibility(bool visibility)
+{
+  _visible = visibility;
+}
+
+bool				SFWindow::isVisible() const
+{
+  return _visible;
 }
 
 void				SFWindow::draw(sf::RenderWindow *win) const

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Wed Nov  6 17:44:53 2013 guillaume marescaux
+// Last update Thu Nov  7 16:08:45 2013 cyril jourdain
 //
 
 #include <iostream>
@@ -81,8 +81,11 @@ void				Client::exec()
       while (!_info)
 	;
       initialized = this->initialize();
-      delete _info;
-      _info = NULL;
+      if (!initialized)
+	{
+	  delete _info;
+	  _info = NULL;
+	}
     }
 }
 
@@ -233,18 +236,32 @@ bool				Client::initialize(void)
   Trame				*tmp;
   Protocol::eProtocol		msgType;
 
+  std::cout << "1" << std::endl;
   try
     {
       (*_sockets)[TCP]->initialize("TCP");
       (*_sockets)[UDP]->initialize("UDP");
-      (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr("127.0.0.1", 4241);
-      (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr("127.0.0.1", 4241);
+      (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr(_info->getIp(), std::stoi(_info->getPort()));
+      (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr(_info->getIp(), std::stoi(_info->getPort()));
     }
   catch (SocketError &e)
     {
       std::cout << e.what() << std::endl;
+      (*_sockets)[TCP]->destroy();
+      (*_sockets)[UDP]->destroy();
+      if ((*_socketsClient)[TCP])
+	{
+	  // delete (*_socketsClient)[TCP];
+	  (*_socketsClient)[TCP] = NULL;
+	}
+      if ((*_socketsClient)[UDP])
+	{
+	  // delete (*_socketsClient)[UDP];
+	  (*_socketsClient)[UDP] = NULL;
+	}
       return (false);
     }
+  std::cout << "2" << std::endl;
   this->read(0, 0, false);
   tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
   msgType = _protocol->getMsg(tmp);
@@ -289,4 +306,6 @@ void				Client::loop(void)
     }
 }
 
+void				Client::setConnectInfo(ConnectInfo *info) {_info = info;}
+ConnectInfo			*Client::getConnectInfo() const {return _info;}
 //-----------------------------------END METHODS----------------------------------------

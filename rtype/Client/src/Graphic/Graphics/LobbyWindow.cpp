@@ -5,15 +5,15 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Nov  4 16:14:46 2013 cyril jourdain
-// Last update Wed Nov  6 20:47:42 2013 cyril jourdain
+// Last update Thu Nov  7 14:33:36 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/LobbyWindow.hh"
 #include		"Graphic/Global.hh"
 #include		"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
 
-LobbyWindow::LobbyWindow(Client *client) :
-  SFWindow(sf::FloatRect(0,0,WIN_X,WIN_Y)), _client(client)
+LobbyWindow::LobbyWindow() :
+  SFWindow(sf::FloatRect(0,0,WIN_X,WIN_Y))
 {
 
 }
@@ -62,5 +62,6 @@ void			LobbyWindow::init()
   _backButton->setSize(130,30);
 
   setSize(sf::Vector2f(WIN_X,WIN_Y));
+  setVisibility(false);
   updateBound();
 }

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:37:12 2013 cyril jourdain
-// Last update Wed Nov  6 17:45:51 2013 guillaume marescaux
+// Last update Thu Nov  7 13:51:35 2013 cyril jourdain
 //
 
 #ifndef 		__CLIENTMAIN_HH__
@@ -16,30 +16,32 @@
 #include		"Graphic/Graphics/LoginWindow.hh"
 #include		"Graphic/Graphics/LobbyWindow.hh"
 #include		"Core/Client.hh"
+#include		"Utility/Singleton.hpp"
 
-class			ClientMain
+class			ClientMain : public Singleton<ClientMain>
 {
-  enum			eWindow
-    {
-      LOGIN,
-      LOBBY,
-      GAME
-    };
+  friend class		Singleton<ClientMain>;
 
 private:
   WindowManager			*_manager;
-  std::map<eWindow, SFWindow *>	*_windows;
   Client			*_client;
+  std::map<unsigned int, SFWindow *>	*_windows;
 
-public:
+private:
   ClientMain();
+  ClientMain(ClientMain const &);
+  ClientMain	&operator=(ClientMain const &);
   virtual ~ClientMain();
 
 public:
   void				init();
   void				launch();
-
   Client			*getClient(void) const;
+
+public:
+  
+  // ClientMain to Client functions / callbacks event
+  void				connectToServer(void *param);
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:26 2013 guillaume marescaux
-// Last update Wed Nov  6 20:43:34 2013 cyril jourdain
+// Last update Thu Nov  7 16:02:26 2013 cyril jourdain
 //
 
 #ifndef 		__CLIENT_HH__
@@ -60,6 +60,8 @@ public:
   void			write(void);
   void			read(long const sec, long const usec, bool timeout);
   void			exec(void);
+  void			setConnectInfo(ConnectInfo *info);
+  ConnectInfo		*getConnectInfo() const;
 
 private:
 

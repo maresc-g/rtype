@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:00:35 2013 cyril jourdain
-// Last update Wed Nov  6 21:19:44 2013 cyril jourdain
+// Last update Thu Nov  7 17:38:56 2013 cyril jourdain
 //
 
 #ifndef 		__WINDOWMANAGER_HH__
@@ -25,10 +25,12 @@ class			WindowManager
 {
 
 private:
+  typedef std::list<std::pair<unsigned int, SFWindow*>>	WindowList;
+
   sf::RenderWindow	*_defaultRenderWindow;
   std::list<SFWidget*>	*_widgetList;
   SFWidget		*_focus;
-  std::map<std::string, SFWindow *>	*_windowList;
+  WindowList		*_windowList;
   SFWindow		*_active;
   sf::Event		*_cEvent;
   sf::RenderWindow	*_window;
@@ -45,15 +47,21 @@ public:
   SFWidget		*getFocused() const;
   void			draw() const;
   bool			clickEvent(sf::Event const &);
+  void			tabEvent();
+  void			shiftTabEvent();
   void			manageEvent();
   void			addWidget(SFWidget *);
-  void			addWindow(std::string const &name, SFWindow *);
+  void			addWindow(unsigned int const id, SFWindow *);
   void			init();
   void			exec();
 
 public:
   sf::RenderWindow	*getRenderWindow() const;
   void			setRenderWindow(sf::RenderWindow*);
+  void			setActiveWindow(unsigned int const id);
+  SFWindow		*getWindowById(unsigned int const id) const;
+  void			removeWindowById(unsigned int const id);
+  void			removeWindowCallback(void *param);
 
 private:
   void			setFocusedWindow(sf::Event const &mouse);

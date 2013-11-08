@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 19:15:41 2013 cyril jourdain
-// Last update Wed Nov  6 14:11:39 2013 cyril jourdain
+// Last update Thu Nov  7 12:49:44 2013 cyril jourdain
 //
 
 #ifndef 		__SFWINDOW_HH__
@@ -24,6 +24,8 @@ private:
   SFWidget			*_focus;
   sf::FloatRect			*_bounds;
   sf::FloatRect			*_vpBounds;
+  bool				_visible;
+
 protected:
   sf::View			*_view;
   WindowManager			*_manager;
@@ -44,6 +46,8 @@ public:
   void				setPosition(sf::Vector2f const &pos);
   void				setSize(sf::Vector2f const &pos);
   std::list<SFWidget *>		*getWidgetList() const;
+  void				setVisibility(bool visibility);
+  bool				isVisible() const;
   template<class T>
   T				*addWidget()
   {

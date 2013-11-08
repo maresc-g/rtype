@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:18:05 2013 cyril jourdain
-// Last update Wed Nov  6 21:34:28 2013 cyril jourdain
+// Last update Thu Nov  7 17:54:38 2013 cyril jourdain
 //
 
 #include	<iostream>
@@ -17,7 +17,7 @@
 
 WindowManager::WindowManager() :
   _widgetList(new std::list<SFWidget*>), _focus(NULL),
-  _windowList(new std::map<std::string, SFWindow*>), _active(NULL),
+  _windowList(new WindowList), _active(NULL),
   _cEvent(new sf::Event)
 {
   _size.x = WIN_X;
@@ -34,30 +34,16 @@ SFWidget	*WindowManager::getFocused() const
   return _focus;
 }
 
-/*
-  Remaining problem :
-  If a window is over another one, the window selection bug,
-  due to the usage of a map, where there's no order
-  Need to find a way to sort map, in order to always take
-  the front one.
-  Idea : Make a list, not a map, of struct, containing a name a SFWindow
-  Then windows will be in the drawing order
- */
 void		WindowManager::draw() const
 {
   _window->setView(*(_active->getView()));
   for (auto it = _windowList->begin(); it != _windowList->end(); it++)
     {
-      if (it->second != _active)
-	{
+      if (it->second->isVisible())
+      	{
 	  _window->setView(*(it->second->getView()));
 	  it->second->draw(_window);
 	}
-    }
-  if (_active)
-    {
-      _window->setView(*(_active->getView()));
-      _active->draw(_window);
     }
   _window->setView(_window->getDefaultView());
 }
@@ -66,34 +52,106 @@ void		WindowManager::setFocusedWindow(sf::Event const &mouse)
 {
   float x, y;
   bool	win = false;
-  std::string winName;
+  unsigned int		winId;
   SFWindow	*winPtr;
 
   sf::Vector2i  pos(mouse.mouseButton.x, mouse.mouseButton.y);
   sf::Vector2f	worldPos = _window->mapPixelToCoords(pos);
-  std::map<std::string, SFWindow*>::iterator save = _windowList->end();
+  WindowList::iterator save = _windowList->end();
 
   x = worldPos.x;
   y = worldPos.y;
   for (auto it = _windowList->begin(); it != _windowList->end(); it++)
     {
-      if (x >= it->second->getVpBound()->left &&
-  	  x <= it->second->getVpBound()->width + it->second->getVpBound()->left &&
-  	  y >= it->second->getVpBound()->top &&
-  	  y <= it->second->getVpBound()->height + it->second->getVpBound()->top)
-  	{
-	  save = it;
-	  win = true;
-  	}
+      if (it->second->isVisible())
+	{
+	  if (x >= it->second->getVpBound()->left &&
+	      x <= it->second->getVpBound()->width + it->second->getVpBound()->left &&
+	      y >= it->second->getVpBound()->top &&
+	      y <= it->second->getVpBound()->height + it->second->getVpBound()->top)
+	    {
+	      save = it;
+	      win = true;
+	    }
+	}
     }
   if (win)
     {
-      std::cout << "Change active window" << std::endl;
       _active = save->second;
-      winName = save->first;
+      winId = save->first;
       winPtr = save->second;
       _windowList->erase(save);
-      _windowList->insert(std::pair<std::string, SFWindow*>(winName, winPtr));
+      _windowList->push_back(std::pair<unsigned int, SFWindow*>(winId, winPtr));
+    }
+}
+
+void		WindowManager::tabEvent()
+{
+  bool		isSet = true;
+
+  if (_active && _widgetList)
+    {
+      _widgetList = _active->getWidgetList();
+      if (_focus)
+	{
+	  _focus->setFocus(false);
+	  auto it = find(_widgetList->begin(), _widgetList->end(), _focus);
+	  if (it != _widgetList->end())
+	    {
+	      ++it;
+	      if (it != _widgetList->end())
+		{
+		  _focus = *it;
+		  _focus->setFocus(true);
+		  _active->setFocused(_focus);
+		}
+	      else
+		isSet = false;
+	    }
+	}
+      else
+	isSet = false;
+    }
+  if (!isSet)
+    {
+      _focus = _widgetList->front();
+      _focus->setFocus(true);
+      _active->setFocused(_focus);
+    }
+}
+
+void		WindowManager::shiftTabEvent()
+{
+  bool		isSet = true;
+
+  if (_active && _widgetList)
+    {
+      _widgetList = _active->getWidgetList();
+      if (_focus)
+	{
+	  _focus->setFocus(false);
+	  auto it = find(_widgetList->begin(), _widgetList->end(), _focus);
+	  if (it != _widgetList->begin())
+	    {
+	      --it;
+	      if (it != _widgetList->begin())
+		{
+		  _focus = *it;
+		  _focus->setFocus(true);
+		  _active->setFocused(_focus);
+		}
+	      else
+		isSet = false;
+	    }
+	}
+      else
+	isSet = false;
+    }
+  if (!isSet)
+    {
+      _focus = _widgetList->back();
+      _focus->setFocus(true);
+      _active->setFocused(_focus);
     }
 }
 
@@ -105,28 +163,10 @@ bool		WindowManager::clickEvent(sf::Event const &mouse)
 
   sf::Vector2i  pos(mouse.mouseButton.x, mouse.mouseButton.y);
   sf::Vector2f	worldPos = _window->mapPixelToCoords(pos);
-  std::map<std::string, SFWindow*>::iterator save = _windowList->end();
+  WindowList::iterator save = _windowList->end();
 
   x = worldPos.x;
   y = worldPos.y;
-  
-  // for (auto it = _windowList->begin(); it != _windowList->end(); it++)
-  //   {
-  //     if (x >= it->second->getVpBound()->left &&
-  // 	  x <= it->second->getVpBound()->width + it->second->getVpBound()->left &&
-  // 	  y >= it->second->getVpBound()->top &&
-  // 	  y <= it->second->getVpBound()->height + it->second->getVpBound()->top)
-  // 	{
-  // 	  save = it;
-  // 	  win = true;
-  // 	}
-  //   }
-  // if (win)
-  //   {
-  //     _active = save->second;
-  //     _windowList->erase(save);
-  //     _windowList->insert(save);
-  //   }
   setFocusedWindow(mouse);
   if (_active)
     {
@@ -168,6 +208,13 @@ void		WindowManager::manageEvent()
 	  return;
 	}
       _click = true;
+      if (_cEvent->type == sf::Event::KeyPressed && sf::Keyboard::isKeyPressed(sf::Keyboard::Tab))
+	{
+	  if (sf::Keyboard::isKeyPressed(sf::Keyboard::LShift))
+	    shiftTabEvent();
+	  else
+	    tabEvent();
+	}
       if (_cEvent->type == sf::Event::MouseButtonPressed)
 	_click = clickEvent(*_cEvent);
       if (_click && _focus && _focus->getMethodMap()[_cEvent->type])
@@ -185,9 +232,9 @@ void		WindowManager::addWidget(SFWidget *widget)
   _widgetList->push_back(widget);
 }
 
-void		WindowManager::addWindow(std::string const &name, SFWindow *win)
+void		WindowManager::addWindow(unsigned int const id, SFWindow *win)
 {
-  _windowList->insert(std::pair<std::string, SFWindow*>(name, win));
+  _windowList->push_back(std::pair<unsigned int, SFWindow*>(id, win));
   _active = win;
 }
 
@@ -217,6 +264,66 @@ void			WindowManager::setRenderWindow(sf::RenderWindow *win) {
   _window = win;
 }
 
+void			WindowManager::setActiveWindow(unsigned int const id)
+{
+  unsigned int winId;
+  SFWindow *winPtr;
+
+  auto it = find_if(_windowList->begin(), _windowList->end(),
+		    [&](const std::pair<unsigned int, SFWindow*>& val) -> bool {
+		      return val.first == id;
+		    });
+  if (it != _windowList->end())
+    {
+      _active = it->second;
+      winId = it->first;
+      winPtr = it->second;
+      _windowList->erase(it);
+      _windowList->push_back(std::pair<unsigned int, SFWindow*>(winId, winPtr));
+    }
+}
+
+SFWindow			*WindowManager::getWindowById(unsigned int const id) const
+{
+  auto it = find_if(_windowList->begin(), _windowList->end(),
+		    [&](const std::pair<unsigned int, SFWindow*>& val) -> bool {
+		      return val.first == id;
+		    });
+  if (it != _windowList->end())
+    return it->second;
+  return NULL;
+}
+
+void				WindowManager::removeWindowById(unsigned int const id)
+{
+  auto it = find_if(_windowList->begin(), _windowList->end(),
+		    [&](const std::pair<unsigned int, SFWindow*>& val) -> bool {
+		      return val.first == id;
+		    });
+  if (it != _windowList->end())
+    {
+      _windowList->erase(it);
+      delete it->second;
+    }
+}
+
+void				WindowManager::removeWindowCallback(void *param)
+{
+  unsigned int	id = *(reinterpret_cast<unsigned int*>(param));
+  if (id == 2)
+    std::cout << "lol" << std::endl;
+
+  auto it = find_if(_windowList->begin(), _windowList->end(),
+		    [/* NEED TO FIND IT */](const std::pair<unsigned int, SFWindow*>& val) -> bool {
+		      return val.first == id;
+		    });
+  std::cout << "Delete" << std::endl;
+  if (it != _windowList->end())
+    {
+      _windowList->erase(it);
+      //delete it->second;
+    }
+}
 
 // void			WindowManager::switchToLobby(void *const obj)
 // {
