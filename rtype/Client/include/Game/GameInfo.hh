@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 14:35:13 2013 guillaume marescaux
-// Last update Tue Oct 29 14:52:32 2013 guillaume marescaux
+// Last update Fri Nov  8 14:27:30 2013 guillaume marescaux
 //
 
 #ifndef 		__GAMEINFO_HH__
@@ -18,28 +18,28 @@ class			GameInfo
 private:
 
   // Attributes
-  int			_id;
+  std::string		_id;
   std::string		_name;
-  int			_nbPlayer;
-  int			_level;
+  std::string		_nbPlayer;
+  std::string		_level;
 
 public:
 
   // Ctor / Dtor
-  GameInfo(int id = 0, std::string const &name = "", int nbPlayer = 0, int level = 0);
+  GameInfo(std::string const & id = 0, std::string const &name = "", std::string const & nbPlayer = 0, std::string const & level = 0);
   GameInfo(GameInfo const &other);
   GameInfo		&operator=(GameInfo const &other);
   virtual ~GameInfo();
 
   // Getters / Setters
-  int			getId(void) const;
-  void			setId(int const id);
+  std::string const	&getId(void) const;
+  void			setId(std::string const &id);
   std::string const	&getName(void) const;
   void			setName(std::string const &name);
-  int			getNbPlayer(void) const;
-  void			setNbPlayer(int const nbPlayer);
-  int			getLevel(void) const;
-  void			setLevel(int const level);
+  std::string const 	&getNbPlayer(void) const;
+  void			setNbPlayer(std::string const &nbPlayer);
+  std::string const 	&getLevel(void) const;
+  void			setLevel(std::string const &level);
 };
 
 #endif

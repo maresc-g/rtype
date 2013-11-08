@@ -5,14 +5,14 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 14:44:49 2013 guillaume marescaux
-// Last update Tue Oct 29 15:13:37 2013 guillaume marescaux
+// Last update Fri Nov  8 14:28:58 2013 guillaume marescaux
 //
 
 #include			"Game/GameInfo.hh"
 
 //-----------------------------------BEGIN CTOR / DTOR-------------------------------------
 
-GameInfo::GameInfo(int id, std::string const &name, int nbPlayer, int level):
+GameInfo::GameInfo(std::string const &id, std::string const &name, std::string const &nbPlayer, std::string const &level):
   _id(id), _name(name), _nbPlayer(nbPlayer), _level(level)
 {
 }
@@ -42,13 +42,13 @@ GameInfo			&GameInfo::operator=(GameInfo const &other)
 
 //-----------------------------------BEGIN GETTERS / SETTERS-------------------------------------
 
-int				GameInfo::getId(void) const { return (_id); }
-void				GameInfo::setId(int const id) { _id = id; }
+std::string const		&GameInfo::getId(void) const { return (_id); }
+void				GameInfo::setId(std::string const &id) { _id = id; }
 std::string const		&GameInfo::getName(void) const { return (_name); }
 void				GameInfo::setName(std::string const &name) { _name = name; }
-int				GameInfo::getNbPlayer(void) const { return (_nbPlayer); }
-void				GameInfo::setNbPlayer(int const nbPlayer) { _nbPlayer = nbPlayer; }
-int				GameInfo::getLevel(void) const { return (_level); }
-void				GameInfo::setLevel(int const level) { _level = level; }
+std::string const		&GameInfo::getNbPlayer(void) const { return (_nbPlayer); }
+void				GameInfo::setNbPlayer(std::string const &nbPlayer) { _nbPlayer = nbPlayer; }
+std::string const		&GameInfo::getLevel(void) const { return (_level); }
+void				GameInfo::setLevel(std::string const &level) { _level = level; }
 
 //------------------------------------END GETTERS / SETTERS--------------------------------------

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 15:03:05 2013 guillaume marescaux
-// Last update Tue Nov  5 12:55:29 2013 guillaume marescaux
+// Last update Fri Nov  8 14:29:11 2013 guillaume marescaux
 //
 
 #include			"Game/GameList.hh"
@@ -36,7 +36,7 @@ void				GameList::addGame(GameInfo *gameInfo)
     _games->push_back(gameInfo);
 }
 
-void				GameList::removeGame(int id)
+void				GameList::removeGame(std::string const &id)
 {
   for (auto it = _games->begin() ; it != _games->end() ; it++)
     {

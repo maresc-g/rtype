@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 14:57:03 2013 guillaume marescaux
-// Last update Tue Nov  5 12:56:36 2013 guillaume marescaux
+// Last update Fri Nov  8 14:27:51 2013 guillaume marescaux
 //
 
 #ifndef 		__GAMELIST_HH__
@@ -36,7 +36,7 @@ public:
 
   // Methods
   void			addGame(GameInfo *gameInfo);
-  void			removeGame(int id);
+  void			removeGame(std::string const &id);
   void			clear();
 };
 
