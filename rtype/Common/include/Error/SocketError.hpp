@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Oct 30 15:37:54 2013 laurent ansel
-// Last update Wed Oct 30 15:50:24 2013 laurent ansel
+// Last update Tue Nov 12 13:01:34 2013 guillaume marescaux
 //
 
 #ifndef			__SOCKETERROR_HPP__
@@ -17,18 +17,17 @@ class			SocketError : public IError
 {
 private:
   std::string		_msg;
+
 public:
   SocketError(std::string const &msg):
-    _msg(msg)
+    _msg("")
   {
+    _msg = "Error Socket : " + msg;
   }
   virtual ~SocketError() throw(){}
   virtual char const	*what() const throw()
   {
-    std::ostringstream	str;
-
-    str << "Error Socket : " << _msg << std::endl;
-    return (str.str().c_str());
+    return (_msg.c_str());
   }
 };
 
