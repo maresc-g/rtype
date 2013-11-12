@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  9 12:55:19 2013 laurent ansel
-// Last update Mon Nov 11 11:58:42 2013 laurent ansel
+// Last update Tue Nov 12 09:16:45 2013 laurent ansel
 //
 
 #ifndef	_WIN32
@@ -40,7 +40,7 @@ bool			UnixInotify::waitEvent(std::string const &path)
     {
       {IN_CREATE, IInotify::ADD},
       {IN_MODIFY, IInotify::MODIFY},
-      {IN_DELETE, IInotify::DELETE},	{IN_DELETE_SELF, IInotify::DELETE},
+      {IN_DELETE, IInotify::DELETEFILE},{IN_DELETE_SELF, IInotify::DELETEFILE},
       {IN_MOVE_SELF, IInotify::MOVE},	{IN_MOVED_FROM, IInotify::MOVE},	{IN_MOVED_TO, IInotify::MOVE}
     };
   int			len;
