@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  9 12:46:32 2013 laurent ansel
-// Last update Sun Nov 10 21:03:31 2013 laurent ansel
+// Last update Tue Nov 12 09:16:07 2013 laurent ansel
 //
 
 #ifndef 			__IINOTIFY_HH__
@@ -27,9 +27,9 @@ public:
 #ifndef	_WIN32
       ADD = IN_CREATE,
       MODIFY = IN_MODIFY,
-      DELETE = IN_DELETE | IN_DELETE_SELF,
+      DELETEFILE = IN_DELETE | IN_DELETE_SELF,
       MOVE = IN_MOVE_SELF | IN_MOVED_FROM | IN_MOVED_TO,
-      ALL_EVENT = ADD | MODIFY | DELETE | MOVE,
+      ALL_EVENT = ADD | MODIFY | DELETEFILE | MOVE,
       NOTHING = -1
 #else
       ADD = FILE_ACTION_ADDED,
