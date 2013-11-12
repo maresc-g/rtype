@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 13:22:02 2013 laurent ansel
-// Last update Wed Nov  6 10:42:57 2013 laurent ansel
+// Last update Tue Nov 12 20:06:11 2013 alexis mestag
 //
 
 #ifndef 			__UNIXTHREAD_HH__
@@ -33,6 +33,7 @@ public:
   virtual int			start();
   virtual int			createThread(void *(*func)(void*), void *);
   virtual void			destroyThread();
+  virtual int			cancelThread();
   virtual int			waitThread();
   PthreadCondition		*getCond();
   CallBack			getFunc();

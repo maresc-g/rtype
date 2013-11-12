@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 12:53:21 2013 laurent ansel
-// Last update Mon Oct 28 16:38:33 2013 laurent ansel
+// Last update Tue Nov 12 20:24:44 2013 alexis mestag
 //
 
 #ifndef 			__WINDOWSTHREAD_HH__
@@ -27,6 +27,7 @@ public:
   virtual int			start();
   virtual int			createThread(void *(*func)(void*), void *);
   virtual void			destroyThread();
+  virtual int			cancelThread();
   virtual int			waitThread();
 };
 

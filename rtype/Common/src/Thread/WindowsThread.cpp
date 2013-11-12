@@ -5,11 +5,12 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 12:54:47 2013 laurent ansel
-// Last update Mon Oct 28 16:40:20 2013 laurent ansel
+// Last update Tue Nov 12 20:28:33 2013 alexis mestag
 //
 
 #ifdef			_WIN32
 
+#include		<exception>
 #include		"Thread/WindowsThread.hh"
 
 WindowsThread::WindowsThread():
@@ -45,6 +46,11 @@ void			WindowsThread::destroyThread()
 {
   if (this->_thread)
     CloseHandle(this->_thread);
+}
+
+int			WindowsThread::cancelThread()
+{
+  throw std::exception();
 }
 
 int			WindowsThread::waitThread()

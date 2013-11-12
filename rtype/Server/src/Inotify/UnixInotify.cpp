@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  9 12:55:19 2013 laurent ansel
-// Last update Tue Nov 12 09:16:45 2013 laurent ansel
+// Last update Tue Nov 12 20:14:30 2013 alexis mestag
 //
 
 #ifndef	_WIN32
@@ -24,6 +24,7 @@ UnixInotify::UnixInotify():
 
 UnixInotify::~UnixInotify()
 {
+  delete _event;
   delete _fd;
 }
 
