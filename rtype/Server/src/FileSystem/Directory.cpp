@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 14:58:59 2013 alexis mestag
-// Last update Mon Nov  4 19:41:45 2013 alexis mestag
+// Last update Tue Nov 12 09:29:48 2013 alexis mestag
 //
 
 #ifndef	_WIN32
@@ -69,10 +69,10 @@ namespace			FileSystem
     FileSystem::Entry		*entry;
 
     this->deleteEntries();
+    _entries = new std::list<Entry *>;
     dirp = opendir(this->getPath().c_str());
     if (dirp)
       {
-	_entries = new std::list<Entry *>;
 	while ((dirpEntry = readdir(dirp)))
 	  {
 	    fullPath = this->getPath() + "/" + dirpEntry->d_name;
@@ -100,9 +100,9 @@ namespace			FileSystem
     Entry			*entry;
 
     this->deleteEntries();
+    _entries = new std::list<Entry *>;
     if ((dirp = FindFirstFile((this->getPath() + "/*").c_str(), &dirpEntry)) != INVALID_HANDLE_VALUE)
       {
-	_entries = new std::list<Entry *>;
 	do
 	  {
 	    fullPath = this->getPath() + "/" + dirpEntry.cFileName;
