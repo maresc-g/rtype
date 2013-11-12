@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:06:17 2013 alexis mestag
-// Last update Tue Nov  5 21:49:03 2013 alexis mestag
+// Last update Tue Nov 12 19:49:54 2013 alexis mestag
 //
 
 #ifndef			__DYNAMICLIBRARYUPDATER_HH__
@@ -14,6 +14,7 @@
 # include		<string>
 # include		"Thread/Thread.hpp"
 # include		"FileSystem/Directory.hh"
+# include		"Inotify/Inotify.hpp"
 
 # define		LIB_PATH	"Libraries"
 
@@ -22,6 +23,7 @@ class			DynamicLibraryUpdater : public Thread
 private:
   unsigned int		_timer;
   FileSystem::Directory	*_directory;
+  Inotify		*_inotify;
 
   DynamicLibraryUpdater(DynamicLibraryUpdater const &rhs);
   DynamicLibraryUpdater	&operator=(DynamicLibraryUpdater const &rhs);
@@ -35,6 +37,7 @@ public:
   FileSystem::Directory const	&getDirectory() const;
   unsigned int		getTimer() const;
   void			setTimer(unsigned int const timer);
+  Inotify		&getInotify();
 };
 
 #endif
