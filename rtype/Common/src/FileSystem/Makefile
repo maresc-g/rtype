@@ -5,9 +5,9 @@
 ## Login   <mestag_a@epitech.net>
 ## 
 ## Started on  Mon Nov  4 14:25:38 2013 alexis mestag
-## Last update Mon Nov  4 15:08:13 2013 alexis mestag
+## Last update Tue Nov 12 13:55:29 2013 guillaume marescaux
 ##
 
-SRCSERVER +=	$(FILESYSTEM)/Entry.cpp		\
+SRCCOMMON +=	$(FILESYSTEM)/Entry.cpp		\
 		$(FILESYSTEM)/File.cpp		\
 		$(FILESYSTEM)/Directory.cpp
