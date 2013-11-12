@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:05:50 2013 alexis mestag
-// Last update Tue Nov 12 20:12:38 2013 alexis mestag
+// Last update Wed Nov 13 00:15:52 2013 alexis mestag
 //
 
 #include			<unistd.h>
@@ -20,13 +20,13 @@ static void			*run(void *data)
 
   std::cout << "COUCOU :D" << std::endl;
   dlu = reinterpret_cast<DynamicLibraryUpdater *>(data);
-  while (1)
+  do
     {
       dlu->getInotify().waitEvent(dlu->getDirectory().getPath());
       std::cout << "The directory '" << dlu->getDirectory().getPath()
 		<< "' has been modified" << std::endl;
       dlu->updateLibraries();
-    }
+    } while (1);
   return (NULL);
 }
 
