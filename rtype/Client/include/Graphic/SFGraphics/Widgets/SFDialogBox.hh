@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Nov  7 16:32:11 2013 cyril jourdain
-// Last update Thu Nov  7 17:48:46 2013 cyril jourdain
+// Last update Fri Nov  8 15:38:55 2013 cyril jourdain
 //
 
 #ifndef 		__SFDIALOGBOX_HH__
@@ -19,16 +19,17 @@ class			SFDialogBox : public SFWindow
 private:
   std::string		_name;
   std::string		_content;
-  unsigned int		_id;
+  bool			_okButton;
   SFImageBox		*_background;
   SFButton		*_closeButton;
   SFLabel		*_label;
+  SFLabel		*_title;
 
 public:
-  void			init();
+  virtual void			init();
 
 public:
-  SFDialogBox(std::string const &name, std::string const &content, unsigned int id);
+  SFDialogBox(std::string const &name, std::string const &content, bool okButton = true);
   virtual ~SFDialogBox();
 };
 

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 01:59:32 2013 cyril jourdain
-// Last update Wed Nov  6 20:47:18 2013 cyril jourdain
+// Last update Fri Nov  8 10:56:22 2013 cyril jourdain
 //
 
 #ifndef 		__SFCONNECT_HH__
@@ -65,8 +65,8 @@ private:
     }
     void			call(sf::Event::EventType type)
     {
-		if (_callbackList->find(type) != _callbackList->end())
-		(*_callbackList)[type]->_function((*_callbackList)[type]->_param);
+      if (_callbackList->find(type) != _callbackList->end())
+	(*_callbackList)[type]->_function((*_callbackList)[type]->_param);
     }
   };
 

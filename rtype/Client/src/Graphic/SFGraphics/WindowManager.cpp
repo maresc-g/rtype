@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:18:05 2013 cyril jourdain
-// Last update Thu Nov  7 17:54:38 2013 cyril jourdain
+// Last update Fri Nov  8 14:45:48 2013 cyril jourdain
 //
 
 #include	<iostream>
@@ -23,6 +23,7 @@ WindowManager::WindowManager() :
   _size.x = WIN_X;
   _size.y = WIN_Y;
   _exit = false;
+  _fps = 20;
 }
 
 WindowManager::~WindowManager()
@@ -37,15 +38,18 @@ SFWidget	*WindowManager::getFocused() const
 void		WindowManager::draw() const
 {
   _window->setView(*(_active->getView()));
-  for (auto it = _windowList->begin(); it != _windowList->end(); it++)
+  if (_windowList && !_windowList->empty())
     {
-      if (it->second->isVisible())
-      	{
-	  _window->setView(*(it->second->getView()));
-	  it->second->draw(_window);
+      for (auto it = _windowList->begin(); it != _windowList->end(); ++it)
+	{
+	  if (it->second && it->second->isVisible())
+	    {
+	      _window->setView(*(it->second->getView()));
+	      it->second->draw(_window);
+	    }
 	}
+      _window->setView(_window->getDefaultView());
     }
-  _window->setView(_window->getDefaultView());
 }
 
 void		WindowManager::setFocusedWindow(sf::Event const &mouse)
@@ -159,8 +163,6 @@ bool		WindowManager::clickEvent(sf::Event const &mouse)
 {
   float x, y;
   bool	obj = false;
-  bool	win = false;
-
   sf::Vector2i  pos(mouse.mouseButton.x, mouse.mouseButton.y);
   sf::Vector2f	worldPos = _window->mapPixelToCoords(pos);
   WindowList::iterator save = _windowList->end();
@@ -236,6 +238,20 @@ void		WindowManager::addWindow(unsigned int const id, SFWindow *win)
 {
   _windowList->push_back(std::pair<unsigned int, SFWindow*>(id, win));
   _active = win;
+  win->setWindowManager(this);
+  win->setId(id);
+  win->init();
+}
+
+void		WindowManager::addWindow(SFWindow *win)
+{
+  unsigned int	id = getLastWindowIndex() + 1;
+
+  _windowList->push_back(std::pair<unsigned int, SFWindow*>(id, win));
+  _active = win;
+  win->setWindowManager(this);
+  win->setId(id);
+  win->init();
 }
 
 void		WindowManager::init()
@@ -246,12 +262,21 @@ void		WindowManager::init()
 
 void		WindowManager::exec()
 {
+  sf::Clock	clock;
+  sf::Time	elapsedTime;
+  float		time;
+
   while (!_exit)
     {
+      clock.restart();
       manageEvent();
       _window->display();
       _window->clear();
       draw();
+      elapsedTime = clock.getElapsedTime();
+      time = 100000 / _fps - elapsedTime.asMicroseconds();
+      if (time > 0)
+	sf::sleep(sf::microseconds(time));
     }
   if (_window)
     _window->close();
@@ -278,6 +303,7 @@ void			WindowManager::setActiveWindow(unsigned int const id)
       _active = it->second;
       winId = it->first;
       winPtr = it->second;
+      winPtr->setVisibility(true);
       _windowList->erase(it);
       _windowList->push_back(std::pair<unsigned int, SFWindow*>(winId, winPtr));
     }
@@ -310,29 +336,28 @@ void				WindowManager::removeWindowById(unsigned int const id)
 void				WindowManager::removeWindowCallback(void *param)
 {
   unsigned int	id = *(reinterpret_cast<unsigned int*>(param));
-  if (id == 2)
-    std::cout << "lol" << std::endl;
 
   auto it = find_if(_windowList->begin(), _windowList->end(),
-		    [/* NEED TO FIND IT */](const std::pair<unsigned int, SFWindow*>& val) -> bool {
+		    [&](const std::pair<unsigned int, SFWindow*>& val) -> bool {
 		      return val.first == id;
 		    });
-  std::cout << "Delete" << std::endl;
   if (it != _windowList->end())
-    {
-      _windowList->erase(it);
-      //delete it->second;
-    }
+    _windowList->remove(*it);
 }
 
-// void			WindowManager::switchToLobby(void *const obj)
-// {
-//   SFWindow	*save = _windowList->back();
-//   auto		itsave = find(_windowList->begin(), _windowList->end(), save);
-//   std::string	text = reinterpret_cast<SFTextBox*>(obj)->getText();
+unsigned int			WindowManager::getLastWindowIndex() const
+{
+  unsigned int			index;
 
-//   std::cout << text << std::endl;
-//   _active = _windowList->front();
-//   _windowList->erase(itsave);
-//   _windowList->push_front(save);
-// }
+  if (_windowList)
+    {
+      index = _windowList->front().first;
+      for (auto it = _windowList->begin(); it != _windowList->end(); ++it)
+	{
+	  if (it->first > index)
+	    index = it->first;
+	}
+    }
+  return (index);
+}
+

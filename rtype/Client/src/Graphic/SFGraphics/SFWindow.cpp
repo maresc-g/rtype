@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 19:36:18 2013 cyril jourdain
-// Last update Thu Nov  7 12:50:28 2013 cyril jourdain
+// Last update Fri Nov  8 12:49:21 2013 cyril jourdain
 //
 
 #include			"Graphic/SFGraphics/Widgets/SFWindow.hh"
@@ -40,6 +40,9 @@ SFWindow::~SFWindow()
   delete _widgetList;
   // might not work
 }
+
+void				SFWindow::setId(unsigned int id) {_id = id;}
+unsigned int			SFWindow::getId() const {return _id;}
 
 SFWidget			*SFWindow::getFocused() const
 {
@@ -79,7 +82,6 @@ void				SFWindow::updateBound()
     ;
   _bounds->height = (sizey)// * _view->getViewport().height
     ;
-  std::cout << _bounds->width << std::endl;
 }
 
 void				SFWindow::setPosition(sf::Vector2f const &pos)

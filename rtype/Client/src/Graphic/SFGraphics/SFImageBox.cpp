@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 13:31:34 2013 cyril jourdain
-// Last update Wed Nov  6 14:12:53 2013 cyril jourdain
+// Last update Mon Nov 11 22:07:30 2013 cyril jourdain
 //
 
 #include		"Graphic/SFGraphics/Widgets/SFImageBox.hh"

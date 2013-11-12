@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 12:06:36 2013 cyril jourdain
-// Last update Wed Nov  6 11:18:30 2013 cyril jourdain
+// Last update Mon Nov 11 21:38:00 2013 cyril jourdain
 //
 
 #ifndef 		__SFWIDGET_HH__
@@ -36,7 +36,7 @@ public:
 public:
   MethodMap			&getMethodMap() const;
   void				setFocus(bool focus);
-  void				setSize(float x, float y);
+  virtual void			setSize(float x, float y);
   void				callNativeFunction(sf::Event *const event);
 
 private:

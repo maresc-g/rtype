@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Nov  4 16:14:46 2013 cyril jourdain
-// Last update Thu Nov  7 14:33:36 2013 cyril jourdain
+// Last update Mon Nov 11 23:35:24 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/LobbyWindow.hh"
@@ -30,6 +30,7 @@ void			LobbyWindow::init()
   _createButton = addWidget<SFButton>();
   _refreshButton = addWidget<SFButton>();
   _backButton = addWidget<SFButton>();
+  _arrayGame = addWidget<SFArray>();
 
   // Textures
   _background->setTexture((*(SFRessourcesManager::getInstance()->Images))[LOBBY_BACKGROUND]);
@@ -60,6 +61,11 @@ void			LobbyWindow::init()
   _backButton->setPosition(sf::Vector2f(_refreshButton->getPosition().x,
 					_refreshButton->getPosition().y + 40));
   _backButton->setSize(130,30);
+
+  _arrayGame->setBackgroundTexture((*(SFRessourcesManager::getInstance()->Images))[LOBBY_ARRAY_BACKGROUND]);
+  _arrayGame->setSize(730,560);
+  _arrayGame->setPosition(_centerBox->getPosition().x + 240, _centerBox->getPosition().y + 20);
+  _arrayGame->addLine();
 
   setSize(sf::Vector2f(WIN_X,WIN_Y));
   setVisibility(false);

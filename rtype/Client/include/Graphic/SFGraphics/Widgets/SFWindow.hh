@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 19:15:41 2013 cyril jourdain
-// Last update Thu Nov  7 12:49:44 2013 cyril jourdain
+// Last update Fri Nov  8 12:40:25 2013 cyril jourdain
 //
 
 #ifndef 		__SFWINDOW_HH__
@@ -29,6 +29,7 @@ private:
 protected:
   sf::View			*_view;
   WindowManager			*_manager;
+  unsigned int			_id;
 
 public:
   SFWindow();
@@ -37,6 +38,8 @@ public:
 
 public:
   virtual void			init() = 0;
+  void				setId(unsigned int id);
+  unsigned int			getId() const;
   SFWidget			*getFocused() const;
   void				setFocused(SFWidget *);
   sf::View			*getView() const;

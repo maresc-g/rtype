@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Oct 24 17:38:46 2013 cyril jourdain
-// Last update Wed Nov  6 14:13:21 2013 cyril jourdain
+// Last update Fri Nov  8 11:17:15 2013 cyril jourdain
 //
 
 #ifndef 		__SFWIDGET_CPP__
@@ -55,21 +55,9 @@ void			SFWidget::callNativeFunction(sf::Event *const event)
     (this->*(_ptrMap[event->type]))(event);
 }
 
-// void			*SFWidget::getParam() const
-// {
-//   //return _mouseParam;
-// }
-
-// void			SFWidget::setParam(void *param)
-// {
-//   //_mouseParam = param;
-// }
-
 /* EVENT FUNCTION CLASSBACK */
-void			SFWidget::onClick(void *const param)
+void			SFWidget::onClick(void *const)
 {
-  // if (_mousePressedFunction)
-  //   _mousePressedFunction(param);
 }
 
 SFWidget::MethodMap SFWidget::_ptrMap = SFWidget::createMap();

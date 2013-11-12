@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Oct 25 15:41:38 2013 cyril jourdain
-// Last update Thu Nov  7 17:17:31 2013 cyril jourdain
+// Last update Fri Nov  8 16:58:09 2013 cyril jourdain
 //
 
 #ifndef 		__SFBUTTON_HH__
@@ -28,13 +28,12 @@ public:
 
 public:
   void				setBackgroundTexture(sf::Texture *);
-  void test(void *const p){std::cout << "TB Contains : "<<  reinterpret_cast<SFTextBox*>(p)->getText() << std::endl;};
 
 public:
   virtual void			init();
   virtual sf::FloatRect		&getBound() const;
   virtual void			setBackgroundColor(sf::Color const);
-  virtual void			onClick(void *const ) {std::cout << "click" << std::endl;}
+  virtual void			onClick(void *const ) {};
 
 private:
   virtual void			draw(sf::RenderTarget &target, sf::RenderStates states) const;

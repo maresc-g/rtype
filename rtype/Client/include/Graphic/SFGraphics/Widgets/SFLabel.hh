@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Oct 28 16:20:17 2013 cyril jourdain
-// Last update Thu Nov  7 17:31:14 2013 cyril jourdain
+// Last update Fri Nov  8 15:33:52 2013 cyril jourdain
 //
 
 #ifndef 		__SFLABEL_HH__
