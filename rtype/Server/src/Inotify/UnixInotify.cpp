@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  9 12:55:19 2013 laurent ansel
-// Last update Wed Nov 13 14:49:04 2013 alexis mestag
+// Last update Wed Nov 13 16:00:35 2013 alexis mestag
 //
 
 #ifndef	_WIN32
@@ -49,16 +49,13 @@ bool			UnixInotify::waitEvent(std::string const &path)
       {IN_MOVED_TO, IInotify::MOVE}
     };
   int				len;
-  // char			buffer[1024 + (sizeof(struct inotify_event) + 16)];
   char				buffer[sizeof(struct inotify_event) + NAME_MAX];
   struct inotify_event		*event = NULL;
   enum IInotify::eInotify	ret = NOTHING;
 
   if (this->_fd->find(path) != this->_fd->end())
     {
-      // len = read(this->_notify, buffer, 1024 + (sizeof(struct inotify_event) + 16));
       len = read(this->_notify, buffer, sizeof(buffer));
-      // for (int i = 0 ; i < len ; i+= sizeof(struct inotify_event))
       if (len != -1)
 	{
 	  event = reinterpret_cast<struct inotify_event *>(buffer);
