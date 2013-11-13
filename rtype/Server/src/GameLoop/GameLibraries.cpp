@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:18:29 2013 alexis mestag
-// Last update Tue Nov  5 13:29:06 2013 alexis mestag
+// Last update Tue Nov 12 18:06:04 2013 alexis mestag
 //
 
 #include			"GameLoop/GameLibraries.hh"
@@ -56,6 +56,17 @@ void				GameLibraries::addLibrary(IDynamicLibrary &lib)
 IDynamicLibrary			&GameLibraries::getLibrary(std::string const &lib)
 {
   return (*(*_libraries)[lib]);
+}
+
+void				GameLibraries::setLibrary(IDynamicLibrary &lib)
+{
+  std::map<std::string, IDynamicLibrary *>::const_iterator it;
+
+  if ((it = _libraries->find(lib.getPath())) != _libraries->cend())
+    {
+      delete it->second;
+    }
+  (*_libraries)[lib.getPath()] = &lib;
 }
 
 void				GameLibraries::setLibrariesFromDeepCopy(std::map<std::string, IDynamicLibrary *> &libraries)

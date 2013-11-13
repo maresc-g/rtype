@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 14:57:03 2013 guillaume marescaux
-// Last update Fri Nov  8 14:27:51 2013 guillaume marescaux
+// Last update Wed Nov 13 10:15:30 2013 guillaume marescaux
 //
 
 #ifndef 		__GAMELIST_HH__
@@ -14,6 +14,7 @@
 #include		<list>
 #include		"GameInfo.hh"
 #include		"Utility/Singleton.hpp"
+#include		"Mutex/Mutex.hpp"
 
 class			GameList : public Singleton<GameList>
 {
@@ -23,6 +24,7 @@ private:
 
   // Attributes
   std::list<GameInfo *>	*_games;
+  Mutex			*_mutex;
 
 private:
 
@@ -38,6 +40,7 @@ public:
   void			addGame(GameInfo *gameInfo);
   void			removeGame(std::string const &id);
   void			clear();
+  std::list<GameInfo *> const	&getGames(void) const;
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Fri Nov  8 14:36:41 2013 guillaume marescaux
+// Last update Tue Nov 12 14:01:57 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -17,6 +17,7 @@
 #include			"Game/GameList.hh"
 #include			"Map/Map.hh"
 #include			"Error/SocketError.hpp"
+#include			"FileSystem/Directory.hh"
 
 //----------------------------------BEGIN CTOR / DTOR---------------------------------------
 
@@ -30,6 +31,14 @@ Client::Client():
   // ptrs
   _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::WELCOME, &Client::welcome));
   _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::GAMELIST, &Client::gamelist));
+  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::OK, &Client::ok));
+  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::KO, &Client::ko));
+  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::LAUNCHGAME, &Client::launchGame));
+  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::MAP, &Client::map));
+  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::ENTITY, &Client::entity));
+  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::SCROLL, &Client::scroll));
+  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::DEAD, &Client::dead));
+  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::ENDGAME, &Client::endGame));
   // sockets
   _sockets->insert(std::pair<eSocket, Socket *>(TCP, new Socket));
   _sockets->insert(std::pair<eSocket, Socket *>(UDP, new Socket));
@@ -47,17 +56,14 @@ Client::~Client()
     }
   delete _ptrs;
   delete _sockets;
-  for (auto it = _socketsClient->begin() ; it != _socketsClient->end() ; it++)
-    {
-      // if ((*it).second)
-      // 	delete (*it).second;
-    }
   delete _socketsClient;
   delete _select;
   delete _protocol;
 }
 
 //-----------------------------------END CTOR / DTOR----------------------------------------
+
+//---------------------------------BEGIN STATIC METHODS-------------------------------------
 
 std::map<std::string, std::string>	Client::initMapGameList()
 {
@@ -69,6 +75,8 @@ std::map<std::string, std::string>	Client::initMapGameList()
   map.insert(std::pair<std::string, std::string>("level", ""));
   return (map);
 }
+
+//----------------------------------END STATIC METHODS--------------------------------------
 
 //--------------------------------BEGIN PRIVATE METHODS-------------------------------------
 
@@ -105,7 +113,6 @@ void				Client::gamelist(Trame const &trame)
   while (iss.good() && !iss.str().empty())
     {
       iss >> token;
-      std::cout << token << std::endl;
       tokenStream = new std::istringstream(token);
       std::getline(*tokenStream, map["id"], ';');
       std::getline(*tokenStream, map["name"], ';');
@@ -147,7 +154,13 @@ void				Client::entity(Trame const &trame)
     map->addEntity(new Entity(id, x, y, static_cast<Entity::eEntity>(type)));
 }
 
-void				Client::scroll(Trame const &) { }
+void				Client::scroll(Trame const &trame)
+{
+  Map				*map = Map::getInstance();
+
+  map->setScroll(std::stoi(trame.getContent()));
+}
+
 void				Client::dead(Trame const &) { }
 void				Client::endGame(Trame const &) { }
 
@@ -235,38 +248,39 @@ bool				Client::initialize(void)
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
   Trame				*tmp;
   Protocol::eProtocol		msgType;
+  FileSystem::Directory		*dir = new FileSystem::Directory("Res");
+  dir->updateEntries();
+  std::list<FileSystem::Entry *>	tmpList = dir->getEntries();
 
-  std::cout << "1" << std::endl;
+  for (auto it = tmpList.begin() ; it != tmpList.end() ; it++)
+    {
+      if ((*it)->getType() == FileSystem::FILE)
+	std::cout << (*it)->getPath() << std::endl;
+    }
   try
     {
       (*_sockets)[TCP]->initialize("TCP");
       (*_sockets)[UDP]->initialize("UDP");
-      (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr(_info->getIp(), std::stoi(_info->getPort()));
-      (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr(_info->getIp(), std::stoi(_info->getPort()));
+      (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr("127.0.0.1", 4242);
+      (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr("127.0.0.1", 4242);
+      // (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr(_info->getIp(), std::stoi(_info->getPort()));
+      // (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr(_info->getIp(), std::stoi(_info->getPort()));
     }
-  catch (SocketError &e)
+  catch (SocketError const &e)
     {
       std::cout << e.what() << std::endl;
       (*_sockets)[TCP]->destroy();
       (*_sockets)[UDP]->destroy();
-      if ((*_socketsClient)[TCP])
-	{
-	  // delete (*_socketsClient)[TCP];
-	  (*_socketsClient)[TCP] = NULL;
-	}
-      if ((*_socketsClient)[UDP])
-	{
-	  // delete (*_socketsClient)[UDP];
-	  (*_socketsClient)[UDP] = NULL;
-	}
       return (false);
     }
-  std::cout << "2" << std::endl;
+  catch (std::invalid_argument const &e)
+    {
+      return (false);
+    }
   this->read(0, 0, false);
   tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
   msgType = _protocol->getMsg(tmp);
   (this->*(*_ptrs)[msgType])(*tmp);
-  std::cout << _id << std::endl;
   delete tmp;
   _protocol->protocolMsg(Protocol::INITIALIZE, _id, NULL);
   this->write();
@@ -306,6 +320,11 @@ void				Client::loop(void)
     }
 }
 
+//-----------------------------------END METHODS----------------------------------------
+
+//-----------------------------BEGIN GETTERS / SETTERS----------------------------------
+
 void				Client::setConnectInfo(ConnectInfo *info) {_info = info;}
 ConnectInfo			*Client::getConnectInfo() const {return _info;}
-//-----------------------------------END METHODS----------------------------------------
+
+//------------------------------END GETTERS / SETTERS-----------------------------------

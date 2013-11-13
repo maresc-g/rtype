@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Thu Nov  7 17:48:33 2013 cyril jourdain
+// Last update Mon Nov 11 22:20:11 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -45,14 +45,9 @@ void			ClientMain::init()
   _manager->init();
   (*_windows)[LOGIN] = new LoginWindow();
   (*_windows)[LOBBY] = new LobbyWindow();
-  (*_windows)[2] = new SFDialogBox("toto", "Error : Window not initialized", 2);
-  (*_windows)[LOGIN]->init();
-  (*_windows)[LOBBY]->init();
-  (*_windows)[2]->init();
   _manager->addWindow(LOBBY,(*_windows)[LOBBY]);
   _manager->addWindow(LOGIN,(*_windows)[LOGIN]);
-  _manager->addWindow(2,(*_windows)[2]);
-  //_manager->setActiveWindow(LOGIN);
+  _manager->setActiveWindow(LOBBY);
 }
 
 void			ClientMain::launch()
@@ -66,6 +61,7 @@ void			ClientMain::launch()
 void			ClientMain::connectToServer(void *param)
 {
   sf::Clock		clock;
+
   if (param)
     {
       LoginWData		*data = reinterpret_cast<LoginWData*>(param);
@@ -80,8 +76,12 @@ void			ClientMain::connectToServer(void *param)
 	  if (_client->getConnectInfo())
 	    {
 	      _manager->setActiveWindow(LOBBY);
-	      _manager->getWindowById(LOBBY)->setVisibility(true);
+	      _manager->getWindowById(LOGIN)->setVisibility(false);
 	    }
+	  else
+	    _manager->addWindow(new SFDialogBox("Error", "Could not connect to server"));
 	}
+      else
+	_manager->addWindow(new SFDialogBox("Error", "Please fill server IP and PORT"));
     }
 }

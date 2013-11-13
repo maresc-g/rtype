@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 12:06:36 2013 cyril jourdain
-// Last update Wed Nov  6 11:18:30 2013 cyril jourdain
+// Last update Tue Nov 12 13:15:36 2013 cyril jourdain
 //
 
 #ifndef 		__SFWIDGET_HH__
@@ -28,6 +28,7 @@ private:
 protected:
   bool				_focused;
   sf::FloatRect			*_bounds;
+  sf::View			*_customView;
   
 public:
   SFWidget();
@@ -36,8 +37,9 @@ public:
 public:
   MethodMap			&getMethodMap() const;
   void				setFocus(bool focus);
-  void				setSize(float x, float y);
+  virtual void			setSize(float x, float y);
   void				callNativeFunction(sf::Event *const event);
+  sf::View			*getCustomView() const;
 
 private:
   virtual void			draw(sf::RenderTarget &target, sf::RenderStates states) const = 0;

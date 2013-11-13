@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Oct 25 15:49:46 2013 cyril jourdain
-// Last update Thu Nov  7 17:17:37 2013 cyril jourdain
+// Last update Mon Nov 11 20:47:32 2013 cyril jourdain
 //
 
 
@@ -53,7 +53,7 @@ void			SFButton::setBackgroundColor(sf::Color const color)
   _vertices[0].color = color;
   _vertices[1].color = color;
   _vertices[2].color = color;
-  _vertices[3].color = color;  
+  _vertices[3].color = color;
 }
 
 void			SFButton::draw(sf::RenderTarget &target, sf::RenderStates states) const

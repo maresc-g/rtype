@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Nov  4 16:14:46 2013 cyril jourdain
-// Last update Thu Nov  7 14:33:36 2013 cyril jourdain
+// Last update Wed Nov 13 10:13:45 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/LobbyWindow.hh"
@@ -30,6 +30,7 @@ void			LobbyWindow::init()
   _createButton = addWidget<SFButton>();
   _refreshButton = addWidget<SFButton>();
   _backButton = addWidget<SFButton>();
+  _arrayGame = addWidget<SFArray>();
 
   // Textures
   _background->setTexture((*(SFRessourcesManager::getInstance()->Images))[LOBBY_BACKGROUND]);
@@ -61,7 +62,23 @@ void			LobbyWindow::init()
 					_refreshButton->getPosition().y + 40));
   _backButton->setSize(130,30);
 
+  _arrayGame->setBackgroundTexture((*(SFRessourcesManager::getInstance()->Images))[LOBBY_ARRAY_BACKGROUND]);
+  _arrayGame->create((std::list<std::string>){"ID", "NAME", "PLAYERS"});
+  //_arrayGame->setSize(WIN_X, WIN_Y);
+  //_arrayGame->setPosition(_centerBox->getPosition().x + 240, _centerBox->getPosition().y + 20);
+  _arrayGame->addLine();
+  // (*_arrayGame)[0]["ID"].setText("00");
+  // (*_arrayGame)[0]["NAME"].setText("GAME1");
+  // (*_arrayGame)[0]["PLAYERS"].setText("0/4");
+
   setSize(sf::Vector2f(WIN_X,WIN_Y));
   setVisibility(false);
   updateBound();
 }
+
+void				LobbyWindow::refreshGameList()
+{
+  
+}
+
+/* ARRAY SEGFAULT ON UNEXISTING INDEX */

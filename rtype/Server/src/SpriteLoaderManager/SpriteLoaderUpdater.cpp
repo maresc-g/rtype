@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 11:40:04 2013 laurent ansel
-// Last update Mon Nov 11 12:03:36 2013 laurent ansel
+// Last update Tue Nov 12 09:14:54 2013 laurent ansel
 //
 
 #include			<algorithm>
@@ -54,7 +54,7 @@ void				SpriteLoaderUpdater::run()
       this->_inotify->waitEvent(this->_directory->getPath());
       event = this->_inotify->getEvent(this->_directory->getPath());
       this->_mutex.enter();
-      if (event.first == IInotify::DELETE)
+      if (event.first == IInotify::DELETEFILE)
 	for (itSprite = this->_sprites->begin() ; itSprite != this->_sprites->end() ; ++itSprite)
 	  if ((*itSprite)->getPath().find(event.second) != std::string::npos)
 	    {

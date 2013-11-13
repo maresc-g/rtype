@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Oct 28 14:25:59 2013 cyril jourdain
-// Last update Wed Nov  6 14:11:22 2013 cyril jourdain
+// Last update Mon Nov 11 22:10:52 2013 cyril jourdain
 //
 
 #ifndef 		__SFIMAGEBOX_HH__

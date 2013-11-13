@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 13:25:46 2013 laurent ansel
-// Last update Wed Nov  6 10:43:30 2013 laurent ansel
+// Last update Tue Nov 12 20:06:53 2013 alexis mestag
 //
 
 #ifndef			_WIN32
@@ -61,7 +61,12 @@ int			UnixThread::createThread(void *(*func)(void *), void *data)
 
 void			UnixThread::destroyThread()
 {
-  pthread_exit(&this->_thread);
+  pthread_exit(&this->_thread);  
+}
+
+int			UnixThread::cancelThread()
+{
+  return (pthread_cancel(this->_thread));
 }
 
 int			UnixThread::waitThread()
