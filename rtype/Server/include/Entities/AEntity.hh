@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Thu Nov  7 21:38:31 2013 laurent ansel
+// Last update Tue Nov 12 15:37:52 2013 antoine maitre
 //
 
 #ifndef 		__AENTITY_HH__
@@ -25,12 +25,14 @@ public:
     };
 
 protected:
+  unsigned int		_id;
   int			_l;
   int			_L;
   Coordinate		*_coord;
   std::string		_path;
   int			_speed;
   bool			_destructible;
+  bool			_dead;
 
   AEntity();
 public:
@@ -40,7 +42,7 @@ public:
 
   AEntity		&operator=(AEntity const &rhs);
 
-  bool			checkCollision(AEntity const &other) const;
+  void			collision();
 
   void			move(int const x, int const y);
   Coordinate const	*getCoord() const;
@@ -55,6 +57,8 @@ public:
   void			setDestructible(bool const &destructible);
   int			getLargeur() const;
   int			getLongueur() const;
+  unsigned int		getId() const;
+  bool			isDead() const;
 };
 
 #endif

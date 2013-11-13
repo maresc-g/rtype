@@ -6,7 +6,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov  7 13:38:24 2013 antoine maitre
+// Last update Tue Nov 12 16:32:32 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -21,7 +21,7 @@ GameLoop::~GameLoop()
 
 }
 
-void GameLoop::Initialize(ClientInfo *client)
+void			GameLoop::Initialize(ClientInfo *client)
 {
   this->_levelManag = new LevelManager();
   this->_levelManag->Initialize();
@@ -29,7 +29,7 @@ void GameLoop::Initialize(ClientInfo *client)
   this->_levelManag->getPlayers().push_back(this->_clients.front()->getPlayer());
 }
 
-void GameLoop::loop()
+void			GameLoop::loop()
 {
   while (!this->_levelManag->getEndGame())
     {
@@ -45,30 +45,50 @@ void GameLoop::loop()
 	  if (coord->getX() <= this->_levelManag->getAdv() - (*it)->getLongueur())
 	    it = this->_levelManag->getEnemies().erase(it);
 	}
+      this->_levelManag->getMap()->setEntities();
+      this->destroyDeadEntities(this->_levelManag->getEnemies(), 
+				this->_levelManag->getPlayers());
 #endif
     }
 }
 
-void GameLoop::recupScreen()
+void			GameLoop::recupScreen()
 {
   
 }
 
-void GameLoop::newPlayer()
+void			GameLoop::newPlayer()
 {
   
 }
 
-void GameLoop::deadPlayer()
+void			GameLoop::deadPlayer()
 {
 
 }
 
-void GameLoop::spawnMob()
+void			GameLoop::spawnMob()
 {
   //  std::list<Mob *> yolo = this->_levelManag->getCurrentLevel()->getMap()->getDynamicEntities();
 
   
+}
+
+void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AEntity *> &players)
+{
+  for (std::list<AEntity *>::iterator it = enemies.begin(); it != enemies.end(); it++)
+    {
+      if ((*it)->isDead() == true)
+	it = enemies.erase(it);
+    }
+  for (std::list<PlayerInfo *>::iterator it = _clients.begin(); it != _clients.end(); it++)
+    {
+      if ((*it)->getPlayer()->isDead() == true)
+	{
+	  players.remove((*it)->getPlayer());
+	  it = _clients.erase(it);
+	}
+    }
 }
 
 unsigned int		GameLoop::getId() const

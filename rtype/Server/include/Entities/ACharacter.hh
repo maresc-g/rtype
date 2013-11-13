@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:43:43 2013 guillaume marescaux
-// Last update Thu Nov  7 21:38:52 2013 laurent ansel
+// Last update Tue Nov 12 15:38:36 2013 antoine maitre
 //
 
 #ifndef 		__ACHARACTER_HH__
@@ -21,6 +21,7 @@ protected:
 public:
   ACharacter(int const x, int const y, std::string const &path, int const speed, bool const destructible);
   virtual ~ACharacter();
+  void			collision();
 };
 
 #endif

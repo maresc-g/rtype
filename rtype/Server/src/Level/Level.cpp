@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 16:09:33 2013 antoine maitre
-// Last update Thu Nov  7 13:40:13 2013 antoine maitre
+// Last update Tue Nov 12 16:01:58 2013 antoine maitre
 //
 
 #include	"Level/Level.hh"
@@ -30,7 +30,6 @@ void	Level::Initialize()
   std::string pathMap = this->_path + "map";
 
   this->_map = new Map(pathMap);
-  this->_map->setEnemies();
 }
 
 bool	Level::getEnd()

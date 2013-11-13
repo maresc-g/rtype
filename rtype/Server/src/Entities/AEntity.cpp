@@ -5,10 +5,12 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Wed Oct 30 12:39:55 2013 antoine maitre
+// Last update Tue Nov 12 15:39:44 2013 antoine maitre
 //
 
 #include		"Entities/AEntity.hh"
+
+static unsigned int	id = 0;
 
 AEntity::AEntity()
 {
@@ -17,10 +19,10 @@ AEntity::AEntity()
 
 AEntity::AEntity(int const x, int const y, std::string const &path,
 		 int const speed, bool const destructible) :
-  _coord(new Coordinate(x, y)), _path(path),
-  _speed(speed), _destructible(destructible)
+  _id(id++), _coord(new Coordinate(x, y)), _path(path),
+  _speed(speed), _destructible(destructible), _dead(false)
 {
-
+  
 }
 
 AEntity::AEntity(AEntity const &rhs)
@@ -45,9 +47,10 @@ AEntity			&AEntity::operator=(AEntity const &rhs)
   return (*this);
 }
 
-bool			AEntity::checkCollision(AEntity const &) const
+void			AEntity::collision()
 {
-  return (false);
+  if (this->_destructible == true)
+    this->_dead = true;
 }
 
 void			AEntity::move(int const x, int const y)
@@ -99,4 +102,14 @@ int			AEntity::getLargeur() const
 int			AEntity::getLongueur() const
 {
   return (this->_l);
+}
+
+unsigned int		AEntity::getId() const
+{
+  return (this->_id);
+}
+
+bool			AEntity::isDead() const
+{
+  return (this->_dead);
 }
