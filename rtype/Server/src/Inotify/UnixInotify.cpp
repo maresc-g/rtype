@@ -5,10 +5,11 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  9 12:55:19 2013 laurent ansel
-// Last update Tue Nov 12 20:14:30 2013 alexis mestag
+// Last update Wed Nov 13 14:49:04 2013 alexis mestag
 //
 
 #ifndef	_WIN32
+#include			<limits.h>
 #include			<utility>
 #include			<unistd.h>
 #include			<sys/inotify.h>
@@ -37,22 +38,28 @@ bool			UnixInotify::initInotify()
 
 bool			UnixInotify::waitEvent(std::string const &path)
 {
-  static std::map<int, enum IInotify::eInotify> tab=
+  static std::map<int, enum IInotify::eInotify> tab =
     {
       {IN_CREATE, IInotify::ADD},
       {IN_MODIFY, IInotify::MODIFY},
-      {IN_DELETE, IInotify::DELETEFILE},{IN_DELETE_SELF, IInotify::DELETEFILE},
-      {IN_MOVE_SELF, IInotify::MOVE},	{IN_MOVED_FROM, IInotify::MOVE},	{IN_MOVED_TO, IInotify::MOVE}
+      {IN_DELETE, IInotify::DELETEFILE},
+      {IN_DELETE_SELF, IInotify::DELETEFILE},
+      {IN_MOVE_SELF, IInotify::MOVE},
+      {IN_MOVED_FROM, IInotify::MOVE},
+      {IN_MOVED_TO, IInotify::MOVE}
     };
-  int			len;
-  char			buffer[1024 + (sizeof(struct inotify_event) + 16)];
-  struct inotify_event	*event;
+  int				len;
+  // char			buffer[1024 + (sizeof(struct inotify_event) + 16)];
+  char				buffer[sizeof(struct inotify_event) + NAME_MAX];
+  struct inotify_event		*event = NULL;
   enum IInotify::eInotify	ret = NOTHING;
 
   if (this->_fd->find(path) != this->_fd->end())
     {
-      len = read(this->_notify, buffer, 1024 + (sizeof(struct inotify_event) + 16));
-      for (int i = 0 ; i < len ; i+= sizeof(struct inotify_event))
+      // len = read(this->_notify, buffer, 1024 + (sizeof(struct inotify_event) + 16));
+      len = read(this->_notify, buffer, sizeof(buffer));
+      // for (int i = 0 ; i < len ; i+= sizeof(struct inotify_event))
+      if (len != -1)
 	{
 	  event = reinterpret_cast<struct inotify_event *>(buffer);
 	  if (event->len)
@@ -62,7 +69,8 @@ bool			UnixInotify::waitEvent(std::string const &path)
 		  ret = it->second;
 	    }
 	}
-      (*this->_event)[path] = std::make_pair(ret, std::string(event->name));
+      if (event && !(event->mask & IN_IGNORED))
+	(*this->_event)[path] = std::make_pair(ret, std::string(event->name));
       return (true);
     }
   return (false);
