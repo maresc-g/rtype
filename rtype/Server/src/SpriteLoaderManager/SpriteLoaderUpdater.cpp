@@ -5,9 +5,11 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 11:40:04 2013 laurent ansel
-// Last update Tue Nov 12 09:14:54 2013 laurent ansel
+// Last update Wed Nov 13 15:34:46 2013 laurent ansel
 //
 
+#include			<list>
+#include			<iostream>
 #include			<algorithm>
 #include			"SpriteLoaderManager/SpriteLoaderUpdater.hh"
 
@@ -16,6 +18,7 @@ SpriteLoaderUpdater::SpriteLoaderUpdater(std::list<SpriteLoader *> *sprites, Mut
   _inotify(new Inotify),
   _directory(new FileSystem::Directory(path)),
   _sprites(sprites),
+  _confFiles(new std::map<std::string, bool>),
   _mutex(mutex),
   _quit(quit)
 {
@@ -29,6 +32,35 @@ SpriteLoaderUpdater::~SpriteLoaderUpdater()
   this->_inotify->destroyInotify();
   delete _inotify;
   delete this->_directory;
+  delete this->_confFiles;
+  for (auto it = this->_sprites->begin() ; it != this->_sprites->end() ; ++it)
+    if ((*it))
+      delete *it;
+  delete _sprites;
+}
+
+void				SpriteLoaderUpdater::updateConf()
+{
+  size_t			pos;
+
+  for (auto it = this->_confFiles->begin() ; it != this->_confFiles->end() ; ++it)
+    {
+      if (!it->second)
+	{
+	  this->_mutex.enter();
+	  for (auto itSprite = this->_sprites->begin() ; itSprite != this->_sprites->end() ; ++itSprite)
+	    {
+	      if ((pos = (*itSprite)->getPath().rfind(".")) != std::string::npos)
+		if (!it->first.compare(0, it->first.size() - std::string(".conf").size(), (*itSprite)->getPath().substr(0, pos)))
+		  {
+		    it->second = true;
+		    (*itSprite)->setConfFile(it->first);
+		    break;
+		  }
+	    }
+	  this->_mutex.leave();
+	}
+    }
 }
 
 void				SpriteLoaderUpdater::run()
@@ -47,10 +79,13 @@ void				SpriteLoaderUpdater::run()
 	{
 	  this->_mutex.enter();
 	  for (itSprite = this->_sprites->begin() ; itSprite != this->_sprites->end() && (*itSprite)->getPath() != (*it)->getPath() ; ++itSprite);
-	  if (itSprite == this->_sprites->end())
+	  if (itSprite == this->_sprites->end() && (*it)->getType() == FileSystem::FILE && (*it)->getPath().find(".conf") != std::string::npos)
+	    (*this->_confFiles)[(*it)->getPath()] = (this->_confFiles->find((*it)->getPath()) != this->_confFiles->end() && (*this->_confFiles)[(*it)->getPath()] ? true : false);
+	  else if (itSprite == this->_sprites->end() && (*it)->getType() == FileSystem::FILE)
       	    this->_sprites->push_back(new SpriteLoader(this->_sprites->size(), (*it)->getPath()));
 	  this->_mutex.leave();
 	}
+      this->updateConf();
       this->_inotify->waitEvent(this->_directory->getPath());
       event = this->_inotify->getEvent(this->_directory->getPath());
       this->_mutex.enter();

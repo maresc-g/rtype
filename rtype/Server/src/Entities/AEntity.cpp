@@ -5,12 +5,10 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Tue Nov 12 15:39:44 2013 antoine maitre
+// Last update Wed Nov 13 16:43:14 2013 laurent ansel
 //
 
 #include		"Entities/AEntity.hh"
-
-static unsigned int	id = 0;
 
 AEntity::AEntity()
 {
@@ -19,10 +17,16 @@ AEntity::AEntity()
 
 AEntity::AEntity(int const x, int const y, std::string const &path,
 		 int const speed, bool const destructible) :
-  _id(id++), _coord(new Coordinate(x, y)), _path(path),
-  _speed(speed), _destructible(destructible), _dead(false)
+  _coord(new Coordinate(x, y)),
+  _path(path),
+  _speed(speed),
+  _destructible(destructible),
+  _dead(false),
+  _hitbox(NULL)
 {
-  
+  static unsigned int	_idEntity = 0;
+
+  _id = _idEntity++;
 }
 
 AEntity::AEntity(AEntity const &rhs)
@@ -43,6 +47,16 @@ AEntity			&AEntity::operator=(AEntity const &rhs)
       this->setPath(rhs.getPath());
       this->setSpeed(rhs.getSpeed());
       this->setDestructible(rhs.getDestructible());
+      if (this->_hitbox)
+	{
+	  for (auto it = this->_hitbox->begin() ; it != this->_hitbox->end() ; ++it)
+	    delete *it;
+	  delete this->_hitbox;
+	}
+      else
+	this->_hitbox = new std::list<InformationHitBox *>;
+      for (auto it = rhs.getInformationHitBox().begin() ; it != rhs.getInformationHitBox().end() ; ++it)
+	this->_hitbox->push_back(new InformationHitBox(*(*it)));
     }
   return (*this);
 }
@@ -102,6 +116,16 @@ int			AEntity::getLargeur() const
 int			AEntity::getLongueur() const
 {
   return (this->_l);
+}
+
+std::list<InformationHitBox *> const	&AEntity::getInformationHitBox() const
+{
+  return (*this->_hitbox);
+}
+
+void			AEntity::setInformationHitBox(std::list<InformationHitBox *> *list)
+{
+  this->_hitbox = list;
 }
 
 unsigned int		AEntity::getId() const
