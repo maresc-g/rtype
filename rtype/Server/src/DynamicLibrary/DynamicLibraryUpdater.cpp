@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:05:50 2013 alexis mestag
-// Last update Wed Nov 13 00:15:52 2013 alexis mestag
+// Last update Wed Nov 13 13:37:39 2013 alexis mestag
 //
 
 #include			<unistd.h>
@@ -18,22 +18,23 @@ static void			*run(void *data)
 {
   DynamicLibraryUpdater		*dlu;
 
-  std::cout << "COUCOU :D" << std::endl;
   dlu = reinterpret_cast<DynamicLibraryUpdater *>(data);
   do
     {
-      dlu->getInotify().waitEvent(dlu->getDirectory().getPath());
       std::cout << "The directory '" << dlu->getDirectory().getPath()
 		<< "' has been modified" << std::endl;
       dlu->updateLibraries();
-    } while (1);
+      dlu->getInotify().waitEvent(dlu->getDirectory().getPath());
+      std::cout << "Thread : event received !" << std::endl;
+    } while (dlu->getCanUpdate());
   return (NULL);
 }
 
-DynamicLibraryUpdater::DynamicLibraryUpdater(unsigned int const sec, std::string const &path) :
-  Thread(), _timer(sec), _directory(new FileSystem::Directory(path)), _inotify(new Inotify)
+DynamicLibraryUpdater::DynamicLibraryUpdater(std::string const &path) :
+  Thread(), _directory(new FileSystem::Directory(path)), _inotify(new Inotify),
+  _mtx(new Mutex), _canUpdate(false)
 {
-
+  _mtx->initialize();
 }
 
 DynamicLibraryUpdater::~DynamicLibraryUpdater()
@@ -41,14 +42,23 @@ DynamicLibraryUpdater::~DynamicLibraryUpdater()
   delete _directory;
   _inotify->destroyInotify();
   delete _inotify;
+  _mtx->destroy();
+  delete _mtx;
 }
 
 void				DynamicLibraryUpdater::startUpdate()
 {
   _inotify->initInotify();
   _inotify->addWatch(_directory->getPath(), IInotify::ALL_EVENT);
+  this->setCanUpdate(true);
   this->createThread(&run, this);
   this->start();
+}
+
+void				DynamicLibraryUpdater::stopUpdate()
+{
+  this->setCanUpdate(false);
+  _inotify->rmWatch(_directory->getPath());
 }
 
 void				DynamicLibraryUpdater::updateLibraries()
@@ -76,17 +86,28 @@ FileSystem::Directory const	&DynamicLibraryUpdater::getDirectory() const
   return (*_directory);
 }
 
-unsigned int			DynamicLibraryUpdater::getTimer() const
-{
-  return (_timer);
-}
-
-void				DynamicLibraryUpdater::setTimer(unsigned int const timer)
-{
-  _timer = timer;
-}
-
 Inotify				&DynamicLibraryUpdater::getInotify()
 {
   return (*_inotify);
+}
+
+void				DynamicLibraryUpdater::setCanUpdate(bool const canUpdate)
+{
+  _mtx->enter();
+  std::cout << "Mutex locked for setter" << std::endl;
+  _canUpdate = canUpdate;
+  _mtx->leave();
+  std::cout << "Mutex unlocked for setter" << std::endl;
+}
+
+bool				DynamicLibraryUpdater::getCanUpdate() const
+{
+  bool				ret;
+
+  _mtx->enter();
+  std::cout << "Mutex locked for getter" << std::endl;
+  ret = _canUpdate;
+  _mtx->leave();
+  std::cout << "Mutex unlocked for getter" << std::endl;
+  return (ret);
 }
