@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Nov  5 10:47:42 2013 laurent ansel
-// Last update Tue Nov  5 13:38:58 2013 laurent ansel
+// Last update Wed Nov 13 21:40:59 2013 laurent ansel
 //
 
 #ifndef 			__GAMELOOPMANAGER_HH__
@@ -31,5 +31,7 @@ public:
   bool				addPlayerInGame(ClientInfo *client, unsigned int const idGame);
   bool				deletePlayer(ClientInfo *client);
 };
+
+void				*startGame(void *data);
 
 #endif

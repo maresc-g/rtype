@@ -6,12 +6,14 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Tue Nov 12 16:32:32 2013 antoine maitre
+// Last update Wed Nov 13 21:38:05 2013 laurent ansel
 //
 
 #include "GameLoop/GameLoop.hh"
 
-GameLoop::GameLoop()
+GameLoop::GameLoop():
+  Thread(),
+  Mutex()
 {
 
 }

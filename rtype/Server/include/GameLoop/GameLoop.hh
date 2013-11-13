@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Tue Nov 12 16:31:22 2013 antoine maitre
+// Last update Wed Nov 13 21:40:50 2013 laurent ansel
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -21,8 +21,10 @@
 #include		"ClientInfo/ClientInfo.hh"
 #include		"Level/LevelManager.hh"
 #include		"GameLoop/PlayerInfo.hh"
+#include		"Thread/Thread.hpp"
+#include		"Mutex/Mutex.hpp"
 
-class	GameLoop
+class			GameLoop : public Thread, public Mutex
 {
   LevelManager		*_levelManag;
   std::list<PlayerInfo *> _clients;

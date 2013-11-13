@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Nov  5 10:47:00 2013 laurent ansel
-// Last update Tue Nov  5 18:19:50 2013 laurent ansel
+// Last update Wed Nov 13 21:42:47 2013 laurent ansel
 //
 
 #include			"GameLoop/GameLoopManager.hh"
@@ -23,16 +23,20 @@ GameLoopManager::~GameLoopManager()
     {
       if (*it)
 	{
-	  //	  (*it)->wait();
+	  (*it)->waitThread();
 	  delete *it;
 	}
     }
   delete this->_listGame;
 }
 
-void				GameLoopManager::pushNewGame(std::string const &)
+void				GameLoopManager::pushNewGame(std::string const &name)
 {
-  this->_listGame->push_back(NULL/*new Game(name, this->_idGame)*/);
+  (void)name;
+  GameLoop			*game = new GameLoop(/*name, this->_idGame*/);
+
+  game->createThread(&startGame, game);
+  this->_listGame->push_back(game);
   this->_idGame++;
 }
 
@@ -41,7 +45,11 @@ std::string			GameLoopManager::listInfoGame()
   std::ostringstream		str;
 
   for (std::list<GameLoop *>::iterator it = this->_listGame->begin() ; it != this->_listGame->end() ; ++it)
-    str << " " << (*it)->getId() << ";" << (*it)->getName() << ";" << (*it)->getNumPlayer() << ";" << (*it)->getLevel();
+    {
+      (*it)->enter();
+      str << " " << (*it)->getId() << ";" << (*it)->getName() << ";" << (*it)->getNumPlayer() << ";" << (*it)->getLevel();
+      (*it)->leave();
+    }
   return (str.str());
 }
 
@@ -91,4 +99,13 @@ bool				GameLoopManager::deletePlayer(ClientInfo *client)
 	}
     }
   return (false);
+}
+
+void				*startGame(void *data)
+{
+  GameLoop			*game = reinterpret_cast<GameLoop *>(data);
+
+  if (game)
+    game->loop();
+  return (NULL);
 }
