@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Oct 24 17:38:46 2013 cyril jourdain
-// Last update Fri Nov  8 11:17:15 2013 cyril jourdain
+// Last update Tue Nov 12 13:21:07 2013 cyril jourdain
 //
 
 #ifndef 		__SFWIDGET_CPP__
@@ -16,6 +16,7 @@
 SFWidget::SFWidget() : sf::Drawable(), sf::Transformable()
 {
   _bounds = new sf::FloatRect(0,0,0,0);
+  _customView = NULL;
   //_mouseParam = NULL;
 };
 
@@ -36,6 +37,11 @@ void			SFWidget::setFocus(bool focus)
 sf::FloatRect		&SFWidget::getBound() const
 {
   return (*_bounds);
+}
+
+sf::View		*SFWidget::getCustomView() const
+{
+  return (_customView);
 }
 
 void			SFWidget::setSize(float x, float y)
