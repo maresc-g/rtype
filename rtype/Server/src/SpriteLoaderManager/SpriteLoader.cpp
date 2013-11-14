@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 15:04:52 2013 laurent ansel
-// Last update Thu Nov 14 17:29:55 2013 laurent ansel
+// Last update Thu Nov 14 21:42:50 2013 laurent ansel
 //
 
 #include		<iostream>
@@ -17,13 +17,39 @@ SpriteLoader::SpriteLoader(size_t const id, std::string const &path, std::string
   _id(id),
   _path(path),
   _confFile(confFile),
-  _entity(new AEntity(0, 0, "", 0, false))
+  _entity(new AEntity(0, 0, "", 0, false)),
+  _spawnProjectile(new Coordinate(0, 0))
 {
 }
 
 SpriteLoader::~SpriteLoader()
 {
 
+}
+
+void			SpriteLoader::getSpawnCoordiante(std::string const &content)
+{
+  size_t		pos = 0;
+  size_t		endPos = 0;
+
+  if ((pos = content.find(SPAWN)) != std::string::npos && (endPos = content.find("\n", pos)) != std::string::npos)
+    {
+      size_t		pos2 = content.find(":", pos);
+      if (pos2 != std::string::npos)
+	{
+	  std::istringstream	str(content.substr(pos + std::string(SPAWN).size(), pos2));
+	  std::istringstream	str2(content.substr(pos2 + 1, endPos));
+	  int			spawnProjectile[2];
+
+	  str >> spawnProjectile[0];
+	  str2 >> spawnProjectile[1];
+	  if (spawnProjectile[0] > -1 && spawnProjectile[1] > -1)
+	    {
+	      this->_spawnProjectile->setX(spawnProjectile[0]);
+	      this->_spawnProjectile->setX(spawnProjectile[1]);
+	    }
+	}
+    }
 }
 
 void			SpriteLoader::getLife(std::string const &content)
@@ -248,4 +274,9 @@ void			SpriteLoader::setConfFile(std::string const &confFile)
 {
   this->_confFile = confFile;
   this->loadConfFile();
+}
+
+Coordinate const	&SpriteLoader::getSpawnCoordinate() const
+{
+  return (*this->_spawnProjectile);
 }
