@@ -5,10 +5,10 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 11:18:35 2013 laurent ansel
-// Last update Mon Nov 11 11:54:44 2013 laurent ansel
+// Last update Wed Nov 13 10:37:03 2013 laurent ansel
 //
 
-#include <fstream>
+#include			<fstream>
 #include			"SpriteLoaderManager/SpriteLoaderManager.hh"
 
 SpriteLoaderManager::SpriteLoaderManager():

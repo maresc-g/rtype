@@ -5,7 +5,7 @@
 ## Login   <maresc_g@epitech.net>
 ## 
 ## Started on  Mon Oct 28 13:56:38 2013 guillaume marescaux
-## Last update Wed Nov  6 14:38:27 2013 antoine maitre
+## Last update Tue Nov 12 18:56:10 2013 laurent ansel
 ##
 
 WEAPON=		$(ENTITIES)/Weapon
@@ -15,5 +15,6 @@ SRCSERVER +=	$(ENTITIES)/AEntity.cpp \
 		$(ENTITIES)/Mob.cpp \
 		$(ENTITIES)/ACharacter.cpp \
 		$(ENTITIES)/Player.cpp \
+		$(ENTITIES)/InformationHitBox.cpp \
 
 include		$(WEAPON)/Makefile

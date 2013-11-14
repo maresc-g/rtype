@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:06:17 2013 alexis mestag
-// Last update Tue Nov 12 19:49:54 2013 alexis mestag
+// Last update Wed Nov 13 13:27:03 2013 alexis mestag
 //
 
 #ifndef			__DYNAMICLIBRARYUPDATER_HH__
@@ -13,6 +13,7 @@
 
 # include		<string>
 # include		"Thread/Thread.hpp"
+# include		"Mutex/Mutex.hpp"
 # include		"FileSystem/Directory.hh"
 # include		"Inotify/Inotify.hpp"
 
@@ -21,23 +22,26 @@
 class			DynamicLibraryUpdater : public Thread
 {
 private:
-  unsigned int		_timer;
   FileSystem::Directory	*_directory;
   Inotify		*_inotify;
+  IMutex		*_mtx;
+  bool			_canUpdate;
 
   DynamicLibraryUpdater(DynamicLibraryUpdater const &rhs);
   DynamicLibraryUpdater	&operator=(DynamicLibraryUpdater const &rhs);
 
 public:
-  DynamicLibraryUpdater(unsigned int const sec, std::string const &path = LIB_PATH);
+  DynamicLibraryUpdater(std::string const &path = LIB_PATH);
   virtual ~DynamicLibraryUpdater();
 
   void			startUpdate();
+  void			stopUpdate();
   void			updateLibraries();
   FileSystem::Directory const	&getDirectory() const;
-  unsigned int		getTimer() const;
-  void			setTimer(unsigned int const timer);
   Inotify		&getInotify();
+
+  void			setCanUpdate(bool const canUpdate);
+  bool			getCanUpdate() const;
 };
 
 #endif

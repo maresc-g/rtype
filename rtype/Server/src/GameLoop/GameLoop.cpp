@@ -6,19 +6,20 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 13 12:21:10 2013 antoine maitre
+// Last update Thu Nov 14 15:38:18 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
 
-GameLoop::GameLoop()
+GameLoop::GameLoop():
+  Thread(),
+  Mutex(),
+  _rate(120)
 {
-
 }
 
 GameLoop::~GameLoop()
 {
-
 }
 
 void			GameLoop::Initialize(ClientInfo *client)
@@ -31,13 +32,20 @@ void			GameLoop::Initialize(ClientInfo *client)
 
 void			GameLoop::loop()
 {
+  clock_t	time = 0;
+  clock_t	rest = 0;
+
   while (!this->_levelManag->getEndGame())
     {
+      time = clock();
 #ifndef _WIN32
       usleep(125000);
       this->_levelManag->incAdv();
       for (std::list<PlayerInfo *>::iterator it = _clients.begin(); it != _clients.end(); ++it)
-	(*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
+	{
+	  (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
+	  // (*it)->decOffFrames();
+	}
       for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().begin(); it++)
 	{
 	  const Coordinate	*coord = (*it)->getCoord();
@@ -49,6 +57,12 @@ void			GameLoop::loop()
       this->destroyDeadEntities(this->_levelManag->getEnemies(), 
 				this->_levelManag->getPlayers());
 #endif
+      rest += clock() - time;
+      if (rest > 1000 / this->_rate)
+	{
+	  /*Send to users*/;
+	  rest = 0;
+	}
     }
 }
 

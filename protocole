@@ -15,7 +15,13 @@ client -> "JOIN %idgame" TCP
 client -> "CREATE %gameName" TCP
 server -> "OK" | "KO" TCP
 
-server -> "LAUNCHGAME" UDP
+server -> "SPRITE %list" TCP list<name;md5>
+
+client -> GET %nameSprite TCP
+
+server -> CONTENTSPRITE %name%content;%md5 TCP
+
+server -> CONFSPRITE %name%content;%md5 TCP
 
 client -> "ACTION %action" UDP
 server -> "ENTITY %id;%type;%x;%y" UDP

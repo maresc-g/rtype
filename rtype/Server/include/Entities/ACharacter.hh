@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:43:43 2013 guillaume marescaux
-// Last update Tue Nov 12 15:38:36 2013 antoine maitre
+// Last update Thu Nov 14 12:56:27 2013 arthur rucquois
 //
 
 #ifndef 		__ACHARACTER_HH__
@@ -18,10 +18,13 @@ class			ACharacter : public AEntity
 {
 protected:
   int			_life;
+  int			_offFrames;
+
 public:
   ACharacter(int const x, int const y, std::string const &path, int const speed, bool const destructible);
-  virtual ~ACharacter();
+  virtual		~ACharacter();
   void			collision();
+  void			decOffFrames();
 };
 
 #endif
