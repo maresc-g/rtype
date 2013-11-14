@@ -6,7 +6,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov 14 12:09:40 2013 arthur rucquois
+// Last update Thu Nov 14 12:57:22 2013 arthur rucquois
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -42,7 +42,10 @@ void			GameLoop::loop()
       usleep(125000);
       this->_levelManag->incAdv();
       for (std::list<PlayerInfo *>::iterator it = _clients.begin(); it != _clients.end(); ++it)
-	(*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
+	{
+	  (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
+	  (*it)->decOffFrames();
+	}
       for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().begin(); it++)
 	{
 	  const Coordinate	*coord = (*it)->getCoord();
@@ -54,7 +57,7 @@ void			GameLoop::loop()
       this->destroyDeadEntities(this->_levelManag->getEnemies(), 
 				this->_levelManag->getPlayers());
 #endif
-      if (clock() - (time + rest) > 1000 / this->_rate)
+      if ((clock() - time) + rest > 1000 / this->_rate)
 	{
 	  /*Send to users*/;
 	  rest = 0;
