@@ -6,7 +6,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov 14 12:57:22 2013 arthur rucquois
+// Last update Thu Nov 14 13:44:05 2013 arthur rucquois
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -57,13 +57,12 @@ void			GameLoop::loop()
       this->destroyDeadEntities(this->_levelManag->getEnemies(), 
 				this->_levelManag->getPlayers());
 #endif
-      if ((clock() - time) + rest > 1000 / this->_rate)
+      rest += clock() - time;
+      if (rest > 1000 / this->_rate)
 	{
 	  /*Send to users*/;
 	  rest = 0;
 	}
-      else
-	rest += time;
     }
 }
 
