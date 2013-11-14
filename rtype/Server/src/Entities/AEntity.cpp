@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Thu Nov 14 15:39:31 2013 antoine maitre
+// Last update Thu Nov 14 17:32:24 2013 laurent ansel
 //
 
 #include		"Entities/AEntity.hh"
@@ -141,4 +141,24 @@ bool			AEntity::isDead() const
 void			AEntity::setDead(bool dead)
 {
   this->_dead = dead;
+}
+
+unsigned int		AEntity::getLife() const
+{
+  return (this->_life);
+}
+
+void			AEntity::setLife(unsigned int const life)
+{
+  this->_life = life;
+}
+
+void			AEntity::setWidth(int const width)
+{
+  this->_l = width;
+}
+
+void			AEntity::setHeight(int const height)
+{
+  this->_L = height;
 }

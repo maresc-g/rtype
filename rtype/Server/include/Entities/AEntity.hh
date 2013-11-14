@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Thu Nov 14 15:34:58 2013 antoine maitre
+// Last update Thu Nov 14 17:31:52 2013 laurent ansel
 //
 
 #ifndef 		__AENTITY_HH__
@@ -29,6 +29,7 @@ protected:
   unsigned int		_id;
   int			_l;
   int			_L;
+  unsigned int		_life;
   Coordinate		*_coord;
   std::string		_path;
   int			_speed;
@@ -65,6 +66,12 @@ public:
   unsigned int		getId() const;
   bool			isDead() const;
   void			setDead(bool);
+
+  unsigned int		getLife() const;
+  void			setLife(unsigned int const life);
+
+  void			setWidth(int const width);
+  void			setHeight(int const height);
 };
 
 #endif
