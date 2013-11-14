@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Tue Nov 12 15:39:44 2013 antoine maitre
+// Last update Wed Nov 13 12:49:43 2013 antoine maitre
 //
 
 #include		"Entities/AEntity.hh"
@@ -112,4 +112,9 @@ unsigned int		AEntity::getId() const
 bool			AEntity::isDead() const
 {
   return (this->_dead);
+}
+
+void			AEntity::setDead(bool dead)
+{
+  this->_dead = dead;
 }

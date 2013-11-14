@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Oct 30 11:14:28 2013 antoine maitre
-// Last update Thu Nov  7 21:39:10 2013 laurent ansel
+// Last update Thu Nov 14 11:48:51 2013 antoine maitre
 //
 
 #ifndef	__MOB_H__
@@ -15,9 +15,9 @@
 #include	<iostream>
 #include	<sstream>
 #include	<fstream>
-#include	"AEntity.hh"
+#include	"ACharacter.hh"
 
-class	Mob : public AEntity
+class	Mob : public ACharacter
 {
 public:
   Mob(int const x, int const y, std::string const &path, int const speed, bool const destructible);

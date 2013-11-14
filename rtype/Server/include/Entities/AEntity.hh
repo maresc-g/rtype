@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Tue Nov 12 15:37:52 2013 antoine maitre
+// Last update Wed Nov 13 12:49:51 2013 antoine maitre
 //
 
 #ifndef 		__AENTITY_HH__
@@ -49,7 +49,6 @@ public:
 
   std::string const	&getPath() const;
   void			setPath(std::string const &path);
-
   int			getSpeed() const;
   void			setSpeed(int const speed);
 
@@ -59,6 +58,7 @@ public:
   int			getLongueur() const;
   unsigned int		getId() const;
   bool			isDead() const;
+  void			setDead(bool);
 };
 
 #endif

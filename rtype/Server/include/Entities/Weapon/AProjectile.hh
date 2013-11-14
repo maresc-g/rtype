@@ -5,15 +5,24 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:46:24 2013 guillaume marescaux
-// Last update Mon Oct 28 14:46:31 2013 guillaume marescaux
+// Last update Thu Nov 14 11:30:50 2013 antoine maitre
 //
 
 #ifndef 		__APROJECTILE_HH__
 # define 		__APROJECTILE_HH__
 
-class			AProjectile
-{
+#include		"Entities/AEntity.hh"
 
+class			AProjectile : public AEntity
+{
+protected:
+  int			_vx;
+  int			_vy;
+  int			_id;
+public:
+  AProjectile(int const x, int const y, std::string const &path, int const speed, bool const destructible, int const vx, int const vy);
+  ~AProjectile();
+  void			move();
 };
 
 #endif

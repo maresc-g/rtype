@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Wed Nov  6 17:41:52 2013 antoine maitre
+// Last update Wed Nov 13 14:41:46 2013 antoine maitre
 //
 
 #include "GameLoop/PlayerInfo.hh"
@@ -33,34 +33,38 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
   const Command	*cmd = this->_info->getFirstCommand();
   Action	act = cmd->getAction();
 
+  (void)map;
+  this->_player->move(coord->getX() + 1, coord->getY());
   if (act.getUp())
     {
       act.setUp(false);
-      if (coord->getY() > 0)
-	this->_player->move(coord->getX(), coord->getY() - 1);
+      this->_player->move(coord->getX(), coord->getY() - this->_player->getSpeed());
+      if (coord->getY() < 0)
+	this->_player->move(coord->getX(), 0);
     }
   if (act.getDown())
     {
       act.setDown(false);
-      if (coord->getX() < map->getPosY())
-	this->_player->move(coord->getX(), coord->getY() + 1);
+      this->_player->move(coord->getX(), coord->getY() + this->_player->getSpeed());
+      if (coord->getY() >= SCREENY - this->_player->getLargeur())
+	this->_player->move(coord->getX(), SCREENY - this->_player->getLargeur());
     }
   if (act.getLeft())
     {
       act.setLeft(false);
-      if (coord->getX() >= adv)
-	this->_player->move(coord->getX() - 1, coord->getY());
+      this->_player->move(coord->getX() - this->_player->getSpeed(), coord->getY());
+      if (coord->getX() <  adv)
+	this->_player->move(adv, coord->getY());
     }
   if (act.getRight())
     {
       act.setRight(false);
-      if (coord->getX() < adv + 80)
-	this->_player->move(coord->getX() + 1, coord->getY());
+      this->_player->move(coord->getX() + this->_player->getSpeed(), coord->getY());
+      if (coord->getX() > adv + SCREENX - this->_player->getLongueur())
+	this->_player->move(adv + SCREENX - this->_player->getLongueur(), coord->getY());
     }
   if (act.getFire())
     {
       act.setFire(false);
     }
-  if (coord->getX() == adv)
-    this->_player->move(coord->getX() + 1, coord->getY());
 }

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:50 2013 antoine maitre
-// Last update Tue Nov 12 16:07:45 2013 antoine maitre
+// Last update Wed Nov 13 12:47:13 2013 antoine maitre
 //
 
 #ifndef	__MAP_HH__
@@ -40,7 +40,8 @@ public:
   std::list<AEntity *>		&getEnemies();
   std::list<AEntity *>		&getPlayers();
   std::vector<std::vector<unsigned int>> *getMap();
-  void				setEntities();
+  void				setEntities(int adv);
+  void				tryToSet(std::list<AEntity *>&, std::list<AEntity *>&, int);
   int				getPosX() const;
   int				getPosY() const;
 };

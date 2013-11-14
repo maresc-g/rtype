@@ -6,7 +6,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Tue Nov 12 16:32:32 2013 antoine maitre
+// Last update Wed Nov 13 12:21:10 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -45,7 +45,7 @@ void			GameLoop::loop()
 	  if (coord->getX() <= this->_levelManag->getAdv() - (*it)->getLongueur())
 	    it = this->_levelManag->getEnemies().erase(it);
 	}
-      this->_levelManag->getMap()->setEntities();
+      this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
       this->destroyDeadEntities(this->_levelManag->getEnemies(), 
 				this->_levelManag->getPlayers());
 #endif

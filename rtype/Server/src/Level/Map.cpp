@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Tue Nov 12 16:08:24 2013 antoine maitre
+// Last update Thu Nov 14 12:16:56 2013 antoine maitre
 //
 
 #include "Level/Map.hh"
@@ -61,54 +61,51 @@ std::vector<std::vector<unsigned int>> *Map::getMap()
   return (this->_map);
 }
 
-void	Map::setEntities()
+void	Map::tryToSet(std::list<AEntity *> &l1, std::list<AEntity *> &l2, int adv)
 {
   const Coordinate *toto;
 
+  for (std::list<AEntity *>::iterator it = l1.begin(); it != l1.end(); ++it)
+    {
+      toto = (*it)->getCoord();
+      for (int i = toto->getY(); i < toto->getY() + (*it)->getLargeur(); i++)
+	{
+	  if (i <= 0 || i >= SCREENY)
+	    {
+	      (*it)->setDead(true);
+	      break;
+	    }
+	  for (int j = toto->getX() - adv; j < toto->getX() - adv + (*it)->getLongueur(); j++)
+	    {
+	      if (j <= 0 - (*it)->getLongueur() || j >= SCREENX)
+		{
+		  (*it)->setDead(true);
+		  break;
+		}
+	      else if ((*this->_map)[i][j] == 0 && (i >= 0 && i < SCREENY) && (j >= 0 && j <= SCREENX))
+		(*this->_map)[i][j] = (*it)->getId();
+	      else
+		{
+		  (*it)->collision();
+		  for (std::list<AEntity *>::iterator it2 = l2.begin(); it2 != l2.end(); ++it2)
+		    if ((*this->_map)[i][j] == (*it2)->getId())
+		      (*it2)->collision();
+		  // for (std::list<AEntity *>::iterator it2 = l1.begin(); it2 != l1.end(); ++it2)
+		  //   if ((*this->_map)[i][j] == (*it2)->getId())
+		  //     (*it2)->collision();
+		}
+	    }
+	}
+    }
+}
 
+void	Map::setEntities(int adv)
+{
   for (int i = 0; i < SCREENY; i++)
     for (int j = 0; j < SCREENX; j++)
       (*this->_map)[i][j] = 0;
-  for (std::list<AEntity *>::iterator it = _enemies.begin(); it != _enemies.end(); ++it)
-    {
-      toto = (*it)->getCoord();
-      for (int i = toto->getY(); i < toto->getY() + (*it)->getLargeur(); i++)
-	for (int j = toto->getX(); j < toto->getX() + (*it)->getLongueur(); j++)
-	  {
-	    if ((*this->_map)[i][j] == 0)
-	      (*this->_map)[i][j] = (*it)->getId();
-	    else
-	      {
-		(*it)->collision();
-		for (std::list<AEntity *>::iterator it2 = _players.begin(); it2 != _players.end(); ++it2)
-		  if ((*this->_map)[i][j] == (*it2)->getId())
-		    (*it2)->collision();
-		for (std::list<AEntity *>::iterator it2 = _enemies.begin(); it2 != _enemies.end(); ++it2)
-		  if ((*this->_map)[i][j] == (*it2)->getId())
-		    (*it2)->collision();
-	      }
-	  }
-    }
-  for (std::list<AEntity *>::iterator it = _players.begin(); it != _players.end(); ++it)
-    {
-      toto = (*it)->getCoord();
-      for (int i = toto->getY(); i < toto->getY() + (*it)->getLargeur(); i++)
-	for (int j = toto->getX(); j < toto->getX() + (*it)->getLongueur(); j++)
-	  {
-	    if ((*this->_map)[i][j] == 0)
-	      (*this->_map)[i][j] = (*it)->getId();
-	    else
-	      {
-		(*it)->collision();
-		for (std::list<AEntity *>::iterator it2 = _players.begin(); it2 != _players.end(); ++it2)
-		  if ((*this->_map)[i][j] == (*it2)->getId())
-		    (*it2)->collision();
-		for (std::list<AEntity *>::iterator it2 = _enemies.begin(); it2 != _enemies.end(); ++it2)
-		  if ((*this->_map)[i][j] == (*it2)->getId())
-		    (*it2)->collision();
-	      }
-	  }
-    }
+  this->tryToSet(_enemies, _players, adv);
+  this->tryToSet(_players, _enemies, adv);
   // for (int i=0; i < SCREENY; i++)
   //   std::cout << (*this->_map)[i] << std::endl;
 }
