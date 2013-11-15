@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:12 2013 laurent ansel
-// Last update Sun Nov  3 21:34:53 2013 laurent ansel
+// Last update Fri Nov 15 15:37:14 2013 laurent ansel
 //
 
 #ifndef 			__COMMAND_HH__
@@ -36,6 +36,7 @@ private:
   void				gameListCommand(std::istringstream &str);
   void				joinCommand(std::istringstream &str);
   void				createCommand(std::istringstream &str);
+  void				getSpriteCommand(std::istringstream &str);
 };
 
 struct				tabCommand

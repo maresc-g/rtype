@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Fri Nov 15 13:47:32 2013 laurent ansel
+// Last update Fri Nov 15 15:47:43 2013 laurent ansel
 //
 
 #include			<list>
@@ -276,6 +276,28 @@ bool				Server::manageGame(std::list<ClientInfo *>::iterator &it, Action &action
   return (ret);
 }
 
+bool				Server::manageSprite(std::list<ClientInfo *>::iterator &it, Action &action)
+{
+  bool				ret = false;
+
+  if (action.getGetSprite())
+    {
+      std::ostringstream	tmp;
+      std::list<Trame *>	*trame;
+
+      tmp << "CONTENTSPRITE " << SpriteLoaderManager::getInstance()->getSprite(action.getParam());
+      trame = Trame::ToListTrame((*it)->getId(), (*it)->getTrameId(), "TCP", tmp.str());
+      if (trame)
+	for (std::list<Trame *>::iterator itT = trame->begin() ; itT != trame->end() ; ++itT)
+	  {
+	    this->debug((*itT)->toString());
+	    (*it)->pushWriteTrame("TCP", (*itT));
+	  }
+      action.setGetSprite(false);
+    }
+  return (ret);
+}
+
 void				Server::execCommand()
 {
   Action			action;
@@ -292,7 +314,10 @@ void				Server::execCommand()
 	    {
 	      action = (*it)->getAction();
 	      if (!this->manageQuit(it, action))
-		this->manageGame(it, action);
+		{
+		  this->manageGame(it, action);
+		  this->manageSprite(it, action);
+		}
 	    }
 	  this->debug("Done");
 	}
@@ -306,6 +331,46 @@ void				Server::quitAllClient() const
     {
       CircularBufferManager::getInstance()->deleteTrame((*it)->getId());
       (*it)->writeImmediately("TCP", new Trame(this->_clientId, 0, "TCP", "Server Shutdown ...\nSorry for the inconvenience", true));
+    }
+}
+
+void				Server::sendSprite(ClientInfo *client, std::string const &sprite, std::string const &proto)
+{
+  std::list<Trame *>		*trame;
+
+  trame = Trame::ToListTrame(client->getId(), client->getTrameId(), proto, sprite);
+  if (trame)
+    for (std::list<Trame *>::iterator it = trame->begin() ; it != trame->end() ; ++it)
+      {
+	this->debug((*it)->toString());
+	client->pushWriteTrame(proto, (*it));
+      }
+}
+
+void				Server::sendUpdateSprite()
+{
+  std::list<std::string>	listSprite;
+  std::list<std::string>	listConf;
+  std::ostringstream		str;
+
+  if (SpriteLoaderManager::getInstance()->isUpdate())
+    {
+      listSprite = SpriteLoaderManager::getInstance()->getSpriteUpdate();
+      listConf = SpriteLoaderManager::getInstance()->getConfClientUpdate();
+      for (auto itClient = this->_client->begin() ; itClient != this->_client->end() ; ++itClient)
+	{
+	  for (auto it = listSprite.begin() ;  it != listSprite.end() ; ++it)
+	    {
+	      str << "CONTENTSPRITE " << (*it);
+	      this->sendSprite((*itClient), str.str(), "TCP");
+	    }
+	  for (auto it = listConf.begin() ;  it != listConf.end() ; ++it)
+	    {
+	      str << "CONFSPRITE " << (*it);
+	      this->sendSprite((*itClient), str.str(), "TCP");
+	    }
+	}
+      SpriteLoaderManager::getInstance()->alreadyUpdate();
     }
 }
 
@@ -323,6 +388,8 @@ void				Server::run()
 	this->readAndWriteClient();
       if (!quit)
 	this->execCommand();
+      if (!quit)
+	this->sendUpdateSprite();
     }
   this->debug("Shutdown Server ...");
   this->quitAllClient();

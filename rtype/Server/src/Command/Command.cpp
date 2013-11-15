@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 16:01:59 2013 laurent ansel
-// Last update Tue Nov  5 17:51:30 2013 laurent ansel
+// Last update Fri Nov 15 15:37:01 2013 laurent ansel
 //
 
 #include			"Command/Command.hh"
@@ -87,6 +87,15 @@ void				Command::createCommand(std::istringstream &str)
   this->_action->setCreate(true);
 }
 
+void				Command::getSpriteCommand(std::istringstream &str)
+{
+  std::string			param;
+
+  str >> param;
+  this->_action->setParam(param);
+  this->_action->setGetSprite(true);
+}
+
 void				Command::trameToAction()
 {
   static tabCommand		tab[] =
@@ -100,7 +109,8 @@ void				Command::trameToAction()
       {"QUITSERVER", &Command::quitAllCommand},
       {"GAMELIST", &Command::gameListCommand},
       {"JOIN", &Command::joinCommand},
-      {"CREATE", &Command::createCommand}
+      {"CREATE", &Command::createCommand},
+      {"GETSPRITE", &Command::getSpriteCommand}
     };
   static unsigned int		size = sizeof(tab) / sizeof(*tab);
 
