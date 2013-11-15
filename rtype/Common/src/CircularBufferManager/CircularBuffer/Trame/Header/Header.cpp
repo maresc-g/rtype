@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:16:57 2013 laurent ansel
-// Last update Fri Nov 15 11:36:44 2013 laurent ansel
+// Last update Fri Nov 15 13:09:01 2013 guillaume marescaux
 //
 
 #include			<sstream>
@@ -74,7 +74,7 @@ Header				*Header::toHeader(std::string const &str)
   // unsigned int			pos;
   // std::string			proto;
   // bool				good = true;
-  s_header			*header = new s_header;
+  s_header			*header = NULL;
   char				str2[20];
   Header			*ret = NULL;
 
@@ -85,9 +85,9 @@ Header				*Header::toHeader(std::string const &str)
       std::cout << "id = " << header->idClient << std::endl;
       std::cout << "idT = " << header->idTrame << std::endl;
       std::cout << "proto = " << header->protocole << std::endl;
-      ret = new Header(header->idClient, header->idTrame, header->protocole);
+      ret = new Header(header->idClient, header->idTrame, std::string(header->protocole));
     }
-  delete header;
+  // delete header;
   return (ret);
   // if (tmp.good())
   //   tmp >> id;
