@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:16:57 2013 laurent ansel
-// Last update Fri Nov 15 13:09:01 2013 guillaume marescaux
+// Last update Fri Nov 15 13:10:58 2013 laurent ansel
 //
 
 #include			<sstream>
@@ -63,17 +63,12 @@ std::string const		Header::toString() const
   header->protocole[3] = 0;
   for (unsigned int i = 0 ; i < sizeof(*header) ; ++i)
     str.put(reinterpret_cast<char *>(header)[i]);
+  delete header;
   return (str.str());
 }
 
 Header				*Header::toHeader(std::string const &str)
 {
-  // std::istringstream		tmp(str);
-  // unsigned int			id;
-  // unsigned int			trameId;
-  // unsigned int			pos;
-  // std::string			proto;
-  // bool				good = true;
   s_header			*header = NULL;
   char				str2[20];
   Header			*ret = NULL;
@@ -85,26 +80,7 @@ Header				*Header::toHeader(std::string const &str)
       std::cout << "id = " << header->idClient << std::endl;
       std::cout << "idT = " << header->idTrame << std::endl;
       std::cout << "proto = " << header->protocole << std::endl;
-      ret = new Header(header->idClient, header->idTrame, std::string(header->protocole));
+      ret = new Header(header->idClient, header->idTrame, header->protocole);
     }
-  // delete header;
   return (ret);
-  // if (tmp.good())
-  //   tmp >> id;
-  // else
-  //   good = false;
-  // if (tmp.good())
-  //   tmp >> trameId;
-  // else
-  //   good = false;
-  // if (tmp.good())
-  //   tmp >> proto;
-  // else
-  //   good = false;
-  // if (good)
-  //   {
-      // str = tmp.str().substr((pos = tmp.tellg()) + 1);
-      // return (new Header(id, trameId, proto));
-  //   }
-  // return (NULL);
 }

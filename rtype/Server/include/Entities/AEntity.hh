@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Thu Nov 14 17:31:52 2013 laurent ansel
+// Last update Fri Nov 15 14:09:39 2013 laurent ansel
 //
 
 #ifndef 		__AENTITY_HH__
@@ -36,6 +36,7 @@ protected:
   bool			_destructible;
   bool			_dead;
   std::list<InformationHitBox *>	*_hitbox;
+  Coordinate			*_spawnProjectile;
   AEntity();
 public:
   AEntity(int const x = 0, int const y = 0, std::string const &path = "", int const speed = 50, bool const destructible = false);
@@ -72,6 +73,8 @@ public:
 
   void			setWidth(int const width);
   void			setHeight(int const height);
+  Coordinate const	&getSpawnProjectile() const;
+  void			setSpawnProjectile(Coordinate *coord);
 };
 
 #endif

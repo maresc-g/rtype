@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Tue Nov  5 19:11:42 2013 laurent ansel
+// Last update Fri Nov 15 13:46:02 2013 laurent ansel
 //
 
 #include			"ClientInfo/ClientInfo.hh"
@@ -167,7 +167,7 @@ int				ClientInfo::readSomethingInSocket(std::string const &proto)
 
   this->_mutex->enter();
   ret = (*this->_clientInfo)[proto]->readSocket(tmp, SIZE_BUFFER);
-  str = tmp;
+  str.append(tmp, ret);
   trame = Trame::toTrame(str);
   if (ret > 0 && trame)
     CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);

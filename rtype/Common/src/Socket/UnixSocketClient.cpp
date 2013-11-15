@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:26:32 2013 laurent ansel
-// Last update Tue Nov  5 18:16:17 2013 laurent ansel
+// Last update Fri Nov 15 14:06:31 2013 laurent ansel
 //
 
 #ifndef _WIN32
@@ -28,6 +28,8 @@ UnixSocketClient::UnixSocketClient(int const socket, std::string const &protocol
 
 UnixSocketClient::~UnixSocketClient()
 {
+  if (this->_addr)
+    delete this->_addr;
 }
 
 int			UnixSocketClient::readSocket(char *buf, int const size) const

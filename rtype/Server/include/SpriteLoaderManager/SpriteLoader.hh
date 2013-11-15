@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov  8 22:44:47 2013 laurent ansel
-// Last update Thu Nov 14 21:42:08 2013 laurent ansel
+// Last update Fri Nov 15 13:50:35 2013 laurent ansel
 //
 
 #ifndef 			__SPRITELOADER_HH__
@@ -31,8 +31,7 @@ private:
   std::string			_content;
   std::string			_confFile;
   AEntity			*_entity;
-  std::string			_confClient;
-  Coordinate			*_spawnProjectile;
+  std::pair<std::string, std::string>	_confClient;
 public:
   SpriteLoader(size_t const id, std::string const &path, std::string const &confFile = "");
   virtual ~SpriteLoader();
@@ -43,9 +42,12 @@ public:
   void				setId(size_t const id);
   void				setPath(std::string const &path);
   void				setConfFile(std::string const &file);
-  Coordinate const		&getSpawnCoordinate() const;
+  void				setNameConfClient(std::string const &name);
+  std::string const		&getNameConfClient() const;
+  std::string const		&getContentConfClient() const;
 private:
   void				loadConfFile();
+  void				loadConfClient();
   void				loadSprite();
   void				getSpeed(std::string const &content);
   void				getDestructible(std::string const &content);
@@ -54,7 +56,7 @@ private:
   void				getWidthAndHeight(std::string const &content);
   void				getLife(std::string const &content);
   bool				isHere(std::string const &content);
-  void				getSpawnCoordiante(std::string const &content);
+  void				getSpawnCoordinate(std::string const &content);
 };
 
 #endif

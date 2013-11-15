@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov  8 22:45:30 2013 laurent ansel
-// Last update Wed Nov 13 13:43:18 2013 laurent ansel
+// Last update Thu Nov 14 23:49:30 2013 laurent ansel
 //
 
 #ifndef 			__SPRITELOADERUPDATER_HH__
@@ -26,11 +26,12 @@ private:
   Inotify			*_inotify;
   FileSystem::Directory		*_directory;
   std::list<SpriteLoader *>	*_sprites;
+  std::list<SpriteLoader *>	*_update;
   std::map<std::string, bool>	*_confFiles;
   Mutex				&_mutex;
   bool				&_quit;
 public:
-  SpriteLoaderUpdater(std::list<SpriteLoader *> *sprites, Mutex &mutex, bool &quit, std::string const &path);
+  SpriteLoaderUpdater(std::list<SpriteLoader *> *sprites, std::list<SpriteLoader *> *update, Mutex &mutex, bool &quit, std::string const &path);
   virtual ~SpriteLoaderUpdater();
   void				run();
   void				destroyUpdater();
