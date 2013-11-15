@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 19:36:18 2013 cyril jourdain
-// Last update Tue Nov 12 13:25:42 2013 cyril jourdain
+// Last update Wed Nov 13 14:59:09 2013 cyril jourdain
 //
 
 #include			"Graphic/SFGraphics/Widgets/SFWindow.hh"
@@ -119,6 +119,13 @@ bool				SFWindow::isVisible() const
   return _visible;
 }
 
+void				SFWindow::addWidget(SFWidget *w)
+{
+  w->setRenderTarget(_manager->getRenderWindow());
+  w->init();
+  _widgetList->push_back(w);
+}
+
 void				SFWindow::draw(sf::RenderWindow *win) const
 {
   for (std::list<SFWidget *>::iterator it = _widgetList->begin();it != _widgetList->end();++it)
@@ -126,6 +133,7 @@ void				SFWindow::draw(sf::RenderWindow *win) const
       if ((*it)->getCustomView())
        	win->setView(*(*it)->getCustomView());
       win->draw(**it);
-      win->setView(win->getDefaultView());
+      if ((*it)->getCustomView())
+	win->setView(win->getDefaultView());
     }
 }

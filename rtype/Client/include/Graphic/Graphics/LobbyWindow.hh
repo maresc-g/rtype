@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 23:37:40 2013 cyril jourdain
-// Last update Wed Nov 13 10:12:34 2013 cyril jourdain
+// Last update Wed Nov 13 16:19:56 2013 cyril jourdain
 //
 
 #ifndef 		__LOBBYWINDOW_HH__
@@ -28,6 +28,7 @@ private:
   SFButton		*_refreshButton;
   SFButton		*_backButton;
   SFArray		*_arrayGame;
+  SFImageBox		*_arrayBackground;
 
 public:
   LobbyWindow();
@@ -35,7 +36,7 @@ public:
 
 public:
   virtual void		init();
-  void			refreshGameList();
+  void			refreshGameList(void *const);
 };
 
 #endif

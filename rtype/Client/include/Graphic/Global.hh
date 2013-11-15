@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Oct 28 15:04:47 2013 cyril jourdain
-// Last update Tue Nov 12 14:06:57 2013 cyril jourdain
+// Last update Wed Nov 13 16:48:54 2013 cyril jourdain
 //
 
 #ifndef 		__GLOBAL_HH__
@@ -42,10 +42,14 @@
 #define			DIALOGBOX_BACKGROUND		"dialogBoxBackground"
 #define			DIALOGBOX_OK_BUTTON_RES		"Res/dialogbox_ok_button.png"
 #define			DIALOGBOX_OK_BUTTON		"dialogboxOkButton"
-#define			LOBBY_ARRAY_BACKGROUND_RES	"Res/lobby_array_background2.png"
+#define			ARRAY_BACKGROUND_RES		"Res/lobby_array_background2.png"
+#define			ARRAY_BACKGROUND		"arrayBackground"
+#define			LOBBY_ARRAY_BACKGROUND_RES	"Res/lobby_array_background.png"
 #define			LOBBY_ARRAY_BACKGROUND		"lobbyArrayBackground"
-#define			ARRAY_LINE_PART_RES		"Res/array_test.png"
+#define			ARRAY_LINE_PART_RES		"Res/array_cell.png"
 #define			ARRAY_LINE_PART			"arrayLinePart"
+#define			ARRAY_LINE_PART_SELECTED_RES	"Res/array_cell_selected.png"
+#define			ARRAY_LINE_PART_SELECTED	"arrayLinePartSelected"
 
 #define			ARIAL_FONT_RES			"Res/arial.ttf"
 #define			ARIAL_FONT			"arial"

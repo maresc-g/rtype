@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov 13 01:16:03 2013 cyril jourdain
-// Last update Wed Nov 13 01:22:32 2013 cyril jourdain
+// Last update Wed Nov 13 16:55:28 2013 cyril jourdain
 //
 
 #include			"Graphic/SFGraphics/Widgets/SFArray.hh"
@@ -30,6 +30,17 @@ void				SFArrayColumn::init(sf::Texture *const texture, float x, float y,
 void				SFArrayColumn::setText(std::string const &text)
 {
   _text->setText(text);
+  _data = text;
+}
+
+std::string			SFArrayColumn::getData() const
+{
+  return _data;
+}
+
+void				SFArrayColumn::setTexture(sf::Texture *const text)
+{
+  _texture->setTexture(text);
 }
 
 void				SFArrayColumn::draw(sf::RenderTarget &target) const

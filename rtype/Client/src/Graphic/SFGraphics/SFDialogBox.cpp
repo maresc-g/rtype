@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Nov  7 16:47:22 2013 cyril jourdain
-// Last update Fri Nov  8 14:26:58 2013 cyril jourdain
+// Last update Wed Nov 13 13:41:58 2013 cyril jourdain
 //
 
 #include		"Graphic/SFGraphics/Widgets/SFDialogBox.hh"
@@ -28,9 +28,20 @@ void			SFDialogBox::init()
   SFRessourcesManager	*rMan = SFRessourcesManager::getInstance();
   SFConnect		*connect = SFConnect::getInstance();
 
-  _background = addWidget<SFImageBox>();
-  _label = addWidget<SFLabel>();
-  _title = addWidget<SFLabel>();
+  // _background = addWidget<SFImageBox>();
+  // _label = addWidget<SFLabel>();
+  // _title = addWidget<SFLabel>();
+  // _closeButton = addWidget<SFButton>();
+  _background = new SFImageBox();
+  _label = new SFLabel();
+  _title = new SFLabel();
+  _closeButton = new SFButton();
+
+  addWidget(_background);
+  addWidget(_label);
+  addWidget(_title);
+  addWidget(_closeButton);
+
   _background->setTexture((*(rMan->Images))[DIALOGBOX_BACKGROUND]);
   _background->setSize(400, 150);
   _label->setTextSize(18);
@@ -39,13 +50,12 @@ void			SFDialogBox::init()
   _title->setTextSize(17);
   _title->setText(_name);
   _title->setPosition(15,5);
-  if (_okButton)
-    {
-      _closeButton = addWidget<SFButton>();
-      _closeButton->setBackgroundTexture((*(rMan->Images))[DIALOGBOX_OK_BUTTON]);
-      _closeButton->setSize(100,30);
-      _closeButton->setPosition(150,112);
-    }
+  // if (_okButton)
+  //   {
+  _closeButton->setBackgroundTexture((*(rMan->Images))[DIALOGBOX_OK_BUTTON]);
+  _closeButton->setSize(100,30);
+  _closeButton->setPosition(150,112);
+    // }
   setSize(sf::Vector2f(400,150));
   setPosition(sf::Vector2f(WIN_X / 2 - 200, WIN_Y / 2 - 75));
   updateBound();

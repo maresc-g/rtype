@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:37:12 2013 cyril jourdain
-// Last update Thu Nov  7 13:51:35 2013 cyril jourdain
+// Last update Thu Nov 14 22:32:50 2013 cyril jourdain
 //
 
 #ifndef 		__CLIENTMAIN_HH__
@@ -42,6 +42,9 @@ public:
   
   // ClientMain to Client functions / callbacks event
   void				connectToServer(void *param);
+  void				joinGame(void *param);
+  void				createGame(void *param);
+  void				backToLogin(void *param);
 };
 
 #endif

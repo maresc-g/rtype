@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Nov  8 14:52:29 2013 cyril jourdain
-// Last update Wed Nov 13 02:01:34 2013 cyril jourdain
+// Last update Thu Nov 14 17:18:24 2013 cyril jourdain
 //
 
 #ifndef				__SFARRAY_HH__
@@ -34,6 +34,8 @@ public:
   void				init(sf::Texture *const texture, float x, float y, float sx, float sy);
   void				draw(sf::RenderTarget &target) const;
   void				setText(std::string const &);
+  std::string			getData() const;
+  void				setTexture(sf::Texture *const);
 };
 
 class				SFArrayLine
@@ -41,26 +43,31 @@ class				SFArrayLine
 private:
   std::map<std::string, SFArrayColumn*>	*_columnArray;
   std::list<std::string>		*_fieldList;
+  sf::FloatRect				*_bounds;
+  bool					_selected;
 
 public:
   SFArrayLine(std::list<std::string> const &, sf::Vector2f const &pos, sf::Vector2f const &size);
-  virtual ~SFArrayLine(){};
+  virtual ~SFArrayLine();
 
 public:
-  std::list<std::string>		*getFieldList() const;
+  std::list<std::string>	*getFieldList() const;
   void				draw(sf::RenderTarget &target) const;
   SFArrayColumn			&operator[](std::string const &);
+  sf::FloatRect			*getBound() const;
+  bool				mouseIn(sf::Vector2f const &mouse) const;
+  void				setSelected(bool);
 };
 
 class				SFArray : public SFWidget
 {
 
 private:
-  sf::View			*_view;
   SFImageBox			*_background;
   int				_nbColumn;
   std::vector<SFArrayLine *>	*_lineArray;
   SFArrayLine			*_titleLine;
+  SFArrayLine			*_selected;
 
 public:
   SFArray();
@@ -73,12 +80,14 @@ public:
   void				setBackgroundTexture(sf::Texture *const);
   void				addLine();
   SFArrayLine			&operator[](unsigned int index);
+  void				clear();
 
 public:
   virtual void			init();
   virtual sf::FloatRect		&getBound() const;
   virtual void			setBackgroundColor(sf::Color const) {};
-  virtual void			onClick(void *const ) {std::cout << "clicked on array" << std::endl;};
+  virtual void			onClick(void *const );
+  virtual void			onMouseWheelMove(void *const);
 
 private:
   virtual void			draw(sf::RenderTarget &target, sf::RenderStates states) const;
