@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:49:34 2013 guillaume marescaux
-// Last update Thu Nov 14 11:34:31 2013 antoine maitre
+// Last update Fri Nov 15 15:41:31 2013 antoine maitre
 //
 
 #include			"Entities/Weapon/AProjectile.hh"
@@ -23,5 +23,8 @@ AProjectile::~AProjectile()
 
 void				AProjectile::move()
 {
-  AEntity::move(this->_coord->getX() + _vx, this->_coord->getY() + _vy);
+  double x1 = this->_speed / (_vx + _vy) * _vx;
+  double y2 = this->_speed / (_vx + _vy) * _vy;
+
+  AEntity::move(static_cast<int>(x1), static_cast<int>(y2));
 }

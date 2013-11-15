@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Thu Nov 14 15:39:31 2013 antoine maitre
+// Last update Fri Nov 15 12:19:51 2013 antoine maitre
 //
 
 #include		"Entities/AEntity.hh"
@@ -108,12 +108,12 @@ void			AEntity::setDestructible(bool const &destructible)
   _destructible = destructible;
 }
 
-int			AEntity::getLargeur() const
+int			AEntity::getHeight() const
 {
   return (this->_L);
 }
 
-int			AEntity::getLongueur() const
+int			AEntity::getWidth() const
 {
   return (this->_l);
 }
@@ -141,4 +141,24 @@ bool			AEntity::isDead() const
 void			AEntity::setDead(bool dead)
 {
   this->_dead = dead;
+}
+
+unsigned int		AEntity::getLife() const
+{
+  return (this->_life);
+}
+
+void			AEntity::setLife(unsigned int const life)
+{
+  this->_life = life;
+}
+
+void			AEntity::setWidth(int const width)
+{
+  this->_l = width;
+}
+
+void			AEntity::setHeight(int const height)
+{
+  this->_L = height;
 }

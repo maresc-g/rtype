@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 11:40:04 2013 laurent ansel
-// Last update Wed Nov 13 15:34:46 2013 laurent ansel
+// Last update Thu Nov 14 17:45:08 2013 laurent ansel
 //
 
 #include			<list>
@@ -79,9 +79,11 @@ void				SpriteLoaderUpdater::run()
 	{
 	  this->_mutex.enter();
 	  for (itSprite = this->_sprites->begin() ; itSprite != this->_sprites->end() && (*itSprite)->getPath() != (*it)->getPath() ; ++itSprite);
-	  if (itSprite == this->_sprites->end() && (*it)->getType() == FileSystem::FILE && (*it)->getPath().find(".conf") != std::string::npos)
+	  if (itSprite == this->_sprites->end() && (*it)->getType() == FileSystem::FILE && (*it)->getPath().find(".confclient") != std::string::npos)
+	    ;	    ///////////////////////////////////////////////////////////////////////////////////////////
+	  else if (itSprite == this->_sprites->end() && (*it)->getType() == FileSystem::FILE && (*it)->getPath().find(".conf") != std::string::npos)
 	    (*this->_confFiles)[(*it)->getPath()] = (this->_confFiles->find((*it)->getPath()) != this->_confFiles->end() && (*this->_confFiles)[(*it)->getPath()] ? true : false);
-	  else if (itSprite == this->_sprites->end() && (*it)->getType() == FileSystem::FILE)
+	  if (itSprite == this->_sprites->end() && (*it)->getType() == FileSystem::FILE && (*it)->getPath().find(".conf") == std::string::npos)
       	    this->_sprites->push_back(new SpriteLoader(this->_sprites->size(), (*it)->getPath()));
 	  this->_mutex.leave();
 	}

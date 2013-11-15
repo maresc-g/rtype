@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 15:04:52 2013 laurent ansel
-// Last update Wed Nov 13 16:43:53 2013 laurent ansel
+// Last update Thu Nov 14 21:42:50 2013 laurent ansel
 //
 
 #include		<iostream>
@@ -17,13 +17,86 @@ SpriteLoader::SpriteLoader(size_t const id, std::string const &path, std::string
   _id(id),
   _path(path),
   _confFile(confFile),
-  _entity(new AEntity(0, 0, "", 0, false))
+  _entity(new AEntity(0, 0, "", 0, false)),
+  _spawnProjectile(new Coordinate(0, 0))
 {
 }
 
 SpriteLoader::~SpriteLoader()
 {
 
+}
+
+void			SpriteLoader::getSpawnCoordiante(std::string const &content)
+{
+  size_t		pos = 0;
+  size_t		endPos = 0;
+
+  if ((pos = content.find(SPAWN)) != std::string::npos && (endPos = content.find("\n", pos)) != std::string::npos)
+    {
+      size_t		pos2 = content.find(":", pos);
+      if (pos2 != std::string::npos)
+	{
+	  std::istringstream	str(content.substr(pos + std::string(SPAWN).size(), pos2));
+	  std::istringstream	str2(content.substr(pos2 + 1, endPos));
+	  int			spawnProjectile[2];
+
+	  str >> spawnProjectile[0];
+	  str2 >> spawnProjectile[1];
+	  if (spawnProjectile[0] > -1 && spawnProjectile[1] > -1)
+	    {
+	      this->_spawnProjectile->setX(spawnProjectile[0]);
+	      this->_spawnProjectile->setX(spawnProjectile[1]);
+	    }
+	}
+    }
+}
+
+void			SpriteLoader::getLife(std::string const &content)
+{
+  if (this->_entity)
+    {
+      size_t		pos = 0;
+      size_t		endPos = 0;
+
+      if ((pos = content.find(LIFE)) != std::string::npos && (endPos = content.find("\n", pos)) != std::string::npos)
+	{
+	  std::istringstream	str(content.substr(pos + std::string(LIFE).size(), endPos));
+	  int	life;
+
+	  str >> life;
+	  if (life > -1)
+	    this->_entity->setLife(life);
+	}
+    }
+}
+
+void			SpriteLoader::getWidthAndHeight(std::string const &content)
+{
+  if (this->_entity)
+    {
+      size_t		pos = 0;
+      size_t		endPos = 0;
+
+      if ((pos = content.find(WIDTH)) != std::string::npos && (endPos = content.find("\n", pos)) != std::string::npos)
+	{
+	  std::istringstream	str(content.substr(pos + std::string(WIDTH).size(), endPos));
+	  int	width;
+
+	  str >> width;
+	  if (width > -1)
+	    this->_entity->setWidth(width);
+	}
+      if ((pos = content.find(HEIGHT)) != std::string::npos && (endPos = content.find("\n", pos)) != std::string::npos)
+	{
+	  std::istringstream	str(content.substr(pos + std::string(HEIGHT).size(), endPos));
+	  int	height;
+
+	  str >> height;
+	  if (height > -1)
+	    this->_entity->setHeight(height);
+	}
+    }
 }
 
 void			SpriteLoader::getSpeed(std::string const &content)
@@ -39,7 +112,7 @@ void			SpriteLoader::getSpeed(std::string const &content)
 	  int	speed;
 
 	  str >> speed;
-	  if (speed > -1 && speed < 100)
+	  if (speed > -1 && speed < 500)
 	    this->_entity->setSpeed(speed);
 	}
     }
@@ -63,6 +136,28 @@ void			SpriteLoader::getDestructible(std::string const &content)
     }
 }
 
+bool			SpriteLoader::isHere(std::string const &content)
+{
+  static std::string	tab[] =
+    {
+      SPEED,
+      LIFE,
+      HEIGHT,
+      WIDTH,
+      DESTRUCTIBLE,
+      FORMAT
+    };
+  static unsigned int size = sizeof(tab) / sizeof(*tab);
+  bool			ret = false;
+
+  for (unsigned int i = 0 ; i < size ; ++i)
+    {
+      if (content.find(tab[i]) != std::string::npos)
+	ret = true;
+    }
+  return (ret);
+}
+
 InformationHitBox	*SpriteLoader::findInformationHitBox(std::string const &str)
 {
   InformationHitBox	*hitbox = NULL;
@@ -70,7 +165,7 @@ InformationHitBox	*SpriteLoader::findInformationHitBox(std::string const &str)
   size_t		endPos;
   size_t		posSize;
 
-  if (str.find(SPEED) == std::string::npos && str.find(DESTRUCTIBLE) == std::string::npos && str.find(FORMAT) == std::string::npos &&
+  if (!this->isHere(str) &&
       (pos = str.find(":")) != std::string::npos && (endPos = str.find("=")) != std::string::npos && (posSize = str.find("x")) != std::string::npos)
     {
       int		tmp[4];
@@ -125,6 +220,8 @@ void			SpriteLoader::loadConfFile()
       str.open(_confFile);
       while (str.good())
 	content += str.get();
+      this->getLife(content);
+      this->getWidthAndHeight(content);
       this->getSpeed(content);
       this->getDestructible(content);
       this->getInformationHitBox(content);
@@ -177,4 +274,9 @@ void			SpriteLoader::setConfFile(std::string const &confFile)
 {
   this->_confFile = confFile;
   this->loadConfFile();
+}
+
+Coordinate const	&SpriteLoader::getSpawnCoordinate() const
+{
+  return (*this->_spawnProjectile);
 }

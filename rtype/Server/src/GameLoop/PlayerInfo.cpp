@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Wed Nov 13 14:41:46 2013 antoine maitre
+// Last update Fri Nov 15 12:21:24 2013 antoine maitre
 //
 
 #include "GameLoop/PlayerInfo.hh"
@@ -46,8 +46,8 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
     {
       act.setDown(false);
       this->_player->move(coord->getX(), coord->getY() + this->_player->getSpeed());
-      if (coord->getY() >= SCREENY - this->_player->getLargeur())
-	this->_player->move(coord->getX(), SCREENY - this->_player->getLargeur());
+      if (coord->getY() >= SCREENY - this->_player->getHeight())
+	this->_player->move(coord->getX(), SCREENY - this->_player->getHeight());
     }
   if (act.getLeft())
     {
@@ -60,8 +60,8 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
     {
       act.setRight(false);
       this->_player->move(coord->getX() + this->_player->getSpeed(), coord->getY());
-      if (coord->getX() > adv + SCREENX - this->_player->getLongueur())
-	this->_player->move(adv + SCREENX - this->_player->getLongueur(), coord->getY());
+      if (coord->getX() > adv + SCREENX - this->_player->getWidth())
+	this->_player->move(adv + SCREENX - this->_player->getWidth(), coord->getY());
     }
   if (act.getFire())
     {
