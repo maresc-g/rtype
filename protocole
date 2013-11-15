@@ -17,11 +17,11 @@ server -> "OK" | "KO" TCP
 
 server -> "SPRITE %list" TCP list<name;md5>
 
-client -> GET %nameSprite TCP
+client -> GETSPRITE %nameSprite TCP
 
-server -> CONTENTSPRITE %name%content;%md5 TCP
+server -> CONTENTSPRITE %name;%content TCP
 
-server -> CONFSPRITE %name%content;%md5 TCP
+server -> CONFSPRITE %name;%content TCP
 
 client -> "ACTION %action" UDP
 server -> "ENTITY %id;%type;%x;%y" UDP

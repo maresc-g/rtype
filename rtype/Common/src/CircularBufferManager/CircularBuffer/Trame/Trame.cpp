@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:15:14 2013 laurent ansel
-// Last update Tue Nov  5 17:20:51 2013 laurent ansel
+// Last update Fri Nov 15 11:39:42 2013 laurent ansel
 //
 
 #include			<list>
@@ -72,7 +72,7 @@ std::string const		Trame::toString() const
 {
   std::ostringstream		str;
 
-  str << this->_header->toString() << " " << this->_content;
+  str << this->_header->toString() << this->_content;
   return (str.str());
 }
 
@@ -83,13 +83,17 @@ bool				Trame::isSetEndTrame() const
   return (false);
 }
 
-Trame				*Trame::toTrame(std::string &str)
+Trame				*Trame::toTrame(std::string const &str)
 {
   Header			*header;
+  std::string			content;
 
   header = Header::toHeader(str);
   if (header)
-    return (new Trame(header, str));
+    {
+      content = str.size() + sizeof(s_header);
+      return (new Trame(header, content));
+    }
   return (NULL);
 }
 
