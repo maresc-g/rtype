@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov  8 22:44:47 2013 laurent ansel
-// Last update Fri Nov 15 13:50:35 2013 laurent ansel
+// Last update Fri Nov 15 15:18:49 2013 laurent ansel
 //
 
 #ifndef 			__SPRITELOADER_HH__
@@ -15,7 +15,7 @@
 #include			<string>
 #include			"Entities/AEntity.hh"
 
-#define	SPAWN			"spwanProjectile="
+#define	SPAWN			"spawnProjectile="
 #define	LIFE			"life="
 #define	HEIGHT			"height="
 #define	WIDTH			"width="
