@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov  8 22:44:47 2013 laurent ansel
-// Last update Wed Nov 13 13:43:45 2013 laurent ansel
+// Last update Thu Nov 14 16:01:38 2013 antoine maitre
 //
 
 #ifndef 			__SPRITELOADER_HH__
@@ -31,7 +31,7 @@ private:
   std::string			_path;
   std::string			_content;
   std::string			_confFile;
-AEntity			*_entity;
+  AEntity			*_entity;
 public:
   SpriteLoader(size_t const id, std::string const &path, std::string const &confFile = "");
   virtual ~SpriteLoader();

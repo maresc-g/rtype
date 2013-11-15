@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Thu Nov 14 12:16:56 2013 antoine maitre
+// Last update Thu Nov 14 17:39:44 2013 antoine maitre
 //
 
 #include "Level/Map.hh"
@@ -61,40 +61,37 @@ std::vector<std::vector<unsigned int>> *Map::getMap()
   return (this->_map);
 }
 
-void	Map::tryToSet(std::list<AEntity *> &l1, std::list<AEntity *> &l2, int adv)
+void			Map::tryToSet(std::list<AEntity *> &l1, std::list<AEntity *> &l2, int adv)
 {
-  const Coordinate *toto;
+  int			x;
+  int			y;
 
-  for (std::list<AEntity *>::iterator it = l1.begin(); it != l1.end(); ++it)
+  for (auto it = l1.begin(); it != l1.end(); ++it)
     {
-      toto = (*it)->getCoord();
-      for (int i = toto->getY(); i < toto->getY() + (*it)->getLargeur(); i++)
+      const auto info = (*it)->getInformationHitBox();
+      for (auto hit = info.begin(); hit != info.end(); hit++)
 	{
-	  if (i <= 0 || i >= SCREENY)
+	  x = (*hit)->getCoordinate().getX() + (*it)->getCoord()->getX();
+	  y = (*hit)->getCoordinate().getY() + (*it)->getCoord()->getY();
+	  if ((*it)->getCoord()->getX() + (*hit)->getWidth() < 0 || (*it)->getCoord()->getX() > SCREENX ||
+	      (*it)->getCoord()->getY() + (*hit)->getHeight() < 0 || (*it)->getCoord()->getY() > SCREENY)
 	    {
 	      (*it)->setDead(true);
 	      break;
 	    }
-	  for (int j = toto->getX() - adv; j < toto->getX() - adv + (*it)->getLongueur(); j++)
-	    {
-	      if (j <= 0 - (*it)->getLongueur() || j >= SCREENX)
-		{
-		  (*it)->setDead(true);
-		  break;
-		}
-	      else if ((*this->_map)[i][j] == 0 && (i >= 0 && i < SCREENY) && (j >= 0 && j <= SCREENX))
-		(*this->_map)[i][j] = (*it)->getId();
-	      else
-		{
-		  (*it)->collision();
-		  for (std::list<AEntity *>::iterator it2 = l2.begin(); it2 != l2.end(); ++it2)
-		    if ((*this->_map)[i][j] == (*it2)->getId())
-		      (*it2)->collision();
-		  // for (std::list<AEntity *>::iterator it2 = l1.begin(); it2 != l1.end(); ++it2)
-		  //   if ((*this->_map)[i][j] == (*it2)->getId())
-		  //     (*it2)->collision();
-		}
-	    }
+	  for (int i = y; i < y + (*hit)->getHeight(); i++)
+	    for (int j = x - adv; j < x - adv + (*hit)->getWidth(); j++)
+	      {
+		if ((i >= 0 && i < SCREENY) && (j >= 0 && j <= SCREENX) && (*this->_map)[i][j] == 0)
+		  (*this->_map)[i][j] = (*it)->getId();
+		else if ((i >= 0 && i < SCREENY) && (j >= 0 && j <= SCREENX))
+		  {
+		    (*it)->collision();
+		    for (auto it2 = l2.begin(); it2 != l2.end(); ++it2)
+		      if ((*this->_map)[i][j] == (*it2)->getId())
+			(*it2)->collision();
+		  }
+	      }
 	}
     }
 }

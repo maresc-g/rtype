@@ -6,7 +6,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov 14 15:38:18 2013 antoine maitre
+// Last update Thu Nov 14 18:28:45 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -14,7 +14,7 @@
 GameLoop::GameLoop():
   Thread(),
   Mutex(),
-  _rate(120)
+  _rate(50)
 {
 }
 
@@ -38,8 +38,6 @@ void			GameLoop::loop()
   while (!this->_levelManag->getEndGame())
     {
       time = clock();
-#ifndef _WIN32
-      usleep(125000);
       this->_levelManag->incAdv();
       for (std::list<PlayerInfo *>::iterator it = _clients.begin(); it != _clients.end(); ++it)
 	{
@@ -56,13 +54,12 @@ void			GameLoop::loop()
       this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
       this->destroyDeadEntities(this->_levelManag->getEnemies(), 
 				this->_levelManag->getPlayers());
+#ifndef _WIN32
+      rest = clock() - time;
+      if (rest < 1000 / this->_rate)
+	usleep(1000 * ((1000 / this->_rate) - rest));
 #endif
-      rest += clock() - time;
-      if (rest > 1000 / this->_rate)
-	{
-	  /*Send to users*/;
-	  rest = 0;
-	}
+      /*Send to users*/;
     }
 }
 

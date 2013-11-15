@@ -5,14 +5,14 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:43:43 2013 guillaume marescaux
-// Last update Thu Nov 14 12:56:27 2013 arthur rucquois
+// Last update Thu Nov 14 15:51:50 2013 antoine maitre
 //
 
 #ifndef 		__ACHARACTER_HH__
 # define 		__ACHARACTER_HH__
 
-#include <string>
-#include "AEntity.hh"
+#include		<string>
+#include		"AEntity.hh"
 
 class			ACharacter : public AEntity
 {
