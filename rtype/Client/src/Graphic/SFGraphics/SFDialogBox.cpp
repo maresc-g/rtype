@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Nov  7 16:47:22 2013 cyril jourdain
-// Last update Wed Nov 13 13:41:58 2013 cyril jourdain
+// Last update Fri Nov 15 15:00:32 2013 cyril jourdain
 //
 
 #include		"Graphic/SFGraphics/Widgets/SFDialogBox.hh"
@@ -17,6 +17,7 @@ SFDialogBox::SFDialogBox(std::string const &name, std::string const &content,
 			 bool okButton) :
   SFWindow(sf::FloatRect(0,0,400,150)), _name(name), _content(content), _okButton(okButton)
 {
+  setStayOnTop(true);
 }
 
 SFDialogBox::~SFDialogBox()

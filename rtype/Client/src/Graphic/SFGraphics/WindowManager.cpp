@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:18:05 2013 cyril jourdain
-// Last update Wed Nov 13 14:18:45 2013 cyril jourdain
+// Last update Fri Nov 15 15:09:43 2013 cyril jourdain
 //
 
 #include	<iostream>
@@ -37,7 +37,8 @@ SFWidget	*WindowManager::getFocused() const
 
 void		WindowManager::draw() const
 {
-  _window->setView(*(_active->getView()));
+  if (_active)
+    _window->setView(*(_active->getView()));
   if (_windowList && !_windowList->empty())
     {
       for (auto it = _windowList->begin(); it != _windowList->end(); ++it)
@@ -65,6 +66,10 @@ void		WindowManager::setFocusedWindow(sf::Event const &mouse)
 
   x = worldPos.x;
   y = worldPos.y;
+
+  if (_active && _active->isStayOnTop())
+    return;
+
   for (auto it = _windowList->begin(); it != _windowList->end(); it++)
     {
       if (it->second->isVisible())
@@ -340,7 +345,10 @@ void				WindowManager::removeWindowCallback(void *param)
 		      return val.first == id;
 		    });
   if (it != _windowList->end())
-    _windowList->remove(*it);
+    {
+      _windowList->remove(*it);
+      _active = NULL;
+    }
 }
 
 unsigned int			WindowManager::getLastWindowIndex() const

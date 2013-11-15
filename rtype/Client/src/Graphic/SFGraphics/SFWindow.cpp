@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 19:36:18 2013 cyril jourdain
-// Last update Wed Nov 13 14:59:09 2013 cyril jourdain
+// Last update Fri Nov 15 15:10:52 2013 cyril jourdain
 //
 
 #include			"Graphic/SFGraphics/Widgets/SFWindow.hh"
@@ -19,6 +19,7 @@ SFWindow::SFWindow() :
   _view(new sf::View())
 {
   _visible = true;
+  _stayOnTop = false;
 }
 
 SFWindow::SFWindow(sf::FloatRect const &rect) :
@@ -28,6 +29,7 @@ SFWindow::SFWindow(sf::FloatRect const &rect) :
 {
   _view->setViewport(sf::FloatRect(0,0,1,1));
   _visible = true;
+  _stayOnTop = false;
 }
 
 SFWindow::~SFWindow()
@@ -117,6 +119,16 @@ void				SFWindow::setVisibility(bool visibility)
 bool				SFWindow::isVisible() const
 {
   return _visible;
+}
+
+void				SFWindow::setStayOnTop(bool val)
+{
+  _stayOnTop = val;
+}
+
+bool				SFWindow::isStayOnTop() const
+{
+  return _stayOnTop;
 }
 
 void				SFWindow::addWidget(SFWidget *w)

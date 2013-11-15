@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Thu Nov 14 22:34:56 2013 cyril jourdain
+// Last update Fri Nov 15 15:27:30 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -56,6 +56,16 @@ void			ClientMain::launch()
   _manager->exec();
   _client->waitThread();
   _client->destroy();
+}
+
+void			ClientMain::setState(ClientMain::State s)
+{
+  _state = s;
+}
+
+ClientMain::State	ClientMain::getState() const
+{
+  return _state;
 }
 
 void			ClientMain::connectToServer(void *param)
