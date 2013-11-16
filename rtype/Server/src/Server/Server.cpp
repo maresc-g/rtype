@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Sat Nov 16 16:56:59 2013 laurent ansel
+// Last update Sat Nov 16 20:30:47 2013 laurent ansel
 //
 
 #include			<list>
@@ -154,6 +154,7 @@ void				Server::recvTrameUdp()
 		    trame->getHeader().setProto("TCP");
 		    trame->setContent("CHECK" + std::string(END_TRAME));
 		    (*it)->pushWriteTrame("TCP", trame);
+		    this->sendListSprite((*it));
 		  }
 	      this->debug("Done");
 	    }
@@ -345,6 +346,25 @@ void				Server::quitAllClient() const
       CircularBufferManager::getInstance()->deleteTrame((*it)->getId());
       (*it)->writeImmediately("TCP", new Trame(this->_clientId, 0, "TCP", "SERVERQUITTED", true));
     }
+}
+
+void				Server::sendListSprite(ClientInfo *client)
+{
+  std::list<std::string>	listSprite = SpriteLoaderManager::getInstance()->getSpriteList();
+  std::list<std::string>	listConf = SpriteLoaderManager::getInstance()->getConfClientList();
+  std::ostringstream		str;
+  std::list<Trame *>		*trame;
+
+  str << "SPRITE";
+  for (auto it = listSprite.begin() ; it != listSprite.end() ; ++it)
+    str << " " << (*it);
+  for (auto it = listConf.begin() ; it != listConf.end() ; ++it)
+    if ((*it) != "")
+      str << " " << (*it);
+  trame = Trame::ToListTrame(client->getId(), client->getTrameId(), "TCP", str.str());
+  if (trame)
+    for (std::list<Trame *>::iterator it = trame->begin() ; it != trame->end() ; ++it)
+      client->pushWriteTrame("TCP", (*it));
 }
 
 void				Server::sendSprite(ClientInfo *client, std::string const &sprite, std::string const &proto)

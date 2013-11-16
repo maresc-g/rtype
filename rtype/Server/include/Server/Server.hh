@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Fri Nov 15 15:37:31 2013 laurent ansel
+// Last update Sat Nov 16 20:18:21 2013 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -46,6 +46,7 @@ private:
   bool				manageSprite(std::list<ClientInfo *>::iterator &it, Action &action);
   void				sendUpdateSprite();
   void				sendSprite(ClientInfo *client, std::string const &sprite, std::string const &proto);
+  void				sendListSprite(ClientInfo *client);
 };
 
 #endif

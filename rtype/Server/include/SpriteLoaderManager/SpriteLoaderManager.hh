@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov  8 22:44:27 2013 laurent ansel
-// Last update Sat Nov 16 11:54:23 2013 laurent ansel
+// Last update Sat Nov 16 20:26:49 2013 laurent ansel
 //
 
 #ifndef 			__SPRITELOADERMANAGER_HH__
@@ -34,6 +34,7 @@ public:
   std::string const		getSprite(std::string const &sprite) const;
   std::string const		getConfSprite(std::string const &name);
   std::list<std::string> const	getSpriteList() const;
+  std::list<std::string> const	getConfClientList() const;
   std::list<std::string> const	getSpriteUpdate() const;
   std::list<std::string> const	getConfClientUpdate() const;
   bool				isUpdate() const;

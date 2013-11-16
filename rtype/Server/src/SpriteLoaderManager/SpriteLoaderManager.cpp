@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 11:18:35 2013 laurent ansel
-// Last update Sat Nov 16 16:57:13 2013 laurent ansel
+// Last update Sat Nov 16 20:26:22 2013 laurent ansel
 //
 
 #include			<sstream>
@@ -95,6 +95,15 @@ std::list<std::string> const	SpriteLoaderManager::getSpriteList() const
 
   for (auto it = this->_sprites->begin() ; it != this->_sprites->end() ; ++it)
     list.push_back((*it)->getPath());
+  return (list);
+}
+
+std::list<std::string> const	SpriteLoaderManager::getConfClientList() const
+{
+  std::list<std::string>	list;
+
+  for (auto it = this->_sprites->begin() ; it != this->_sprites->end() ; ++it)
+    list.push_back((*it)->getNameConfClient());
   return (list);
 }
 
