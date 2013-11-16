@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:12 2013 laurent ansel
-// Last update Fri Nov 15 15:37:14 2013 laurent ansel
+// Last update Sat Nov 16 13:41:05 2013 laurent ansel
 //
 
 #ifndef 			__COMMAND_HH__
@@ -24,6 +24,7 @@ public:
   Command(Trame *trame);
   virtual ~Command();
   Action			&getAction() const;
+  void				setAction(Action const &action);
   void				trameToAction();
 private:
   void				upCommand(std::istringstream &str);

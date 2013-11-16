@@ -6,15 +6,18 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov 14 15:38:18 2013 antoine maitre
+// Last update Sat Nov 16 18:02:46 2013 laurent ansel
 //
 
 #include "GameLoop/GameLoop.hh"
 
-GameLoop::GameLoop():
+GameLoop::GameLoop(std::string const &name, unsigned int const id):
   Thread(),
   Mutex(),
-  _rate(120)
+  _clients(new std::list<PlayerInfo *>),
+  _rate(120),
+  _name(name),
+  _id(id)
 {
 }
 
@@ -26,8 +29,8 @@ void			GameLoop::Initialize(ClientInfo *client)
 {
   this->_levelManag = new LevelManager();
   this->_levelManag->Initialize();
-  this->_clients.push_back(new PlayerInfo(client, 1));
-  this->_levelManag->getPlayers().push_back(this->_clients.front()->getPlayer());
+  this->_clients->push_back(new PlayerInfo(client, 1));
+  this->_levelManag->getPlayers().push_back(this->_clients->front()->getPlayer());
 }
 
 void			GameLoop::loop()
@@ -40,8 +43,9 @@ void			GameLoop::loop()
       time = clock();
 #ifndef _WIN32
       usleep(125000);
+#endif
       this->_levelManag->incAdv();
-      for (std::list<PlayerInfo *>::iterator it = _clients.begin(); it != _clients.end(); ++it)
+      for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
 	{
 	  (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
 	  // (*it)->decOffFrames();
@@ -49,14 +53,13 @@ void			GameLoop::loop()
       for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().begin(); it++)
 	{
 	  const Coordinate	*coord = (*it)->getCoord();
-	  
+
 	  if (coord->getX() <= this->_levelManag->getAdv() - (*it)->getLongueur())
 	    it = this->_levelManag->getEnemies().erase(it);
 	}
       this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
-      this->destroyDeadEntities(this->_levelManag->getEnemies(), 
+      this->destroyDeadEntities(this->_levelManag->getEnemies(),
 				this->_levelManag->getPlayers());
-#endif
       rest += clock() - time;
       if (rest > 1000 / this->_rate)
 	{
@@ -85,7 +88,7 @@ void			GameLoop::spawnMob()
 {
   //  std::list<Mob *> yolo = this->_levelManag->getCurrentLevel()->getMap()->getDynamicEntities();
 
-  
+
 }
 
 void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AEntity *> &players)
@@ -95,32 +98,30 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
       if ((*it)->isDead() == true)
 	it = enemies.erase(it);
     }
-  for (std::list<PlayerInfo *>::iterator it = _clients.begin(); it != _clients.end(); it++)
+  for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
     {
       if ((*it)->getPlayer()->isDead() == true)
 	{
 	  players.remove((*it)->getPlayer());
-	  it = _clients.erase(it);
+	  it = _clients->erase(it);
+	  it = this->_clients->begin();
 	}
     }
 }
 
 unsigned int		GameLoop::getId() const
 {
-  //  return (this->_id);
-  return (0);
+  return (this->_id);
 }
 
 std::string		GameLoop::getName() const
 {
-  //  return (this->_name);
-  return ("toto");
+  return (this->_name);
 }
 
 unsigned int		GameLoop::getNumPlayer() const
 {
-  //  return (this->_numberPlayer);
-  return (3);
+  return (this->_clients->size());
 }
 
 bool			GameLoop::setPlayer(ClientInfo *)

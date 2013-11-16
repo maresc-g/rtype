@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov  8 22:44:47 2013 laurent ansel
-// Last update Fri Nov 15 13:50:35 2013 laurent ansel
+// Last update Sat Nov 16 16:23:54 2013 laurent ansel
 //
 
 #ifndef 			__SPRITELOADER_HH__
@@ -45,10 +45,10 @@ public:
   void				setNameConfClient(std::string const &name);
   std::string const		&getNameConfClient() const;
   std::string const		&getContentConfClient() const;
+  void				loadSprite();
 private:
   void				loadConfFile();
   void				loadConfClient();
-  void				loadSprite();
   void				getSpeed(std::string const &content);
   void				getDestructible(std::string const &content);
   InformationHitBox		*findInformationHitBox(std::string const &str);

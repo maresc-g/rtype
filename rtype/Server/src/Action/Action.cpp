@@ -5,9 +5,10 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 18:02:37 2013 laurent ansel
-// Last update Fri Nov 15 15:09:24 2013 laurent ansel
+// Last update Sat Nov 16 16:56:02 2013 laurent ansel
 //
 
+#include			<iostream>
 #include			"Action/Action.hh"
 
 Action::Action():
@@ -18,6 +19,16 @@ Action::Action():
 
 Action::~Action()
 {
+}
+
+Action				&Action::operator=(Action const &other)
+{
+  if (this != &other)
+    {
+      this->_action = other._action;
+      this->_param = other._param;
+    }
+  return (*this);
 }
 
 bool				Action::getUp() const

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 17:50:22 2013 laurent ansel
-// Last update Fri Nov 15 15:08:35 2013 laurent ansel
+// Last update Sat Nov 16 13:43:08 2013 laurent ansel
 //
 
 #ifndef 			__ACTION_HH__
@@ -36,6 +36,7 @@ private:
 public:
   Action();
   virtual ~Action();
+  Action			&operator=(Action const &action);
   bool				getUp() const;
   bool				getDown() const;
   bool				getRight() const;

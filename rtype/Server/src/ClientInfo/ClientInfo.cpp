@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Fri Nov 15 13:46:02 2013 laurent ansel
+// Last update Sat Nov 16 15:56:31 2013 laurent ansel
 //
 
 #include			"ClientInfo/ClientInfo.hh"
@@ -48,6 +48,8 @@ ClientInfo::~ClientInfo()
 bool				ClientInfo::standbyCommand() const
 {
   this->_mutex->enter();
+  if (!this->_command->empty())
+    getFirstCommand();
   if (this->_command->empty())
     {
       this->_mutex->leave();
@@ -63,6 +65,8 @@ Command const			*ClientInfo::getFirstCommand() const
 
   if (command->getAction().empty())
     {
+      if (command)
+	delete command;
       this->_command->pop_front();
       if (!this->_command->empty())
 	command = this->_command->front();
@@ -167,11 +171,14 @@ int				ClientInfo::readSomethingInSocket(std::string const &proto)
 
   this->_mutex->enter();
   ret = (*this->_clientInfo)[proto]->readSocket(tmp, SIZE_BUFFER);
-  str.append(tmp, ret);
-  trame = Trame::toTrame(str);
+  if (ret > 0)
+    {
+      str.append(tmp, ret);
+      trame = Trame::toTrame(str);
+    }
   if (ret > 0 && trame)
     CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);
-  else if (!trame)
+  else if (ret > 0 && !trame)
     {
       CircularBufferManager::getInstance()->pushTrame(new Trame(this->_id, this->_trameId, proto, "ERROR TRAME", true), CircularBufferManager::WRITE_BUFFER);
       (*this->_nbTrame)[proto]++;
@@ -204,6 +211,13 @@ Action const			&ClientInfo::getAction() const
   return (this->getFirstCommand()->getAction());
 }
 
+void				ClientInfo::setAction(Action const &action)
+{
+  this->_mutex->enter();
+  Command			*command = this->_command->front();
+  command->setAction(action);
+  this->_mutex->leave();
+}
 
 void				ClientInfo::setId(unsigned int const id)
 {
