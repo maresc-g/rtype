@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Fri Nov 15 15:27:30 2013 cyril jourdain
+// Last update Sat Nov 16 14:41:04 2013 guillaume marescaux
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -38,7 +38,9 @@ ClientMain	&ClientMain::operator=(ClientMain const &)
 
 void			ClientMain::init()
 {
-  _client = new Client();
+  _state = IN_LOGIN;
+  _dir = new FileSystem::Directory(SPRITE_DIR);
+  _client = new Client(_dir, &_state);
   _client->createThread(&trampoline, _client);
   _manager = new WindowManager();
   _windows = new std::map<unsigned int, SFWindow*>();
@@ -52,18 +54,18 @@ void			ClientMain::init()
 
 void			ClientMain::launch()
 {
-  // _client->start();
+  _client->start();
   _manager->exec();
   _client->waitThread();
   _client->destroy();
 }
 
-void			ClientMain::setState(ClientMain::State s)
+void			ClientMain::setState(eState s)
 {
   _state = s;
 }
 
-ClientMain::State	ClientMain::getState() const
+eState			ClientMain::getState() const
 {
   return _state;
 }

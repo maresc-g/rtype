@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:26 2013 guillaume marescaux
-// Last update Thu Nov  7 16:02:26 2013 cyril jourdain
+// Last update Sat Nov 16 14:37:04 2013 guillaume marescaux
 //
 
 #ifndef 		__CLIENT_HH__
@@ -20,6 +20,9 @@
 #include		"Thread/Thread.hpp"
 #include		"Core/ConnectInfo.hh"
 #include		"Graphic/SFGraphics/Widgets/SFTextBox.hh"
+#include		"Mutex/MutexVar.hpp"
+#include		"FileSystem/Directory.hh"
+#include		"Graphic/eState.hh"
 
 class			Client : public Thread
 {
@@ -37,10 +40,15 @@ private:
   std::map<Protocol::eProtocol, void(Client::*)(Trame const &)>	*_ptrs;
   std::map<eSocket, Socket *>		*_sockets;
   std::map<eSocket, SocketClient *>	*_socketsClient;
-  Select		*_select;
-  Protocol		*_protocol;
-  int			_id;
-  ConnectInfo		*_info;
+  Select				*_select;
+  Protocol				*_protocol;
+  int					_id;
+  MutexVar<ConnectInfo *>		*_info;
+  MutexVar<bool>			*_running;
+  MutexVar<bool>			*_initialized;
+  FileSystem::Directory			*_dir;
+  std::list<std::string>		*_diffDir;
+  eState				*_state;
 
 public:
   void			test(void *param)
@@ -50,7 +58,7 @@ public:
   }
 
   // Ctor / Dtor
-  Client();
+  Client(FileSystem::Directory *dir, eState *_state);
   virtual ~Client();
 
   // Methods
@@ -60,8 +68,15 @@ public:
   void			write(void);
   void			read(long const sec, long const usec, bool timeout);
   void			exec(void);
+  void			disconnect(void);
+
+  // Getters / Setters
   void			setConnectInfo(ConnectInfo *info);
   ConnectInfo		*getConnectInfo() const;
+  void			setRunning(bool const running);
+  bool			getRunning(void) const;
+  void			setInitialized(bool const initialized);
+  bool			getInitialized(void) const;
 
 private:
 
@@ -79,6 +94,10 @@ private:
   void			entity(Trame const &trame);
   void			scroll(Trame const &trame);
   void			dead(Trame const &trame);
+  void			sprite(Trame const &trame);
+  void			contentSprite(Trame const &trame);
+  void			confSprite(Trame const &trame);
+  void			levelUp(Trame const &trame);
   void			endGame(Trame const &trame);
 };
 

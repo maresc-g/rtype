@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Thu Nov 14 22:07:47 2013 cyril jourdain
+// Last update Sat Nov 16 21:01:38 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -13,21 +13,21 @@
 #include			<string.h>
 #include			<map>
 #include			<sstream>
-#include			<stdexcept>
+#include			<fstream>
 #include			"Core/Client.hh"
 #include			"Game/GameList.hh"
 #include			"Map/Map.hh"
 #include			"Error/SocketError.hpp"
-#include			"FileSystem/Directory.hh"
 
 //----------------------------------BEGIN CTOR / DTOR---------------------------------------
 
-Client::Client():
+Client::Client(FileSystem::Directory *dir, eState *state):
   Thread(),
   _ptrs(new std::map<Protocol::eProtocol, void(Client::*)(Trame const &)>),
   _sockets(new std::map<eSocket, Socket *>), _socketsClient(new std::map<eSocket, SocketClient *>),
   _select(new Select), _protocol(new Protocol), _id(0),
-  _info(NULL)
+  _info(new MutexVar<ConnectInfo *>(NULL)), _running(new MutexVar<bool>(true)), _initialized(new MutexVar<bool>(false)),
+  _dir(dir), _diffDir(new std::list<std::string>), _state(state)
 {
   // ptrs
   _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::WELCOME, &Client::welcome));
@@ -39,6 +39,10 @@ Client::Client():
   _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::ENTITY, &Client::entity));
   _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::SCROLL, &Client::scroll));
   _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::DEAD, &Client::dead));
+  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::SPRITE, &Client::sprite));
+  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::CONTENTSPRITE, &Client::contentSprite));
+  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::CONFSPRITE, &Client::confSprite));
+  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::LEVELUP, &Client::levelUp));
   _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::ENDGAME, &Client::endGame));
   // sockets
   _sockets->insert(std::pair<eSocket, Socket *>(TCP, new Socket));
@@ -60,6 +64,10 @@ Client::~Client()
   delete _socketsClient;
   delete _select;
   delete _protocol;
+  if (_info->getVar())
+    delete _info->getVar();
+  delete _info;
+  delete _running;
 }
 
 //-----------------------------------END CTOR / DTOR----------------------------------------
@@ -83,18 +91,26 @@ std::map<std::string, std::string>	Client::initMapGameList()
 
 void				Client::exec()
 {
-  bool				initialized = false;
-
-  while (!initialized)
+  while (_running->getVar())
     {
-      while (!_info)
-	;
-      initialized = this->initialize();
-      if (!initialized)
+      while (!_initialized->getVar())
 	{
-	  delete _info;
-	  _info = NULL;
+	  while (!_info->getVar())
+	    ;
+	  _initialized->setVar(this->initialize());
+	  if (!_initialized->getVar())
+	    {
+	      delete _info->getVar();
+	      _info->setVar(NULL);
+	    }
 	}
+      if (*_state == WAIT_SPRITE)
+	{
+	  for (auto it = _diffDir->begin() ; it != _diffDir->end() ; it++)
+	    _protocol->protocolMsg(Protocol::GET_SPRITE, _id, reinterpret_cast<void *>(&(*it)));
+	  _diffDir->clear();
+	}
+      this->loop();
     }
 }
 
@@ -125,8 +141,14 @@ void				Client::gamelist(Trame const &trame)
 }
 
 void				Client::ok(Trame const &) { }
+
 void				Client::ko(Trame const &) { }
-void				Client::launchGame(Trame const &) { }
+
+void				Client::launchGame(Trame const &)
+{
+  *_state = PLAYING;
+}
+
 void				Client::map(Trame const &)
 {
 }
@@ -162,7 +184,82 @@ void				Client::scroll(Trame const &trame)
   map->setScroll(std::stoi(trame.getContent()));
 }
 
-void				Client::dead(Trame const &) { }
+void				Client::dead(Trame const &trame)
+{
+  Map				*map = Map::getInstance();
+
+  map->removeEntity(std::stoi(trame.getContent()));
+}
+
+void				Client::sprite(Trame const &trame)
+{
+  _dir->updateEntries();
+
+  std::list<std::string>			files;
+  std::list<FileSystem::Entry *>		tmpList = _dir->getEntries();
+  std::istringstream				iss(trame.getContent());
+  std::string					fileName;
+  std::function<bool(std::string const &)>	fct = [&](std::string const &fileName)
+    {
+      for (auto it = tmpList.begin() ; it != tmpList.end() ; it++)
+	{
+	  if ((*it)->getPath() == fileName)
+	    return (true);
+	}
+      return (false);
+    };
+
+  _diffDir->clear();
+  while (iss.good() && !iss.str().empty())
+    {
+      iss >> fileName;
+      files.push_back(fileName);
+    }
+  for (auto it = files.begin() ; it != files.end() ; it++)
+    {
+      if (!fct(*it))
+	_diffDir->push_back(*it);
+      else
+	{
+	  // CHECK MD5
+	}
+    }
+  *_state = WAIT_SPRITE;
+}
+
+void				Client::contentSprite(Trame const &trame)
+{ 
+  std::istringstream		iss(trame.getContent());
+  std::string			fileName;
+  std::string			content;
+
+  std::getline(iss, fileName, ';');
+
+  std::ofstream			out(fileName);
+
+  std::getline(iss, content, ';');
+  out.write(content.c_str(), content.size());
+  out.close();
+}
+
+void				Client::confSprite(Trame const &trame)
+{
+  std::istringstream		iss(trame.getContent());
+  std::string			fileName;
+  std::string			content;
+
+  std::getline(iss, fileName, ';');
+
+  std::ofstream			out(fileName);
+
+  std::getline(iss, content, ';');
+  out.write(content.c_str(), content.size());
+  out.close();
+}
+
+void				Client::levelUp(Trame const &) { }
+
+
 void				Client::endGame(Trame const &) { }
 
 //---------------------------------END PRIVATE METHODS--------------------------------------
@@ -217,19 +314,23 @@ void				Client::readFromSocket(eSocket sock)
   static std::string		tmp;
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
   Trame				*tmpTrame;
+  int				size;
 
   if (_select->isSet((*_socketsClient)[sock]->getSocket(), Select::READ))
     {
       memset(buff, 0, SIZE_BUFFER);
       tmp = "";
-      while (tmp.find(END_TRAME) == std::string::npos)
+      while (tmp.rfind(END_TRAME) == std::string::npos)
 	{
-	  (*_socketsClient)[sock]->readSocket(buff, SIZE_BUFFER);
-	  tmp += buff;
+	  size = (*_socketsClient)[sock]->readSocket(buff, SIZE_BUFFER);
+	  tmp.append(buff, size);
 	}
       tmpTrame = Trame::toTrame(tmp);
       if (tmpTrame)
-      	manager->pushTrame(tmpTrame, CircularBufferManager::READ_BUFFER);
+	{
+	  std::cout << "TO STRING = " << tmpTrame->toString() << std::endl;
+	  manager->pushTrame(tmpTrame, CircularBufferManager::READ_BUFFER);
+	}
     }
 }
 
@@ -249,23 +350,15 @@ bool				Client::initialize(void)
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
   Trame				*tmp;
   Protocol::eProtocol		msgType;
-  FileSystem::Directory		*dir = new FileSystem::Directory("Res");
-  dir->updateEntries();
-  std::list<FileSystem::Entry *>	tmpList = dir->getEntries();
 
-  for (auto it = tmpList.begin() ; it != tmpList.end() ; it++)
-    {
-      if ((*it)->getType() == FileSystem::FILE)
-	std::cout << (*it)->getPath() << std::endl;
-    }
   try
     {
       (*_sockets)[TCP]->initialize("TCP");
       (*_sockets)[UDP]->initialize("UDP");
-      (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr("127.0.0.1", 4242);
-      (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr("127.0.0.1", 4242);
-      // (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr(_info->getIp(), std::stoi(_info->getPort()));
-      // (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr(_info->getIp(), std::stoi(_info->getPort()));
+      // (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr("10.11.46.54", 4243);
+      // (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr("10.11.46.54", 4243);
+      (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr(_info->getVar()->getIp(), std::stoi(_info->getVar()->getPort()));
+      (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr(_info->getVar()->getIp(), std::stoi(_info->getVar()->getPort()));
     }
   catch (SocketError const &e)
     {
@@ -297,6 +390,12 @@ bool				Client::initialize(void)
   return (true);
 }
 
+void				Client::disconnect(void)
+{
+  destroy();
+  _initialized->setVar(false);
+}
+
 void				Client::destroy(void)
 {
   (*_sockets)[TCP]->destroy();
@@ -306,26 +405,28 @@ void				Client::destroy(void)
 void				Client::loop(void)
 {
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
-  bool				run = true;
   Trame				*tmp;
   Protocol::eProtocol		msgType;
 
-  while (run)
+  this->read(0, 0, true);
+  tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
+  if (tmp)
     {
-      manager->pushTrame(new Trame(_id, 5, "UDP", "GAMELIST", true), CircularBufferManager::WRITE_BUFFER);
-      this->write();
-      this->read(0, 0, false);
-      tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
       msgType = _protocol->getMsg(tmp);
       (this->*(*_ptrs)[msgType])(*tmp);
     }
+  this->write();
 }
 
 //-----------------------------------END METHODS----------------------------------------
 
 //-----------------------------BEGIN GETTERS / SETTERS----------------------------------
 
-void				Client::setConnectInfo(ConnectInfo *info) {_info = info;}
-ConnectInfo			*Client::getConnectInfo() const {return _info;}
+void				Client::setConnectInfo(ConnectInfo *info) { _info->setVar(info); }
+ConnectInfo			*Client::getConnectInfo() const { return (_info->getVar()); }
+void				Client::setRunning(bool const running) { _running->setVar(running); }
+bool				Client::getRunning(void) const { return (_running->getVar()); }
+void				Client::setInitialized(bool const initialized) { _initialized->setVar(initialized); }
+bool				Client::getInitialized(void) const { return (_initialized->getVar()); }
 
 //------------------------------END GETTERS / SETTERS-----------------------------------

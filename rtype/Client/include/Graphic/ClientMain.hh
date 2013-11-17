@@ -5,11 +5,13 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:37:12 2013 cyril jourdain
-// Last update Fri Nov 15 15:23:59 2013 cyril jourdain
+// Last update Sat Nov 16 14:35:54 2013 guillaume marescaux
 //
 
 #ifndef 		__CLIENTMAIN_HH__
 # define 		__CLIENTMAIN_HH__
+
+class			Client;
 
 #include		<map>
 #include		"Graphic/SFGraphics/Widgets/SFWindow.hh"
@@ -17,24 +19,21 @@
 #include		"Graphic/Graphics/LobbyWindow.hh"
 #include		"Core/Client.hh"
 #include		"Utility/Singleton.hpp"
+#include		"FileSystem/Directory.hh"
+#include		"eState.hh"
+
+#define			SPRITE_DIR	"Res/Sprites"
 
 class			ClientMain : public Singleton<ClientMain>
 {
   friend class		Singleton<ClientMain>;
 
-public:
-  enum State {
-    IN_LOGIN,
-    IN_LOBBY,
-    WAIT_SPRITE,
-    PLAYING
-  };
-
 private:
   WindowManager			*_manager;
   Client			*_client;
   std::map<unsigned int, SFWindow *>	*_windows;
-  State				_state;
+  eState			_state;
+  FileSystem::Directory		*_dir;
 
 private:
   ClientMain();
@@ -46,8 +45,8 @@ public:
   void				init();
   void				launch();
   Client			*getClient(void) const;
-  void				setState(State);
-  State				getState() const;
+  void				setState(eState);
+  eState			getState() const;
 
 public:  
   // ClientMain to Client functions / callbacks event

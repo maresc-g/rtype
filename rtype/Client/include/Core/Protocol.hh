@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:33:27 2013 guillaume marescaux
-// Last update Wed Nov  6 11:05:39 2013 guillaume marescaux
+// Last update Fri Nov 15 11:10:12 2013 guillaume marescaux
 //
 
 #ifndef 		__PROTOCOL_HH__
@@ -26,6 +26,7 @@ public:
       JOIN,
       CREATE,
       ACTION,
+      GET_SPRITE,
       QUIT_GAME,
       QUIT_SERVER,
       WELCOME,
@@ -39,6 +40,10 @@ public:
       SCROLL,
       DEAD,
       ENDGAME,
+      SPRITE,
+      CONTENTSPRITE,
+      CONFSPRITE,
+      LEVELUP,
       SERVERQUIT,
       END
     };
@@ -64,6 +69,7 @@ private:
   void			join(int const id, void *data);
   void			create(int const id, void *data);
   void			action(int const id, void *data);
+  void			getSprite(int const id, void *data);
   void			quitGame(int const id, void *data);
   void			quitServer(int const id, void *data);
 

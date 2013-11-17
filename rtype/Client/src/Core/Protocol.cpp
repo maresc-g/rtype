@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:39:28 2013 guillaume marescaux
-// Last update Wed Nov  6 11:05:29 2013 guillaume marescaux
+// Last update Fri Nov 15 13:31:47 2013 guillaume marescaux
 //
 
 #include			<sstream>
@@ -24,6 +24,7 @@ Protocol::Protocol():
   _ptrs->insert(std::pair<eProtocol, void(Protocol::*)(int const, void *)>(JOIN, &Protocol::join));
   _ptrs->insert(std::pair<eProtocol, void(Protocol::*)(int const, void *)>(CREATE, &Protocol::create));
   _ptrs->insert(std::pair<eProtocol, void(Protocol::*)(int const, void *)>(ACTION, &Protocol::action));
+  _ptrs->insert(std::pair<eProtocol, void(Protocol::*)(int const, void *)>(GET_SPRITE, &Protocol::getSprite));
   _ptrs->insert(std::pair<eProtocol, void(Protocol::*)(int const, void *)>(QUIT_GAME, &Protocol::quitGame));
   _ptrs->insert(std::pair<eProtocol, void(Protocol::*)(int const, void *)>(QUIT_SERVER, &Protocol::quitServer));
   // equivalent
@@ -37,6 +38,10 @@ Protocol::Protocol():
   _equivalent->insert(std::pair<std::string, eProtocol>("ENTITY", ENTITY));
   _equivalent->insert(std::pair<std::string, eProtocol>("SCROLL", SCROLL));
   _equivalent->insert(std::pair<std::string, eProtocol>("DEAD", DEAD));
+  _equivalent->insert(std::pair<std::string, eProtocol>("SPRITE", ENDGAME));
+  _equivalent->insert(std::pair<std::string, eProtocol>("CONTENTSPRITE", ENDGAME));
+  _equivalent->insert(std::pair<std::string, eProtocol>("CONFSPRITE", ENDGAME));
+  _equivalent->insert(std::pair<std::string, eProtocol>("LEVELUP", ENDGAME));
   _equivalent->insert(std::pair<std::string, eProtocol>("ENDGAME", ENDGAME));
   _equivalent->insert(std::pair<std::string, eProtocol>("SERVERQUIT", SERVERQUIT));
 }
@@ -84,6 +89,7 @@ void				Protocol::initialize(int const id, void *)
   Trame				*trame = new Trame(id, 0, "UDP", "INITIALIZE", true);
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
 
+  std::cout << "TRAME = " << trame->toString() << std::endl;
   manager->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
 }
 
@@ -121,6 +127,16 @@ void				Protocol::action(int const id, void *data)
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
 
   (void)data;
+  manager->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
+}
+
+void				Protocol::getSprite(int const id, void *data)
+{
+  std::string			tmp("GETSPRITE ");
+  tmp += *(reinterpret_cast<std::string *>(data));
+  Trame				*trame = new Trame(id, 0, "TCP", tmp, true);
+  CircularBufferManager		*manager = CircularBufferManager::getInstance();
+
   manager->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
 }
 
