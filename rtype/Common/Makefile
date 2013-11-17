@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Mon Oct 28 16:05:51 2013 laurent ansel
-## Last update Tue Nov 12 13:29:52 2013 guillaume marescaux
+## Last update Sun Nov 17 16:13:07 2013 guillaume marescaux
 ##
 
 THREAD=		$(COMMON_SRC)/Thread
@@ -14,6 +14,7 @@ SOCKET=		$(COMMON_SRC)/Socket
 SELECT=		$(COMMON_SRC)/Select
 CIRCULAR_BUFFER_MANAGER=	$(COMMON_SRC)/CircularBufferManager
 FILESYSTEM=	$(COMMON_SRC)/FileSystem
+MD5=		$(COMMON_SRC)/MD5
 
 include		$(THREAD)/Makefile
 include		$(MUTEX)/Makefile
@@ -21,6 +22,7 @@ include		$(SOCKET)/Makefile
 include		$(SELECT)/Makefile
 include		$(CIRCULAR_BUFFER_MANAGER)/Makefile
 include		$(FILESYSTEM)/Makefile
+include		$(MD5)/Makefile
 
 ifndef _WIN32
 LDFLAGS +=	-lpthread -D_REENTRANT
