@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 19:36:18 2013 cyril jourdain
-// Last update Fri Nov 15 15:10:52 2013 cyril jourdain
+// Last update Fri Nov 15 20:14:11 2013 cyril jourdain
 //
 
 #include			"Graphic/SFGraphics/Widgets/SFWindow.hh"
@@ -20,6 +20,7 @@ SFWindow::SFWindow() :
 {
   _visible = true;
   _stayOnTop = false;
+  _onCloseCallback = NULL;
 }
 
 SFWindow::SFWindow(sf::FloatRect const &rect) :
@@ -30,6 +31,7 @@ SFWindow::SFWindow(sf::FloatRect const &rect) :
   _view->setViewport(sf::FloatRect(0,0,1,1));
   _visible = true;
   _stayOnTop = false;
+  _onCloseCallback = NULL;
 }
 
 SFWindow::~SFWindow()

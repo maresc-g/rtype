@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Nov  8 15:38:07 2013 cyril jourdain
-// Last update Thu Nov 14 17:25:20 2013 cyril jourdain
+// Last update Sat Nov 16 19:12:28 2013 cyril jourdain
 //
 
 #include		"Graphic/SFGraphics/Widgets/SFArray.hh"
@@ -32,7 +32,6 @@ SFArray::~SFArray()
 
 void			SFArray::init()
 {
-  std::cout << _renderTarget << std::endl;
   _background = new SFImageBox();
   _background->init();
   _background->setSize(WIN_X, WIN_Y);

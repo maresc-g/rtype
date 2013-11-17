@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Nov  8 14:52:29 2013 cyril jourdain
-// Last update Thu Nov 14 17:18:24 2013 cyril jourdain
+// Last update Sat Nov 16 18:22:11 2013 cyril jourdain
 //
 
 #ifndef				__SFARRAY_HH__

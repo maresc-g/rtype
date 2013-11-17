@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 01:59:32 2013 cyril jourdain
-// Last update Fri Nov  8 10:56:22 2013 cyril jourdain
+// Last update Fri Nov 15 19:50:01 2013 cyril jourdain
 //
 
 #ifndef 		__SFCONNECT_HH__
@@ -21,13 +21,14 @@ class			SFConnect : public Singleton<SFConnect>
 {
   friend class Singleton<SFConnect>;
 
-private:
+public:
   struct EventCallback
   {
   public:
     std::function<void (void *const)>		_function;
     void					*_param;
   };
+private:
   struct s_ObjConnect
   {
   public:
@@ -95,9 +96,9 @@ public:
   {
     if (focus)
       {
-		auto obj = find(_functionList.begin(), _functionList.end(), focus);
-		if (obj != _functionList.end())
-			obj->call(event->type);
+	auto obj = find(_functionList.begin(), _functionList.end(), focus);
+	if (obj != _functionList.end())
+	  obj->call(event->type);
       }
   }
 };

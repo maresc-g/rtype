@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 19:15:41 2013 cyril jourdain
-// Last update Fri Nov 15 14:56:54 2013 cyril jourdain
+// Last update Fri Nov 15 20:12:37 2013 cyril jourdain
 //
 
 #ifndef 		__SFWINDOW_HH__
@@ -14,6 +14,7 @@
 #include			<list>
 #include			"Graphic/SFGraphics/Widgets/SFWidget.hh"
 #include			"Graphic/SFGraphics/Widgets/WindowManager.hh"
+#include			"Graphic/SFGraphics/Widgets/SFConnect.hh"
 
 class WindowManager;
 
@@ -31,6 +32,7 @@ protected:
   sf::View			*_view;
   WindowManager			*_manager;
   unsigned int			_id;
+  SFConnect::EventCallback	*_onCloseCallback;
 
 public:
   SFWindow();
@@ -68,6 +70,19 @@ public:
   //     }
   //   return NULL;
   // }
+
+  template<class T>
+  void			setOnCloseCallback(void (T::*)(void *const),
+					   T*)
+  {
+    std::cout << "LOL" << std::endl;
+  }
+
+  SFConnect::EventCallback	*getOnCloseCallback() const
+  {
+    return _onCloseCallback;
+  }
+
   void				addWidget(SFWidget *);
   void				draw(sf::RenderWindow *render) const;
   void				setWindowManager(WindowManager *const m){_manager = m;}

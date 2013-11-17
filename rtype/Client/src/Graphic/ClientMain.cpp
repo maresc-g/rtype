@@ -5,11 +5,12 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sat Nov 16 14:41:04 2013 guillaume marescaux
+// Last update Sun Nov 17 21:20:49 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
 #include		"Graphic/SFGraphics/Widgets/SFDialogBox.hh"
+#include		"Graphic/SFGraphics/Widgets/SFDialogTextBox.hh"
 
 static void	*trampoline(void *param)
 {
@@ -50,6 +51,7 @@ void			ClientMain::init()
   _manager->addWindow(LOBBY,(*_windows)[LOBBY]);
   _manager->addWindow(LOGIN,(*_windows)[LOGIN]);
   _manager->setActiveWindow(LOGIN);
+  _state = eState::IN_LOGIN;
 }
 
 void			ClientMain::launch()
@@ -89,6 +91,7 @@ void			ClientMain::connectToServer(void *param)
 	    {
 	      _manager->setActiveWindow(LOBBY);
 	      _manager->getWindowById(LOGIN)->setVisibility(false);
+	      _state = eState::IN_LOBBY;
 	      static_cast<LobbyWindow*>((*_windows)[LOBBY])->refreshGameList(NULL);
 	    }
 	  else
@@ -106,7 +109,10 @@ void			ClientMain::joinGame(void *)
 
 void			ClientMain::createGame(void *)
 {
-  _manager->addWindow(new SFDialogBox("Info", "Create a game"));
+  SFDialogTextBox               *db  = new SFDialogTextBox("Info", "Enter room name");
+
+  _manager->addWindow(db);
+  db->setOnCloseCallback(&ClientMain::backToLogin, this);
 }
 
 void			ClientMain::backToLogin(void *)

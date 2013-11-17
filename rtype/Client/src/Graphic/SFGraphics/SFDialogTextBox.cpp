@@ -1,30 +1,29 @@
 //
-// SFDialogBox.cpp for  in /home/jourda_c/Documents/C++/RType
+// SFDialogTextBox.cpp for  in /home/jourda_c/Documents/C++/Rtype_GIT/rtype/rtype
 // 
 // Made by cyril jourdain
 // Login   <jourda_c@epitech.net>
 // 
-// Started on  Thu Nov  7 16:47:22 2013 cyril jourdain
-// Last update Fri Nov 15 19:38:27 2013 cyril jourdain
+// Started on  Fri Nov 15 19:38:01 2013 cyril jourdain
+// Last update Sat Nov 16 17:54:00 2013 cyril jourdain
 //
 
-#include		"Graphic/SFGraphics/Widgets/SFDialogBox.hh"
+#include		"Graphic/SFGraphics/Widgets/SFDialogTextBox.hh"
 #include		"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
 #include		"Graphic/Global.hh"
 #include		"Graphic/SFGraphics/Widgets/SFConnect.hh"
 
-SFDialogBox::SFDialogBox(std::string const &name, std::string const &content,
-			 bool okButton) :
-  SFWindow(sf::FloatRect(0,0,400,150)), _name(name), _content(content), _okButton(okButton)
+SFDialogTextBox::SFDialogTextBox(std::string const &name, std::string const &content) :
+  SFWindow(sf::FloatRect(0,0,400,150)), _name(name), _content(content)
 {
   setStayOnTop(true);
 }
 
-SFDialogBox::~SFDialogBox()
+SFDialogTextBox::~SFDialogTextBox()
 {
 }
 
-void			SFDialogBox::init()
+void			SFDialogTextBox::init()
 {
   SFRessourcesManager	*rMan = SFRessourcesManager::getInstance();
   SFConnect		*connect = SFConnect::getInstance();
@@ -33,11 +32,13 @@ void			SFDialogBox::init()
   _label = new SFLabel();
   _title = new SFLabel();
   _closeButton = new SFButton();
+  _textBox = new SFTextBox();
 
   addWidget(_background);
   addWidget(_label);
   addWidget(_title);
   addWidget(_closeButton);
+  addWidget(_textBox);
 
   _background->setTexture((*(rMan->Images))[DIALOGBOX_BACKGROUND]);
   _background->setSize(400, 150);
@@ -47,12 +48,11 @@ void			SFDialogBox::init()
   _title->setTextSize(17);
   _title->setText(_name);
   _title->setPosition(15,5);
-  // if (_okButton)
-  //   {
   _closeButton->setBackgroundTexture((*(rMan->Images))[DIALOGBOX_OK_BUTTON]);
   _closeButton->setSize(100,30);
   _closeButton->setPosition(150,112);
-    // }
+  _textBox->setPosition(_label->getPosition().x, _label->getPosition().y + _label->getBound().height + 10);
+  std::cout << "TEXTBOX_PTR=" << _textBox << std::endl;
   setSize(sf::Vector2f(400,150));
   setPosition(sf::Vector2f(WIN_X / 2 - 200, WIN_Y / 2 - 75));
   updateBound();

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Oct 28 15:04:47 2013 cyril jourdain
-// Last update Wed Nov 13 16:48:54 2013 cyril jourdain
+// Last update Sat Nov 16 19:57:30 2013 cyril jourdain
 //
 
 #ifndef 		__GLOBAL_HH__
@@ -18,6 +18,7 @@
 // WINDOWS ID
 #define			LOGIN 0
 #define			LOBBY 1
+#define			GAME 2
 
 // RESSOURCES
 #define			LOGIN_BACKGROUND_RES		"Res/background.jpg"
@@ -50,6 +51,10 @@
 #define			ARRAY_LINE_PART			"arrayLinePart"
 #define			ARRAY_LINE_PART_SELECTED_RES	"Res/array_cell_selected.png"
 #define			ARRAY_LINE_PART_SELECTED	"arrayLinePartSelected"
+#define			GAME_BACKGROUND_RES		"Res/game_background.jpg"
+#define			GAME_BACKGROUND			"gameBackground"
+#define			GAME_HUD_RES		"Res/game_hud.png"
+#define			GAME_HUD			"gameHUD"
 
 #define			ARIAL_FONT_RES			"Res/arial.ttf"
 #define			ARIAL_FONT			"arial"

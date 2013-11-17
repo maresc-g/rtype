@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:18:05 2013 cyril jourdain
-// Last update Fri Nov 15 15:09:43 2013 cyril jourdain
+// Last update Fri Nov 15 22:43:06 2013 cyril jourdain
 //
 
 #include	<iostream>
@@ -332,6 +332,7 @@ void				WindowManager::removeWindowById(unsigned int const id)
   if (it != _windowList->end())
     {
       _windowList->erase(it);
+      it->second->getOnCloseCallback()->_function(it->second->getOnCloseCallback()->_param);
       delete it->second;
     }
 }
@@ -346,7 +347,15 @@ void				WindowManager::removeWindowCallback(void *param)
 		    });
   if (it != _windowList->end())
     {
-      _windowList->remove(*it);
+      if (it->second->getOnCloseCallback())
+	{
+	  std::cout << "HERE" << std::endl;
+	  it->second->getOnCloseCallback()->_function(it->second->getOnCloseCallback()->_param);
+	  //std::cout << it->second->getOnCloseCallback()->_function << std::endl;
+	}
+      else
+	std::cout << "NO CALLBACK FOUND" << std::endl;
+      _windowList->erase(it);
       _active = NULL;
     }
 }

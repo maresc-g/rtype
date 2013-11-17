@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Sat Nov 16 21:01:38 2013 guillaume marescaux
+// Last update Sun Nov 17 21:21:42 2013 cyril jourdain
 //
 
 #include <iostream>
@@ -14,6 +14,7 @@
 #include			<map>
 #include			<sstream>
 #include			<fstream>
+#include			<stdexcept>
 #include			"Core/Client.hh"
 #include			"Game/GameList.hh"
 #include			"Map/Map.hh"
