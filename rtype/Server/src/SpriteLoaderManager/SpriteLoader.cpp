@@ -5,9 +5,10 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 15:04:52 2013 laurent ansel
-// Last update Thu Nov 14 21:42:50 2013 laurent ansel
+// Last update Fri Nov 15 13:58:12 2013 laurent ansel
 //
 
+#include		<utility>
 #include		<iostream>
 #include		<sstream>
 #include		<fstream>
@@ -18,7 +19,7 @@ SpriteLoader::SpriteLoader(size_t const id, std::string const &path, std::string
   _path(path),
   _confFile(confFile),
   _entity(new AEntity(0, 0, "", 0, false)),
-  _spawnProjectile(new Coordinate(0, 0))
+  _confClient(std::make_pair("", ""))
 {
 }
 
@@ -27,7 +28,7 @@ SpriteLoader::~SpriteLoader()
 
 }
 
-void			SpriteLoader::getSpawnCoordiante(std::string const &content)
+void			SpriteLoader::getSpawnCoordinate(std::string const &content)
 {
   size_t		pos = 0;
   size_t		endPos = 0;
@@ -40,13 +41,14 @@ void			SpriteLoader::getSpawnCoordiante(std::string const &content)
 	  std::istringstream	str(content.substr(pos + std::string(SPAWN).size(), pos2));
 	  std::istringstream	str2(content.substr(pos2 + 1, endPos));
 	  int			spawnProjectile[2];
+	  Coordinate		*coord;
 
 	  str >> spawnProjectile[0];
 	  str2 >> spawnProjectile[1];
 	  if (spawnProjectile[0] > -1 && spawnProjectile[1] > -1)
 	    {
-	      this->_spawnProjectile->setX(spawnProjectile[0]);
-	      this->_spawnProjectile->setX(spawnProjectile[1]);
+	      coord = new Coordinate(spawnProjectile[0], spawnProjectile[1]);
+	      this->_entity->setSpawnProjectile(coord);;
 	    }
 	}
     }
@@ -276,7 +278,30 @@ void			SpriteLoader::setConfFile(std::string const &confFile)
   this->loadConfFile();
 }
 
-Coordinate const	&SpriteLoader::getSpawnCoordinate() const
+void			SpriteLoader::setNameConfClient(std::string const &name)
 {
-  return (*this->_spawnProjectile);
+  this->_confClient.first = name;
+  this->loadConfClient();
+}
+
+std::string const	&SpriteLoader::getNameConfClient() const
+{
+  return (this->_confClient.first);
+}
+
+std::string const	&SpriteLoader::getContentConfClient() const
+{
+  return (this->_confClient.second);
+}
+
+void			SpriteLoader::loadConfClient()
+{
+  if (this->_confClient.first != "")
+    {
+      std::ifstream	str;
+
+      str.open(this->_confClient.first);
+      while (str.good())
+	this->_confClient.second += str.get();
+    }
 }

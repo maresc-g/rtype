@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:26:41 2013 laurent ansel
-// Last update Tue Nov  5 18:18:08 2013 laurent ansel
+// Last update Fri Nov 15 14:06:40 2013 laurent ansel
 //
 
 #ifdef _WIN32
@@ -23,6 +23,8 @@ WindowsSocketClient::WindowsSocketClient(SOCKET const socket, std::string const 
 
 WindowsSocketClient::~WindowsSocketClient()
 {
+  if (this->_addr)
+    delete this->_addr;
 }
 
 int			WindowsSocketClient::readSocket(char *buf, int const size) const

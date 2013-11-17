@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:16:57 2013 laurent ansel
-// Last update Tue Nov  5 13:50:02 2013 laurent ansel
+// Last update Fri Nov 15 13:10:58 2013 laurent ansel
 //
 
 #include			<sstream>
@@ -54,37 +54,33 @@ void				Header::setProto(std::string const &proto)
 
 std::string const		Header::toString() const
 {
+  s_header			*header = new s_header;
   std::ostringstream		str;
 
-  str << this->_id << " " << this->_trameId << " " << this->_proto;
+  header->idClient = this->_id;
+  header->idTrame = this->_trameId;
+  this->_proto.copy(header->protocole, this->_proto.size());
+  header->protocole[3] = 0;
+  for (unsigned int i = 0 ; i < sizeof(*header) ; ++i)
+    str.put(reinterpret_cast<char *>(header)[i]);
+  delete header;
   return (str.str());
 }
 
-Header				*Header::toHeader(std::string &str)
+Header				*Header::toHeader(std::string const &str)
 {
-  std::istringstream		tmp(str);
-  unsigned int			id;
-  unsigned int			trameId;
-  unsigned int			pos;
-  std::string			proto;
-  bool				good = true;
+  s_header			*header = NULL;
+  char				str2[20];
+  Header			*ret = NULL;
 
-  if (tmp.good())
-    tmp >> id;
-  else
-    good = false;
-  if (tmp.good())
-    tmp >> trameId;
-  else
-    good = false;
-  if (tmp.good())
-    tmp >> proto;
-  else
-    good = false;
-  if (good)
+  if (str.size() > sizeof(s_header))
     {
-      str = tmp.str().substr((pos = tmp.tellg()) + 1);
-      return (new Header(id, trameId, proto));
+      str.copy(str2, sizeof(*header));
+      header = reinterpret_cast<s_header *>(str2);
+      std::cout << "id = " << header->idClient << std::endl;
+      std::cout << "idT = " << header->idTrame << std::endl;
+      std::cout << "proto = " << header->protocole << std::endl;
+      ret = new Header(header->idClient, header->idTrame, header->protocole);
     }
-  return (NULL);
+  return (ret);
 }

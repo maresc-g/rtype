@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 12:06:36 2013 cyril jourdain
-// Last update Tue Nov 12 13:15:36 2013 cyril jourdain
+// Last update Wed Nov 13 14:15:23 2013 cyril jourdain
 //
 
 #ifndef 		__SFWIDGET_HH__
@@ -29,6 +29,7 @@ protected:
   bool				_focused;
   sf::FloatRect			*_bounds;
   sf::View			*_customView;
+  sf::RenderTarget		*_renderTarget;
   
 public:
   SFWidget();
@@ -40,6 +41,7 @@ public:
   virtual void			setSize(float x, float y);
   void				callNativeFunction(sf::Event *const event);
   sf::View			*getCustomView() const;
+  void				setRenderTarget(sf::RenderTarget *);
 
 private:
   virtual void			draw(sf::RenderTarget &target, sf::RenderStates states) const = 0;
@@ -53,6 +55,7 @@ public:
     m[sf::Event::MouseButtonPressed] = &SFWidget::onClick;
     m[sf::Event::KeyPressed] = &SFWidget::onKeyPressed;
     m[sf::Event::TextEntered] = &SFWidget::onTextEntered;
+    m[sf::Event::MouseWheelMoved] = &SFWidget::onMouseWheelMove;
     return m;
   }
   //############################################
@@ -65,6 +68,7 @@ public:
   virtual void			onClick(void *const param);
   virtual void			onKeyPressed(void *const){};
   virtual void			onTextEntered(void *const){};
+  virtual void			onMouseWheelMove(void *const){};
   //####################################
 
 };

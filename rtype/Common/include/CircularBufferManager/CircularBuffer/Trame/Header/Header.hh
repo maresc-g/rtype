@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:07:45 2013 laurent ansel
-// Last update Thu Oct 31 15:19:51 2013 laurent ansel
+// Last update Fri Nov 15 11:36:56 2013 laurent ansel
 //
 
 #ifndef 			__HEADER_HH__
@@ -13,6 +13,13 @@
 
 #include			<iostream>
 #include			<string>
+
+struct				s_header
+{
+  unsigned int			idClient;
+  unsigned int			idTrame;
+  char				protocole[4];
+};
 
 class				Header
 {
@@ -30,7 +37,7 @@ public:
   void				setTrameId(unsigned int const trameId);
   void				setProto(std::string const &proto);
   std::string const		toString() const;
-  static Header			*toHeader(std::string &str);
+  static Header			*toHeader(std::string const &str);
 };
 
 #endif

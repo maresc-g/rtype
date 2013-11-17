@@ -5,13 +5,14 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:46:24 2013 guillaume marescaux
-// Last update Fri Nov 15 15:12:45 2013 antoine maitre
+// Last update Fri Nov 15 17:08:34 2013 antoine maitre
 //
 
 #ifndef 		__APROJECTILE_HH__
 # define 		__APROJECTILE_HH__
 
 #include		"Entities/AEntity.hh"
+
 
 class			AProjectile : public AEntity
 {

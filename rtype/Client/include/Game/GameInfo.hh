@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 14:35:13 2013 guillaume marescaux
-// Last update Fri Nov  8 14:27:30 2013 guillaume marescaux
+// Last update Wed Nov 13 11:00:22 2013 cyril jourdain
 //
 
 #ifndef 		__GAMEINFO_HH__
@@ -26,7 +26,7 @@ private:
 public:
 
   // Ctor / Dtor
-  GameInfo(std::string const & id = 0, std::string const &name = "", std::string const & nbPlayer = 0, std::string const & level = 0);
+  GameInfo(std::string const & id = "", std::string const &name = "", std::string const & nbPlayer = "", std::string const & level = "");
   GameInfo(GameInfo const &other);
   GameInfo		&operator=(GameInfo const &other);
   virtual ~GameInfo();

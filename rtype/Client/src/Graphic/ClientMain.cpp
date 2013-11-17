@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Mon Nov 11 22:20:11 2013 cyril jourdain
+// Last update Thu Nov 14 22:34:56 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -39,7 +39,7 @@ ClientMain	&ClientMain::operator=(ClientMain const &)
 void			ClientMain::init()
 {
   _client = new Client();
-  // _client->createThread(&trampoline, _client);
+  _client->createThread(&trampoline, _client);
   _manager = new WindowManager();
   _windows = new std::map<unsigned int, SFWindow*>();
   _manager->init();
@@ -47,7 +47,7 @@ void			ClientMain::init()
   (*_windows)[LOBBY] = new LobbyWindow();
   _manager->addWindow(LOBBY,(*_windows)[LOBBY]);
   _manager->addWindow(LOGIN,(*_windows)[LOGIN]);
-  _manager->setActiveWindow(LOBBY);
+  _manager->setActiveWindow(LOGIN);
 }
 
 void			ClientMain::launch()
@@ -77,6 +77,7 @@ void			ClientMain::connectToServer(void *param)
 	    {
 	      _manager->setActiveWindow(LOBBY);
 	      _manager->getWindowById(LOGIN)->setVisibility(false);
+	      static_cast<LobbyWindow*>((*_windows)[LOBBY])->refreshGameList(NULL);
 	    }
 	  else
 	    _manager->addWindow(new SFDialogBox("Error", "Could not connect to server"));
@@ -84,4 +85,20 @@ void			ClientMain::connectToServer(void *param)
       else
 	_manager->addWindow(new SFDialogBox("Error", "Please fill server IP and PORT"));
     }
+}
+
+void			ClientMain::joinGame(void *)
+{
+  _manager->addWindow(new SFDialogBox("Info", "Join a game"));
+}
+
+void			ClientMain::createGame(void *)
+{
+  _manager->addWindow(new SFDialogBox("Info", "Create a game"));
+}
+
+void			ClientMain::backToLogin(void *)
+{
+  _manager->setActiveWindow(LOGIN);
+  _manager->addWindow(new SFDialogBox("Info", "Remember to disconnect from server"));
 }

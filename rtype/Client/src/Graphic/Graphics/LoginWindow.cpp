@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 14:12:11 2013 cyril jourdain
-// Last update Thu Nov  7 17:39:29 2013 cyril jourdain
+// Last update Wed Nov 13 16:14:14 2013 cyril jourdain
 //
 
 #include			"Graphic/Graphics/LoginWindow.hh"
@@ -27,13 +27,30 @@ void		LoginWindow::init()
   SFRessourcesManager	*rMan = SFRessourcesManager::getInstance();
   SFConnect *connect = SFConnect::getInstance();
 
-  _background = addWidget<SFImageBox>();
-  _loginBackground = addWidget<SFImageBox>();
-  _tbAddress = addWidget<SFTextBox>();
-  _tbPort = addWidget<SFTextBox>();
-  _bConnect = addWidget<SFButton>();
-  _label = addWidget<SFLabel>();
-  _labelPort = addWidget<SFLabel>();
+  // _background = addWidget<SFImageBox>();
+  // _loginBackground = addWidget<SFImageBox>();
+  // _tbAddress = addWidget<SFTextBox>();
+  // _tbPort = addWidget<SFTextBox>();
+  // _bConnect = addWidget<SFButton>();
+  // _label = addWidget<SFLabel>();
+  // _labelPort = addWidget<SFLabel>();
+
+  _background = new SFImageBox();
+  _loginBackground = new SFImageBox();
+  _tbAddress = new SFTextBox();
+  _tbPort = new SFTextBox();
+  _bConnect = new SFButton();
+  _label = new SFLabel();
+  _labelPort = new SFLabel();
+
+  addWidget(_background);
+  addWidget(_loginBackground);
+  addWidget(_tbAddress);
+  addWidget(_tbPort);
+  addWidget(_bConnect);
+  addWidget(_label);
+  addWidget(_labelPort);
+
   _data->adress = _tbAddress;
   _data->port = _tbPort;
 

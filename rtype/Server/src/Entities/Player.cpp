@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Nov  5 10:38:05 2013 antoine maitre
-// Last update Thu Nov  7 21:41:15 2013 laurent ansel
+// Last update Fri Nov 15 16:46:16 2013 antoine maitre
 //
 
 #include "Entities/Player.hh"
@@ -13,7 +13,7 @@
 Player::Player(int const x, int const y, std::string const &path, int const speed, bool const destructible)
   : ACharacter(x, y, path, speed, destructible)
 {
-
+  this->_weapon = new Weapon();
 }
 
 Player::~Player()

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 19:15:41 2013 cyril jourdain
-// Last update Fri Nov  8 12:40:25 2013 cyril jourdain
+// Last update Thu Nov 14 22:20:57 2013 cyril jourdain
 //
 
 #ifndef 		__SFWINDOW_HH__
@@ -51,19 +51,21 @@ public:
   std::list<SFWidget *>		*getWidgetList() const;
   void				setVisibility(bool visibility);
   bool				isVisible() const;
-  template<class T>
-  T				*addWidget()
-  {
-    T		*w = new T;
-    w->init();
-    if (_widgetList)
-      {
-	_widgetList->push_back(w);
-	return w;	
-      }
-    return NULL;
-  }
+  // template<class T>
+  // T				*addWidget()
+  // {
+  //   T		*w = new T;
 
+  //   w->init();
+  //   w->setRenderTarget(_manager->getRenderWindow());
+  //   if (_widgetList)
+  //     {
+  // 	_widgetList->push_back(w);
+  // 	return w;	
+  //     }
+  //   return NULL;
+  // }
+  void				addWidget(SFWidget *);
   void				draw(sf::RenderWindow *render) const;
   void				setWindowManager(WindowManager *const m){_manager = m;}
 

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:18:05 2013 cyril jourdain
-// Last update Fri Nov  8 14:45:48 2013 cyril jourdain
+// Last update Wed Nov 13 14:18:45 2013 cyril jourdain
 //
 
 #include	<iostream>
@@ -282,9 +282,7 @@ void		WindowManager::exec()
     _window->close();
 }
 
-sf::RenderWindow	*WindowManager::getRenderWindow() const {
-  return (_window);
-}
+sf::RenderWindow	*WindowManager::getRenderWindow() const {return (_window);}
 void			WindowManager::setRenderWindow(sf::RenderWindow *win) {
   _window = win;
 }

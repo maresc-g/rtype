@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Oct 30 11:19:56 2013 antoine maitre
-// Last update Thu Nov 14 11:49:21 2013 antoine maitre
+// Last update Fri Nov 15 17:17:21 2013 antoine maitre
 //
 
 #include "Entities/Mob.hh"
@@ -21,8 +21,8 @@ Mob::Mob(int const x, int const y, std::string const &path, int const speed, boo
   this->_destructible = static_cast<bool>(std::stoi(contenu));
   std::getline(fichier, contenu);
   contenu = contenu.substr(contenu.find("=") + 1, contenu.size() - contenu.find("="));
-  this->_l = std::stoi(contenu);
-  this->_L = std::stoi(contenu.substr(contenu.find("x") + 1, contenu.size() - contenu.find("x")));
+  this->_width = std::stoi(contenu);
+  this->_height = std::stoi(contenu.substr(contenu.find("x") + 1, contenu.size() - contenu.find("x")));
 }
 
 Mob::~Mob()

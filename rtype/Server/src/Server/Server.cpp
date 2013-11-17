@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Sun Nov 10 20:29:25 2013 laurent ansel
+// Last update Fri Nov 15 13:47:32 2013 laurent ansel
 //
 
 #include			<list>
@@ -133,30 +133,33 @@ void				Server::recvTrameUdp()
   char				tmp[SIZE_BUFFER] = "";
   Trame				*trame;
   std::string			str;
+  int				ret;
 
   if (this->_select->isSet((*this->_socket)["UDP"]->getSocket().getSocket(), Select::READ))
     {
       this->debug("Recv UDP trame ...");
-      (*this->_socket)["UDP"]->getSocket().readSocket(tmp, SIZE_BUFFER);
-      this->debug("Done");
-      str = tmp;
-      trame = new Trame(str);
-      if (trame->getContent().find("INITIALIZE") != std::string::npos)
+      if ((ret = (*this->_socket)["UDP"]->getSocket().readSocket(tmp, SIZE_BUFFER)) > 0)
 	{
-	  this->debug("Initialize UDP ...");
-	  for (std::list<ClientInfo *>::iterator it = this->_client->begin() ; it != this->_client->end() ; ++it)
-	    if ((*it)->getId() == trame->getHeader().getId() && !(*it)->alreadySetUdp())
-	      {
-		(*it)->setClientUdp(new SocketClient((*this->_socket)["UDP"]->getSocket().getSocket(), "UDP", (*this->_socket)["UDP"]->getSocket().getAddr()));
-		trame->getHeader().setTrameId(0);
-		trame->getHeader().setProto("TCP");
-		trame->setContent("CHECK" + std::string(END_TRAME));
-		(*it)->pushWriteTrame("TCP", trame);
-	      }
 	  this->debug("Done");
+	  str.append(tmp, ret);
+	  trame = new Trame(str);
+	  if (trame->getContent().find("INITIALIZE") != std::string::npos)
+	    {
+	      this->debug("Initialize UDP ...");
+	      for (std::list<ClientInfo *>::iterator it = this->_client->begin() ; it != this->_client->end() ; ++it)
+		if ((*it)->getId() == trame->getHeader().getId() && !(*it)->alreadySetUdp())
+		  {
+		    (*it)->setClientUdp(new SocketClient((*this->_socket)["UDP"]->getSocket().getSocket(), "UDP", (*this->_socket)["UDP"]->getSocket().getAddr()));
+		    trame->getHeader().setTrameId(0);
+		    trame->getHeader().setProto("TCP");
+		    trame->setContent("CHECK" + std::string(END_TRAME));
+		    (*it)->pushWriteTrame("TCP", trame);
+		  }
+	      this->debug("Done");
+	    }
+	  else
+	    CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);
 	}
-      else
-	CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);
     }
 }
 

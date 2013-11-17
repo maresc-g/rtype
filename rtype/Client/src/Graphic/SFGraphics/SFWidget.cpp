@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Oct 24 17:38:46 2013 cyril jourdain
-// Last update Tue Nov 12 13:21:07 2013 cyril jourdain
+// Last update Wed Nov 13 13:40:19 2013 cyril jourdain
 //
 
 #ifndef 		__SFWIDGET_CPP__
@@ -60,6 +60,8 @@ void			SFWidget::callNativeFunction(sf::Event *const event)
   if (_ptrMap[event->type])
     (this->*(_ptrMap[event->type]))(event);
 }
+
+void			SFWidget::setRenderTarget(sf::RenderTarget *target) {_renderTarget = target;}
 
 /* EVENT FUNCTION CLASSBACK */
 void			SFWidget::onClick(void *const)

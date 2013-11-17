@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Fri Nov 15 12:19:51 2013 antoine maitre
+// Last update Fri Nov 15 16:15:15 2013 antoine maitre
 //
 
 #include		"Entities/AEntity.hh"
@@ -22,7 +22,8 @@ AEntity::AEntity(int const x, int const y, std::string const &path,
   _speed(speed),
   _destructible(destructible),
   _dead(false),
-  _hitbox(NULL)
+  _hitbox(NULL),
+  _spawnProjectile(new Coordinate(0, 0))
 {
   static unsigned int	_idEntity = 0;
 
@@ -37,6 +38,7 @@ AEntity::AEntity(AEntity const &rhs)
 AEntity::~AEntity()
 {
   delete _coord;
+  delete _spawnProjectile;
 }
 
 AEntity			&AEntity::operator=(AEntity const &rhs)
@@ -57,6 +59,9 @@ AEntity			&AEntity::operator=(AEntity const &rhs)
 	this->_hitbox = new std::list<InformationHitBox *>;
       for (auto it = rhs.getInformationHitBox().begin() ; it != rhs.getInformationHitBox().end() ; ++it)
 	this->_hitbox->push_back(new InformationHitBox(*(*it)));
+      if (this->_spawnProjectile)
+	delete this->_spawnProjectile;
+      _spawnProjectile = new Coordinate(rhs.getSpawnProjectile());
     }
   return (*this);
 }
@@ -110,12 +115,12 @@ void			AEntity::setDestructible(bool const &destructible)
 
 int			AEntity::getHeight() const
 {
-  return (this->_L);
+  return (this->_height);
 }
 
 int			AEntity::getWidth() const
 {
-  return (this->_l);
+  return (this->_width);
 }
 
 std::list<InformationHitBox *> const	&AEntity::getInformationHitBox() const
@@ -155,10 +160,20 @@ void			AEntity::setLife(unsigned int const life)
 
 void			AEntity::setWidth(int const width)
 {
-  this->_l = width;
+  this->_width = width;
 }
 
 void			AEntity::setHeight(int const height)
 {
-  this->_L = height;
+  this->_height = height;
+}
+
+Coordinate const	&AEntity::getSpawnProjectile() const
+{
+  return (*this->_spawnProjectile);
+}
+
+void			AEntity::setSpawnProjectile(Coordinate *coord)
+{
+  this->_spawnProjectile = coord;
 }
