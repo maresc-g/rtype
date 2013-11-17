@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 11:40:04 2013 laurent ansel
-// Last update Thu Nov 14 23:53:14 2013 laurent ansel
+// Last update Sat Nov 16 16:24:25 2013 laurent ansel
 //
 
 #include			<list>
@@ -86,7 +86,10 @@ void				SpriteLoaderUpdater::run()
 	  if (itSprite == this->_sprites->end() && (*it)->getType() == FileSystem::FILE && ((*it)->getPath().find(".confclient") != std::string::npos || (*it)->getPath().find(".conf") != std::string::npos))
 	    (*this->_confFiles)[(*it)->getPath()] = (this->_confFiles->find((*it)->getPath()) != this->_confFiles->end() && (*this->_confFiles)[(*it)->getPath()] ? true : false);
 	  else if (itSprite == this->_sprites->end() && (*it)->getType() == FileSystem::FILE)
-      	    this->_sprites->push_back(new SpriteLoader(this->_sprites->size(), (*it)->getPath()));
+	    {
+	      this->_sprites->push_back(new SpriteLoader(this->_sprites->size(), (*it)->getPath()));
+	      this->_sprites->back()->loadSprite();
+	    }
 	  this->_mutex.leave();
 	}
       this->updateConf();

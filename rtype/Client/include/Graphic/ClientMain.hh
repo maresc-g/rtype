@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:37:12 2013 cyril jourdain
-// Last update Thu Nov 14 22:32:50 2013 cyril jourdain
+// Last update Fri Nov 15 15:23:59 2013 cyril jourdain
 //
 
 #ifndef 		__CLIENTMAIN_HH__
@@ -22,10 +22,19 @@ class			ClientMain : public Singleton<ClientMain>
 {
   friend class		Singleton<ClientMain>;
 
+public:
+  enum State {
+    IN_LOGIN,
+    IN_LOBBY,
+    WAIT_SPRITE,
+    PLAYING
+  };
+
 private:
   WindowManager			*_manager;
   Client			*_client;
   std::map<unsigned int, SFWindow *>	*_windows;
+  State				_state;
 
 private:
   ClientMain();
@@ -37,9 +46,10 @@ public:
   void				init();
   void				launch();
   Client			*getClient(void) const;
+  void				setState(State);
+  State				getState() const;
 
-public:
-  
+public:  
   // ClientMain to Client functions / callbacks event
   void				connectToServer(void *param);
   void				joinGame(void *param);

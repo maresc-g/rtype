@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 19:15:41 2013 cyril jourdain
-// Last update Thu Nov 14 22:20:57 2013 cyril jourdain
+// Last update Fri Nov 15 14:56:54 2013 cyril jourdain
 //
 
 #ifndef 		__SFWINDOW_HH__
@@ -25,6 +25,7 @@ private:
   sf::FloatRect			*_bounds;
   sf::FloatRect			*_vpBounds;
   bool				_visible;
+  bool				_stayOnTop;
 
 protected:
   sf::View			*_view;
@@ -51,6 +52,8 @@ public:
   std::list<SFWidget *>		*getWidgetList() const;
   void				setVisibility(bool visibility);
   bool				isVisible() const;
+  void				setStayOnTop(bool val);
+  bool				isStayOnTop() const;
   // template<class T>
   // T				*addWidget()
   // {

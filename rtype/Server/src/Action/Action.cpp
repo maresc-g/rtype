@@ -5,9 +5,10 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 18:02:37 2013 laurent ansel
-// Last update Mon Nov  4 13:15:12 2013 laurent ansel
+// Last update Sat Nov 16 16:56:02 2013 laurent ansel
 //
 
+#include			<iostream>
 #include			"Action/Action.hh"
 
 Action::Action():
@@ -18,6 +19,16 @@ Action::Action():
 
 Action::~Action()
 {
+}
+
+Action				&Action::operator=(Action const &other)
+{
+  if (this != &other)
+    {
+      this->_action = other._action;
+      this->_param = other._param;
+    }
+  return (*this);
 }
 
 bool				Action::getUp() const
@@ -68,6 +79,11 @@ bool				Action::getJoin() const
 bool				Action::getCreate() const
 {
   return (this->_action & Action::CREATE);
+}
+
+bool				Action::getGetSprite() const
+{
+  return (this->_action & Action::GETSPRITE);
 }
 
 std::string const		&Action::getParam() const
@@ -153,6 +169,14 @@ void				Action::setCreate(bool const set)
     this->_action |= Action::CREATE;
   else
     this->_action &= ~(Action::CREATE);
+}
+
+void				Action::setGetSprite(bool const set)
+{
+  if (set)
+    this->_action |= Action::GETSPRITE;
+  else
+    this->_action &= ~(Action::GETSPRITE);
 }
 
 void				Action::setParam(std::string const &param)

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Thu Nov 14 12:08:36 2013 arthur rucquois
+// Last update Sat Nov 16 18:03:40 2013 laurent ansel
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -14,10 +14,11 @@
 #ifndef		_WIN32
 #include		<unistd.h>
 #else
-#define		_WINSOCKAPI_ 
+#define		_WINSOCKAPI_
 #include		<Windows.h>
 #endif
 
+#include		<string>
 #include		"ClientInfo/ClientInfo.hh"
 #include		"Level/LevelManager.hh"
 #include		"GameLoop/PlayerInfo.hh"
@@ -27,12 +28,13 @@
 class			GameLoop : public Thread, public Mutex
 {
 private:
-  LevelManager			*_levelManag;
-  std::list<PlayerInfo *>	_clients;
-  int				_rate;
-
+  LevelManager		*_levelManag;
+  std::list<PlayerInfo *>	*_clients;
+  int			_rate;
+  std::string		_name;
+  unsigned int		_id;
 public:
-  GameLoop();
+  GameLoop(std::string const &name, unsigned int const id);
   virtual ~GameLoop();
   void				loop();
   void				recupScreen();

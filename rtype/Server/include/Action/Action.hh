@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 17:50:22 2013 laurent ansel
-// Last update Tue Nov  5 13:27:07 2013 laurent ansel
+// Last update Sat Nov 16 13:43:08 2013 laurent ansel
 //
 
 #ifndef 			__ACTION_HH__
@@ -28,6 +28,7 @@ public:
       GAMELIST	=	(1 << 7),
       JOIN	=	(1 << 8),
       CREATE	=	(1 << 9),
+      GETSPRITE	=	(1 << 10),
     };
 private:
   int				_action;
@@ -35,6 +36,7 @@ private:
 public:
   Action();
   virtual ~Action();
+  Action			&operator=(Action const &action);
   bool				getUp() const;
   bool				getDown() const;
   bool				getRight() const;
@@ -45,6 +47,7 @@ public:
   bool				getGameList() const;
   bool				getJoin() const;
   bool				getCreate() const;
+  bool				getGetSprite() const;
   std::string const		&getParam() const;
   void				setUp(bool const set);
   void				setDown(bool const set);
@@ -56,6 +59,7 @@ public:
   void				setGameList(bool const set);
   void				setJoin(bool const set);
   void				setCreate(bool const set);
+  void				setGetSprite(bool const set);
   void				setParam(std::string const &param);
   bool				empty() const;
 };

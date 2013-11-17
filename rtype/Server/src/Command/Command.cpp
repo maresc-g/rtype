@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 16:01:59 2013 laurent ansel
-// Last update Tue Nov  5 17:51:30 2013 laurent ansel
+// Last update Sat Nov 16 16:52:15 2013 laurent ansel
 //
 
 #include			"Command/Command.hh"
@@ -26,6 +26,11 @@ Command::~Command()
 Action				&Command::getAction() const
 {
   return (*this->_action);
+}
+
+void				Command::setAction(Action const &action)
+{
+  *this->_action = action;
 }
 
 void				Command::upCommand(std::istringstream &)
@@ -72,8 +77,13 @@ void				Command::gameListCommand(std::istringstream &)
 void				Command::joinCommand(std::istringstream &str)
 {
   std::string			param;
+  size_t			pos;
+  size_t			posEnd;
 
-  str >> param;
+  if ((posEnd = str.str().rfind(END_TRAME)) == std::string::npos)
+    param = str.str().substr((pos = str.tellg()) + 1);
+  else
+    param = str.str().substr((pos = str.tellg()) + 1, (posEnd - 1) - std::string(END_TRAME).size());
   this->_action->setParam(param);
   this->_action->setJoin(true);
 }
@@ -81,10 +91,30 @@ void				Command::joinCommand(std::istringstream &str)
 void				Command::createCommand(std::istringstream &str)
 {
   std::string			param;
+  size_t			pos;
+  size_t			posEnd;
 
-  str >> param;
+  if ((posEnd = str.str().rfind(END_TRAME)) == std::string::npos)
+    param = str.str().substr((pos = str.tellg()) + 1);
+  else
+    param = str.str().substr((pos = str.tellg()) + 1, (posEnd - 1) - std::string(END_TRAME).size());
   this->_action->setParam(param);
   this->_action->setCreate(true);
+}
+
+void				Command::getSpriteCommand(std::istringstream &str)
+{
+  std::string			param;
+  size_t			pos;
+  size_t			posEnd;
+
+  if ((posEnd = str.str().rfind(END_TRAME)) == std::string::npos)
+    param = str.str().substr((pos = str.tellg()) + 1);
+  else
+    param = str.str().substr((pos = str.tellg()) + 1, (posEnd - 1) - std::string(END_TRAME).size());
+  this->_action->setParam(param);
+  this->_action->setGetSprite(true);
+
 }
 
 void				Command::trameToAction()
@@ -100,7 +130,8 @@ void				Command::trameToAction()
       {"QUITSERVER", &Command::quitAllCommand},
       {"GAMELIST", &Command::gameListCommand},
       {"JOIN", &Command::joinCommand},
-      {"CREATE", &Command::createCommand}
+      {"CREATE", &Command::createCommand},
+      {"GETSPRITE", &Command::getSpriteCommand}
     };
   static unsigned int		size = sizeof(tab) / sizeof(*tab);
 
@@ -116,7 +147,6 @@ void				Command::trameToAction()
 	  str >> content;
 	  if ((pos = content.find(END_TRAME)) != std::string::npos)
 	    content = content.substr(0, pos);
-	  //	  std::cout << "content [" << content << "]" << std::endl;
 	  for (unsigned int i = 0 ; i < size ; i++)
 	    {
 	      if (content == tab[i].command)
