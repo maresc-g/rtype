@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Mon Nov 18 15:46:25 2013 antoine maitre
+// Last update Mon Nov 18 15:18:05 2013 arthur rucquois
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -75,9 +75,12 @@ void			GameLoop::newPlayer(ClientInfo *newClient)
   this->_levelManag->getPlayers().push_back(this->_clients->front()->getPlayer());
 }
 
-void			GameLoop::deadPlayer()
+void			GameLoop::deadPlayer(std::list<AEntity *>::iterator &deadPlayer)
 {
-  
+  std::ostringstream	oss;
+
+  oss << "DEAD " << deadPlayer->_num;
+  deadPlayer->sendTrame("TCP", std::string(oss.str()));
 }
 
 void			GameLoop::spawnMob()

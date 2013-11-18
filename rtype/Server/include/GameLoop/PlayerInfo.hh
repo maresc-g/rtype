@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:22:19 2013 antoine maitre
-// Last update Mon Nov 18 15:17:59 2013 antoine maitre
+// Last update Mon Nov 18 15:19:34 2013 arthur rucquois
 //
 
 #ifndef		__PLAYERINFO_HH__
@@ -28,6 +28,7 @@ public:
   AEntity	*getPlayer() const;
   void		actionPlayer(Map *map, int);
   int		getNum() const;
+  void		sendTrame(const std::string &protocol, const std::string trame);
 };
 
 #endif
