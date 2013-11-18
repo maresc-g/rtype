@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Fri Nov 15 17:03:45 2013 antoine maitre
+// Last update Mon Nov 18 10:52:37 2013 antoine maitre
 //
 
 #ifndef 		__AENTITY_HH__
@@ -14,14 +14,13 @@
 #include		<string>
 #include		"Coordinate.hh"
 #include		"Entities/InformationHitBox.hh"
-#include		"Weapon/Weapon.hh"
 
 class			AEntity
 {
 public:
   enum			eObject
     {
-      ROCKET,
+      PROJECTILE,
       PLAYER,
       MOB
     };
@@ -38,7 +37,6 @@ protected:
   bool			_dead;
   std::list<InformationHitBox *>	*_hitbox;
   Coordinate			*_spawnProjectile;
-  Weapon		*_weapon;
   AEntity();
 public:
   AEntity(int const x = 0, int const y = 0, std::string const &path = "", int const speed = 50, bool const destructible = false);
@@ -77,6 +75,8 @@ public:
   void			setHeight(int const height);
   Coordinate const	&getSpawnProjectile() const;
   void			setSpawnProjectile(Coordinate *coord);
+
+  AEntity::eObject	getType() const;
 };
 
 #endif

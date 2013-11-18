@@ -5,10 +5,11 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Fri Nov 15 12:21:24 2013 antoine maitre
+// Last update Mon Nov 18 10:51:36 2013 antoine maitre
 //
 
 #include "GameLoop/PlayerInfo.hh"
+#include "Entities/Weapon/Rocket.hh"
 
 PlayerInfo::PlayerInfo(ClientInfo *info, int num)
   : _info(info), _num(num)
@@ -65,6 +66,8 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
     }
   if (act.getFire())
     {
+      const Coordinate spawn = this->_player->getSpawnProjectile();
       act.setFire(false);
+      map->getPlayers().push_back(new Rocket(spawn.getX(), spawn.getY(), "Rocket", 5, true, 1, 0));
     }
 }

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Oct 30 11:14:28 2013 antoine maitre
-// Last update Thu Nov 14 11:48:51 2013 antoine maitre
+// Last update Mon Nov 18 10:53:04 2013 antoine maitre
 //
 
 #ifndef	__MOB_H__
@@ -16,6 +16,7 @@
 #include	<sstream>
 #include	<fstream>
 #include	"ACharacter.hh"
+#include	"Entities/Weapon/AProjectile.hh"
 
 class	Mob : public ACharacter
 {

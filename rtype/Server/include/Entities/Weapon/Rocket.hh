@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:46:36 2013 guillaume marescaux
-// Last update Thu Nov 14 11:15:02 2013 antoine maitre
+// Last update Mon Nov 18 10:43:46 2013 antoine maitre
 //
 
 #ifndef 		__ROCKET_HH__

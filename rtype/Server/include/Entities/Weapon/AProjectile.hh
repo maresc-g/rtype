@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:46:24 2013 guillaume marescaux
-// Last update Fri Nov 15 17:08:34 2013 antoine maitre
+// Last update Mon Nov 18 10:29:28 2013 antoine maitre
 //
 
 #ifndef 		__APROJECTILE_HH__
@@ -16,6 +16,11 @@
 
 class			AProjectile : public AEntity
 {
+public:
+  enum			eProjec
+    {
+      ROCKET
+    };
 protected:
   int			_vx;
   int			_vy;
@@ -24,6 +29,7 @@ public:
   AProjectile(int const x, int const y, std::string const &path, int const speed, bool const destructible, int const vx, int const vy);
   ~AProjectile();
   void			move();
+  AEntity::eObject	getType() const;
 };
 
 #endif
