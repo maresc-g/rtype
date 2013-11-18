@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Mon Nov 18 11:51:24 2013 alexis mestag
+// Last update Mon Nov 18 15:08:55 2013 alexis mestag
 //
 
 #include "Level/Map.hh"
@@ -43,7 +43,6 @@ Map::Map(std::string _path)
 	  oss << type;
 	  pathMob = _path.substr(0, _path.size() - 3) + oss.str() + ".conf";
 	  oss.str("");
-      	  _enemiesStatic.push_back(new Mob(x, y, pathMob, 0));
       	}
       fichier.close();
     }
