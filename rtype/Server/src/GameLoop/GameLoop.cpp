@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Mon Nov 18 19:00:17 2013 laurent ansel
+// Last update Mon Nov 18 22:17:07 2013 laurent ansel
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -40,8 +40,8 @@ void			GameLoop::loop()
 
   while (!this->_levelManag->getEndGame())
     {
-      this->_mutex->enter();
       time = clock();
+      this->_mutex->enter();
       this->_levelManag->incAdv();
       std::cout << this->_levelManag->getAdv() << std::endl;
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
@@ -61,6 +61,8 @@ void			GameLoop::loop()
       if (rest < 1000 / this->_rate)
 #ifndef _WIN32
 	usleep(1000 * ((1000 / this->_rate) - rest));
+#else
+      Sleep((1000 * ((1000 / this->_rate) - rest)) / 1000);
 #endif
     }
 }
@@ -74,11 +76,13 @@ bool			GameLoop::newPlayer(ClientInfo *newClient)
 {
   int			i = 0;
 
+  this->_mutex->enter();
   for (auto it = _clients->begin(); it != _clients->end() && i != (*it)->getNum(); ++it)
     i++;
   this->_clients->push_back(new PlayerInfo(newClient, i));
   this->_clients->front()->getPlayer()->move(this->_levelManag->getAdv() + 20, 40);
   this->_levelManag->getPlayers().push_back(this->_clients->front()->getPlayer());
+  this->_mutex->leave();
   return (true);
 }
 
@@ -145,13 +149,16 @@ unsigned int		GameLoop::getNumPlayer() const
 
 void			GameLoop::quitGame()
 {
+  this->_mutex->enter();
 
+  this->_mutex->leave();
 }
 
 bool			GameLoop::deletePlayer(ClientInfo *client)
 {
   // PlayerInfo		*pI;
 
+  this->_mutex->enter();
   // for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
   //   {
   //     if ((*it)->isMyInfo(info))
@@ -160,14 +167,21 @@ bool			GameLoop::deletePlayer(ClientInfo *client)
   // 	  _clients->erase(it);
   // 	  it = _clients->begin();
   // 	  delete pI;
+  this->_mutex->leave();
   // 	  return (true);
   // 	}
   //   }
+  this->_mutex->leave();
   return (false);
 }
 
 unsigned int		GameLoop::getLevel() const
 {
-  //  return (this->_level);
-  return (1);
+  unsigned int		lvl;
+
+  this->_mutex->enter();
+  //  lvl = this->_level;
+  lvl = 0;
+  this->_mutex->leave();
+  return (lvl);
 }

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Mon Nov 18 18:01:20 2013 arthur rucquois
+// Last update Mon Nov 18 22:08:52 2013 laurent ansel
 //
 
 #include "GameLoop/PlayerInfo.hh"
@@ -72,6 +72,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
       act.setFire(false);
       map->getPlayers().push_back(new Rocket(spawn.getX(), spawn.getY(), "Rocket", 5, true, 1, 0));
     }
+  this->_info->setAction(act);
 }
 
 int		PlayerInfo::getNum() const

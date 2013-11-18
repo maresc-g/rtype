@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Mon Nov 18 10:52:37 2013 antoine maitre
+// Last update Mon Nov 18 22:19:19 2013 laurent ansel
 //
 
 #ifndef 		__AENTITY_HH__
@@ -22,7 +22,8 @@ public:
     {
       PROJECTILE,
       PLAYER,
-      MOB
+      MOB,
+      NOTHING
     };
 
 protected:
@@ -76,7 +77,7 @@ public:
   Coordinate const	&getSpawnProjectile() const;
   void			setSpawnProjectile(Coordinate *coord);
 
-  AEntity::eObject	getType() const;
+  virtual AEntity::eObject	getType() const;
 };
 
 #endif

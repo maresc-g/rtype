@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Mon Nov 18 10:14:17 2013 antoine maitre
+// Last update Mon Nov 18 22:19:25 2013 laurent ansel
 //
 
 #include		"Entities/AEntity.hh"
@@ -180,5 +180,5 @@ void			AEntity::setSpawnProjectile(Coordinate *coord)
 
 AEntity::eObject	AEntity::getType() const
 {
-  return (AEntity::PROJECTILE);
+  return (AEntity::NOTHING);
 }
