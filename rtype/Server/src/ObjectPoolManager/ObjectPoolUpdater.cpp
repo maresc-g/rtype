@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Nov  6 17:17:27 2013 laurent ansel
-// Last update Mon Nov 18 11:53:12 2013 alexis mestag
+// Last update Mon Nov 18 18:37:01 2013 laurent ansel
 //
 
 #ifndef	_WIN32
@@ -36,7 +36,6 @@ ObjectPoolUpdater::~ObjectPoolUpdater()
 void				ObjectPoolUpdater::run()
 {
   std::map<AEntity::eObject, AEntity *>::iterator	itEntity;
-  AEntity			*object = new AEntity(0, 0, "", 0, true);
   size_t			size;
   size_t			nbObject;
 
@@ -50,10 +49,7 @@ void				ObjectPoolUpdater::run()
 	{
 	  size += it->second->size();
 	  if (it->second->size() < MAX_OBJECT)
-	    {
-	      *object = *(itEntity->second);
-	      it->second->push_back(object);
-	    }
+	    it->second->push_back(itEntity->second);
 	  ++itEntity;
 	}
       if (!_quit)

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Nov  5 10:47:00 2013 laurent ansel
-// Last update Mon Nov 18 14:45:34 2013 antoine maitre
+// Last update Mon Nov 18 18:57:46 2013 laurent ansel
 //
 
 #include			"GameLoop/GameLoopManager.hh"
@@ -30,40 +30,43 @@ GameLoopManager::~GameLoopManager()
   delete this->_listGame;
 }
 
-void				GameLoopManager::pushNewGame(std::string const &name)
+unsigned int			GameLoopManager::pushNewGame(std::string const &name)
 {
   GameLoop			*game = new GameLoop(name, this->_idGame);
 
   game->createThread(&startGame, game);
   this->_listGame->push_back(game);
   this->_idGame++;
+  return (game->getId());
 }
 
-// bool				GameLoopManager::startGame(unsigned int const idGame)
-// {
-//   std::list<GameLoop *>::iterator	it;
+void				GameLoopManager::runGame(unsigned int const idGame)
+{
+  std::list<GameLoop *>::iterator	it;
 
-//   if (idGame > 0)
-//     {
-//       for (it = this->_listGame->begin() ; it != this->_listGame->end() && (*it)->getId() != idGame ; ++it);
-//       if (it != this->_listGame->end())
-// 	{
-// 	  (*it)->startThread();
-// 	}
-//     }
+  if (idGame > 0)
+    {
+      for (it = this->_listGame->begin() ; it != this->_listGame->end() && (*it)->getId() != idGame ; ++it);
+      if (it != this->_listGame->end())
+	(*it)->start();
+    }
+}
 
-// }
+void				GameLoopManager::quitGame(unsigned int const id)
+{
+  std::list<GameLoop *>::iterator	it;
+
+  for (it = this->_listGame->begin() ; it != this->_listGame->end() && (*it)->getId() != id ; ++it);
+  if (it != this->_listGame->end())
+    it = this->_listGame->erase(it);
+}
 
 std::string			GameLoopManager::listInfoGame()
 {
   std::ostringstream		str;
 
   for (std::list<GameLoop *>::iterator it = this->_listGame->begin() ; it != this->_listGame->end() ; ++it)
-    {
-      (*it)->enter();
-      str << " " << (*it)->getId() << ";" << (*it)->getName() << ";" << (*it)->getNumPlayer() << ";" << (*it)->getLevel();
-      (*it)->leave();
-    }
+    str << " " << (*it)->getId() << ";" << (*it)->getName() << ";" << (*it)->getNumPlayer() << ";" << (*it)->getLevel();
   return (str.str());
 }
 
@@ -84,7 +87,7 @@ bool				GameLoopManager::addPlayerInGame(ClientInfo *client, unsigned int const 
       for (it = this->_listGame->begin() ; it != this->_listGame->end() && (*it)->getId() != idGame ; ++it);
       if (it != this->_listGame->end())
 	{
-	  if ((*it)->setPlayer(client))
+	  if ((*it)->newPlayer(client))
 	    {
 	      client->setIdGame(idGame);
 	      return (true);

@@ -5,24 +5,26 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Mon Nov 18 18:01:48 2013 arthur rucquois
+// Last update Mon Nov 18 19:00:17 2013 laurent ansel
 //
 
 #include "GameLoop/GameLoop.hh"
 
 GameLoop::GameLoop(std::string const &name, unsigned int const id):
   Thread(),
-  Mutex(),
   _clients(new std::list<PlayerInfo *>),
   _rate(50),
   _name(name),
-  _id(id)
+  _id(id),
+  _mutex(new Mutex)
 {
-  this->initialize();
+  this->_mutex->initialize();
 }
 
 GameLoop::~GameLoop()
 {
+  this->_mutex->destroy();
+  delete this->_mutex;
 }
 
 void			GameLoop::Initialize()
@@ -38,9 +40,7 @@ void			GameLoop::loop()
 
   while (!this->_levelManag->getEndGame())
     {
-#ifndef _WIN32
-      this->enter();
-#endif
+      this->_mutex->enter();
       time = clock();
       this->_levelManag->incAdv();
       std::cout << this->_levelManag->getAdv() << std::endl;
@@ -49,17 +49,17 @@ void			GameLoop::loop()
       for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().begin(); it++)
 	{
 	  const Coordinate	*coord = (*it)->getCoord();
-	  
+
 	  if (coord->getX() <= this->_levelManag->getAdv() - (*it)->getWidth())
 	    it = this->_levelManag->getEnemies().erase(it);
 	}
       this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
       this->destroyDeadEntities(this->_levelManag->getEnemies(),
 				this->_levelManag->getPlayers());
-#ifndef _WIN32
-      this->leave();
+      this->_mutex->leave();
       rest = clock() - time;
       if (rest < 1000 / this->_rate)
+#ifndef _WIN32
 	usleep(1000 * ((1000 / this->_rate) - rest));
 #endif
     }
@@ -67,25 +67,27 @@ void			GameLoop::loop()
 
 void			GameLoop::recupScreen()
 {
-  
+
 }
 
-void			GameLoop::newPlayer(ClientInfo *newClient)
+bool			GameLoop::newPlayer(ClientInfo *newClient)
 {
-  int			i = 1;
+  int			i = 0;
+
   for (auto it = _clients->begin(); it != _clients->end() && i != (*it)->getNum(); ++it)
     i++;
   this->_clients->push_back(new PlayerInfo(newClient, i));
   this->_clients->front()->getPlayer()->move(this->_levelManag->getAdv() + 20, 40);
   this->_levelManag->getPlayers().push_back(this->_clients->front()->getPlayer());
+  return (true);
 }
 
-void			GameLoop::playerDeath(PlayerInfo *deadPlayer)
+void			GameLoop::deadPlayer(std::list<PlayerInfo *>::iterator &deadPlayer)
 {
   std::ostringstream	oss;
 
-  oss << "DEAD " << deadPlayer->getNum();
-  deadPlayer->sendTrame("TCP", std::string(oss.str()));
+  oss << "DEAD " << (*deadPlayer)->getNum();
+  (*deadPlayer)->sendTrame("TCP", std::string(oss.str()));
 }
 
 void			GameLoop::spawnMob()
@@ -106,29 +108,39 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
     }
   for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
     {
-      if ((*it)->getPlayer()->isDead() == true)
-	this->playerDeath(*it);
+      // if ((*it)->getPlayer()->isDead() == true)
+      // 	this->playerDeath(*it);
     }
 }
 
 unsigned int		GameLoop::getId() const
 {
-  return (this->_id);
+  unsigned int		id;
+
+  this->_mutex->enter();
+  id = this->_id;
+  this->_mutex->leave();
+  return (id);
 }
 
 std::string		GameLoop::getName() const
 {
-  return (this->_name);
+  std::string		name;
+
+  this->_mutex->enter();
+  name = this->_name;
+  this->_mutex->leave();
+  return (name);
 }
 
 unsigned int		GameLoop::getNumPlayer() const
 {
-  return (this->_clients->size());
-}
+  unsigned int		size;
 
-bool			GameLoop::setPlayer(ClientInfo *)
-{
-  return (true);
+  this->_mutex->enter();
+  size = this->_clients->size();
+  this->_mutex->leave();
+  return (size);
 }
 
 void			GameLoop::quitGame()
@@ -136,21 +148,21 @@ void			GameLoop::quitGame()
 
 }
 
-bool			GameLoop::deletePlayer(ClientInfo *info)
+bool			GameLoop::deletePlayer(ClientInfo *client)
 {
-  PlayerInfo		*pI;
+  // PlayerInfo		*pI;
 
-  for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
-    {
-      if ((*it)->isMyInfo(info))
-	{
-	  pI = *it;
-	  _clients->erase(it);
-	  it = _clients->begin();
-	  delete pI;
-	  return (true);
-	}
-    }
+  // for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
+  //   {
+  //     if ((*it)->isMyInfo(info))
+  // 	{
+  // 	  pI = *it;
+  // 	  _clients->erase(it);
+  // 	  it = _clients->begin();
+  // 	  delete pI;
+  // 	  return (true);
+  // 	}
+  //   }
   return (false);
 }
 
