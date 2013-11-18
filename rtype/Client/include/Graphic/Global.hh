@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Oct 28 15:04:47 2013 cyril jourdain
-// Last update Sat Nov 16 19:57:30 2013 cyril jourdain
+// Last update Sun Nov 17 23:09:15 2013 cyril jourdain
 //
 
 #ifndef 		__GLOBAL_HH__
@@ -53,8 +53,10 @@
 #define			ARRAY_LINE_PART_SELECTED	"arrayLinePartSelected"
 #define			GAME_BACKGROUND_RES		"Res/game_background.jpg"
 #define			GAME_BACKGROUND			"gameBackground"
-#define			GAME_HUD_RES		"Res/game_hud.png"
+#define			GAME_HUD_RES			"Res/game_hud.png"
 #define			GAME_HUD			"gameHUD"
+#define			GAME_HUD_LIVES_RES		"Res/game_lives.png"
+#define			GAME_HUD_LIVES			"game_lives"
 
 #define			ARIAL_FONT_RES			"Res/arial.ttf"
 #define			ARIAL_FONT			"arial"

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Nov  4 16:14:46 2013 cyril jourdain
-// Last update Sat Nov 16 19:36:44 2013 cyril jourdain
+// Last update Mon Nov 18 10:37:08 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/LobbyWindow.hh"
@@ -97,7 +97,7 @@ void			LobbyWindow::init()
   updateBound();
 
   SFConnect::getInstance()->makeConnect(sf::Event::MouseButtonPressed, _refreshButton,
-					&LobbyWindow::refreshGameList, NULL, this);
+					&ClientMain::refreshGameList, NULL, ClientMain::getInstance());
   SFConnect::getInstance()->makeConnect(sf::Event::MouseButtonPressed, _joinButton,
 					&ClientMain::joinGame, NULL,
 					ClientMain::getInstance());
