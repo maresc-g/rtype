@@ -5,7 +5,12 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Sat Nov  2 18:08:57 2013 laurent ansel
-## Last update Mon Nov 18 13:38:42 2013 alexis mestag
+## Last update Mon Nov 18 15:48:10 2013 alexis mestag
 ##
 
-SRCSERVER +=	$(AI)/Donkey.cpp
+# NEEDEDAI +=		$(ACTION)/Action.cpp		\
+# 			$(ENTITIES)/AEntity.cpp		\
+# 			$(ENTITIES)/ACharacter.cpp	\
+# 			$(ENTITIES)/Mob.cpp
+
+SRCAI +=	$(AI)/Donkey.cpp
