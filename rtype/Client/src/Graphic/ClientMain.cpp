@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Mon Nov 18 14:37:55 2013 cyril jourdain
+// Last update Mon Nov 18 16:22:10 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -129,4 +129,9 @@ void			ClientMain::backToLogin(void *)
 void			ClientMain::refreshGameList(void *)
 {
   static_cast<LobbyWindow*>((*_windows)[LOBBY])->refreshGameList(NULL);
+}
+
+void			ClientMain::sendKeyPress(PressedKey const &keys)
+{
+  (void)keys;
 }

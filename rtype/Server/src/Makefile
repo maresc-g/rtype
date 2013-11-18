@@ -5,13 +5,12 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Tue Oct 29 16:06:09 2013 laurent ansel
-## Last update Mon Nov 18 13:38:17 2013 alexis mestag
+## Last update Mon Nov 18 16:45:41 2013 cyril jourdain
 ##
 
 CLIENTINFO=		$(SERVER_SRC)/ClientInfo
 COMMAND=		$(SERVER_SRC)/Command
 SOURCESERVER=		$(SERVER_SRC)/Server
-ACTION=			$(SERVER_SRC)/Action
 DYNAMICLIBRARY=		$(SERVER_SRC)/DynamicLibrary
 GAMELOOP=		$(SERVER_SRC)/GameLoop
 LEVEL=			$(SERVER_SRC)/Level
@@ -24,7 +23,6 @@ AI=			$(SERVER_SRC)/AI
 include			$(CLIENTINFO)/Makefile
 include			$(COMMAND)/Makefile
 include			$(SOURCESERVER)/Makefile
-include			$(ACTION)/Makefile
 include			$(DYNAMICLIBRARY)/Makefile
 include			$(GAMELOOP)/Makefile
 include			$(LEVEL)/Makefile

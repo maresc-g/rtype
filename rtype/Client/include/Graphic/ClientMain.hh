@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:37:12 2013 cyril jourdain
-// Last update Mon Nov 18 10:34:27 2013 cyril jourdain
+// Last update Mon Nov 18 16:23:38 2013 cyril jourdain
 //
 
 #ifndef 		__CLIENTMAIN_HH__
@@ -56,6 +56,7 @@ public:
   void				createGame(void *param);
   void				backToLogin(void *param);
   void				refreshGameList(void *param);
+  void				sendKeyPress(PressedKey const &keys);
 };
 
 #endif

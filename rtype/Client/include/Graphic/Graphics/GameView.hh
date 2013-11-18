@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 17:56:23 2013 cyril jourdain
-// Last update Mon Nov 18 14:25:44 2013 cyril jourdain
+// Last update Mon Nov 18 16:24:23 2013 cyril jourdain
 //
 
 #ifndef 		__GAMEVIEW_HH__
@@ -15,6 +15,7 @@
 #include		"Graphic/SFGraphics/Widgets/SFImageBox.hh"
 #include		"Graphic/Graphics/Sprites/FixedSprite.hh"
 #include		"Graphic/Graphics/Sprites/AnimatedSprite.hh"
+#include		"Graphic/PressedKey.hh"
 
 class			GameView : public SFWidget
 {
@@ -22,6 +23,7 @@ private:
   SFImageBox		*_background;
   AnimatedSprite	*_sprite;
   sf::Clock		*_clock;
+  PressedKey		*_keys;
 
 public:
   GameView();
@@ -34,6 +36,7 @@ public:
 
 private:
   virtual void			draw(sf::RenderTarget &target, sf::RenderStates states) const;
+  virtual void			onKeyPressed(void *const key);
 
 
 };
