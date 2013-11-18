@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Mon Nov 18 15:46:25 2013 antoine maitre
+// Last update Mon Nov 18 17:14:27 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -18,6 +18,7 @@ GameLoop::GameLoop(std::string const &name, unsigned int const id):
   _name(name),
   _id(id)
 {
+  this->initialize();
 }
 
 GameLoop::~GameLoop()
@@ -37,6 +38,9 @@ void			GameLoop::loop()
 
   while (!this->_levelManag->getEndGame())
     {
+#ifndef _WIN32
+      this->enter();
+#endif
       time = clock();
       this->_levelManag->incAdv();
       std::cout << this->_levelManag->getAdv() << std::endl;
@@ -53,6 +57,7 @@ void			GameLoop::loop()
       this->destroyDeadEntities(this->_levelManag->getEnemies(),
 				this->_levelManag->getPlayers());
 #ifndef _WIN32
+      this->leave();
       rest = clock() - time;
       if (rest < 1000 / this->_rate)
 	usleep(1000 * ((1000 / this->_rate) - rest));
