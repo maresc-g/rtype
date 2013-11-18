@@ -5,12 +5,14 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Mon Nov 18 10:36:13 2013 cyril jourdain
+// Last update Mon Nov 18 14:13:25 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
 #include		"Graphic/SFGraphics/Widgets/SFDialogBox.hh"
 #include		"Graphic/SFGraphics/Widgets/SFDialogTextBox.hh"
+
+#include		"Graphic/Graphics/Sprites/AnimatedSprite.hh"
 
 static void	*trampoline(void *param)
 {

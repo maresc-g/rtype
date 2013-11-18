@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Nov  4 16:14:46 2013 cyril jourdain
-// Last update Mon Nov 18 10:37:08 2013 cyril jourdain
+// Last update Mon Nov 18 13:40:03 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/LobbyWindow.hh"
