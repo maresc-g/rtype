@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 23:37:40 2013 cyril jourdain
-// Last update Sat Nov 16 17:37:43 2013 cyril jourdain
+// Last update Mon Nov 18 14:37:22 2013 cyril jourdain
 //
 
 #ifndef 		__LOBBYWINDOW_HH__
@@ -37,6 +37,7 @@ public:
 public:
   virtual void		init();
   void			refreshGameList(void *const);
+  void			getSelectedGame(void *const);
 };
 
 #endif

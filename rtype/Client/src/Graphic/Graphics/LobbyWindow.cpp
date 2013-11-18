@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Nov  4 16:14:46 2013 cyril jourdain
-// Last update Mon Nov 18 13:40:03 2013 cyril jourdain
+// Last update Mon Nov 18 14:37:08 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/LobbyWindow.hh"
@@ -123,6 +123,13 @@ void				LobbyWindow::refreshGameList(void *const)
       (*_arrayGame)[i]["PLAYERS"].setText((*it)->getNbPlayer());
       i++;
     }
+}
+
+void				LobbyWindow::getSelectedGame(void *const) const
+{
+  if (_arrayGame)
+    return (_arrayGame->getSelected());
+  return NULL;
 }
 
 /* ARRAY SEGFAULT ON UNEXISTING INDEX */
