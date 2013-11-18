@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Mon Nov 18 14:13:25 2013 cyril jourdain
+// Last update Mon Nov 18 14:37:55 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -107,7 +107,6 @@ void			ClientMain::connectToServer(void *param)
 
 void			ClientMain::joinGame(void *)
 {
-  //_manager->addWindow(new SFDialogBox("Info", "Join a game"));
   /* Need to do server stuff */
   _manager->setActiveWindow(GAME);
   _manager->getWindowById(LOBBY)->setVisibility(false);
