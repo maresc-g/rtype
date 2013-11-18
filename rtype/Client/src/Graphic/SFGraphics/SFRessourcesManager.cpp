@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Oct 29 13:30:23 2013 cyril jourdain
-// Last update Sun Nov 17 23:09:38 2013 cyril jourdain
+// Last update Mon Nov 18 14:08:07 2013 cyril jourdain
 //
 
 #include			"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"

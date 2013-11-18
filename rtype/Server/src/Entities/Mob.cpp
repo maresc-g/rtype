@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Oct 30 11:19:56 2013 antoine maitre
-// Last update Mon Nov 18 14:01:10 2013 antoine maitre
+// Last update Mon Nov 18 13:24:08 2013 alexis mestag
 //
 
 #include "Entities/Mob.hh"
@@ -34,9 +34,4 @@ Mob::~Mob()
 AEntity::eObject		Mob::getType() const
 {
   return (AEntity::MOB);
-}
-
-Action const			*Mob::getAction() const
-{
-  return (_action);
 }

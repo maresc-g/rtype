@@ -5,10 +5,11 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Mon Nov 18 09:41:45 2013 cyril jourdain
+// Last update Mon Nov 18 14:50:47 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
+#include		"Graphic/ClientMain.hh"
 #include		"Graphic/Global.hh"
 #include		"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
 
@@ -38,10 +39,13 @@ void			GameView::init()
   _background->init();
   _background->setSize(WIN_X, WIN_Y);
   _background->setTexture((*(SFRessourcesManager::getInstance()->Images))[GAME_BACKGROUND]);
-  _test = new sf::Texture();
-  _test->loadFromFile("Res/Sprites/r-typesheet23.gif");
-  _sprite = new FixedSprite(0,0,34,34);
-  _sprite->setTexture(_test);
+  _sprite = new AnimatedSprite();
+  std::string dir  = SPRITE_DIR;
+  dir += "/player.sprite";
+  _sprite->loadFromFile(dir);
+  _sprite->play("gauche");
+  _clock = new sf::Clock();
+  _clock->restart();
 }
 
 sf::FloatRect		&GameView::getBound() const
@@ -53,5 +57,5 @@ void			GameView::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
   target.draw(*_background, states);
   target.draw(*_sprite, states);
-  _sprite->setPosition(_sprite->getPosition().x + 0.5, _sprite->getPosition().y);
+  _sprite->update(*_clock);
 }

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Nov  8 15:38:07 2013 cyril jourdain
-// Last update Sat Nov 16 19:12:28 2013 cyril jourdain
+// Last update Mon Nov 18 14:32:31 2013 cyril jourdain
 //
 
 #include		"Graphic/SFGraphics/Widgets/SFArray.hh"
@@ -98,6 +98,11 @@ void			SFArray::clear()
       _lineArray->clear();
       _selected = NULL;
     }
+}
+
+SFArrayLine		*SFArray::getSelected() const
+{
+  return _selected;
 }
 
 sf::FloatRect		&SFArray::getBound() const
