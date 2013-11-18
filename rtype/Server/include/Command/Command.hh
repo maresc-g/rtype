@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:12 2013 laurent ansel
-// Last update Sat Nov 16 13:41:05 2013 laurent ansel
+// Last update Mon Nov 18 17:11:59 2013 laurent ansel
 //
 
 #ifndef 			__COMMAND_HH__
@@ -27,11 +27,7 @@ public:
   void				setAction(Action const &action);
   void				trameToAction();
 private:
-  void				upCommand(std::istringstream &str);
-  void				downCommand(std::istringstream &str);
-  void				leftCommand(std::istringstream &str);
-  void				rightCommand(std::istringstream &str);
-  void				fireCommand(std::istringstream &str);
+  void				actionCommand(std::istringstream &str);
   void				quitGameCommand(std::istringstream &str);
   void				quitAllCommand(std::istringstream &str);
   void				gameListCommand(std::istringstream &str);

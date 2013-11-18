@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 16:01:59 2013 laurent ansel
-// Last update Sat Nov 16 16:52:15 2013 laurent ansel
+// Last update Mon Nov 18 17:13:14 2013 laurent ansel
 //
 
 #include			"Command/Command.hh"
@@ -33,29 +33,19 @@ void				Command::setAction(Action const &action)
   *this->_action = action;
 }
 
-void				Command::upCommand(std::istringstream &)
+void				Command::actionCommand(std::istringstream &str)
 {
-  this->_action->setUp(true);
-}
+  std::istringstream		param;
+  size_t			pos;
+  size_t			posEnd;
+  int				action;
 
-void				Command::downCommand(std::istringstream &)
-{
-  this->_action->setDown(true);
-}
-
-void				Command::leftCommand(std::istringstream &)
-{
-  this->_action->setLeft(true);
-}
-
-void				Command::rightCommand(std::istringstream &)
-{
-  this->_action->setRight(true);
-}
-
-void				Command::fireCommand(std::istringstream &)
-{
-  this->_action->setFire(true);
+  if ((posEnd = str.str().rfind(END_TRAME)) == std::string::npos)
+    param.str(str.str().substr((pos = str.tellg()) + 1));
+  else
+    param.str(str.str().substr((pos = str.tellg()) + 1, (posEnd - 1) - std::string(END_TRAME).size()));
+  param >> action;
+  *this->_action << action;
 }
 
 void				Command::quitGameCommand(std::istringstream &)
@@ -121,11 +111,7 @@ void				Command::trameToAction()
 {
   static tabCommand		tab[] =
     {
-      {"UP", &Command::upCommand},
-      {"DOWN", &Command::downCommand},
-      {"LEFT", &Command::leftCommand},
-      {"RIGHT", &Command::downCommand},
-      {"FIRE", &Command::fireCommand},
+      {"ACTION", &Command::actionCommand},
       {"QUITGAME", &Command::quitGameCommand},
       {"QUITSERVER", &Command::quitAllCommand},
       {"GAMELIST", &Command::gameListCommand},

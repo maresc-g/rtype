@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Mon Nov 18 16:25:21 2013 laurent ansel
+// Last update Mon Nov 18 16:59:48 2013 laurent ansel
 //
 
 #include			<list>
@@ -289,19 +289,21 @@ bool				Server::manageSprite(std::list<ClientInfo *>::iterator &it, Action &acti
   if (action.getGetSprite())
     {
       std::ostringstream	tmp;
-      std::list<Trame *>	*trame;
-
+      //      std::list<Trame *>	*trame;
+      Trame *trame;
       tmp << "CONTENTFILE " << SpriteLoaderManager::getInstance()->getContentFile(action.getParam());
-      trame = Trame::ToListTrame((*it)->getId(), (*it)->getTrameId(), "TCP", tmp.str());
-      if (trame)
-	{
-	  for (std::list<Trame *>::iterator itT = trame->begin() ; itT != trame->end() ; ++itT)
-	    {
+      //      trame = Trame::ToListTrame((*it)->getId(), (*it)->getTrameId(), "TCP", tmp.str());
+      // if (trame)
+      // 	{
+      // 	  for (std::list<Trame *>::iterator itT = trame->begin() ; itT != trame->end() ; ++itT)
+      // 	    {
 	      //	    this->debug((*itT)->toString());
-	      (*it)->pushWriteTrame("TCP", (*itT));
-	    }
-	  delete trame;
-	}
+      trame = new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", tmp.str(), true);
+      (*it)->pushWriteTrame("TCP", trame);
+      //      (*it)->pushWriteTrame("TCP", (*itT));
+	//     }
+	//   delete trame;
+	// }
       // trame->clear();
       // tmp.str("");
       // tmp << "CONFSPRITE " << SpriteLoaderManager::getInstance()->getConfSprite(action.getParam());
