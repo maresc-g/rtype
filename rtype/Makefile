@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Mon Oct 28 16:06:15 2013 laurent ansel
-## Last update Sat Nov  9 17:43:39 2013 laurent ansel
+## Last update Mon Nov 18 13:26:58 2013 alexis mestag
 ##
 
 NAMESERVER=	rtype-server
@@ -27,6 +27,7 @@ include		$(CLIENT)/Makefile
 OBJSERVER=	$(SRCSERVER:.cpp=.o)
 OBJCOMMON=	$(SRCCOMMON:.cpp=.o)
 OBJCLIENT=	$(SRCCLIENT:.cpp=.o)
+OBJAI=		$(SRCAI:.cpp=.o)
 
 CPPFLAGS=	-W -Wall -Wextra -g $(SERVER_INCLUDES) $(COMMON_INCLUDES) $(CLIENT_INCLUDES) -std=c++0x
 
