@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 17:56:23 2013 cyril jourdain
-// Last update Sat Nov 16 18:41:25 2013 cyril jourdain
+// Last update Mon Nov 18 14:25:44 2013 cyril jourdain
 //
 
 #ifndef 		__GAMEVIEW_HH__
@@ -13,11 +13,15 @@
 
 #include		"Graphic/SFGraphics/Widgets/SFWidget.hh"
 #include		"Graphic/SFGraphics/Widgets/SFImageBox.hh"
+#include		"Graphic/Graphics/Sprites/FixedSprite.hh"
+#include		"Graphic/Graphics/Sprites/AnimatedSprite.hh"
 
 class			GameView : public SFWidget
 {
 private:
   SFImageBox		*_background;
+  AnimatedSprite	*_sprite;
+  sf::Clock		*_clock;
 
 public:
   GameView();

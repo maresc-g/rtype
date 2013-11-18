@@ -5,13 +5,13 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Oct 30 11:19:56 2013 antoine maitre
-// Last update Fri Nov 15 17:17:21 2013 antoine maitre
+// Last update Mon Nov 18 13:24:08 2013 alexis mestag
 //
 
 #include "Entities/Mob.hh"
 
-Mob::Mob(int const x, int const y, std::string const &path, int const speed, bool const destructible)
-  : ACharacter(x, y, path, speed, destructible)
+Mob::Mob(int const x, int const y, std::string const &path, int const speed)
+  : ACharacter(x, y, path, speed, true), _action(new Action)
 {
   std::ifstream fichier(path.c_str(), std::ios::in);
   std::string contenu;
@@ -23,14 +23,15 @@ Mob::Mob(int const x, int const y, std::string const &path, int const speed, boo
   contenu = contenu.substr(contenu.find("=") + 1, contenu.size() - contenu.find("="));
   this->_width = std::stoi(contenu);
   this->_height = std::stoi(contenu.substr(contenu.find("x") + 1, contenu.size() - contenu.find("x")));
+  this->_weapon.setWeapon(AProjectile::ROCKET);
 }
 
 Mob::~Mob()
 {
-
+  delete _action;
 }
 
 AEntity::eObject		Mob::getType() const
 {
-  return (MOB);
+  return (AEntity::MOB);
 }

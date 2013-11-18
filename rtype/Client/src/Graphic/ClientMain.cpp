@@ -5,12 +5,14 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sun Nov 17 21:20:49 2013 cyril jourdain
+// Last update Mon Nov 18 14:37:55 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
 #include		"Graphic/SFGraphics/Widgets/SFDialogBox.hh"
 #include		"Graphic/SFGraphics/Widgets/SFDialogTextBox.hh"
+
+#include		"Graphic/Graphics/Sprites/AnimatedSprite.hh"
 
 static void	*trampoline(void *param)
 {
@@ -48,15 +50,16 @@ void			ClientMain::init()
   _manager->init();
   (*_windows)[LOGIN] = new LoginWindow();
   (*_windows)[LOBBY] = new LobbyWindow();
+  (*_windows)[GAME] = new GameWindow();
   _manager->addWindow(LOBBY,(*_windows)[LOBBY]);
   _manager->addWindow(LOGIN,(*_windows)[LOGIN]);
-  _manager->setActiveWindow(LOGIN);
-  _state = eState::IN_LOGIN;
+  _manager->addWindow(GAME,(*_windows)[GAME]);
+  _manager->setActiveWindow(LOBBY);
 }
 
 void			ClientMain::launch()
 {
-  _client->start();
+  // _client->start();
   _manager->exec();
   _client->waitThread();
   _client->destroy();
@@ -104,7 +107,9 @@ void			ClientMain::connectToServer(void *param)
 
 void			ClientMain::joinGame(void *)
 {
-  _manager->addWindow(new SFDialogBox("Info", "Join a game"));
+  /* Need to do server stuff */
+  _manager->setActiveWindow(GAME);
+  _manager->getWindowById(LOBBY)->setVisibility(false);
 }
 
 void			ClientMain::createGame(void *)
@@ -112,11 +117,16 @@ void			ClientMain::createGame(void *)
   SFDialogTextBox               *db  = new SFDialogTextBox("Info", "Enter room name");
 
   _manager->addWindow(db);
-  db->setOnCloseCallback(&ClientMain::backToLogin, this);
+  db->setOnCloseCallback(&ClientMain::backToLogin, this); //Need to change callback
 }
 
 void			ClientMain::backToLogin(void *)
 {
   _manager->setActiveWindow(LOGIN);
   _manager->addWindow(new SFDialogBox("Info", "Remember to disconnect from server"));
+}
+
+void			ClientMain::refreshGameList(void *)
+{
+  static_cast<LobbyWindow*>((*_windows)[LOBBY])->refreshGameList(NULL);
 }

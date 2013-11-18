@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Nov  5 10:14:28 2013 antoine maitre
-// Last update Fri Nov 15 12:11:21 2013 antoine maitre
+// Last update Mon Nov 18 14:53:11 2013 antoine maitre
 //
 
 #include		"Entities/ACharacter.hh"
@@ -21,6 +21,16 @@ ACharacter::~ACharacter()
 
 }
 
+void			ACharacter::setInvincible(int time)
+{
+  this->_timeInvincible = time;
+}
+
+int			ACharacter::getInvincible() const
+{
+  return (this->_timeInvincible);
+}
+
 void			ACharacter::collision()
 {
   if (this->_timeInvincible == 0)
@@ -30,6 +40,4 @@ void			ACharacter::collision()
       if (this->_life <= 0 && this->_destructible == true)
 	this->_dead = true;
     }
-  else
-    this->_timeInvincible--;
 }

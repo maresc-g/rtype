@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Tue Oct 29 16:06:09 2013 laurent ansel
-## Last update Tue Nov 12 13:29:48 2013 guillaume marescaux
+## Last update Mon Nov 18 13:38:17 2013 alexis mestag
 ##
 
 CLIENTINFO=		$(SERVER_SRC)/ClientInfo
@@ -19,6 +19,7 @@ ENTITIES=		$(SERVER_SRC)/Entities
 OBJECTPOOL=		$(SERVER_SRC)/ObjectPoolManager
 INOTIFY=		$(SERVER_SRC)/Inotify
 SPRITELOADER=		$(SERVER_SRC)/SpriteLoaderManager
+AI=			$(SERVER_SRC)/AI
 
 include			$(CLIENTINFO)/Makefile
 include			$(COMMAND)/Makefile
@@ -31,3 +32,4 @@ include			$(ENTITIES)/Makefile
 include			$(OBJECTPOOL)/Makefile
 include			$(INOTIFY)/Makefile
 include			$(SPRITELOADER)/Makefile
+include			$(AI)/Makefile

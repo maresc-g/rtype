@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Nov  8 14:52:29 2013 cyril jourdain
-// Last update Sat Nov 16 18:22:11 2013 cyril jourdain
+// Last update Mon Nov 18 14:32:06 2013 cyril jourdain
 //
 
 #ifndef				__SFARRAY_HH__
@@ -81,6 +81,7 @@ public:
   void				addLine();
   SFArrayLine			&operator[](unsigned int index);
   void				clear();
+  SFArrayLine			*getSelected() const;
 
 public:
   virtual void			init();

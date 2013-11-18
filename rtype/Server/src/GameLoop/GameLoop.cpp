@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Mon Nov 18 09:39:58 2013 arthur rucquois
+// Last update Mon Nov 18 15:46:25 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -24,12 +24,10 @@ GameLoop::~GameLoop()
 {
 }
 
-void			GameLoop::Initialize(ClientInfo *client)
+void			GameLoop::Initialize()
 {
   this->_levelManag = new LevelManager();
   this->_levelManag->Initialize();
-  this->_clients->push_back(new PlayerInfo(client, 1));
-  this->_levelManag->getPlayers().push_back(this->_clients->front()->getPlayer());
 }
 
 void			GameLoop::loop()
@@ -41,6 +39,7 @@ void			GameLoop::loop()
     {
       time = clock();
       this->_levelManag->incAdv();
+      std::cout << this->_levelManag->getAdv() << std::endl;
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
 	(*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
       for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().begin(); it++)
@@ -66,21 +65,26 @@ void			GameLoop::recupScreen()
   
 }
 
-void			GameLoop::newPlayer()
+void			GameLoop::newPlayer(ClientInfo *newClient)
 {
-  
+  int			i = 1;
+  for (auto it = _clients->begin(); it != _clients->end() && i != (*it)->getNum(); ++it)
+    i++;
+  this->_clients->push_back(new PlayerInfo(newClient, i));
+  this->_clients->front()->getPlayer()->move(this->_levelManag->getAdv() + 20, 40);
+  this->_levelManag->getPlayers().push_back(this->_clients->front()->getPlayer());
 }
 
 void			GameLoop::deadPlayer()
 {
-
+  
 }
 
 void			GameLoop::spawnMob()
 {
   if (rand() % 10 == 9)
     {
-      this->_levelManag->getEnemies().push_back(Singleton<ObjectPoolManager>::getInstance()->getCopy(AEntity::MOB));
+      this->_levelManag->getEnemies().push_back(ObjectPoolManager::getInstance()->getCopy(AEntity::MOB));
       this->_levelManag->getEnemies().back()->move(SCREENX + 5, rand() % 80);
     }
 }

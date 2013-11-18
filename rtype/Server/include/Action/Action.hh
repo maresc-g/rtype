@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 17:50:22 2013 laurent ansel
-// Last update Sat Nov 16 13:43:08 2013 laurent ansel
+// Last update Mon Nov 18 13:40:49 2013 alexis mestag
 //
 
 #ifndef 			__ACTION_HH__
@@ -62,6 +62,10 @@ public:
   void				setGetSprite(bool const set);
   void				setParam(std::string const &param);
   bool				empty() const;
+  void				reset();
+
+private:
+  void				setAction(bool const set, Action::eAction const action);
 };
 
 #endif

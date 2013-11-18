@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Sat Nov  2 18:08:57 2013 laurent ansel
-## Last update Mon Nov 18 13:38:23 2013 alexis mestag
+## Last update Mon Nov 18 13:38:42 2013 alexis mestag
 ##
 
-SRCSERVER +=	$(ACTION)/Action.cpp
+SRCSERVER +=	$(AI)/Donkey.cpp

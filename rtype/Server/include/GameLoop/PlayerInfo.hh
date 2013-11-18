@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:22:19 2013 antoine maitre
-// Last update Thu Nov  7 13:26:28 2013 antoine maitre
+// Last update Mon Nov 18 15:17:59 2013 antoine maitre
 //
 
 #ifndef		__PLAYERINFO_HH__
@@ -15,6 +15,7 @@
 #include	"ClientInfo/ClientInfo.hh"
 #include	"Action/Action.hh"
 #include	"Level/Map.hh"
+#include	"Entities/Weapon/Rocket.hh"
 
 class		PlayerInfo
 {
@@ -26,6 +27,7 @@ public:
   ~PlayerInfo();
   AEntity	*getPlayer() const;
   void		actionPlayer(Map *map, int);
+  int		getNum() const;
 };
 
 #endif

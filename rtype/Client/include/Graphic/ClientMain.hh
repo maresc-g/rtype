@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:37:12 2013 cyril jourdain
-// Last update Sat Nov 16 14:35:54 2013 guillaume marescaux
+// Last update Mon Nov 18 10:34:27 2013 cyril jourdain
 //
 
 #ifndef 		__CLIENTMAIN_HH__
@@ -17,6 +17,7 @@ class			Client;
 #include		"Graphic/SFGraphics/Widgets/SFWindow.hh"
 #include		"Graphic/Graphics/LoginWindow.hh"
 #include		"Graphic/Graphics/LobbyWindow.hh"
+#include		"Graphic/Graphics/GameWindow.hh"
 #include		"Core/Client.hh"
 #include		"Utility/Singleton.hpp"
 #include		"FileSystem/Directory.hh"
@@ -54,6 +55,7 @@ public:
   void				joinGame(void *param);
   void				createGame(void *param);
   void				backToLogin(void *param);
+  void				refreshGameList(void *param);
 };
 
 #endif

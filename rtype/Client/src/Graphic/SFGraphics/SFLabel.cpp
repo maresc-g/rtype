@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 13:32:13 2013 cyril jourdain
-// Last update Thu Nov  7 17:31:48 2013 cyril jourdain
+// Last update Sun Nov 17 22:51:00 2013 cyril jourdain
 //
 
 #include		"Graphic/SFGraphics/Widgets/SFLabel.hh"
@@ -47,6 +47,11 @@ sf::FloatRect		&SFLabel::getBound() const
 
 void			SFLabel::setBackgroundColor(sf::Color)
 {
+}
+
+void			SFLabel::setColor(sf::Color const color)
+{
+  _label->setColor(color);
 }
 
 void			SFLabel::draw(sf::RenderTarget &target, sf::RenderStates states) const
