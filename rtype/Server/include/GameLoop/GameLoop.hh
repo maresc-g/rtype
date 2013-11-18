@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Mon Nov 18 15:18:08 2013 arthur rucquois
+// Last update Mon Nov 18 16:15:42 2013 arthur rucquois
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -31,18 +31,18 @@
 class			GameLoop : public Thread, public Mutex
 {
 private:
-  LevelManager		*_levelManag;
+  LevelManager			*_levelManag;
   std::list<PlayerInfo *>	*_clients;
-  int			_rate;
-  std::string		_name;
-  unsigned int		_id;
+  int				_rate;
+  std::string			_name;
+  unsigned int			_id;
 public:
   GameLoop(std::string const &name, unsigned int const id);
   virtual ~GameLoop();
   void				loop();
   void				recupScreen();
   void				newPlayer(ClientInfo *newClient);
-  void				deadPlayer(std::list<AEntity *>::iterator &deadPlayer);
+  void				deadPlayer(std::list<PlayerInfo *>::iterator &deadPlayer);
   void				Initialize();
   void				spawnMob();
   void				destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AEntity *> &players);
