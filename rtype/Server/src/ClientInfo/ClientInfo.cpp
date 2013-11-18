@@ -5,9 +5,10 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Sat Nov 16 15:56:31 2013 laurent ansel
+// Last update Mon Nov 18 16:12:11 2013 laurent ansel
 //
 
+#include			<unistd.h>
 #include			"ClientInfo/ClientInfo.hh"
 
 ClientInfo::ClientInfo(SocketClient *clientTcp, SocketClient *clientUdp, unsigned int const id):
@@ -147,6 +148,8 @@ void				ClientInfo::writeImmediately(std::string const &proto, Trame *trame)
 void				ClientInfo::writeOneTrame(std::string const &proto)
 {
   Trame				*tmp;
+  unsigned int			ret;
+  std::string			str;
 
   this->_mutex->enter();
   if ((*this->_nbTrame)[proto] > 0)
@@ -154,8 +157,22 @@ void				ClientInfo::writeOneTrame(std::string const &proto)
       tmp = CircularBufferManager::getInstance()->popTrame(this->_id, proto, CircularBufferManager::WRITE_BUFFER);
       if (tmp)
 	{
-	  (*this->_clientInfo)[proto]->writeSocket(const_cast<char *>(tmp->toString().c_str()), tmp->toString().size());
-	  delete tmp;
+	  std::cout << "CLIENT ID = " << tmp->getHeader().getId() << std::endl;
+	  std::cout << "CLIENT TRAMEID = " << tmp->getHeader().getTrameId() << std::endl;
+	  str = tmp->toString();
+	  ret = (*this->_clientInfo)[proto]->writeSocket(const_cast<char *>(str.c_str()), str.size());
+	  if (ret < str.size())
+	    {
+	      str = tmp->getContent();
+	      std::cout << "SIZE1 = " << tmp->toString().size() << std::endl;
+	      str = str.erase(0, ret);
+	      tmp->setContent(str);
+	      std::cout << "SIZE2 = " << tmp->toString().size() << std::endl;
+	      CircularBufferManager::getInstance()->pushFrontTrame(tmp, CircularBufferManager::WRITE_BUFFER);
+	      (*this->_nbTrame)[proto]++;
+	    }
+	  else
+	    delete tmp;
 	}
       (*this->_nbTrame)[proto]--;
     }
@@ -167,22 +184,29 @@ int				ClientInfo::readSomethingInSocket(std::string const &proto)
   char				tmp[SIZE_BUFFER] = "";
   int				ret;
   std::string			str;
-  Trame				*trame;
+  std::list<Trame *>		*trame = NULL;
 
   this->_mutex->enter();
   ret = (*this->_clientInfo)[proto]->readSocket(tmp, SIZE_BUFFER);
   if (ret > 0)
     {
       str.append(tmp, ret);
-      trame = Trame::toTrame(str);
+      trame = Trame::cutToListTrame(str);
     }
-  if (ret > 0 && trame)
-    CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::READ_BUFFER);
-  else if (ret > 0 && !trame)
+  if (trame)
     {
-      CircularBufferManager::getInstance()->pushTrame(new Trame(this->_id, this->_trameId, proto, "ERROR TRAME", true), CircularBufferManager::WRITE_BUFFER);
-      (*this->_nbTrame)[proto]++;
-      this->_trameId++;
+      for (auto it = trame->begin() ; it != trame->end() ; ++it)
+	{
+	  if (ret > 0 && *it)
+	    CircularBufferManager::getInstance()->pushTrame(*it, CircularBufferManager::READ_BUFFER);
+	  else if (ret > 0 && !(*it))
+	    {
+	      CircularBufferManager::getInstance()->pushTrame(new Trame(this->_id, this->_trameId, proto, "ERROR TRAME", true), CircularBufferManager::WRITE_BUFFER);
+	      (*this->_nbTrame)[proto]++;
+	      this->_trameId++;
+	    }
+	}
+      delete trame;
     }
   this->_mutex->leave();
   return (ret);

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:16:57 2013 laurent ansel
-// Last update Fri Nov 15 13:10:58 2013 laurent ansel
+// Last update Mon Nov 18 13:32:51 2013 laurent ansel
 //
 
 #include			<sstream>
@@ -77,9 +77,9 @@ Header				*Header::toHeader(std::string const &str)
     {
       str.copy(str2, sizeof(*header));
       header = reinterpret_cast<s_header *>(str2);
-      std::cout << "id = " << header->idClient << std::endl;
-      std::cout << "idT = " << header->idTrame << std::endl;
-      std::cout << "proto = " << header->protocole << std::endl;
+      // std::cout << "id = " << header->idClient << std::endl;
+      // std::cout << "idT = " << header->idTrame << std::endl;
+      // std::cout << "proto = " << header->protocole << std::endl;
       ret = new Header(header->idClient, header->idTrame, header->protocole);
     }
   return (ret);
