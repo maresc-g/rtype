@@ -5,10 +5,11 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Mon Nov 18 14:27:07 2013 cyril jourdain
+// Last update Mon Nov 18 14:50:47 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
+#include		"Graphic/ClientMain.hh"
 #include		"Graphic/Global.hh"
 #include		"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
 
@@ -39,7 +40,9 @@ void			GameView::init()
   _background->setSize(WIN_X, WIN_Y);
   _background->setTexture((*(SFRessourcesManager::getInstance()->Images))[GAME_BACKGROUND]);
   _sprite = new AnimatedSprite();
-  _sprite->loadFromFile("Res/Sprites/player.sprite");
+  std::string dir  = SPRITE_DIR;
+  dir += "/player.sprite";
+  _sprite->loadFromFile(dir);
   _sprite->play("gauche");
   _clock = new sf::Clock();
   _clock->restart();

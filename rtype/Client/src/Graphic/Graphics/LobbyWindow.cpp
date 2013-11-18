@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Nov  4 16:14:46 2013 cyril jourdain
-// Last update Mon Nov 18 14:37:08 2013 cyril jourdain
+// Last update Mon Nov 18 14:48:39 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/LobbyWindow.hh"
@@ -125,7 +125,7 @@ void				LobbyWindow::refreshGameList(void *const)
     }
 }
 
-void				LobbyWindow::getSelectedGame(void *const) const
+SFArrayLine			*LobbyWindow::getSelectedGame(void *const) const
 {
   if (_arrayGame)
     return (_arrayGame->getSelected());
