@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:48:52 2013 guillaume marescaux
-// Last update Mon Nov 18 10:33:51 2013 antoine maitre
+// Last update Mon Nov 18 14:18:34 2013 antoine maitre
 //
 
 #include		"Entities/Weapon/Weapon.hh"
@@ -25,7 +25,7 @@ AProjectile::eProjec	Weapon::getWeapon() const
   return (this->_currentWeapon);
 }
 
-void			Weapon::setWeapon(AProjectile::eProjec _weapon)
+void			Weapon::setWeapon(AProjectile::eProjec weapon)
 {
-  
+  this->_currentWeapon = weapon;
 }

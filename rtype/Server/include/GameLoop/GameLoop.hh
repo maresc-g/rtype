@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Mon Nov 18 11:50:14 2013 alexis mestag
+// Last update Mon Nov 18 15:18:08 2013 arthur rucquois
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -21,6 +21,8 @@
 #include		<string>
 #include		"ObjectPoolManager/ObjectPoolManager.hh"
 #include		"ClientInfo/ClientInfo.hh"
+#include		"ObjectPoolManager/ObjectPoolManager.hh"
+#include		"Entities/AEntity.hh"
 #include		"Level/LevelManager.hh"
 #include		"GameLoop/PlayerInfo.hh"
 #include		"Thread/Thread.hpp"
@@ -39,9 +41,9 @@ public:
   virtual ~GameLoop();
   void				loop();
   void				recupScreen();
-  void				newPlayer();
-  void				deadPlayer();
-  void				Initialize(ClientInfo *client);
+  void				newPlayer(ClientInfo *newClient);
+  void				deadPlayer(std::list<AEntity *>::iterator &deadPlayer);
+  void				Initialize();
   void				spawnMob();
   void				destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AEntity *> &players);
   unsigned int			getId() const;
