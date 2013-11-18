@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 18:02:37 2013 laurent ansel
-// Last update Sat Nov 16 16:56:02 2013 laurent ansel
+// Last update Mon Nov 18 11:48:45 2013 alexis mestag
 //
 
 #include			<iostream>
@@ -91,92 +91,67 @@ std::string const		&Action::getParam() const
   return (this->_param);
 }
 
-void				Action::setUp(bool const set)
+void				Action::setAction(bool const set, Action::eAction const action)
 {
   if (set)
-    this->_action |= Action::UP;
+    this->_action |= action;
   else
-    this->_action &= ~(Action::UP);
+    this->_action &= ~action;
+}
+
+void				Action::setUp(bool const set)
+{
+  this->setAction(set, Action::UP);
 }
 
 void				Action::setDown(bool const set)
 {
-  if (set)
-    this->_action |= Action::DOWN;
-  else
-    this->_action &= ~(Action::DOWN);
+  this->setAction(set, Action::DOWN);
 }
 
 void				Action::setRight(bool const set)
 {
-  if (set)
-    this->_action |= Action::RIGHT;
-  else
-    this->_action &= ~(Action::RIGHT);
+  this->setAction(set, Action::RIGHT);
 }
 
 void				Action::setLeft(bool const set)
 {
-  if (set)
-    this->_action |= Action::LEFT;
-  else
-    this->_action &= ~(Action::LEFT);
+  this->setAction(set, Action::LEFT);
 }
 
 void				Action::setFire(bool const set)
 {
-  if (set)
-    this->_action |= Action::FIRE;
-  else
-    this->_action &= ~(Action::FIRE);
+  this->setAction(set, Action::FIRE);
 }
 
 void				Action::setQuitGame(bool const set)
 {
-  if (set)
-    this->_action |= Action::QUITGAME;
-  else
-    this->_action &= ~(Action::QUITGAME);
+  this->setAction(set, Action::QUITGAME);
 }
 
 void				Action::setQuitAll(bool const set)
 {
-  if (set)
-    this->_action |= Action::QUITALL;
-  else
-    this->_action &= ~(Action::QUITALL);
+  this->setAction(set, Action::QUITALL);
 }
 
 void				Action::setGameList(bool const set)
 {
-  if (set)
-    this->_action |= Action::GAMELIST;
-  else
-    this->_action &= ~(Action::GAMELIST);
+  this->setAction(set, Action::GAMELIST);
 }
 
 void				Action::setJoin(bool const set)
 {
-  if (set)
-    this->_action |= Action::JOIN;
-  else
-    this->_action &= ~(Action::JOIN);
+  this->setAction(set, Action::JOIN);
 }
 
 void				Action::setCreate(bool const set)
 {
-  if (set)
-    this->_action |= Action::CREATE;
-  else
-    this->_action &= ~(Action::CREATE);
+  this->setAction(set, Action::CREATE);
 }
 
 void				Action::setGetSprite(bool const set)
 {
-  if (set)
-    this->_action |= Action::GETSPRITE;
-  else
-    this->_action &= ~(Action::GETSPRITE);
+  this->setAction(set, Action::GETSPRITE);
 }
 
 void				Action::setParam(std::string const &param)
@@ -189,4 +164,9 @@ bool				Action::empty() const
   if (this->_action == 0)
     return (true);
   return (false);
+}
+
+void				Action::reset()
+{
+  _action ^= _action;
 }

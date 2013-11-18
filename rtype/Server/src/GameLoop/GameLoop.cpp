@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Mon Nov 18 09:39:58 2013 arthur rucquois
+// Last update Mon Nov 18 11:49:49 2013 alexis mestag
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -80,7 +80,7 @@ void			GameLoop::spawnMob()
 {
   if (rand() % 10 == 9)
     {
-      this->_levelManag->getEnemies().push_back(Singleton<ObjectPoolManager>::getInstance()->getCopy(AEntity::MOB));
+      this->_levelManag->getEnemies().push_back(ObjectPoolManager::getInstance()->getCopy(AEntity::MOB));
       this->_levelManag->getEnemies().back()->move(SCREENX + 5, rand() % 80);
     }
 }
