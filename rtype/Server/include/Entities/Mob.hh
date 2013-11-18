@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Oct 30 11:14:28 2013 antoine maitre
-// Last update Mon Nov 18 13:23:56 2013 alexis mestag
+// Last update Mon Nov 18 13:39:55 2013 alexis mestag
 //
 
 #ifndef		__MOB_H__
@@ -21,7 +21,7 @@
 
 class		Mob : public ACharacter
 {
-private:
+protected:
   Action	*_action;
 
 public:
