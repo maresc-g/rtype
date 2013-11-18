@@ -5,14 +5,14 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Mon Nov 18 16:22:10 2013 cyril jourdain
+// Last update Mon Nov 18 16:55:13 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
 #include		"Graphic/SFGraphics/Widgets/SFDialogBox.hh"
 #include		"Graphic/SFGraphics/Widgets/SFDialogTextBox.hh"
-
 #include		"Graphic/Graphics/Sprites/AnimatedSprite.hh"
+#include		"Action/Action.hh"
 
 static void	*trampoline(void *param)
 {
@@ -134,4 +134,12 @@ void			ClientMain::refreshGameList(void *)
 void			ClientMain::sendKeyPress(PressedKey const &keys)
 {
   (void)keys;
+  Action		*action = new Action();
+
+  action->setLeft(keys.left);
+  action->setRight(keys.right);
+  action->setUp(keys.up);
+  action->setDown(keys.down);
+  action->setFire(keys.space);
+  (void)action;
 }
