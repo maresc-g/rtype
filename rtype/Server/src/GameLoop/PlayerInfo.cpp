@@ -5,11 +5,10 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Mon Nov 18 10:51:36 2013 antoine maitre
+// Last update Mon Nov 18 12:01:46 2013 antoine maitre
 //
 
 #include "GameLoop/PlayerInfo.hh"
-#include "Entities/Weapon/Rocket.hh"
 
 PlayerInfo::PlayerInfo(ClientInfo *info, int num)
   : _info(info), _num(num)

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Nov  6 17:17:27 2013 laurent ansel
-// Last update Thu Nov  7 22:02:12 2013 laurent ansel
+// Last update Mon Nov 18 11:53:12 2013 alexis mestag
 //
 
 #ifndef	_WIN32
@@ -24,7 +24,7 @@ ObjectPoolUpdater::ObjectPoolUpdater(std::map<AEntity::eObject, std::list<AEntit
   _mutex(mutex),
   _quit(quit)
 {
-  (*this->_entity)[AEntity::MOB] = new Mob(0, 0, "", 0, true);
+  (*this->_entity)[AEntity::MOB] = new Mob(0, 0, "", 0);
   this->createThread(&startUpdater, this);
 }
 

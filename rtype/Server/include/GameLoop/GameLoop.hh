@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Sat Nov 16 18:03:40 2013 laurent ansel
+// Last update Mon Nov 18 11:50:14 2013 alexis mestag
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -19,6 +19,7 @@
 #endif
 
 #include		<string>
+#include		"ObjectPoolManager/ObjectPoolManager.hh"
 #include		"ClientInfo/ClientInfo.hh"
 #include		"Level/LevelManager.hh"
 #include		"GameLoop/PlayerInfo.hh"
