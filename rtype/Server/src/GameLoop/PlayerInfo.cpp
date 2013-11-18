@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Mon Nov 18 12:01:46 2013 antoine maitre
+// Last update Mon Nov 18 15:22:01 2013 antoine maitre
 //
 
 #include "GameLoop/PlayerInfo.hh"
@@ -15,6 +15,7 @@ PlayerInfo::PlayerInfo(ClientInfo *info, int num)
 {
   std::string path = "";
   _player = new Player(20, 40, path, 1, true);
+  _player->setInvincible(40);
 }
 
 PlayerInfo::~PlayerInfo()
@@ -35,6 +36,8 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
 
   (void)map;
   this->_player->move(coord->getX() + 1, coord->getY());
+  if (this->_player->getInvincible() > 0)
+    this->_player->setInvincible(this->_player->getInvincible() - 1);
   if (act.getUp())
     {
       act.setUp(false);
@@ -69,4 +72,9 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
       act.setFire(false);
       map->getPlayers().push_back(new Rocket(spawn.getX(), spawn.getY(), "Rocket", 5, true, 1, 0));
     }
+}
+
+int		PlayerInfo::getNum() const
+{
+  return (this->_num);
 }
