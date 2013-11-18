@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Mon Nov 18 17:50:37 2013 antoine maitre
+// Last update Mon Nov 18 18:01:48 2013 arthur rucquois
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -80,12 +80,12 @@ void			GameLoop::newPlayer(ClientInfo *newClient)
   this->_levelManag->getPlayers().push_back(this->_clients->front()->getPlayer());
 }
 
-void			GameLoop::deadPlayer(std::list<PlayerInfo *>::iterator &deadPlayer)
+void			GameLoop::playerDeath(PlayerInfo *deadPlayer)
 {
   std::ostringstream	oss;
 
-  oss << "DEAD " << (*deadPlayer)->getNum();
-  (*deadPlayer)->sendTrame("TCP", std::string(oss.str()));
+  oss << "DEAD " << deadPlayer->getNum();
+  deadPlayer->sendTrame("TCP", std::string(oss.str()));
 }
 
 void			GameLoop::spawnMob()
@@ -107,11 +107,7 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
   for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
     {
       if ((*it)->getPlayer()->isDead() == true)
-	{
-	  players.remove((*it)->getPlayer());
-	  it = _clients->erase(it);
-	  it = this->_clients->begin();
-	}
+	this->playerDeath(*it);
     }
 }
 
@@ -140,9 +136,22 @@ void			GameLoop::quitGame()
 
 }
 
-bool			GameLoop::deletePlayer(ClientInfo *)
+bool			GameLoop::deletePlayer(ClientInfo *info)
 {
-  return (true);
+  PlayerInfo		*pI;
+
+  for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
+    {
+      if ((*it)->isMyInfo(info))
+	{
+	  pI = *it;
+	  _clients->erase(it);
+	  it = _clients->begin();
+	  delete pI;
+	  return (true);
+	}
+    }
+  return (false);
 }
 
 unsigned int		GameLoop::getLevel() const
