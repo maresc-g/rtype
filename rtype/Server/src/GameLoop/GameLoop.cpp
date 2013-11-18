@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Mon Nov 18 15:18:05 2013 arthur rucquois
+// Last update Mon Nov 18 16:11:16 2013 arthur rucquois
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -79,8 +79,8 @@ void			GameLoop::deadPlayer(std::list<AEntity *>::iterator &deadPlayer)
 {
   std::ostringstream	oss;
 
-  oss << "DEAD " << deadPlayer->_num;
-  deadPlayer->sendTrame("TCP", std::string(oss.str()));
+  oss << "DEAD " << (*deadPlayer)->_num;
+  (*deadPlayer)->sendTrame("TCP", std::string(oss.str()));
 }
 
 void			GameLoop::spawnMob()
