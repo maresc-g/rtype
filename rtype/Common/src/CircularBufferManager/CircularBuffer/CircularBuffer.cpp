@@ -5,9 +5,10 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:13:43 2013 laurent ansel
-// Last update Mon Nov  4 13:22:30 2013 laurent ansel
+// Last update Mon Nov 18 14:50:34 2013 laurent ansel
 //
 
+#include			"Socket/ISocketClient.hh"
 #include			"CircularBufferManager/CircularBuffer/CircularBuffer.hh"
 
 CircularBuffer::CircularBuffer():
@@ -25,7 +26,7 @@ CircularBuffer::~CircularBuffer()
     }
 }
 
-void				CircularBuffer::pushTrame(Trame *trame)
+void				CircularBuffer::pushTrame(Trame *trame, bool const check)
 {
   bool				append = false;
 
@@ -34,10 +35,47 @@ void				CircularBuffer::pushTrame(Trame *trame)
       if ((*it)->getHeader().getId() == trame->getHeader().getId() &&
 	  (*it)->getHeader().getTrameId() == trame->getHeader().getTrameId() &&
 	  (*it)->getHeader().getProto() == trame->getHeader().getProto())
-	(*it)->appendContent(trame->getContent());
+	{
+	  if (check && trame->getContent().size() + (*it)->getContent().size() <= SIZE_BUFFER)
+	    {
+	      (*it)->appendContent(trame->getContent());
+	      append = true;
+	    }
+	  else if (!check)
+	    {
+	      (*it)->appendContent(trame->getContent());
+	      append = true;
+	    }
+	}
     }
   if (!append)
     this->_buffer->push_back(trame);
+}
+
+void				CircularBuffer::pushFrontTrame(Trame *trame, bool const check)
+{
+  bool				append = false;
+
+  for (std::list<Trame *>::iterator it = _buffer->begin() ; it != _buffer->end() ; ++it)
+    {
+      if ((*it)->getHeader().getId() == trame->getHeader().getId() &&
+	  (*it)->getHeader().getTrameId() == trame->getHeader().getTrameId() &&
+	  (*it)->getHeader().getProto() == trame->getHeader().getProto())
+	{
+	  if (check && trame->getContent().size() + (*it)->getContent().size() <= SIZE_BUFFER)
+	    {
+	      (*it)->appendContent(trame->getContent());
+	      append = true;
+	    }
+	  else if (!check)
+	    {
+	      (*it)->appendContent(trame->getContent());
+	      append = true;
+	    }
+	}
+    }
+  if (!append)
+    this->_buffer->push_front(trame);
 }
 
 Trame const			&CircularBuffer::getFirstTrame() const
@@ -71,7 +109,7 @@ Trame				*CircularBuffer::popFirstTrame(unsigned int const id, std::string const
 	  (*it)->getHeader().getProto() == proto &&
 	  (*it)->isSetEndTrame())
 	{
-	  std::cout << "content = " << (*it)->getContent()<< std::endl;
+	  //	  std::cout << "content = " << (*it)->getContent()<< std::endl;
 	  tmp = (*it);
 	  it = this->_buffer->erase(it);
 	  return (tmp);

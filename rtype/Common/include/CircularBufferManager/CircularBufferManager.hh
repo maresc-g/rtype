@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 23:59:10 2013 laurent ansel
-// Last update Tue Nov  5 10:56:16 2013 laurent ansel
+// Last update Mon Nov 18 14:52:46 2013 laurent ansel
 //
 
 #ifndef 			__CIRCULARBUFFERMANAGER_HH__
@@ -34,6 +34,7 @@ private:
   virtual ~CircularBufferManager();
 public:
   void				pushTrame(Trame *trame, enum eTypeBuffer const type);
+  void				pushFrontTrame(Trame *trame, enum eTypeBuffer const type);
   Trame	const			&getTrame(enum eTypeBuffer const type) const;
   Trame				*popTrame(enum eTypeBuffer const type) const;
   Trame				*popTrame(unsigned int const id, std::string const &proto, enum eTypeBuffer const type) const;

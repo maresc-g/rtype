@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 //
 // Started on  Wed Jun 19 13:45:16 2013 cyril jourdain
-// Last update Mon Nov 18 14:12:18 2013 cyril jourdain
+// Last update Mon Nov 18 15:58:41 2013 cyril jourdain
 //
 
 #include	"Graphic/Graphics/Sprites/AnimatedSprite.hh"
@@ -134,6 +134,7 @@ void			AnimatedSprite::loadFromFile(std::string const &file)
   std::string	texture;
   Animation	*tmp;
   int		coord[4];
+  int		size;
   
   std::string first;
   getline(in, first);
@@ -146,7 +147,13 @@ void			AnimatedSprite::loadFromFile(std::string const &file)
   pos = texture.find(".");
   std::string textName = texture.substr(0, pos);
   SFRessourcesManager::getInstance()->Images->loadImage(texture, textName);
-
+  getline(in, first);
+  if ((pos = first.find("[size=")) == std::string::npos)
+    return err(file);
+  if ((epos = first.find("]", pos + 6)) == std::string::npos)
+    return err(file);
+  std::istringstream is(first.substr(pos + 6, epos - (pos + 6)));
+  is >> size;
   for (std::string line; getline(in, line);)
     {
       if ((pos = line.find("[name=")) == std::string::npos)
@@ -164,6 +171,7 @@ void			AnimatedSprite::loadFromFile(std::string const &file)
 	}
       addAnimation(name, tmp);
     }
+  setScale(size,size);
 }
 
 void			AnimatedSprite::draw(sf::RenderTarget &target, sf::RenderStates states) const

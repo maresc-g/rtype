@@ -1,0 +1,27 @@
+[file=Res/Sprites/rocket.gif]
+[size=3]
+[name=right]
+3 13 13 5
+[/]
+[name=left]
+72 14 14 4
+[/]
+[name=down]
+40 0 5 12
+[/]
+[name=up]
+43 17 5 12
+[/]
+[name=left_up]
+22 20 11 9
+[/]
+[name=left_down]
+23 2 11 9
+[/]
+[name=right_down]
+57 2 11 9
+[/]
+[name=right_up]
+57 20 11 9
+[/]
+

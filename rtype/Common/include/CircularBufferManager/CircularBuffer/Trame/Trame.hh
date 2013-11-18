@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:04:47 2013 laurent ansel
-// Last update Fri Nov 15 11:40:54 2013 laurent ansel
+// Last update Mon Nov 18 15:40:24 2013 laurent ansel
 //
 
 #ifndef 			__TRAME_HH__
@@ -32,6 +32,7 @@ public:
   void				appendContent(std::string const &content);
   std::string const 		toString() const;
   bool				isSetEndTrame() const;
+  static   std::list<Trame *>	*cutToListTrame(std::string const &str);
   static Trame			*toTrame(std::string const &str);
   static std::list<Trame *>	*ToListTrame(unsigned int const id, unsigned int const trameId, std::string const &proto, std::string const &content);
 };

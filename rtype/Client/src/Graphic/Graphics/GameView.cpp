@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Mon Nov 18 14:50:47 2013 cyril jourdain
+// Last update Mon Nov 18 16:29:59 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -18,6 +18,7 @@ GameView::GameView() :
 {
   _customView = new sf::View(sf::FloatRect(0,0,WIN_X, WIN_Y - 100));
   _customView->setViewport(sf::FloatRect(0,0,1,1));
+  _keys = new PressedKey;
 }
 
 GameView::~GameView()
@@ -41,9 +42,9 @@ void			GameView::init()
   _background->setTexture((*(SFRessourcesManager::getInstance()->Images))[GAME_BACKGROUND]);
   _sprite = new AnimatedSprite();
   std::string dir  = SPRITE_DIR;
-  dir += "/player.sprite";
+  dir += "/rocket.sprite";
   _sprite->loadFromFile(dir);
-  _sprite->play("gauche");
+  _sprite->play("left");
   _clock = new sf::Clock();
   _clock->restart();
 }
@@ -58,4 +59,14 @@ void			GameView::draw(sf::RenderTarget &target, sf::RenderStates states) const
   target.draw(*_background, states);
   target.draw(*_sprite, states);
   _sprite->update(*_clock);
+}
+
+void			GameView::onKeyPressed(void *const)
+{
+  _keys->left = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+  _keys->right = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+  _keys->up = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
+  _keys->down = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
+  _keys->space = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
+  ClientMain::getInstance()->sendKeyPress(*_keys);
 }

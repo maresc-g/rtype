@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 15:04:52 2013 laurent ansel
-// Last update Fri Nov 15 13:58:12 2013 laurent ansel
+// Last update Sun Nov 17 23:40:07 2013 laurent ansel
 //
 
 #include		<utility>
@@ -25,7 +25,7 @@ SpriteLoader::SpriteLoader(size_t const id, std::string const &path, std::string
 
 SpriteLoader::~SpriteLoader()
 {
-
+  delete _entity;
 }
 
 void			SpriteLoader::getSpawnCoordinate(std::string const &content)

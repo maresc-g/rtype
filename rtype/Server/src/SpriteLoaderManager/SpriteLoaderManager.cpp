@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 11:18:35 2013 laurent ansel
-// Last update Sat Nov 16 20:26:22 2013 laurent ansel
+// Last update Mon Nov 18 16:32:26 2013 laurent ansel
 //
 
 #include			<sstream>
@@ -14,10 +14,9 @@
 
 SpriteLoaderManager::SpriteLoaderManager():
   _sprites(new std::list<SpriteLoader *>),
-  _update(new std::list<SpriteLoader *>),
   _mutex(new Mutex),
   _quit(false),
-  _updater(new SpriteLoaderUpdater(_sprites, _update, *_mutex, _quit, "Res/Sprites"))
+  _updater(new SpriteLoaderUpdater(_sprites, *_mutex, _quit, "Res/Sprites"))
 {
   this->_mutex->initialize();
   this->_updater->start();
@@ -35,7 +34,6 @@ SpriteLoaderManager::~SpriteLoaderManager()
     if ((*it))
       delete *it;
   delete _sprites;
-  delete _update;
   delete _updater;
   delete _mutex;
 }
@@ -72,13 +70,13 @@ std::string const		SpriteLoaderManager::getSprite(std::string const &sprite) con
   return ("");
 }
 
-std::string const		SpriteLoaderManager::getConfSprite(std::string const &name)
+std::string const		SpriteLoaderManager::getConfSprite(std::string const &name) const
 {
   std::list<SpriteLoader *>::iterator	it;
   std::ostringstream		str;
 
   this->_mutex->enter();
-  for (it = this->_sprites->begin() ; it != this->_sprites->end() && (*it)->getPath() != name ; ++it);
+  for (it = this->_sprites->begin() ; it != this->_sprites->end() && (*it)->getNameConfClient() != name ; ++it);
   if (it != this->_sprites->end())
     {
       str << (*it)->getNameConfClient() << ";" << (*it)->getContentConfClient();
@@ -107,53 +105,9 @@ std::list<std::string> const	SpriteLoaderManager::getConfClientList() const
   return (list);
 }
 
-bool				SpriteLoaderManager::isUpdate() const
+std::string const		SpriteLoaderManager::getContentFile(std::string const &name) const
 {
-  this->_mutex->enter();
-  if (this->_update->size() > 0)
-    {
-      this->_mutex->leave();
-      return (true);
-    }
-  this->_mutex->leave();
-  return (false);
-}
-
-std::list<std::string> const	SpriteLoaderManager::getSpriteUpdate() const
-{
-  std::list<std::string>	list;
-  std::ostringstream		str;
-
-  this->_mutex->enter();
-  for (auto it = this->_update->begin() ; it != this->_update->end() ; ++it)
-    {
-      str << (*it)->getPath() << ";" << (*it)->getContent();
-      list.push_back(str.str());
-      str.str("");
-    }
-  this->_mutex->leave();
-  return (list);
-}
-
-std::list<std::string> const	SpriteLoaderManager::getConfClientUpdate() const
-{
-  std::list<std::string>	list;
-  std::ostringstream		str;
-
-  this->_mutex->enter();
-  for (auto it = this->_update->begin() ; it != this->_update->end() ; ++it)
-    {
-      str << (*it)->getNameConfClient() << ";" << (*it)->getContentConfClient();
-      list.push_back(str.str());
-      str.str("");
-    }
-  this->_mutex->leave();
-  return (list);
-}
-
-void				SpriteLoaderManager::alreadyUpdate()
-{
-  this->_mutex->enter();
-  this->_update->clear();
-  this->_mutex->leave();
+  if (!name.empty() && name.find(CONFCLIENT) != std::string::npos)
+    return (this->getConfSprite(name));
+  return (this->getSprite(name));
 }

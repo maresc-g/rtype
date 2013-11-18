@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:15:14 2013 laurent ansel
-// Last update Sat Nov 16 15:48:00 2013 laurent ansel
+// Last update Mon Nov 18 16:02:51 2013 laurent ansel
 //
 
 #include			<list>
@@ -25,7 +25,7 @@ Trame::Trame(Header *header, std::string const &content, bool const setEndTrame)
   _content(content)
 {
   if (setEndTrame)
-    this->_content += std::string(END_TRAME);
+    this->_content.append(END_TRAME);
 }
 
 Trame::Trame(unsigned int const id, unsigned int const trameId, std::string const &proto, std::string const &content, bool const setEndTrame):
@@ -33,7 +33,7 @@ Trame::Trame(unsigned int const id, unsigned int const trameId, std::string cons
   _content(content)
 {
   if (setEndTrame)
-    this->_content += std::string(END_TRAME);
+    this->_content.append(END_TRAME);
 }
 
 Trame::~Trame()
@@ -83,6 +83,29 @@ bool				Trame::isSetEndTrame() const
   return (false);
 }
 
+std::list<Trame *>		*Trame::cutToListTrame(std::string const &str)
+{
+  std::list<Trame *>		*list = new std::list<Trame *>;
+  Trame				*tmp = NULL;
+  size_t			endPos = 0;
+  size_t			endTrame(std::string(END_TRAME).size());
+
+  for (size_t pos = 0 ; pos != std::string::npos ;)
+    {
+      endPos = str.find(END_TRAME, pos);
+      if (endPos != std::string::npos)
+	{
+	  tmp = toTrame(str.substr(pos, endPos - pos + endTrame));
+	  if (tmp)
+	    list->push_back(tmp);
+	  pos = endPos + endTrame;
+	}
+      else
+	pos = endPos;
+    }
+  return (list);
+}
+
 Trame				*Trame::toTrame(std::string const &str)
 {
   Header			*header;
@@ -91,7 +114,7 @@ Trame				*Trame::toTrame(std::string const &str)
   header = Header::toHeader(str);
   if (header)
     {
-      content = str.c_str() + sizeof(s_header);
+      content.append(str.c_str() + sizeof(s_header), str.size() - sizeof(s_header));
       return (new Trame(header, content));
     }
   return (NULL);
@@ -107,7 +130,7 @@ std::list<Trame *>		*Trame::ToListTrame(unsigned int const id, unsigned int cons
 
   for (; pos < str.size() && good; pos += size)
     {
-      tmp = new Trame(id, trameId, proto, str.substr(pos - size, pos));
+      tmp = new Trame(id, trameId, proto, str.substr(pos - size, size));
       if (tmp)
 	list->push_back(tmp);
       else

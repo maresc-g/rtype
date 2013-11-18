@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 11:40:04 2013 laurent ansel
-// Last update Sat Nov 16 16:24:25 2013 laurent ansel
+// Last update Mon Nov 18 16:28:14 2013 laurent ansel
 //
 
 #include			<list>
@@ -13,12 +13,11 @@
 #include			<algorithm>
 #include			"SpriteLoaderManager/SpriteLoaderUpdater.hh"
 
-SpriteLoaderUpdater::SpriteLoaderUpdater(std::list<SpriteLoader *> *sprites, std::list <SpriteLoader *> *update, Mutex &mutex, bool &quit, std::string const &path) :
+SpriteLoaderUpdater::SpriteLoaderUpdater(std::list<SpriteLoader *> *sprites, Mutex &mutex, bool &quit, std::string const &path) :
   Thread(),
   _inotify(new Inotify),
   _directory(new FileSystem::Directory(path)),
   _sprites(sprites),
-  _update(update),
   _confFiles(new std::map<std::string, bool>),
   _mutex(mutex),
   _quit(quit)
@@ -49,12 +48,12 @@ void				SpriteLoaderUpdater::updateConf()
 	    {
 	      if ((pos = (*itSprite)->getPath().rfind(".")) != std::string::npos)
 		{
-		  if (!it->first.compare(0, it->first.size() - std::string(".confClient").size(), (*itSprite)->getPath().substr(0, pos)))
+		  if (!it->first.compare(0, it->first.size() - std::string(CONFCLIENT).size(), (*itSprite)->getPath().substr(0, pos)))
 		    {
 		      it->second = true;
 		      (*itSprite)->setNameConfClient(it->first);
 		    }
-		  else if (!it->first.compare(0, it->first.size() - std::string(".conf").size(), (*itSprite)->getPath().substr(0, pos)))
+		  else if (!it->first.compare(0, it->first.size() - std::string(CONFSERVER).size(), (*itSprite)->getPath().substr(0, pos)))
 		    {
 		      it->second = true;
 		      (*itSprite)->setConfFile(it->first);
@@ -83,7 +82,7 @@ void				SpriteLoaderUpdater::run()
 	{
 	  this->_mutex.enter();
 	  for (itSprite = this->_sprites->begin() ; itSprite != this->_sprites->end() && (*itSprite)->getPath() != (*it)->getPath() ; ++itSprite);
-	  if (itSprite == this->_sprites->end() && (*it)->getType() == FileSystem::FILE && ((*it)->getPath().find(".confclient") != std::string::npos || (*it)->getPath().find(".conf") != std::string::npos))
+	  if (itSprite == this->_sprites->end() && (*it)->getType() == FileSystem::FILE && ((*it)->getPath().find(CONFCLIENT) != std::string::npos || (*it)->getPath().find(CONFSERVER) != std::string::npos))
 	    (*this->_confFiles)[(*it)->getPath()] = (this->_confFiles->find((*it)->getPath()) != this->_confFiles->end() && (*this->_confFiles)[(*it)->getPath()] ? true : false);
 	  else if (itSprite == this->_sprites->end() && (*it)->getType() == FileSystem::FILE)
 	    {

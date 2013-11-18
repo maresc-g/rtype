@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov  8 22:44:47 2013 laurent ansel
-// Last update Sun Nov 17 02:42:58 2013 antoine maitre
+// Last update Mon Nov 18 16:27:28 2013 laurent ansel
 //
 
 #ifndef 			__SPRITELOADER_HH__
@@ -15,13 +15,16 @@
 #include			<string>
 #include			"Entities/AEntity.hh"
 
-#define	SPAWN			"spwanProjectile="
+#define	SPAWN			"spawnProjectile="
 #define	LIFE			"life="
 #define	HEIGHT			"height="
 #define	WIDTH			"width="
 #define	SPEED			"speed="
 #define	DESTRUCTIBLE		"destructible="
 #define	FORMAT			"format:"
+
+#define	CONFCLIENT		".sprite"
+#define	CONFSERVER		".conf"
 
 class				SpriteLoader
 {

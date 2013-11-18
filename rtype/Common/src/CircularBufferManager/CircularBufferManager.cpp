@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:12:01 2013 laurent ansel
-// Last update Mon Nov  4 09:29:34 2013 laurent ansel
+// Last update Mon Nov 18 14:49:50 2013 laurent ansel
 //
 
 #include			"CircularBufferManager/CircularBufferManager.hh"
@@ -31,9 +31,23 @@ CircularBufferManager::~CircularBufferManager()
 void				CircularBufferManager::pushTrame(Trame *trame, enum eTypeBuffer const type)
 {
   this->_mutex->enter();
-  (*this->_buffer)[type]->pushTrame(trame);
+  if (type == CircularBufferManager::WRITE_BUFFER)
+    (*this->_buffer)[type]->pushTrame(trame, true);
+  else
+    (*this->_buffer)[type]->pushTrame(trame, false);
   this->_mutex->leave();
 }
+
+void				CircularBufferManager::pushFrontTrame(Trame *trame, enum eTypeBuffer const type)
+{
+  this->_mutex->enter();
+  if (type == CircularBufferManager::WRITE_BUFFER)
+    (*this->_buffer)[type]->pushTrame(trame, true);
+  else
+    (*this->_buffer)[type]->pushTrame(trame, false);
+  this->_mutex->leave();
+}
+
 
 Trame const			&CircularBufferManager::getTrame(enum eTypeBuffer const type) const
 {

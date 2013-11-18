@@ -5,11 +5,13 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Mon Oct 28 16:06:15 2013 laurent ansel
-## Last update Mon Nov 18 13:26:58 2013 alexis mestag
+## Last update Mon Nov 18 16:03:07 2013 alexis mestag
 ##
 
 NAMESERVER=	rtype-server
 NAMECLIENT=	rtype-client
+
+DYNLIBPATH=	Libraries
 
 SERVER=		Server
 SERVER_SRC=	$(SERVER)/src
@@ -28,10 +30,16 @@ OBJSERVER=	$(SRCSERVER:.cpp=.o)
 OBJCOMMON=	$(SRCCOMMON:.cpp=.o)
 OBJCLIENT=	$(SRCCLIENT:.cpp=.o)
 OBJAI=		$(SRCAI:.cpp=.o)
+SOAI=		$(OBJAI:.o=.so)
 
-CPPFLAGS=	-W -Wall -Wextra -g $(SERVER_INCLUDES) $(COMMON_INCLUDES) $(CLIENT_INCLUDES) -std=c++0x
+%.so:		%.o $(OBJSERVER) $(OBJCOMMON)
+		g++ -shared -o $@ $< $(OBJSERVER) $(OBJCOMMON)
 
-all:		$(OBJCOMMON) $(NAMESERVER) $(NAMECLIENT)
+CPPFLAGS=	-W -Wall -Wextra -g $(SERVER_INCLUDES) $(COMMON_INCLUDES) $(CLIENT_INCLUDES) -fPIC -std=c++0x
+
+all:		$(OBJCOMMON) $(NAMESERVER) $(NAMECLIENT) dynlibs
+
+dynlibs:	$(OBJAI) $(SOAI)
 
 $(NAMESERVER):	$(OBJCOMMON) $(OBJSERVER)
 		g++ -o $(NAMESERVER) $(OBJCOMMON) $(OBJSERVER) $(LDFLAGS)
@@ -40,9 +48,9 @@ $(NAMECLIENT):	$(OBJCOMMON) $(OBJCLIENT)
 		g++ -o $(NAMECLIENT) $(OBJCOMMON) $(OBJCLIENT) $(LDFLAGS)
 
 clean:
-		rm -rf $(OBJSERVER) $(OBJCLIENT) $(OBJCOMMON)
+		rm -rf $(OBJSERVER) $(OBJCLIENT) $(OBJCOMMON) $(OBJAI)
 
 fclean:		clean
-		rm -rf $(NAMESERVER) $(NAMECLIENT)
+		rm -rf $(NAMESERVER) $(NAMECLIENT) $(SOAI)
 
 re:		fclean all
