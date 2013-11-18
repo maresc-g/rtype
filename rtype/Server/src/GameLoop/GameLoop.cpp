@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sun Nov 17 02:47:26 2013 antoine maitre
+// Last update Mon Nov 18 09:39:58 2013 arthur rucquois
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -78,9 +78,11 @@ void			GameLoop::deadPlayer()
 
 void			GameLoop::spawnMob()
 {
-  //  std::list<Mob *> yolo = this->_levelManag->getCurrentLevel()->getMap()->getDynamicEntities();
-
-
+  if (rand() % 10 == 9)
+    {
+      this->_levelManag->getEnemies().push_back(Singleton<ObjectPoolManager>::getInstance()->getCopy(AEntity::MOB));
+      this->_levelManag->getEnemies().back()->move(SCREENX + 5, rand() % 80);
+    }
 }
 
 void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AEntity *> &players)
