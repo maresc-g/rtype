@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 16:01:59 2013 laurent ansel
-// Last update Tue Nov 19 17:41:14 2013 laurent ansel
+// Last update Tue Nov 19 21:04:07 2013 laurent ansel
 //
 
 #include			"Command/Command.hh"
@@ -88,10 +88,12 @@ void				Command::createCommand(std::istringstream &str)
   size_t			pos;
   size_t			posEnd;
 
+  std::cout << "STR1 = " << str.str() << std::endl;
   if ((posEnd = str.str().rfind(END_TRAME)) == std::string::npos)
     param = str.str().substr((pos = str.tellg()) + 1);
   else
     param = str.str().substr((pos = str.tellg()) + 1, (posEnd - 1) - std::string(END_TRAME).size());
+  std::cout << "STR1 = " << param << std::endl;
   this->_action->setParam(param);
   this->_action->setCreate(true);
 }

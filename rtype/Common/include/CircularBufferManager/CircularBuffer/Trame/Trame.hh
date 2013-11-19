@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:04:47 2013 laurent ansel
-// Last update Tue Nov 19 18:55:36 2013 laurent ansel
+// Last update Tue Nov 19 20:49:22 2013 laurent ansel
 //
 
 #ifndef 			__TRAME_HH__
@@ -19,7 +19,7 @@
 struct				s_trame
 {
   s_header			header;
-  char				content[SIZE_BUFFER];
+  char				content[SIZE_BUFFER + 1];
 };
 
 class				Trame

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Tue Nov 19 19:38:33 2013 laurent ansel
+// Last update Tue Nov 19 20:48:15 2013 laurent ansel
 //
 
 #include			<list>
@@ -109,10 +109,10 @@ void				Server::initializeSelect() const
     }
   if (timeout)
     this->_select->setTimeout(0, 0);
-  else
-    this->_select->setTimeout(1, 0);
+  // else
+  //   this->_select->setTimeout(1, 0);
   this->debug("Run Select ...");
-  this->_select->runSelect(true);
+  this->_select->runSelect(timeout);
   this->debug("Done");
 }
 

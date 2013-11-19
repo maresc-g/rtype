@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:15:14 2013 laurent ansel
-// Last update Tue Nov 19 19:22:24 2013 laurent ansel
+// Last update Tue Nov 19 20:57:31 2013 laurent ansel
 //
 
 #include			<list>
@@ -69,16 +69,19 @@ void				Trame::appendContent(std::string const &content)
 
 std::string const		Trame::toString() const
 {
+  std::string			tmp = this->_content;
   s_trame			*trame = new s_trame;
-  unsigned int			size = this->_content.size() + sizeof(s_header);
+  unsigned int			size = this->_content.size() + sizeof(s_header) + 1;
   std::ostringstream		str;
 
   trame->header.idClient = this->_header->getId();
   trame->header.idTrame = this->_header->getTrameId();
   this->_header->getProto().copy(trame->header.protocole, this->_header->getProto().size());
   trame->header.protocole[3] = 0;
-  this->_content.copy(trame->content, this->_content.size());
-  trame->content[this->_content.size()] = 0;
+  tmp.insert(0, " ");
+  tmp.copy(trame->content, tmp.size() + 1);
+  trame->content[tmp.size()] = 0;
+  tmp.erase(0, 1);
   for (unsigned int i = 0 ; i < size ; ++i)
     str.put(reinterpret_cast<char *>(trame)[i]);
   delete trame;
