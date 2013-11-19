@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:39:28 2013 guillaume marescaux
-// Last update Fri Nov 15 13:31:47 2013 guillaume marescaux
+// Last update Mon Nov 18 17:47:12 2013 guillaume marescaux
 //
 
 #include			<sstream>
@@ -16,7 +16,8 @@
 
 Protocol::Protocol():
   _ptrs(new std::map<eProtocol, void(Protocol::*)(int const, void *)>),
-  _equivalent(new std::map<std::string, eProtocol>) 
+  _equivalent(new std::map<std::string, eProtocol>),
+  _trameId(0)
 {
   // ptrs
   _ptrs->insert(std::pair<eProtocol, void(Protocol::*)(int const, void *)>(INITIALIZE, &Protocol::initialize));
@@ -38,10 +39,9 @@ Protocol::Protocol():
   _equivalent->insert(std::pair<std::string, eProtocol>("ENTITY", ENTITY));
   _equivalent->insert(std::pair<std::string, eProtocol>("SCROLL", SCROLL));
   _equivalent->insert(std::pair<std::string, eProtocol>("DEAD", DEAD));
-  _equivalent->insert(std::pair<std::string, eProtocol>("SPRITE", ENDGAME));
-  _equivalent->insert(std::pair<std::string, eProtocol>("CONTENTSPRITE", ENDGAME));
-  _equivalent->insert(std::pair<std::string, eProtocol>("CONFSPRITE", ENDGAME));
-  _equivalent->insert(std::pair<std::string, eProtocol>("LEVELUP", ENDGAME));
+  _equivalent->insert(std::pair<std::string, eProtocol>("SPRITE", SPRITE));
+  _equivalent->insert(std::pair<std::string, eProtocol>("CONTENTFILE", CONTENTFILE));
+  _equivalent->insert(std::pair<std::string, eProtocol>("LEVELUP", LEVELUP));
   _equivalent->insert(std::pair<std::string, eProtocol>("ENDGAME", ENDGAME));
   _equivalent->insert(std::pair<std::string, eProtocol>("SERVERQUIT", SERVERQUIT));
 }
@@ -59,6 +59,7 @@ Protocol::~Protocol()
 void				Protocol::protocolMsg(eProtocol proto, int const id, void *data)
 {
   (this->*(*_ptrs)[proto])(id, data);
+  _trameId++;
 }
 
 Protocol::eProtocol		Protocol::getMsg(Trame *trame)
@@ -68,8 +69,11 @@ Protocol::eProtocol		Protocol::getMsg(Trame *trame)
   std::string			tmp2 = trame->getContent();
   size_t			pos;
 
+  // std::cout << "CONTENT = ";
+  // std::cout.write(trame->getContent().c_str(), trame->getContent().size());
+  // std::cout << std::endl;
   iss >> tmp;
-  tmp2.erase(0, tmp.size());
+  tmp2.erase(0, tmp.size() + 2);
   pos = tmp2.find(END_TRAME);
   if (pos != std::string::npos)
     tmp2.erase(pos, pos + std::string(END_TRAME).size());
@@ -86,7 +90,7 @@ Protocol::eProtocol		Protocol::getMsg(Trame *trame)
 
 void				Protocol::initialize(int const id, void *)
 {
-  Trame				*trame = new Trame(id, 0, "UDP", "INITIALIZE", true);
+  Trame				*trame = new Trame(id, _trameId, "UDP", "INITIALIZE", true);
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
 
   std::cout << "TRAME = " << trame->toString() << std::endl;
@@ -95,7 +99,7 @@ void				Protocol::initialize(int const id, void *)
 
 void				Protocol::getGamelist(int const id, void *)
 {
-  Trame				*trame = new Trame(id, 0, "UDP", "GAMELIST", true);
+  Trame				*trame = new Trame(id, _trameId, "UDP", "GAMELIST", true);
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
 
   manager->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
@@ -105,7 +109,7 @@ void				Protocol::join(int const id, void *data)
 {
   std::string			tmp("JOIN ");
   tmp += *(reinterpret_cast<int *>(data));
-  Trame				*trame = new Trame(id, 0, "TCP", tmp, true);
+  Trame				*trame = new Trame(id, _trameId, "TCP", tmp, true);
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
 
   manager->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
@@ -114,8 +118,8 @@ void				Protocol::join(int const id, void *data)
 void				Protocol::create(int const id, void *data)
 {
   std::string			tmp("CREATE ");
-  tmp += *(reinterpret_cast<int *>(data));
-  Trame				*trame = new Trame(id, 0, "TCP", tmp, true);
+  tmp += *(reinterpret_cast<std::string *>(data));
+  Trame				*trame = new Trame(id, _trameId, "TCP", tmp, true);
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
 
   manager->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
@@ -123,7 +127,7 @@ void				Protocol::create(int const id, void *data)
 
 void				Protocol::action(int const id, void *data)
 {
-  Trame				*trame = new Trame(id, 0, "UDP", "ACTION", true);
+  Trame				*trame = new Trame(id, _trameId, "UDP", "ACTION", true);
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
 
   (void)data;
@@ -134,7 +138,7 @@ void				Protocol::getSprite(int const id, void *data)
 {
   std::string			tmp("GETSPRITE ");
   tmp += *(reinterpret_cast<std::string *>(data));
-  Trame				*trame = new Trame(id, 0, "TCP", tmp, true);
+  Trame				*trame = new Trame(id, _trameId, "TCP", tmp, true);
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
 
   manager->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
@@ -142,7 +146,7 @@ void				Protocol::getSprite(int const id, void *data)
 
 void				Protocol::quitGame(int const id, void *)
 {
-  Trame				*trame = new Trame(id, 0, "TCP", "QUITGAME", true);
+  Trame				*trame = new Trame(id, _trameId, "TCP", "QUITGAME", true);
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
 
   manager->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
@@ -150,7 +154,7 @@ void				Protocol::quitGame(int const id, void *)
 
 void				Protocol::quitServer(int const id, void *)
 {
-  Trame				*trame = new Trame(id, 0, "TCP", "QUITSERVER", true);
+  Trame				*trame = new Trame(id, _trameId, "TCP", "QUITSERVER", true);
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
 
   manager->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Mon Nov 18 09:40:27 2013 cyril jourdain
+// Last update Mon Nov 18 17:59:15 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -19,37 +19,43 @@
 #include			"Game/GameList.hh"
 #include			"Map/Map.hh"
 #include			"Error/SocketError.hpp"
+#include			"MD5/md5.hh"
 
 //----------------------------------BEGIN CTOR / DTOR---------------------------------------
 
-Client::Client(FileSystem::Directory *dir, eState *state):
+Client::Client(FileSystem::Directory *dir, MutexVar<eState> *state):
   Thread(),
   _ptrs(new std::map<Protocol::eProtocol, void(Client::*)(Trame const &)>),
-  _sockets(new std::map<eSocket, Socket *>), _socketsClient(new std::map<eSocket, SocketClient *>),
-  _select(new Select), _protocol(new Protocol), _id(0),
-  _info(new MutexVar<ConnectInfo *>(NULL)), _running(new MutexVar<bool>(true)), _initialized(new MutexVar<bool>(false)),
-  _dir(dir), _diffDir(new std::list<std::string>), _state(state)
+  _sockets(new std::map<eSocket, Socket *>),
+  _socketsClient(new std::map<eSocket, SocketClient *>),
+  _select(new Select),
+  _protocol(new Protocol),
+  _id(0),
+  _info(new MutexVar<ConnectInfo *>(NULL)),
+  _running(new MutexVar<bool>(true)),
+  _initialized(new MutexVar<bool>(false)),
+  _dir(dir),
+  _diffDir(new std::list<std::string>),
+  _state(state)
 {
   // ptrs
-  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::WELCOME, &Client::welcome));
-  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::GAMELIST, &Client::gamelist));
-  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::OK, &Client::ok));
-  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::KO, &Client::ko));
-  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::LAUNCHGAME, &Client::launchGame));
-  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::MAP, &Client::map));
-  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::ENTITY, &Client::entity));
-  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::SCROLL, &Client::scroll));
-  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::DEAD, &Client::dead));
-  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::SPRITE, &Client::sprite));
-  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::CONTENTSPRITE, &Client::contentSprite));
-  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::CONFSPRITE, &Client::confSprite));
-  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::LEVELUP, &Client::levelUp));
-  _ptrs->insert(std::pair<Protocol::eProtocol, void(Client::*)(Trame const &)>(Protocol::ENDGAME, &Client::endGame));
+  (*_ptrs)[Protocol::WELCOME] = &Client::welcome;
+  (*_ptrs)[Protocol::GAMELIST] = &Client::gamelist;
+  (*_ptrs)[Protocol::OK] = &Client::ok;
+  (*_ptrs)[Protocol::KO] = &Client::ko;
+  (*_ptrs)[Protocol::LAUNCHGAME] = &Client::launchGame;
+  (*_ptrs)[Protocol::MAP] = &Client::map;
+  (*_ptrs)[Protocol::ENTITY] = &Client::entity;
+  (*_ptrs)[Protocol::SCROLL] = &Client::scroll;
+  (*_ptrs)[Protocol::DEAD] = &Client::dead;
+  (*_ptrs)[Protocol::SPRITE] = &Client::sprite;
+  (*_ptrs)[Protocol::CONTENTFILE] = &Client::contentFile;
+  (*_ptrs)[Protocol::LEVELUP] = &Client::levelUp;
+  (*_ptrs)[Protocol::ENDGAME] = &Client::endGame;
   // sockets
-  _sockets->insert(std::pair<eSocket, Socket *>(TCP, new Socket));
-  _sockets->insert(std::pair<eSocket, Socket *>(UDP, new Socket));
-  _socketsClient->insert(std::pair<eSocket, SocketClient *>(TCP, NULL));
-  _socketsClient->insert(std::pair<eSocket, SocketClient *>(UDP, NULL));
+  (*_sockets)[TCP] = new Socket;
+  (*_sockets)[UDP] = new Socket;
+  (*_socketsClient)[TCP] = NULL;
   _select->setTimeout(0, 0);
 }
 
@@ -79,10 +85,21 @@ std::map<std::string, std::string>	Client::initMapGameList()
 {
   std::map<std::string, std::string>	map;
 
-  map.insert(std::pair<std::string, std::string>("id", ""));
-  map.insert(std::pair<std::string, std::string>("name", ""));
-  map.insert(std::pair<std::string, std::string>("numPlayer", ""));
-  map.insert(std::pair<std::string, std::string>("level", ""));
+  map["id"] = "";
+  map["name"] = "";
+  map["numPlayer"] = "";
+  map["level"] = "";
+  return (map);
+}
+
+std::map<std::string, std::string>	Client::initMapGetMap()
+{
+  std::map<std::string, std::string>	map;
+
+  map["id"] = "";
+  map["type"] = "";
+  map["x"] = "";
+  map["y"] = "";
   return (map);
 }
 
@@ -105,7 +122,7 @@ void				Client::exec()
 	      _info->setVar(NULL);
 	    }
 	}
-      if (*_state == WAIT_SPRITE)
+      if (_state->getVar() == WAIT_SPRITE)
 	{
 	  for (auto it = _diffDir->begin() ; it != _diffDir->end() ; it++)
 	    _protocol->protocolMsg(Protocol::GET_SPRITE, _id, reinterpret_cast<void *>(&(*it)));
@@ -128,6 +145,7 @@ void				Client::gamelist(Trame const &trame)
   static std::map<std::string, std::string>	map = Client::initMapGameList();
   GameList			*gameList = GameList::getInstance();
 
+  gameList->clear();
   while (iss.good() && !iss.str().empty())
     {
       iss >> token;
@@ -150,8 +168,25 @@ void				Client::launchGame(Trame const &)
   *_state = PLAYING;
 }
 
-void				Client::map(Trame const &)
+void				Client::map(Trame const &trame)
 {
+  std::istringstream		iss(trame.getContent());
+  std::istringstream		*tokenStream;
+  std::string			token;
+  static std::map<std::string, std::string>	vars = Client::initMapGetMap();
+  Map				*map = Map::getInstance();
+
+  while (iss.good() && !iss.str().empty())
+    {
+      iss >> token;
+      tokenStream = new std::istringstream(token);
+      std::getline(*tokenStream, vars["id"], ';');
+      std::getline(*tokenStream, vars["type"], ';');
+      std::getline(*tokenStream, vars["x"], ';');
+      std::getline(*tokenStream, vars["y"], ';');
+      map->addEntity(new Entity(std::stoi(vars["id"]), std::stoi(vars["x"]), std::stoi(vars["y"]), vars["type"]));
+      delete tokenStream;
+    }  
 }
 
 void				Client::entity(Trame const &trame)
@@ -160,14 +195,14 @@ void				Client::entity(Trame const &trame)
   std::istringstream		iss(trame.getContent());
   std::string			token;
   int				id;
-  int				type;
+  std::string			type;
   int				x;
   int				y;
 
   std::getline(iss, token, ';');
   id = std::stoi(token);
   std::getline(iss, token, ';');
-  type = std::stoi(token);
+  type = token;
   std::getline(iss, token, ';');
   x = std::stoi(token);
   std::getline(iss, token, ';');
@@ -175,7 +210,7 @@ void				Client::entity(Trame const &trame)
   if (map->exists(id))
     map->moveEntity(id, x, y);
   else
-    map->addEntity(new Entity(id, x, y, static_cast<Entity::eEntity>(type)));
+    map->addEntity(new Entity(id, x, y, type));
 }
 
 void				Client::scroll(Trame const &trame)
@@ -196,11 +231,17 @@ void				Client::sprite(Trame const &trame)
 {
   _dir->updateEntries();
 
-  std::list<std::string>			files;
+  std::map<std::string, std::string>		files;
   std::list<FileSystem::Entry *>		tmpList = _dir->getEntries();
   std::istringstream				iss(trame.getContent());
+  std::istringstream				*tokenStream;
+  std::string					fileInfo;
   std::string					fileName;
-  std::function<bool(std::string const &)>	fct = [&](std::string const &fileName)
+  std::string					fileMd5;
+  std::ifstream					ifs;
+  std::string					c;
+  std::string					content;
+  std::function<bool(std::string const &)>	inDir = [&](std::string const &fileName)
     {
       for (auto it = tmpList.begin() ; it != tmpList.end() ; it++)
 	{
@@ -213,55 +254,66 @@ void				Client::sprite(Trame const &trame)
   _diffDir->clear();
   while (iss.good() && !iss.str().empty())
     {
-      iss >> fileName;
-      files.push_back(fileName);
+      iss >> fileInfo;
+      tokenStream = new std::istringstream(fileInfo);
+      std::getline(*tokenStream, fileName, ';');
+      std::getline(*tokenStream, fileMd5, ';');
+      files[fileName] = fileMd5;
+      delete tokenStream;
     }
   for (auto it = files.begin() ; it != files.end() ; it++)
     {
-      if (!fct(*it))
-	_diffDir->push_back(*it);
+      if (!inDir((*it).first))
+	_diffDir->push_back((*it).first);
       else
 	{
-	  // CHECK MD5
+	  ifs.open((*it).first);
+	  if (ifs.is_open())
+	    {
+	      c = ifs.get();
+	      content = "";
+	      while (ifs.good())
+		{
+		  content += c;
+		  c = ifs.get();
+		}
+	      if (md5(content) != files[(*it).first])
+		_diffDir->push_back((*it).first);
+	    }
+	  else
+	    _diffDir->push_back((*it).first);
 	}
     }
-  *_state = WAIT_SPRITE;
+  _state->setVar(WAIT_SPRITE);
 }
 
-void				Client::contentSprite(Trame const &trame)
+void				Client::contentFile(Trame const &trame)
 { 
   std::istringstream		iss(trame.getContent());
   std::string			fileName;
   std::string			content;
 
+  std::cout << "CONTENTFILE BEGIN" << std::endl;
   std::getline(iss, fileName, ';');
-
-  std::ofstream			out(fileName);
+  std::cout << "FILENAME " << fileName << std::endl;
+  std::ofstream			out;
 
   std::getline(iss, content, ';');
-  out.write(content.c_str(), content.size());
+  // out.write(content.c_str(), content.size());
+  out.open(fileName.c_str(), std::ofstream::out | std::ofstream::trunc);
+  // out.write(content.c_str(), content.size());
+  out << content;
   out.close();
-}
-
-void				Client::confSprite(Trame const &trame)
-{
-  std::istringstream		iss(trame.getContent());
-  std::string			fileName;
-  std::string			content;
-
-  std::getline(iss, fileName, ';');
-
-  std::ofstream			out(fileName);
-
-  std::getline(iss, content, ';');
-  out.write(content.c_str(), content.size());
-  out.close();
+  std::cout << "CONTENTFILE END" << std::endl;
 }
 
 void				Client::levelUp(Trame const &) { }
 
 
-void				Client::endGame(Trame const &) { }
+void				Client::endGame(Trame const &)
+{
+  *_state = IN_LOBBY;
+}
 
 //---------------------------------END PRIVATE METHODS--------------------------------------
 
@@ -292,10 +344,10 @@ void				Client::write()
   while (tmp)
     {
       _select->runSelect(false);
-      if (tmp->getHeader().getProto() == "UDP")
+      if (tmp->getHeader().getProto() == "TCP")
 	{
-	  if (_select->isSet((*_socketsClient)[UDP]->getSocket(), Select::WRITE))
-	    writeToSocket(*tmp, Client::UDP);
+	  if (_select->isSet((*_socketsClient)[TCP]->getSocket(), Select::WRITE))
+	    writeToSocket(*tmp, Client::TCP);
 	}
       else if (tmp->getHeader().getProto() == "UDP")
 	{
@@ -314,7 +366,7 @@ void				Client::readFromSocket(eSocket sock)
   static char			buff[SIZE_BUFFER];
   static std::string		tmp;
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
-  Trame				*tmpTrame;
+  std::list<Trame *>		*tmpTrame;
   int				size;
 
   if (_select->isSet((*_socketsClient)[sock]->getSocket(), Select::READ))
@@ -324,13 +376,19 @@ void				Client::readFromSocket(eSocket sock)
       while (tmp.rfind(END_TRAME) == std::string::npos)
 	{
 	  size = (*_socketsClient)[sock]->readSocket(buff, SIZE_BUFFER);
-	  tmp.append(buff, size);
+	  if (size > 0)
+	    tmp.append(buff, size);
 	}
-      tmpTrame = Trame::toTrame(tmp);
+      tmpTrame = Trame::cutToListTrame(tmp); 
+      // std::cout << "TO STRING = ";
+      // std::cout.write(tmp.c_str(), tmp.size());
+      // std::cout << std::endl;
       if (tmpTrame)
 	{
-	  std::cout << "TO STRING = " << tmpTrame->toString() << std::endl;
-	  manager->pushTrame(tmpTrame, CircularBufferManager::READ_BUFFER);
+	  for (auto it = tmpTrame->begin() ; it != tmpTrame->end() ; it++)
+	    {
+	      manager->pushTrame((*it), CircularBufferManager::READ_BUFFER);
+	    }
 	}
     }
 }
@@ -413,7 +471,11 @@ void				Client::loop(void)
   tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
   if (tmp)
     {
+      // std::cout << "CONTENT = ";
+      // std::cout.write(tmp->getContent().c_str(), tmp->getContent().size());
+      std::cout << std::endl;
       msgType = _protocol->getMsg(tmp);
+      // std::cout << "MSG_TYPE = " << static_cast<int>(msgType) << std::endl;
       (this->*(*_ptrs)[msgType])(*tmp);
     }
   this->write();
@@ -429,5 +491,7 @@ void				Client::setRunning(bool const running) { _running->setVar(running); }
 bool				Client::getRunning(void) const { return (_running->getVar()); }
 void				Client::setInitialized(bool const initialized) { _initialized->setVar(initialized); }
 bool				Client::getInitialized(void) const { return (_initialized->getVar()); }
+Protocol			*Client::getProto(void) const { return (_protocol); }
+int				Client::getId(void) const { return (_id); }
 
 //------------------------------END GETTERS / SETTERS-----------------------------------
