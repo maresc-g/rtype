@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:39:28 2013 guillaume marescaux
-// Last update Tue Nov 19 13:51:02 2013 guillaume marescaux
+// Last update Tue Nov 19 17:42:23 2013 guillaume marescaux
 //
 
 #include			<sstream>
@@ -59,7 +59,9 @@ Protocol::~Protocol()
 
 void				Protocol::protocolMsg(eProtocol proto, int const id, void *data)
 {
+  std::cout << "a" << std::endl;  
   (this->*(*_ptrs)[proto])(id, data);
+  std::cout << "b" << std::endl;  
   _trameId++;
 }
 
