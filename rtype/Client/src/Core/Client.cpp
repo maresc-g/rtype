@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Tue Nov 19 10:50:32 2013 guillaume marescaux
+// Last update Tue Nov 19 12:27:04 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -42,7 +42,6 @@ Client::Client(FileSystem::Directory *dir, MutexVar<eState> *state, Action *acti
   // ptrs
   (*_ptrs)[Protocol::WELCOME] = &Client::welcome;
   (*_ptrs)[Protocol::GAMELIST] = &Client::gamelist;
-  (*_ptrs)[Protocol::OK] = &Client::ok;
   (*_ptrs)[Protocol::KO] = &Client::ko;
   (*_ptrs)[Protocol::LAUNCHGAME] = &Client::launchGame;
   (*_ptrs)[Protocol::MAP] = &Client::map;
@@ -115,7 +114,7 @@ void				Client::exec()
       while (!_initialized->getVar())
 	{
 	  while (!_info->getVar())
-	    ;
+	    usleep(1000);
 	  _initialized->setVar(this->initialize());
 	  if (!_initialized->getVar())
 	    {
@@ -160,13 +159,14 @@ void				Client::gamelist(Trame const &trame)
     }
 }
 
-void				Client::ok(Trame const &) { }
-
-void				Client::ko(Trame const &) { }
+void				Client::ko(Trame const &)
+{
+  _state->setVar(IN_LOBBY);
+}
 
 void				Client::launchGame(Trame const &)
 {
-  *_state = PLAYING;
+  _state->setVar(PLAYING);
 }
 
 void				Client::map(Trame const &trame)
@@ -185,7 +185,7 @@ void				Client::map(Trame const &trame)
       std::getline(*tokenStream, vars["type"], ';');
       std::getline(*tokenStream, vars["x"], ';');
       std::getline(*tokenStream, vars["y"], ';');
-      map->addEntity(new Entity(std::stoi(vars["id"]), std::stoi(vars["x"]), std::stoi(vars["y"]), vars["type"]));
+      map->addDecor(new Entity(std::stoi(vars["id"]), std::stoi(vars["x"]), std::stoi(vars["y"]), vars["type"]));
       delete tokenStream;
     }  
 }
@@ -481,8 +481,10 @@ void				Client::loop(void)
       (this->*(*_ptrs)[msgType])(*tmp);
     }
   actionStr = _action->toString();
-  _protocol->protocolMsg(Protocol::ACTION, _id, &actionStr);
+  if (_state->getVar() == PLAYING)
+    _protocol->protocolMsg(Protocol::ACTION, _id, &actionStr);
   this->write();
+  usleep(1000);
 }
 
 //-----------------------------------END METHODS----------------------------------------
