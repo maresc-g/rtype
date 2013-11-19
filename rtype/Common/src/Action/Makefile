@@ -5,7 +5,9 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Sat Nov  2 18:08:57 2013 laurent ansel
-## Last update Mon Nov 18 16:57:56 2013 cyril jourdain
+## Last update Tue Nov 19 20:37:43 2013 alexis mestag
 ##
 
 SRCCOMMON +=	$(ACTION)/Action.cpp
+
+AIDEP	+= $(ACTION)/Action.cpp

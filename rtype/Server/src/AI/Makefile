@@ -5,13 +5,8 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Sat Nov  2 18:08:57 2013 laurent ansel
-## Last update Tue Nov 19 11:15:27 2013 alexis mestag
+## Last update Tue Nov 19 17:48:19 2013 alexis mestag
 ##
-
-# NEEDEDAI +=		$(ACTION)/Action.cpp		\
-# 			$(ENTITIES)/AEntity.cpp		\
-# 			$(ENTITIES)/ACharacter.cpp	\
-# 			$(ENTITIES)/Mob.cpp
 
 SRCAI +=	$(AI)/Donkey.cpp
 AIDIR =		$(AI)
