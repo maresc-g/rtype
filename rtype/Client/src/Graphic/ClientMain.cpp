@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Tue Nov 19 14:06:08 2013 cyril jourdain
+// Last update Tue Nov 19 17:18:48 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -128,6 +128,14 @@ void			ClientMain::createGame(void *)
 
   _manager->addWindow(db);
   db->setOnCloseCallback(&ClientMain::callCreateGame, this);
+}
+
+void			ClientMain::callCreateGame(void *data)
+{
+  std::string		tmp = reinterpret_cast<SFTextBox *>(data)->getText();
+
+  std::cout << tmp << std::endl;
+  _client->getProto()->protocolMsg(Protocol::CREATE, _client->getId(), &tmp);
   while (_state->getVar() == WAIT_GAME);
   if (_state->getVar() == PLAYING)
     {
@@ -139,14 +147,6 @@ void			ClientMain::createGame(void *)
       _manager->addWindow(new SFDialogBox("Error", "Unable to launch the game"));
       *_state = IN_LOBBY;
     }
-}
-
-void			ClientMain::callCreateGame(void *data)
-{
-  std::string		tmp = reinterpret_cast<SFTextBox *>(data)->getText();
-
-  std::cout << tmp << std::endl;
-  _client->getProto()->protocolMsg(Protocol::CREATE, _client->getId(), &tmp);
 }
 
 void			ClientMain::backToLogin(void *)
