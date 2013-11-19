@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Tue Nov 19 11:09:27 2013 antoine maitre
+// Last update Tue Nov 19 14:04:29 2013 laurent ansel
 //
 
 #ifndef 		__AENTITY_HH__

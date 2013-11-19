@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov  8 22:44:47 2013 laurent ansel
-// Last update Mon Nov 18 16:27:28 2013 laurent ansel
+// Last update Tue Nov 19 17:10:14 2013 laurent ansel
 //
 
 #ifndef 			__SPRITELOADER_HH__
@@ -26,6 +26,20 @@
 #define	CONFCLIENT		".sprite"
 #define	CONFSERVER		".conf"
 
+struct				s_entity
+{
+  int			_width;
+  int			_height;
+  unsigned int		_life;
+  Coordinate		*_coord;
+  std::string		_path;
+  int			_speed;
+  bool			_destructible;
+  bool			_dead;
+  std::list<InformationHitBox *>	*_hitbox;
+  Coordinate			*_spawnProjectile;
+};
+
 class				SpriteLoader
 {
 private:
@@ -33,11 +47,12 @@ private:
   std::string			_path;
   std::string			_content;
   std::string			_confFile;
-  AEntity			*_entity;
+  s_entity			*_entity;
   std::pair<std::string, std::string>	_confClient;
 public:
   SpriteLoader(size_t const id, std::string const &path, std::string const &confFile = "");
   virtual ~SpriteLoader();
+  SpriteLoader			&operator>>(AEntity &entity);
   size_t			getId() const;
   std::string const		&getPath() const;
   std::string const		&getContent() const;

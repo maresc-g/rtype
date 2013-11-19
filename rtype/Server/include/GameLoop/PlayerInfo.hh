@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:22:19 2013 antoine maitre
-// Last update Mon Nov 18 18:01:21 2013 arthur rucquois
+// Last update Tue Nov 19 13:57:51 2013 laurent ansel
 //
 
 #ifndef		__PLAYERINFO_HH__

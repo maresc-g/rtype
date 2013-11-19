@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov  8 22:44:27 2013 laurent ansel
-// Last update Mon Nov 18 16:32:36 2013 laurent ansel
+// Last update Tue Nov 19 17:06:20 2013 laurent ansel
 //
 
 #ifndef 			__SPRITELOADERMANAGER_HH__
@@ -35,6 +35,7 @@ public:
   std::string const		getConfSprite(std::string const &name) const;
   std::list<std::string> const	getSpriteList() const;
   std::list<std::string> const	getConfClientList() const;
+  bool				getEntitySprite(std::string const &name, AEntity &entity) const;
 };
 
 #endif
