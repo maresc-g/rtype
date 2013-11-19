@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 17:50:22 2013 laurent ansel
-// Last update Mon Nov 18 17:22:29 2013 laurent ansel
+// Last update Tue Nov 19 10:06:25 2013 guillaume marescaux
 //
 
 #ifndef 			__ACTION_HH__
@@ -64,6 +64,7 @@ public:
   void				setParam(std::string const &param);
   bool				empty() const;
   void				reset();
+  std::string const		toString(void) const;
 
 private:
   void				setAction(bool const set, Action::eAction const action);
