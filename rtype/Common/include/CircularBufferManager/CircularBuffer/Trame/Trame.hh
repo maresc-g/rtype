@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:04:47 2013 laurent ansel
-// Last update Mon Nov 18 15:40:24 2013 laurent ansel
+// Last update Tue Nov 19 18:04:35 2013 laurent ansel
 //
 
 #ifndef 			__TRAME_HH__

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 18:02:37 2013 laurent ansel
-// Last update Tue Nov 19 13:38:09 2013 guillaume marescaux
+// Last update Tue Nov 19 17:53:04 2013 laurent ansel
 //
 
 #include			<iostream>
@@ -42,9 +42,10 @@ Action				&Action::operator<<(int const action)
       &Action::setDown,
       &Action::setRight,
       &Action::setLeft,
-      &Action::setFire
+      &Action::setFire,
+      NULL
     };
-  for (int i = 0 ; i < Action::QUITGAME ; ++i)
+  for (int i = 0 ; func[i] ; ++i)
     (this->*func[i])(action & (1 << i));
   return (*this);
 }

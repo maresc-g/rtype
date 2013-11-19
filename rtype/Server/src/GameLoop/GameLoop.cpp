@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Tue Nov 19 17:16:09 2013 laurent ansel
+// Last update Tue Nov 19 17:57:27 2013 laurent ansel
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -43,24 +43,24 @@ void			GameLoop::loop()
       time = clock();
       this->_mutex->enter();
       this->_levelManag->incAdv();
-      std::cout << "ADV = " << this->_levelManag->getAdv() << std::endl;
+      //       std::cout << "ADV = " << this->_levelManag->getAdv() << std::endl;
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
-	(*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
+      	(*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
       for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().begin(); it++)
-	{
-	  const Coordinate	*coord = (*it)->getCoord();
+      	{
+      	  const Coordinate	*coord = (*it)->getCoord();
 
-	  if (coord->getX() <= this->_levelManag->getAdv() - (*it)->getWidth())
-	    it = this->_levelManag->getEnemies().erase(it);
-	}
+      	  if (coord->getX() <= this->_levelManag->getAdv() - (*it)->getWidth())
+      	    it = this->_levelManag->getEnemies().erase(it);
+      	}
       this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
       this->destroyDeadEntities(this->_levelManag->getEnemies(),
-				this->_levelManag->getPlayers());
+      				this->_levelManag->getPlayers());
       this->_mutex->leave();
       rest = clock() - time;
-      if (rest < 1000 / this->_rate)
+      //if (rest < 1000 / this->_rate)
 #ifndef _WIN32
-	usleep(1000 * ((1000 / this->_rate) - rest));
+	usleep(2500000);//1000 * ((1000 / this->_rate) - rest));
 #else
       Sleep((1000 * ((1000 / this->_rate) - rest)) / 1000);
 #endif

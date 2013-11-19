@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 16:01:59 2013 laurent ansel
-// Last update Tue Nov 19 12:23:13 2013 laurent ansel
+// Last update Tue Nov 19 17:41:14 2013 laurent ansel
 //
 
 #include			"Command/Command.hh"
@@ -48,7 +48,8 @@ void				Command::actionCommand(std::istringstream &str)
     param >> action;
   else
     action = 0;
-  *this->_action << action;
+  if (this->_action)
+    *this->_action << action;
 }
 
 void				Command::quitGameCommand(std::istringstream &)
