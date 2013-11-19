@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Tue Nov 19 17:34:49 2013 antoine maitre
+// Last update Tue Nov 19 17:36:27 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -43,8 +43,7 @@ void			GameLoop::loop()
       time = clock();
       this->_mutex->enter();
       this->_levelManag->incAdv();
-      this->spawnMob();
-      std::cout << this->_levelManag->getAdv() << std::endl;
+      std::cout << "ADV = " << this->_levelManag->getAdv() << std::endl;
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
 	(*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
       for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().begin(); it++)
@@ -123,10 +122,7 @@ bool			GameLoop::newPlayer(ClientInfo *newClient)
 
 void			GameLoop::playerDeath(PlayerInfo *deadPlayer)
 {
-  std::ostringstream	oss;
-
-  oss << "DEAD";
-  deadPlayer->sendTrame("TCP", std::string(oss.str()));
+  deadPlayer->sendTrame("TCP", "DEAD");
 }
 
 void			GameLoop::spawnMob()

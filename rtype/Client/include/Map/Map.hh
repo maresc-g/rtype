@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:30:57 2013 guillaume marescaux
-// Last update Mon Nov 18 10:38:36 2013 guillaume marescaux
+// Last update Tue Nov 19 11:19:53 2013 guillaume marescaux
 //
 
 #ifndef 		__MAP_HH__
@@ -24,6 +24,7 @@ private:
 
   // Attributes
   std::list<Entity *>	*_map;
+  std::list<Entity *>	*_entities;
   Mutex			*_mutex;
   unsigned int		_scroll;
 
@@ -49,6 +50,7 @@ public:
   void			setScroll(unsigned int const scroll);
   unsigned int		getScroll(void) const;
   std::list<Entity *> const	&getMap(void) const;
+  std::list<Entity *> const	&getEntities(void) const;
 };
 
 #endif

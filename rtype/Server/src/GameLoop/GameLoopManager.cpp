@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Nov  5 10:47:00 2013 laurent ansel
-// Last update Tue Nov 19 11:00:42 2013 laurent ansel
+// Last update Tue Nov 19 11:15:26 2013 laurent ansel
 //
 
 #include			"GameLoop/GameLoopManager.hh"
@@ -35,6 +35,7 @@ unsigned int			GameLoopManager::pushNewGame(std::string const &name)
   GameLoop			*game = new GameLoop(name, this->_idGame);
 
   game->createThread(&startGame, game);
+  game->Initialize();
   this->_listGame->push_back(game);
   this->_idGame++;
   return (game->getId());

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 16:01:59 2013 laurent ansel
-// Last update Mon Nov 18 17:13:14 2013 laurent ansel
+// Last update Tue Nov 19 12:23:13 2013 laurent ansel
 //
 
 #include			"Command/Command.hh"
@@ -44,7 +44,10 @@ void				Command::actionCommand(std::istringstream &str)
     param.str(str.str().substr((pos = str.tellg()) + 1));
   else
     param.str(str.str().substr((pos = str.tellg()) + 1, (posEnd - 1) - std::string(END_TRAME).size()));
-  param >> action;
+  if (!param.str().empty())
+    param >> action;
+  else
+    action = 0;
   *this->_action << action;
 }
 

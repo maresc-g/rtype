@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Tue Nov 19 10:59:16 2013 laurent ansel
+// Last update Tue Nov 19 12:36:38 2013 laurent ansel
 //
 
 #include			<list>
@@ -277,9 +277,10 @@ bool				Server::manageGame(std::list<ClientInfo *>::iterator &it, Action &action
     }
   if (action.getCreate())
     {
+      this->debug("Create Game");
       id = GameLoopManager::getInstance()->pushNewGame((*it)->getFirstCommand()->getAction().getParam());
       action.setCreate(false);
-      this->debug("Create Game");
+      this->debug("Create Game2");
       ret = true;
       this->sendListSprite((*it));
       if (GameLoopManager::getInstance()->addPlayerInGame(*it, id))

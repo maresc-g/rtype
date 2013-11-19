@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 12:58:03 2013 laurent ansel
-// Last update Thu Nov  7 21:41:56 2013 laurent ansel
+// Last update Tue Nov 19 13:31:38 2013 alexis mestag
 //
 
 #include		<string>
@@ -20,28 +20,34 @@ int			main(int argc, char **argv)
 
   if (argc == 2)
     {
-      std::string	tmp(argv[1]);
-      std::istringstream	str(tmp);
-      int		port;
-
-      str >> port;
       try
 	{
+	  int			port = std::stoi(argv[1]);
 	  Server		*server = new Server(port);
 
 	  server->run();
 	  delete server;
 	}
+      catch (std::invalid_argument const &e)
+	{
+	  std::cerr << "Invalid port" << std::endl;
+	  ret = 2;
+	}
+      catch (std::out_of_range const &e)
+	{
+	  std::cerr << "Invalid port" << std::endl;
+	  ret = 2;
+	}
       catch (SocketError const &e)
 	{
 	  std::cerr << e.what() << std::endl;
-	  ret = -1;
+	  ret = 3;
 	}
     }
   else
     {
       std::cerr << "Usage:\n\t" << argv[0] << " [port]" << std::endl;
-      ret = -1;
+      ret = 1;
     }
   return (ret);
 }

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Tue Nov 19 10:50:32 2013 guillaume marescaux
+// Last update Tue Nov 19 13:51:31 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -42,13 +42,13 @@ Client::Client(FileSystem::Directory *dir, MutexVar<eState> *state, Action *acti
   // ptrs
   (*_ptrs)[Protocol::WELCOME] = &Client::welcome;
   (*_ptrs)[Protocol::GAMELIST] = &Client::gamelist;
-  (*_ptrs)[Protocol::OK] = &Client::ok;
   (*_ptrs)[Protocol::KO] = &Client::ko;
   (*_ptrs)[Protocol::LAUNCHGAME] = &Client::launchGame;
   (*_ptrs)[Protocol::MAP] = &Client::map;
   (*_ptrs)[Protocol::ENTITY] = &Client::entity;
   (*_ptrs)[Protocol::SCROLL] = &Client::scroll;
   (*_ptrs)[Protocol::DEAD] = &Client::dead;
+  (*_ptrs)[Protocol::REMOVE_ENTITY] = &Client::removeEntity;
   (*_ptrs)[Protocol::SPRITE] = &Client::sprite;
   (*_ptrs)[Protocol::CONTENTFILE] = &Client::contentFile;
   (*_ptrs)[Protocol::LEVELUP] = &Client::levelUp;
@@ -115,7 +115,7 @@ void				Client::exec()
       while (!_initialized->getVar())
 	{
 	  while (!_info->getVar())
-	    ;
+	    usleep(1000);
 	  _initialized->setVar(this->initialize());
 	  if (!_initialized->getVar())
 	    {
@@ -123,12 +123,12 @@ void				Client::exec()
 	      _info->setVar(NULL);
 	    }
 	}
-      if (_state->getVar() == WAIT_SPRITE)
-	{
-	  for (auto it = _diffDir->begin() ; it != _diffDir->end() ; it++)
-	    _protocol->protocolMsg(Protocol::GET_SPRITE, _id, reinterpret_cast<void *>(&(*it)));
-	  _diffDir->clear();
-	}
+      // if (_state->getVar() == WAIT_SPRITE)
+      // 	{
+      // 	  for (auto it = _diffDir->begin() ; it != _diffDir->end() ; it++)
+      // 	    _protocol->protocolMsg(Protocol::GET_SPRITE, _id, reinterpret_cast<void *>(&(*it)));
+      // 	  _diffDir->clear();
+      // 	}
       this->loop();
     }
 }
@@ -160,13 +160,14 @@ void				Client::gamelist(Trame const &trame)
     }
 }
 
-void				Client::ok(Trame const &) { }
-
-void				Client::ko(Trame const &) { }
+void				Client::ko(Trame const &)
+{
+  _state->setVar(IN_LOBBY);
+}
 
 void				Client::launchGame(Trame const &)
 {
-  *_state = PLAYING;
+  _state->setVar(PLAYING);
 }
 
 void				Client::map(Trame const &trame)
@@ -185,7 +186,7 @@ void				Client::map(Trame const &trame)
       std::getline(*tokenStream, vars["type"], ';');
       std::getline(*tokenStream, vars["x"], ';');
       std::getline(*tokenStream, vars["y"], ';');
-      map->addEntity(new Entity(std::stoi(vars["id"]), std::stoi(vars["x"]), std::stoi(vars["y"]), vars["type"]));
+      map->addDecor(new Entity(std::stoi(vars["id"]), std::stoi(vars["x"]), std::stoi(vars["y"]), vars["type"]));
       delete tokenStream;
     }  
 }
@@ -221,11 +222,16 @@ void				Client::scroll(Trame const &trame)
   map->setScroll(std::stoi(trame.getContent()));
 }
 
-void				Client::dead(Trame const &trame)
+void				Client::removeEntity(Trame const &trame)
 {
   Map				*map = Map::getInstance();
 
   map->removeEntity(std::stoi(trame.getContent()));
+}
+
+void				Client::dead(Trame const &)
+{
+  *_state = DEAD;
 }
 
 void				Client::sprite(Trame const &trame)
@@ -285,7 +291,7 @@ void				Client::sprite(Trame const &trame)
 	    _diffDir->push_back((*it).first);
 	}
     }
-  _state->setVar(WAIT_SPRITE);
+  // _state->setVar(WAIT_SPRITE);
 }
 
 void				Client::contentFile(Trame const &trame)
@@ -308,7 +314,10 @@ void				Client::contentFile(Trame const &trame)
   std::cout << "CONTENTFILE END" << std::endl;
 }
 
-void				Client::levelUp(Trame const &) { }
+void				Client::levelUp(Trame const &)
+{
+  *_state = WAIT_GAME;
+}
 
 
 void				Client::endGame(Trame const &)
@@ -411,6 +420,7 @@ bool				Client::initialize(void)
   Trame				*tmp;
   Protocol::eProtocol		msgType;
 
+  *_state = CONNECTING;
   try
     {
       (*_sockets)[TCP]->initialize("TCP");
@@ -425,10 +435,12 @@ bool				Client::initialize(void)
       std::cout << e.what() << std::endl;
       (*_sockets)[TCP]->destroy();
       (*_sockets)[UDP]->destroy();
+      *_state = ERROR_CONNECT;
       return (false);
     }
   catch (std::invalid_argument const &e)
     {
+      *_state = ERROR_CONNECT;
       return (false);
     }
   this->read(0, 0, false);
@@ -444,9 +456,13 @@ bool				Client::initialize(void)
       tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
       msgType = _protocol->getMsg(tmp);
       if (msgType == Protocol::SERVERQUIT)
-	return (false);
+	{
+	  *_state = ERROR_CONNECT;
+	  return (false);
+	}
       delete tmp;
     }
+  *_state = CONNECTED;
   return (true);
 }
 
@@ -480,9 +496,11 @@ void				Client::loop(void)
       // std::cout << "MSG_TYPE = " << static_cast<int>(msgType) << std::endl;
       (this->*(*_ptrs)[msgType])(*tmp);
     }
-  actionStr = _action->toString();
-  _protocol->protocolMsg(Protocol::ACTION, _id, &actionStr);
+  actionStr = (std::string)(*_action);
+  if (_state->getVar() == PLAYING)
+    _protocol->protocolMsg(Protocol::ACTION, _id, &actionStr);
   this->write();
+  usleep(1000);
 }
 
 //-----------------------------------END METHODS----------------------------------------

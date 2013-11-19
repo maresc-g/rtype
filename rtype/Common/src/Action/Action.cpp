@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 18:02:37 2013 laurent ansel
-// Last update Tue Nov 19 10:38:56 2013 cyril jourdain
+// Last update Tue Nov 19 13:38:09 2013 guillaume marescaux
 //
 
 #include			<iostream>
@@ -26,7 +26,9 @@ Action				&Action::operator=(Action const &other)
 {
   if (this != &other)
     {
-      this->_action = other._action;
+      if (!this->_action)
+	this->_action = new MutexVar<int>(0);
+      this->_action->setVar(other._action->getVar());
       this->_param = other._param;
     }
   return (*this);
@@ -202,11 +204,11 @@ void				Action::reset()
   _action->setVar(act);
 }
 
-std::string const		Action::toString(void) const
+Action::operator std::string(void) const
 {
   std::string			ret;
   int				act = _action->getVar();
 
-  ret = act;
+  ret = std::to_string(act);
   return (ret);
 }
