@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Mon Nov 18 22:15:03 2013 laurent ansel
+// Last update Tue Nov 19 13:37:03 2013 antoine maitre
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -42,11 +42,11 @@ public:
   virtual ~GameLoop();
 private:
   void				recupScreen();
-  void				deadPlayer(std::list<PlayerInfo *>::iterator &deadPlayer);
   void				spawnMob();
-  void				destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AEntity *> &players);
+  void				destroyDeadEntities(std::list<AEntity *> &enemies);
 public:
   bool				newPlayer(ClientInfo *newClient);
+  void				playerDeath(PlayerInfo *deadPlayer);
   void				loop();
   void				Initialize();
   unsigned int			getId() const;

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 16:09:33 2013 antoine maitre
-// Last update Tue Nov 12 16:01:58 2013 antoine maitre
+// Last update Tue Nov 19 13:42:35 2013 antoine maitre
 //
 
 #include	"Level/Level.hh"
@@ -17,7 +17,7 @@ Level::Level(int diff)
   std::ostringstream oss;
 
   oss << diff;
-  this->_path = "src/Level/lvl" + oss.str() + "/";
+  this->_path = "Res/Level/Level" + oss.str() + "/";
 }
 
 Level::~Level()
@@ -37,7 +37,7 @@ bool	Level::getEnd()
   return (this->_finish);
 }
 
-int	Level::getDiff()
+unsigned int	Level::getDiff()
 {
   return (this->_diff);
 }
@@ -63,7 +63,7 @@ std::list<AEntity *> &Level::getPlayers()
   return (this->_map->getPlayers());
 }
 
-int Level::getAdv() const
+unsigned int Level::getAdv() const
 {
   return (this->_adv);
 }

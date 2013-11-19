@@ -5,7 +5,11 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
+<<<<<<< HEAD
 // Last update Tue Nov 19 12:32:45 2013 laurent ansel
+=======
+// Last update Tue Nov 19 13:39:58 2013 antoine maitre
+>>>>>>> 0c6945cc13374a993d6141fb9e429066cded6eba
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -43,7 +47,12 @@ void			GameLoop::loop()
       time = clock();
       this->_mutex->enter();
       this->_levelManag->incAdv();
+<<<<<<< HEAD
       std::cout << "ADV = " << this->_levelManag->getAdv() << std::endl;
+=======
+      this->spawnMob();
+      std::cout << this->_levelManag->getAdv() << std::endl;
+>>>>>>> 0c6945cc13374a993d6141fb9e429066cded6eba
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
 	(*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
       for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().begin(); it++)
@@ -54,8 +63,7 @@ void			GameLoop::loop()
 	    it = this->_levelManag->getEnemies().erase(it);
 	}
       this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
-      this->destroyDeadEntities(this->_levelManag->getEnemies(),
-				this->_levelManag->getPlayers());
+      this->destroyDeadEntities(this->_levelManag->getEnemies());
       this->_mutex->leave();
       rest = clock() - time;
       if (rest < 1000 / this->_rate)
@@ -86,12 +94,12 @@ bool			GameLoop::newPlayer(ClientInfo *newClient)
   return (true);
 }
 
-void			GameLoop::deadPlayer(std::list<PlayerInfo *>::iterator &deadPlayer)
+void			GameLoop::playerDeath(PlayerInfo *deadPlayer)
 {
   std::ostringstream	oss;
 
-  oss << "DEAD " << (*deadPlayer)->getNum();
-  (*deadPlayer)->sendTrame("TCP", std::string(oss.str()));
+  oss << "DEAD " << deadPlayer->getNum();
+  deadPlayer->sendTrame("TCP", std::string(oss.str()));
 }
 
 void			GameLoop::spawnMob()
@@ -103,7 +111,7 @@ void			GameLoop::spawnMob()
     }
 }
 
-void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AEntity *> &players)
+void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies)
 {
   for (std::list<AEntity *>::iterator it = enemies.begin(); it != enemies.end(); it++)
     {
@@ -112,8 +120,8 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
     }
   for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
     {
-      // if ((*it)->getPlayer()->isDead() == true)
-      // 	this->playerDeath(*it);
+      if ((*it)->getPlayer()->isDead() == true)
+       	this->playerDeath(*it);
     }
 }
 
@@ -154,23 +162,22 @@ void			GameLoop::quitGame()
   this->_mutex->leave();
 }
 
-bool			GameLoop::deletePlayer(ClientInfo *client)
+bool			GameLoop::deletePlayer(ClientInfo *info)
 {
-  // PlayerInfo		*pI;
+  PlayerInfo		*pI;
 
   this->_mutex->enter();
-  // for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
-  //   {
-  //     if ((*it)->isMyInfo(info))
-  // 	{
-  // 	  pI = *it;
-  // 	  _clients->erase(it);
-  // 	  it = _clients->begin();
-  // 	  delete pI;
-  this->_mutex->leave();
-  // 	  return (true);
-  // 	}
-  //   }
+  for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
+    {
+      if ((*it)->isMyInfo(info))
+  	{
+  	  pI = *it;
+  	  it = _clients->erase(it);
+  	  delete pI;
+	  this->_mutex->leave();
+  	  return (true);
+  	}
+    }
   this->_mutex->leave();
   return (false);
 }
@@ -180,7 +187,7 @@ unsigned int		GameLoop::getLevel() const
   unsigned int		lvl;
 
   this->_mutex->enter();
-  //  lvl = this->_level;
+  lvl = this->_levelManag->getDiff();
   lvl = 0;
   this->_mutex->leave();
   return (lvl);

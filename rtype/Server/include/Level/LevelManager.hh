@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:48 2013 antoine maitre
-// Last update Tue Nov 12 16:12:06 2013 antoine maitre
+// Last update Tue Nov 19 11:54:51 2013 antoine maitre
 //
 
 #ifndef __LEVELMANAGER_HH__
@@ -21,7 +21,7 @@ private:
   std::string			_path;
   std::list<Level *>		_levels;
   Level				*_currentLevel;
-  int				_diff;
+  unsigned int			_diff;
   bool				_endGame;
 public:
   const std::string		&getPath() const;
@@ -41,6 +41,7 @@ public:
   int getAdv() const;
   std::list<AEntity *> &getEnemies();
   std::list<AEntity *> &getPlayers();
+  unsigned int getDiff() const;
 };
 
 #endif

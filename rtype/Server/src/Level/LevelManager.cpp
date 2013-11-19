@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:06 2013 antoine maitre
-// Last update Thu Nov  7 13:23:45 2013 antoine maitre
+// Last update Tue Nov 19 11:54:48 2013 antoine maitre
 //
 
 #include	"Level/LevelManager.hh"
@@ -74,4 +74,9 @@ Map			*LevelManager::getMap()
 int			LevelManager::getAdv() const
 {
   return (this->_currentLevel->getAdv());
+}
+
+unsigned int		LevelManager::getDiff() const
+{
+  return (this->_diff);
 }

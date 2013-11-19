@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Mon Nov 18 15:08:55 2013 alexis mestag
+// Last update Tue Nov 19 12:09:06 2013 antoine maitre
 //
 
 #include "Level/Map.hh"
@@ -17,8 +17,6 @@ Map::Map(std::string _path)
   std::string op;
   std::string pathMob;
   int type;
-  int x;
-  int y;
   std::ostringstream oss;
 
   if(fichier)
@@ -37,9 +35,7 @@ Map::Map(std::string _path)
       	  type = atoi(op.c_str());
       	  contenu = contenu.substr(contenu.find(";") + 1, contenu.size() - contenu.find(";"));
       	  op = contenu.substr(0, contenu.find(";"));
-      	  x = atoi(op.c_str());
       	  contenu = contenu.substr(contenu.find(";") + 1, contenu.size() - contenu.find(";"));
-      	  y = atoi(contenu.c_str());
 	  oss << type;
 	  pathMob = _path.substr(0, _path.size() - 3) + oss.str() + ".conf";
 	  oss.str("");
@@ -72,7 +68,7 @@ void			Map::tryToSet(std::list<AEntity *> &l1, std::list<AEntity *> &l2, int adv
 	{
 	  x = (*hit)->getCoordinate().getX() + (*it)->getCoord()->getX();
 	  y = (*hit)->getCoordinate().getY() + (*it)->getCoord()->getY();
-	  if ((*it)->getCoord()->getX() + (*hit)->getWidth() < 0 || (*it)->getCoord()->getX() > SCREENX ||
+	  if ((*it)->getCoord()->getX() + (*hit)->getWidth() < 0 || (*it)->getCoord()->getX() > SCREENX + 50 ||
 	      (*it)->getCoord()->getY() + (*hit)->getHeight() < 0 || (*it)->getCoord()->getY() > SCREENY)
 	    {
 	      (*it)->setDead(true);

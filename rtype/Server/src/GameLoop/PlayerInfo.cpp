@@ -5,7 +5,11 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
+<<<<<<< HEAD
 // Last update Tue Nov 19 12:20:42 2013 laurent ansel
+=======
+// Last update Tue Nov 19 12:01:49 2013 antoine maitre
+>>>>>>> 0c6945cc13374a993d6141fb9e429066cded6eba
 //
 
 #include "GameLoop/PlayerInfo.hh"
@@ -13,7 +17,7 @@
 PlayerInfo::PlayerInfo(ClientInfo *info, int num)
   : _info(info), _num(num)
 {
-  std::string path = "";
+  std::string path = "Res/Sprites/player.conf";
   _player = new Player(20, 40, path, 1, true);
   _player->setInvincible(40);
 }
