@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Tue Nov 19 17:43:56 2013 guillaume marescaux
+// Last update Tue Nov 19 17:55:19 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -498,7 +498,7 @@ void				Client::loop(void)
       (this->*(*_ptrs)[msgType])(*tmp);
     }
   actionStr = (std::string)(*_action);
-  if (_state->getVar() == PLAYING)
+  if (_state->getVar() == PLAYING && actionStr != "0")
     _protocol->protocolMsg(Protocol::ACTION, _id, &actionStr);
   this->write();
   usleep(1000);

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Tue Nov 19 17:30:03 2013 laurent ansel
+// Last update Tue Nov 19 22:31:30 2013 laurent ansel
 //
 
 #include			<list>
@@ -109,8 +109,10 @@ void				Server::initializeSelect() const
     }
   if (timeout)
     this->_select->setTimeout(0, 0);
+  else
+    this->_select->setTimeout(1, 0);
   this->debug("Run Select ...");
-  this->_select->runSelect(timeout);
+  this->_select->runSelect(true);
   this->debug("Done");
 }
 
@@ -146,7 +148,7 @@ void				Server::recvTrameUdp()
 	{
 	  this->debug("Done");
 	  str.append(tmp, ret);
-	  trame = new Trame(str);
+	  trame = Trame::toTrame(str);
 	  if (trame->getContent().find("INITIALIZE") != std::string::npos)
 	    {
 	      this->debug("Initialize UDP ...");
@@ -277,12 +279,11 @@ bool				Server::manageGame(std::list<ClientInfo *>::iterator &it, Action &action
       else
 	(*it)->pushWriteTrame("TCP", new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", "KO", true));
     }
-  if (action.getCreate())
+  if (action.getCreate() && !action.getParam().empty())
     {
       this->debug("Create Game");
-      id = GameLoopManager::getInstance()->pushNewGame((*it)->getFirstCommand()->getAction().getParam());
+      id = GameLoopManager::getInstance()->pushNewGame(action.getParam());
       action.setCreate(false);
-      this->debug("Create Game2");
       ret = true;
       this->sendListSprite((*it));
       if (GameLoopManager::getInstance()->addPlayerInGame(*it, id))

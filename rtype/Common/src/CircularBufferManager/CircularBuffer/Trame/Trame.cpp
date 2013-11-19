@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:15:14 2013 laurent ansel
-// Last update Tue Nov 19 18:04:18 2013 laurent ansel
+// Last update Tue Nov 19 22:32:29 2013 laurent ansel
 //
 
 #include			<list>
@@ -62,7 +62,6 @@ void				Trame::setContent(std::string const &content)
   this->_content = content;
 }
 
-
 void				Trame::appendContent(std::string const &content)
 {
   this->_content.append(content);
@@ -70,9 +69,20 @@ void				Trame::appendContent(std::string const &content)
 
 std::string const		Trame::toString() const
 {
+  std::string			tmp = this->_content;
+  s_trame			*trame = new s_trame;
+  unsigned int			size = this->_content.size() + sizeof(s_header);
   std::ostringstream		str;
 
-  str << this->_header->toString() << " " << this->_content;
+  trame->header.idClient = this->_header->getId();
+  trame->header.idTrame = this->_header->getTrameId();
+  this->_header->getProto().copy(trame->header.protocole, this->_header->getProto().size());
+  trame->header.protocole[3] = 0;
+  tmp.copy(trame->content, tmp.size() + 1);
+  trame->content[tmp.size()] = 0;
+  for (unsigned int i = 0 ; i < size ; ++i)
+    str.put(reinterpret_cast<char *>(trame)[i]);
+  delete trame;
   return (str.str());
 }
 
@@ -108,14 +118,17 @@ std::list<Trame *>		*Trame::cutToListTrame(std::string const &str)
 
 Trame				*Trame::toTrame(std::string const &str)
 {
+  s_trame			*trame = NULL;
+  static char			str2[SIZE_BUFFER + 20];
   Header			*header;
   std::string			content;
 
-  header = Header::toHeader(str);
-  if (header)
+  if (str.size() > sizeof(s_header))
     {
-      content.append(str.c_str() + sizeof(s_header), str.size() - sizeof(s_header));
-      return (new Trame(header, content));
+      str.copy(str2, str.size());
+      trame = reinterpret_cast<s_trame *>(str2);
+      header = new Header(trame->header.idClient, trame->header.idTrame, trame->header.protocole);
+      return (new Trame(header, std::string(trame->content)));
     }
   return (NULL);
 }
