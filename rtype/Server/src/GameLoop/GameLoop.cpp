@@ -5,11 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-<<<<<<< HEAD
-// Last update Tue Nov 19 11:59:39 2013 antoine maitre
-=======
-// Last update Tue Nov 19 11:19:00 2013 arthur rucquois
->>>>>>> 7088ffe21418638bc0d2d7dbb173ba40b9ae0071
+// Last update Tue Nov 19 13:39:58 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -59,8 +55,7 @@ void			GameLoop::loop()
 	    it = this->_levelManag->getEnemies().erase(it);
 	}
       this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
-      this->destroyDeadEntities(this->_levelManag->getEnemies(),
-				this->_levelManag->getPlayers());
+      this->destroyDeadEntities(this->_levelManag->getEnemies());
       this->_mutex->leave();
       rest = clock() - time;
       if (rest < 1000 / this->_rate)
@@ -108,7 +103,7 @@ void			GameLoop::spawnMob()
     }
 }
 
-void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AEntity *> &players)
+void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies)
 {
   for (std::list<AEntity *>::iterator it = enemies.begin(); it != enemies.end(); it++)
     {
