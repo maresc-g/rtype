@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 16:01:59 2013 laurent ansel
-// Last update Tue Nov 19 21:04:07 2013 laurent ansel
+// Last update Tue Nov 19 22:32:38 2013 laurent ansel
 //
 
 #include			"Command/Command.hh"
@@ -35,15 +35,16 @@ void				Command::setAction(Action const &action)
 
 void				Command::actionCommand(std::istringstream &str)
 {
-  std::istringstream		param;
-  size_t			pos;
+  std::string			tmp;
   size_t			posEnd;
   int				action;
 
-  if ((posEnd = str.str().rfind(END_TRAME)) == std::string::npos)
-    param.str(str.str().substr((pos = str.tellg()) + 1));
-  else
-    param.str(str.str().substr((pos = str.tellg()) + 1, (posEnd - 1) - std::string(END_TRAME).size()));
+  str >> tmp;
+  if ((posEnd = tmp.rfind(END_TRAME)) != std::string::npos)
+    tmp = tmp.substr(0, posEnd);
+
+  std::istringstream		param(tmp);
+
   if (!param.str().empty())
     param >> action;
   else
@@ -71,13 +72,11 @@ void				Command::gameListCommand(std::istringstream &)
 void				Command::joinCommand(std::istringstream &str)
 {
   std::string			param;
-  size_t			pos;
   size_t			posEnd;
 
-  if ((posEnd = str.str().rfind(END_TRAME)) == std::string::npos)
-    param = str.str().substr((pos = str.tellg()) + 1);
-  else
-    param = str.str().substr((pos = str.tellg()) + 1, (posEnd - 1) - std::string(END_TRAME).size());
+  str >> param;
+  if ((posEnd = param.rfind(END_TRAME)) != std::string::npos)
+    param = param.substr(0, posEnd);
   this->_action->setParam(param);
   this->_action->setJoin(true);
 }
@@ -85,15 +84,11 @@ void				Command::joinCommand(std::istringstream &str)
 void				Command::createCommand(std::istringstream &str)
 {
   std::string			param;
-  size_t			pos;
   size_t			posEnd;
 
-  std::cout << "STR1 = " << str.str() << std::endl;
-  if ((posEnd = str.str().rfind(END_TRAME)) == std::string::npos)
-    param = str.str().substr((pos = str.tellg()) + 1);
-  else
-    param = str.str().substr((pos = str.tellg()) + 1, (posEnd - 1) - std::string(END_TRAME).size());
-  std::cout << "STR1 = " << param << std::endl;
+  str >> param;
+  if ((posEnd = param.rfind(END_TRAME)) != std::string::npos)
+    param = param.substr(0, posEnd);
   this->_action->setParam(param);
   this->_action->setCreate(true);
 }
@@ -101,16 +96,13 @@ void				Command::createCommand(std::istringstream &str)
 void				Command::getSpriteCommand(std::istringstream &str)
 {
   std::string			param;
-  size_t			pos;
   size_t			posEnd;
 
-  if ((posEnd = str.str().rfind(END_TRAME)) == std::string::npos)
-    param = str.str().substr((pos = str.tellg()) + 1);
-  else
-    param = str.str().substr((pos = str.tellg()) + 1, (posEnd - 1) - std::string(END_TRAME).size());
+  str >> param;
+  if ((posEnd = param.rfind(END_TRAME)) != std::string::npos)
+    param = param.substr(0, posEnd);
   this->_action->setParam(param);
   this->_action->setGetSprite(true);
-
 }
 
 void				Command::trameToAction()
@@ -136,6 +128,7 @@ void				Command::trameToAction()
       while (str.good())
 	{
 	  content = "";
+	  std::cout << str.str() << std::endl;
 	  str >> content;
 	  if ((pos = content.find(END_TRAME)) != std::string::npos)
 	    content = content.substr(0, pos);
