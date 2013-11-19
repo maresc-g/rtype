@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:33:27 2013 guillaume marescaux
-// Last update Mon Nov 18 16:27:47 2013 guillaume marescaux
+// Last update Tue Nov 19 13:50:36 2013 guillaume marescaux
 //
 
 #ifndef 		__PROTOCOL_HH__
@@ -39,6 +39,7 @@ public:
       ENTITY,
       SCROLL,
       DEAD,
+      REMOVE_ENTITY,
       ENDGAME,
       SPRITE,
       CONTENTFILE,

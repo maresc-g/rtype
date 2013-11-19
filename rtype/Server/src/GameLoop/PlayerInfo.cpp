@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Tue Nov 19 17:14:01 2013 laurent ansel
+// Last update Tue Nov 19 17:16:55 2013 laurent ansel
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -13,7 +13,7 @@
 #include "GameLoop/PlayerInfo.hh"
 
 PlayerInfo::PlayerInfo(ClientInfo *info, int num)
-  : _info(info), _num(num)
+  : _info(info), _num(num), _inGame(true)
 {
   // std::string path = "Res/Sprites/player.conf";
   // _player = new Player(20, 40, path, 1, true);
@@ -93,7 +93,7 @@ int		PlayerInfo::getNum() const
 
 void		PlayerInfo::sendTrame(const std::string &protocol, const std::string &msg)
 {
-  Trame		*t = new Trame(this->_num, this->_info->getTrameId(), protocol, msg, true);
+  Trame		*t = new Trame(this->_info->getId(), this->_info->getTrameId(), protocol, msg, true);
 
   this->_info->pushWriteTrame(protocol, t);
 }
@@ -103,4 +103,14 @@ bool		PlayerInfo::isMyInfo(ClientInfo *info) const
   if (this->_info == info)
     return (true);
   return (false);
+}
+
+bool		PlayerInfo::getIG() const
+{
+  return (this->_inGame);
+}
+
+void		PlayerInfo::setIG(bool b)
+{
+  this->_inGame = b;
 }

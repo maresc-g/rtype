@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Mon Nov 18 16:29:59 2013 cyril jourdain
+// Last update Tue Nov 19 13:26:21 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -42,7 +42,7 @@ void			GameView::init()
   _background->setTexture((*(SFRessourcesManager::getInstance()->Images))[GAME_BACKGROUND]);
   _sprite = new AnimatedSprite();
   std::string dir  = SPRITE_DIR;
-  dir += "/rocket.sprite";
+  dir += "/player.sprite";
   _sprite->loadFromFile(dir);
   _sprite->play("left");
   _clock = new sf::Clock();

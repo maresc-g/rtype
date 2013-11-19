@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Sat Nov 16 14:34:19 2013 guillaume marescaux
-// Last update Mon Nov 18 10:49:53 2013 guillaume marescaux
+// Last update Tue Nov 19 13:48:40 2013 guillaume marescaux
 //
 
 #ifndef 		__ESTATE_HH__
@@ -15,10 +15,14 @@ enum			eState
   {
     IN_LOGIN,
     IN_LOBBY,
-    WAIT_SPRITE,
+    WAIT_GAME,
     PLAYING,
     GAMELIST,
-    LEVEL_UP
+    LEVEL_UP,
+    CONNECTING,
+    CONNECTED,
+    ERROR_CONNECT,
+    DEAD
   };
 
 

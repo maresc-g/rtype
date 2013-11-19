@@ -1,13 +1,13 @@
 [file=Res/Sprites/player.gif]
-[size=1]
-[name=droite]
+[size=3]
+[name=right]
 0 0 33 33
 34 0 33 33
 67 0 33 33
 100 0 33 33
 133 0 33 33
 [/]
-[name=gauche]
+[name=left]
 166 0 33 33
 198 0 33 33
 232 0 33 33
