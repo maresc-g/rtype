@@ -5,14 +5,12 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Mon Nov 18 16:55:13 2013 cyril jourdain
+// Last update Tue Nov 19 10:47:16 2013 guillaume marescaux
 //
 
 #include		"Graphic/ClientMain.hh"
 #include		"Graphic/SFGraphics/Widgets/SFDialogBox.hh"
 #include		"Graphic/SFGraphics/Widgets/SFDialogTextBox.hh"
-#include		"Graphic/Graphics/Sprites/AnimatedSprite.hh"
-#include		"Action/Action.hh"
 
 static void	*trampoline(void *param)
 {
@@ -41,9 +39,10 @@ ClientMain	&ClientMain::operator=(ClientMain const &)
 
 void			ClientMain::init()
 {
-  _state = IN_LOGIN;
+  _state = new MutexVar<eState>(IN_LOGIN);
   _dir = new FileSystem::Directory(SPRITE_DIR);
-  _client = new Client(_dir, &_state);
+  _action = new Action;
+  _client = new Client(_dir, _state, _action);
   _client->createThread(&trampoline, _client);
   _manager = new WindowManager();
   _windows = new std::map<unsigned int, SFWindow*>();
@@ -54,12 +53,12 @@ void			ClientMain::init()
   _manager->addWindow(LOBBY,(*_windows)[LOBBY]);
   _manager->addWindow(LOGIN,(*_windows)[LOGIN]);
   _manager->addWindow(GAME,(*_windows)[GAME]);
-  _manager->setActiveWindow(LOBBY);
+  _manager->setActiveWindow(LOGIN);
 }
 
 void			ClientMain::launch()
 {
-  // _client->start();
+  _client->start();
   _manager->exec();
   _client->waitThread();
   _client->destroy();
@@ -67,12 +66,12 @@ void			ClientMain::launch()
 
 void			ClientMain::setState(eState s)
 {
-  _state = s;
+  _state->setVar(s);
 }
 
 eState			ClientMain::getState() const
 {
-  return _state;
+  return _state->getVar();
 }
 
 void			ClientMain::connectToServer(void *param)
@@ -94,7 +93,7 @@ void			ClientMain::connectToServer(void *param)
 	    {
 	      _manager->setActiveWindow(LOBBY);
 	      _manager->getWindowById(LOGIN)->setVisibility(false);
-	      _state = eState::IN_LOBBY;
+	      _state->setVar(eState::IN_LOBBY);
 	      static_cast<LobbyWindow*>((*_windows)[LOBBY])->refreshGameList(NULL);
 	    }
 	  else
@@ -107,9 +106,17 @@ void			ClientMain::connectToServer(void *param)
 
 void			ClientMain::joinGame(void *)
 {
+  SFArrayLine		*line = static_cast<LobbyWindow*>((*_windows)[LOBBY])->getSelectedGame(NULL);
+
+  //_manager->addWindow(new SFDialogBox("Info", "Join a game"));
   /* Need to do server stuff */
-  _manager->setActiveWindow(GAME);
-  _manager->getWindowById(LOBBY)->setVisibility(false);
+  if (line)
+    {
+      int i = std::stoi((*line)["ID"].getData());
+      _client->getProto()->protocolMsg(Protocol::JOIN, _client->getId(), &i);
+    }
+  // _manager->setActiveWindow(GAME);
+  // _manager->getWindowById(LOBBY)->setVisibility(false);
 }
 
 void			ClientMain::createGame(void *)
@@ -117,7 +124,15 @@ void			ClientMain::createGame(void *)
   SFDialogTextBox               *db  = new SFDialogTextBox("Info", "Enter room name");
 
   _manager->addWindow(db);
-  db->setOnCloseCallback(&ClientMain::backToLogin, this); //Need to change callback
+  db->setOnCloseCallback(&ClientMain::callCreateGame, this);
+}
+
+void			ClientMain::callCreateGame(void *data)
+{
+  std::string		tmp = reinterpret_cast<SFTextBox *>(data)->getText();
+
+  std::cout << tmp << std::endl;
+  _client->getProto()->protocolMsg(Protocol::CREATE, _client->getId(), &tmp);
 }
 
 void			ClientMain::backToLogin(void *)
@@ -128,18 +143,18 @@ void			ClientMain::backToLogin(void *)
 
 void			ClientMain::refreshGameList(void *)
 {
+  _client->getProto()->protocolMsg(Protocol::GAMELIST, _client->getId(), NULL);
+  while (_state->getVar() == GAMELIST)
+    ;
   static_cast<LobbyWindow*>((*_windows)[LOBBY])->refreshGameList(NULL);
 }
 
+
 void			ClientMain::sendKeyPress(PressedKey const &keys)
 {
-  (void)keys;
-  Action		*action = new Action();
-
-  action->setLeft(keys.left);
-  action->setRight(keys.right);
-  action->setUp(keys.up);
-  action->setDown(keys.down);
-  action->setFire(keys.space);
-  (void)action;
+  _action->setLeft(keys.left);
+  _action->setRight(keys.right);
+  _action->setUp(keys.up);
+  _action->setDown(keys.down);
+  _action->setFire(keys.space);
 }

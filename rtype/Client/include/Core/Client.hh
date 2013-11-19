@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:26 2013 guillaume marescaux
-// Last update Sat Nov 16 14:37:04 2013 guillaume marescaux
+// Last update Tue Nov 19 10:50:06 2013 guillaume marescaux
 //
 
 #ifndef 		__CLIENT_HH__
@@ -23,6 +23,7 @@
 #include		"Mutex/MutexVar.hpp"
 #include		"FileSystem/Directory.hh"
 #include		"Graphic/eState.hh"
+#include		"Action/Action.hh"
 
 class			Client : public Thread
 {
@@ -48,17 +49,13 @@ private:
   MutexVar<bool>			*_initialized;
   FileSystem::Directory			*_dir;
   std::list<std::string>		*_diffDir;
-  eState				*_state;
+  MutexVar<eState>			*_state;
+  Action				*_action;
 
 public:
-  void			test(void *param)
-  {
-    SFTextBox *box = static_cast<SFTextBox*>(param);
-    std::cout << "Box Content : " << box->getText() << std::endl;
-  }
 
   // Ctor / Dtor
-  Client(FileSystem::Directory *dir, eState *_state);
+  Client(FileSystem::Directory *dir, MutexVar<eState> *_state, Action *action);
   virtual ~Client();
 
   // Methods
@@ -77,6 +74,8 @@ public:
   bool			getRunning(void) const;
   void			setInitialized(bool const initialized);
   bool			getInitialized(void) const;
+  Protocol		*getProto(void) const;
+  int			getId(void) const;
 
 private:
 
@@ -84,6 +83,7 @@ private:
   void			writeToSocket(Trame const &trame, eSocket sock);
   void			readFromSocket(eSocket sock);
   static std::map<std::string, std::string>	initMapGameList(void);
+  static std::map<std::string, std::string>	initMapGetMap(void);
 
   void			welcome(Trame const &trame);
   void			gamelist(Trame const &trame);
@@ -95,8 +95,7 @@ private:
   void			scroll(Trame const &trame);
   void			dead(Trame const &trame);
   void			sprite(Trame const &trame);
-  void			contentSprite(Trame const &trame);
-  void			confSprite(Trame const &trame);
+  void			contentFile(Trame const &trame);
   void			levelUp(Trame const &trame);
   void			endGame(Trame const &trame);
 };

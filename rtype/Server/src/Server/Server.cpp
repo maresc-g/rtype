@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Mon Nov 18 22:08:40 2013 laurent ansel
+// Last update Tue Nov 19 10:59:16 2013 laurent ansel
 //
 
 #include			<list>
@@ -156,7 +156,6 @@ void				Server::recvTrameUdp()
 		    trame->getHeader().setProto("TCP");
 		    trame->setContent("CHECK" + std::string(END_TRAME));
 		    (*it)->pushWriteTrame("TCP", trame);
-		    this->sendListSprite((*it));
 		  }
 	      this->debug("Done");
 	    }
@@ -240,6 +239,7 @@ bool				Server::manageQuit(std::list<ClientInfo *>::iterator &it, Action &action
 bool				Server::manageGame(std::list<ClientInfo *>::iterator &it, Action &action)
 {
   bool				ret = false;
+  size_t			id;
 
   if (action.getGameList())
     {
@@ -262,7 +262,6 @@ bool				Server::manageGame(std::list<ClientInfo *>::iterator &it, Action &action
   if (action.getJoin())
     {
       std::istringstream	str(action.getParam());
-      size_t		id;
 
       str >> id;
       if (GameLoopManager::getInstance()->addPlayerInGame(*it, id))
@@ -271,15 +270,27 @@ bool				Server::manageGame(std::list<ClientInfo *>::iterator &it, Action &action
 	  this->debug("Join Game");
 	  ret = true;
 	  this->sendListSprite((*it));
+	  (*it)->pushWriteTrame("TCP", new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", "LAUNCHGAME", true));
 	}
+      else
+	(*it)->pushWriteTrame("TCP", new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", "KO", true));
     }
   if (action.getCreate())
     {
-      GameLoopManager::getInstance()->pushNewGame((*it)->getFirstCommand()->getAction().getParam());
+      id = GameLoopManager::getInstance()->pushNewGame((*it)->getFirstCommand()->getAction().getParam());
       action.setCreate(false);
       this->debug("Create Game");
       ret = true;
       this->sendListSprite((*it));
+      if (GameLoopManager::getInstance()->addPlayerInGame(*it, id))
+	{
+	  if (GameLoopManager::getInstance()->runGame(id))
+	    (*it)->pushWriteTrame("TCP", new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", "LAUNCHGAME", true));
+	  else
+	    (*it)->pushWriteTrame("TCP", new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", "KO", true));
+	}
+      else
+	(*it)->pushWriteTrame("TCP", new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", "KO", true));
     }
   return (ret);
 }
@@ -290,12 +301,16 @@ bool				Server::manageSprite(std::list<ClientInfo *>::iterator &it, Action &acti
 
   if (action.getGetSprite())
     {
+#ifdef SEND_SPRITE_ACTIVATE
       std::ostringstream	tmp;
       Trame *trame;
 
       tmp << "CONTENTFILE " << SpriteLoaderManager::getInstance()->getContentFile(action.getParam());
       trame = new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", tmp.str(), true);
       (*it)->pushWriteTrame("TCP", trame);
+#else
+      (void)it;
+#endif
       action.setGetSprite(false);
     }
   return (ret);
@@ -340,6 +355,7 @@ void				Server::quitAllClient() const
 
 void				Server::sendListSprite(ClientInfo *client)
 {
+#ifdef SEND_SPRITE_ACTIVATE
   std::list<std::string>	listSprite = SpriteLoaderManager::getInstance()->getSpriteList();
   std::list<std::string>	listConf = SpriteLoaderManager::getInstance()->getConfClientList();
   std::ostringstream		str;
@@ -358,10 +374,14 @@ void				Server::sendListSprite(ClientInfo *client)
 	client->pushWriteTrame("TCP", (*it));
       delete trame;
     }
+#else
+  (void)client;
+#endif
 }
 
 void				Server::sendSprite(ClientInfo *client, std::string const &sprite, std::string const &proto)
 {
+#ifdef SEND_SPRITE_ACTIVATE
   std::list<Trame *>		*trame;
 
   trame = Trame::ToListTrame(client->getId(), client->getTrameId(), proto, sprite);
@@ -374,6 +394,11 @@ void				Server::sendSprite(ClientInfo *client, std::string const &sprite, std::s
 	}
       delete trame;
     }
+#else
+  (void)client;
+  (void)sprite;
+  (void)proto;
+#endif
 }
 
 void				Server::run()

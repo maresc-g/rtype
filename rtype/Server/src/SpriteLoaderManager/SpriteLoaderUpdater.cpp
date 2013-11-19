@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 11:40:04 2013 laurent ansel
-// Last update Mon Nov 18 16:28:14 2013 laurent ansel
+// Last update Tue Nov 19 10:51:15 2013 laurent ansel
 //
 
 #include			<list>
@@ -103,6 +103,9 @@ void				SpriteLoaderUpdater::run()
 	      itSprite = this->_sprites->erase(itSprite);
 	      break;
 	    }
+#ifndef SEND_SPRITE_ACTIVATE
+      this->_quit = true;
+#endif
     }
   this->_mutex.leave();
 }

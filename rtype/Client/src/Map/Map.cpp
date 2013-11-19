@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:22:47 2013 guillaume marescaux
-// Last update Wed Nov 13 10:45:59 2013 guillaume marescaux
+// Last update Mon Nov 18 10:40:35 2013 guillaume marescaux
 //
 
 #include			"Map/Map.hh"
@@ -118,4 +118,14 @@ unsigned int			Map::getScroll(void) const
   tmp = _scroll;
   _mutex->leave();
   return (tmp);
+}
+
+std::list<Entity *> const	&Map::getMap(void) const
+{
+  std::list<Entity *>		*tmp;
+
+  _mutex->enter();
+  tmp = _map;
+  _mutex->leave();
+  return (*tmp);
 }

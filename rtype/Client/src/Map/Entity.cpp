@@ -5,14 +5,14 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:23:41 2013 guillaume marescaux
-// Last update Mon Nov 11 15:19:14 2013 guillaume marescaux
+// Last update Mon Nov 18 10:29:33 2013 guillaume marescaux
 //
 
 #include			"Map/Entity.hh"
 
 //----------------------------------BEGIN CTOR / DTOR---------------------------------------
 
-Entity::Entity(int const id, int const x, int const y, eEntity const type, eDirection direction):
+Entity::Entity(int const id, int const x, int const y, std::string const &type, eDirection direction):
   _id(id), _x(x), _y(y), _type(type), _direction(direction)
 {
 }
@@ -44,12 +44,12 @@ Entity::~Entity() {}
 int				Entity::getId(void) const { return (_id); }
 int				Entity::getX(void) const { return (_x); }
 int				Entity::getY(void) const { return (_y); }
-Entity::eEntity			Entity::getType(void) const { return (_type); }
+std::string const		&Entity::getType(void) const { return (_type); }
 Entity::eDirection		Entity::getDirection(void) const { return (_direction); }
 void				Entity::setId(int const id) { _id = id; }
 void				Entity::setX(int const x) { _x = x; }
 void				Entity::setY(int const y) { _y = y; }
-void				Entity::setType(eEntity const type) { _type = type; }
+void				Entity::setType(std::string const &type) { _type = type; }
 void				Entity::setDirection(eDirection const direction) { _direction = direction; }
 
 //--------------------------------END GETTERS / SETTERS-------------------------------------

@@ -5,7 +5,11 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
+<<<<<<< HEAD
 // Last update Tue Nov 19 11:59:39 2013 antoine maitre
+=======
+// Last update Tue Nov 19 11:19:00 2013 arthur rucquois
+>>>>>>> 7088ffe21418638bc0d2d7dbb173ba40b9ae0071
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -87,12 +91,12 @@ bool			GameLoop::newPlayer(ClientInfo *newClient)
   return (true);
 }
 
-void			GameLoop::deadPlayer(std::list<PlayerInfo *>::iterator &deadPlayer)
+void			GameLoop::playerDeath(PlayerInfo *deadPlayer)
 {
   std::ostringstream	oss;
 
-  oss << "DEAD " << (*deadPlayer)->getNum();
-  (*deadPlayer)->sendTrame("TCP", std::string(oss.str()));
+  oss << "DEAD " << deadPlayer->getNum();
+  deadPlayer->sendTrame("TCP", std::string(oss.str()));
 }
 
 void			GameLoop::spawnMob()
@@ -113,8 +117,8 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
     }
   for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
     {
-      // if ((*it)->getPlayer()->isDead() == true)
-      // 	this->playerDeath(*it);
+      if ((*it)->getPlayer()->isDead() == true)
+       	this->playerDeath(*it);
     }
 }
 
@@ -155,23 +159,22 @@ void			GameLoop::quitGame()
   this->_mutex->leave();
 }
 
-bool			GameLoop::deletePlayer(ClientInfo *client)
+bool			GameLoop::deletePlayer(ClientInfo *info)
 {
-  // PlayerInfo		*pI;
+  PlayerInfo		*pI;
 
   this->_mutex->enter();
-  // for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
-  //   {
-  //     if ((*it)->isMyInfo(info))
-  // 	{
-  // 	  pI = *it;
-  // 	  _clients->erase(it);
-  // 	  it = _clients->begin();
-  // 	  delete pI;
-  this->_mutex->leave();
-  // 	  return (true);
-  // 	}
-  //   }
+  for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
+    {
+      if ((*it)->isMyInfo(info))
+  	{
+  	  pI = *it;
+  	  it = _clients->erase(it);
+  	  delete pI;
+	  this->_mutex->leave();
+  	  return (true);
+  	}
+    }
   this->_mutex->leave();
   return (false);
 }

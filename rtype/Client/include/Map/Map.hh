@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:30:57 2013 guillaume marescaux
-// Last update Wed Nov 13 10:43:25 2013 guillaume marescaux
+// Last update Mon Nov 18 10:38:36 2013 guillaume marescaux
 //
 
 #ifndef 		__MAP_HH__
@@ -48,6 +48,7 @@ public:
   // Getters / Setters
   void			setScroll(unsigned int const scroll);
   unsigned int		getScroll(void) const;
+  std::list<Entity *> const	&getMap(void) const;
 };
 
 #endif

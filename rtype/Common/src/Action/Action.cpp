@@ -5,20 +5,21 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 18:02:37 2013 laurent ansel
-// Last update Tue Nov 19 10:06:21 2013 guillaume marescaux
+// Last update Tue Nov 19 10:38:56 2013 cyril jourdain
 //
 
 #include			<iostream>
 #include			"Action/Action.hh"
 
 Action::Action():
-  _action(0),
+  _action(new MutexVar<int>(0)),
   _param("")
 {
 }
 
 Action::~Action()
 {
+  delete _action;
 }
 
 Action				&Action::operator=(Action const &other)
@@ -46,59 +47,67 @@ Action				&Action::operator<<(int const action)
   return (*this);
 }
 
+bool				Action::getAction(Action::eAction const action) const
+{
+  int				act;
+
+  act = _action->getVar();
+  return act & action;
+}
+
 bool				Action::getUp() const
 {
-  return (this->_action & Action::UP);
+  return (getAction(Action::UP));
 }
 
 bool				Action::getDown() const
 {
-  return (this->_action & Action::DOWN);
+  return (getAction(Action::DOWN));
 }
 
 bool				Action::getRight() const
 {
-  return (this->_action & Action::RIGHT);
+  return (getAction(Action::RIGHT));
 }
 
 bool				Action::getLeft() const
 {
-  return (this->_action & Action::LEFT);
+  return (getAction(Action::LEFT));
 }
 
 bool				Action::getFire() const
 {
-  return (this->_action & Action::FIRE);
+  return (getAction(Action::FIRE));
 }
 
 bool				Action::getQuitGame() const
 {
-  return (this->_action & Action::QUITGAME);
+  return (getAction(Action::QUITGAME));
 }
 
 bool				Action::getQuitAll() const
 {
-  return (this->_action & Action::QUITALL);
+  return (getAction(Action::QUITALL));
 }
 
 bool				Action::getGameList() const
 {
-  return (this->_action & Action::GAMELIST);
+  return (getAction(Action::GAMELIST));
 }
 
 bool				Action::getJoin() const
 {
-  return (this->_action & Action::JOIN);
+  return (getAction(Action::JOIN));
 }
 
 bool				Action::getCreate() const
 {
-  return (this->_action & Action::CREATE);
+  return (getAction(Action::CREATE));
 }
 
 bool				Action::getGetSprite() const
 {
-  return (this->_action & Action::GETSPRITE);
+  return (getAction(Action::GETSPRITE));
 }
 
 std::string const		&Action::getParam() const
@@ -108,10 +117,14 @@ std::string const		&Action::getParam() const
 
 void				Action::setAction(bool const set, Action::eAction const action)
 {
+  int				act;
+
+  act = _action->getVar();
   if (set)
-    this->_action |= action;
+    act |= action;
   else
-    this->_action &= ~action;
+    act &= ~action;
+  _action->setVar(act);
 }
 
 void				Action::setUp(bool const set)
@@ -176,20 +189,24 @@ void				Action::setParam(std::string const &param)
 
 bool				Action::empty() const
 {
-  if (this->_action == 0)
+  if (this->_action->getVar() == 0)
     return (true);
   return (false);
 }
 
 void				Action::reset()
 {
-  _action ^= _action;
+  int				act = _action->getVar();
+
+  act ^= act;
+  _action->setVar(act);
 }
 
 std::string const		Action::toString(void) const
 {
   std::string			ret;
+  int				act = _action->getVar();
 
-  ret = _action;
+  ret = act;
   return (ret);
 }

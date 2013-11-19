@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:33:27 2013 guillaume marescaux
-// Last update Fri Nov 15 11:10:12 2013 guillaume marescaux
+// Last update Mon Nov 18 16:27:47 2013 guillaume marescaux
 //
 
 #ifndef 		__PROTOCOL_HH__
@@ -41,8 +41,7 @@ public:
       DEAD,
       ENDGAME,
       SPRITE,
-      CONTENTSPRITE,
-      CONFSPRITE,
+      CONTENTFILE,
       LEVELUP,
       SERVERQUIT,
       END
@@ -53,6 +52,7 @@ private:
   // Attributes
   std::map<eProtocol, void(Protocol::*)(int const, void *)>	*_ptrs;
   std::map<std::string, eProtocol>				*_equivalent;
+  int								_trameId;
 
 public:
   // Ctor / Dtor

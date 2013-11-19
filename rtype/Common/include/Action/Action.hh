@@ -5,13 +5,14 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 17:50:22 2013 laurent ansel
-// Last update Tue Nov 19 10:06:25 2013 guillaume marescaux
+// Last update Tue Nov 19 10:36:20 2013 cyril jourdain
 //
 
 #ifndef 			__ACTION_HH__
 # define 			__ACTION_HH__
 
 #include			<string>
+#include			"Mutex/MutexVar.hpp"
 
 class				Action
 {
@@ -31,7 +32,7 @@ public:
       GETSPRITE	=	(1 << 10),
     };
 private:
-  int				_action;
+  MutexVar<int>			*_action;
   std::string			_param;
 public:
   Action();
@@ -68,6 +69,7 @@ public:
 
 private:
   void				setAction(bool const set, Action::eAction const action);
+  bool				getAction(Action::eAction const action) const;
 };
 
 #endif

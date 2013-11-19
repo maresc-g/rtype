@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Nov  5 10:47:42 2013 laurent ansel
-// Last update Mon Nov 18 18:45:23 2013 laurent ansel
+// Last update Tue Nov 19 11:01:12 2013 laurent ansel
 //
 
 #ifndef 			__GAMELOOPMANAGER_HH__
@@ -26,7 +26,7 @@ private:
   virtual ~GameLoopManager();
 public:
   unsigned int			pushNewGame(std::string const &name);
-  void				runGame(unsigned int const idGame);
+  bool				runGame(unsigned int const idGame);
   std::string			listInfoGame();
   void				quitAllGame();
   bool				addPlayerInGame(ClientInfo *client, unsigned int const idGame);

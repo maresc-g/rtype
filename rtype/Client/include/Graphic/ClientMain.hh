@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:37:12 2013 cyril jourdain
-// Last update Mon Nov 18 16:23:38 2013 cyril jourdain
+// Last update Mon Nov 18 17:19:53 2013 guillaume marescaux
 //
 
 #ifndef 		__CLIENTMAIN_HH__
@@ -22,6 +22,8 @@ class			Client;
 #include		"Utility/Singleton.hpp"
 #include		"FileSystem/Directory.hh"
 #include		"eState.hh"
+#include		"Mutex/MutexVar.hpp"
+#include		"Action/Action.hh"
 
 #define			SPRITE_DIR	"Res/Sprites"
 
@@ -33,8 +35,9 @@ private:
   WindowManager			*_manager;
   Client			*_client;
   std::map<unsigned int, SFWindow *>	*_windows;
-  eState			_state;
+  MutexVar<eState>		*_state;
   FileSystem::Directory		*_dir;
+  Action			*_action;
 
 private:
   ClientMain();
@@ -54,6 +57,7 @@ public:
   void				connectToServer(void *param);
   void				joinGame(void *param);
   void				createGame(void *param);
+  void				callCreateGame(void *param);
   void				backToLogin(void *param);
   void				refreshGameList(void *param);
   void				sendKeyPress(PressedKey const &keys);
