@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Tue Nov 19 13:41:29 2013 guillaume marescaux
+// Last update Tue Nov 19 13:51:31 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -48,6 +48,7 @@ Client::Client(FileSystem::Directory *dir, MutexVar<eState> *state, Action *acti
   (*_ptrs)[Protocol::ENTITY] = &Client::entity;
   (*_ptrs)[Protocol::SCROLL] = &Client::scroll;
   (*_ptrs)[Protocol::DEAD] = &Client::dead;
+  (*_ptrs)[Protocol::REMOVE_ENTITY] = &Client::removeEntity;
   (*_ptrs)[Protocol::SPRITE] = &Client::sprite;
   (*_ptrs)[Protocol::CONTENTFILE] = &Client::contentFile;
   (*_ptrs)[Protocol::LEVELUP] = &Client::levelUp;
@@ -221,11 +222,16 @@ void				Client::scroll(Trame const &trame)
   map->setScroll(std::stoi(trame.getContent()));
 }
 
-void				Client::dead(Trame const &trame)
+void				Client::removeEntity(Trame const &trame)
 {
   Map				*map = Map::getInstance();
 
   map->removeEntity(std::stoi(trame.getContent()));
+}
+
+void				Client::dead(Trame const &)
+{
+  *_state = DEAD;
 }
 
 void				Client::sprite(Trame const &trame)

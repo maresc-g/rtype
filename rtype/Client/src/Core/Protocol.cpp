@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:39:28 2013 guillaume marescaux
-// Last update Tue Nov 19 13:38:43 2013 guillaume marescaux
+// Last update Tue Nov 19 13:51:02 2013 guillaume marescaux
 //
 
 #include			<sstream>
@@ -39,6 +39,7 @@ Protocol::Protocol():
   _equivalent->insert(std::pair<std::string, eProtocol>("ENTITY", ENTITY));
   _equivalent->insert(std::pair<std::string, eProtocol>("SCROLL", SCROLL));
   _equivalent->insert(std::pair<std::string, eProtocol>("DEAD", DEAD));
+  _equivalent->insert(std::pair<std::string, eProtocol>("REMOVEENTITY", REMOVE_ENTITY));
   _equivalent->insert(std::pair<std::string, eProtocol>("SPRITE", SPRITE));
   _equivalent->insert(std::pair<std::string, eProtocol>("CONTENTFILE", CONTENTFILE));
   _equivalent->insert(std::pair<std::string, eProtocol>("LEVELUP", LEVELUP));
