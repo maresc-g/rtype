@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Tue Nov 19 17:18:48 2013 cyril jourdain
+// Last update Tue Nov 19 17:43:15 2013 guillaume marescaux
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -157,7 +157,9 @@ void			ClientMain::backToLogin(void *)
 
 void			ClientMain::refreshGameList(void *)
 {
-  _client->getProto()->protocolMsg(Protocol::GAMELIST, _client->getId(), NULL);
+  _client->getProto()->getMsg(new Trame(0, 0, "UDP", "TEST"));
+  _client->getProto()->protocolMsg(Protocol::GET_GAMELIST, _client->getId(), NULL);
+  *_state = GAMELIST;
   while (_state->getVar() == GAMELIST)
     ;
   static_cast<LobbyWindow*>((*_windows)[LOBBY])->refreshGameList(NULL);

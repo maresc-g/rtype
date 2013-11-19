@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Tue Nov 19 13:51:31 2013 guillaume marescaux
+// Last update Tue Nov 19 17:43:56 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -158,6 +158,7 @@ void				Client::gamelist(Trame const &trame)
       gameList->addGame(new GameInfo(map["id"], map["name"], map["numPlayer"], map["level"]));
       delete tokenStream;
     }
+  *_state = IN_LOBBY;
 }
 
 void				Client::ko(Trame const &)
