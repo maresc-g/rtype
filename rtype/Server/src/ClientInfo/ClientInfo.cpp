@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Tue Nov 19 12:47:36 2013 laurent ansel
+// Last update Tue Nov 19 17:57:06 2013 laurent ansel
 //
 
 #include			<unistd.h>
@@ -131,6 +131,8 @@ void				ClientInfo::pushWriteTrame(std::string const &proto, Trame *trame)
   this->_mutex->enter();
   if (trame)
     {
+      if (trame->isSetEndTrame())
+	this->_trameId++;
       CircularBufferManager::getInstance()->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
       (*this->_nbTrame)[proto]++;
     }
