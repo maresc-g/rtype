@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Nov  5 10:47:00 2013 laurent ansel
-// Last update Mon Nov 18 18:57:46 2013 laurent ansel
+// Last update Tue Nov 19 11:00:42 2013 laurent ansel
 //
 
 #include			"GameLoop/GameLoopManager.hh"
@@ -40,7 +40,7 @@ unsigned int			GameLoopManager::pushNewGame(std::string const &name)
   return (game->getId());
 }
 
-void				GameLoopManager::runGame(unsigned int const idGame)
+bool				GameLoopManager::runGame(unsigned int const idGame)
 {
   std::list<GameLoop *>::iterator	it;
 
@@ -48,8 +48,12 @@ void				GameLoopManager::runGame(unsigned int const idGame)
     {
       for (it = this->_listGame->begin() ; it != this->_listGame->end() && (*it)->getId() != idGame ; ++it);
       if (it != this->_listGame->end())
-	(*it)->start();
+	{
+	  (*it)->start();
+	  return (true);
+	}
     }
+  return (false);
 }
 
 void				GameLoopManager::quitGame(unsigned int const id)
