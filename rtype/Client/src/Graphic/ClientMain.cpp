@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Mon Nov 18 17:20:40 2013 guillaume marescaux
+// Last update Tue Nov 19 10:47:16 2013 guillaume marescaux
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -41,11 +41,11 @@ void			ClientMain::init()
 {
   _state = new MutexVar<eState>(IN_LOGIN);
   _dir = new FileSystem::Directory(SPRITE_DIR);
-  _client = new Client(_dir, _state);
+  _action = new Action;
+  _client = new Client(_dir, _state, _action);
   _client->createThread(&trampoline, _client);
   _manager = new WindowManager();
   _windows = new std::map<unsigned int, SFWindow*>();
-  _action = new Action;
   _manager->init();
   (*_windows)[LOGIN] = new LoginWindow();
   (*_windows)[LOBBY] = new LobbyWindow();
