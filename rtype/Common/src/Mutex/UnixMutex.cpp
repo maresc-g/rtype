@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 13:04:52 2013 laurent ansel
-// Last update Tue Nov 19 12:41:36 2013 laurent ansel
+// Last update Tue Nov 19 12:55:35 2013 laurent ansel
 //
 
 #ifndef			_WIN32
@@ -36,7 +36,6 @@ void			UnixMutex::destroy()
 
 void			UnixMutex::enter()
 {
-  std::cout << "ENTER" << std::endl;
   if (this->_init)
     pthread_mutex_lock(&this->_mutex);
 }
@@ -50,7 +49,6 @@ int			UnixMutex::tryEnter()
 
 void			UnixMutex::leave()
 {
-  std::cout << "LEAVE" << std::endl;
   if (this->_init)
     pthread_mutex_unlock(&this->_mutex);
 }

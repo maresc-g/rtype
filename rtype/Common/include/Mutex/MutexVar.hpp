@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Nov 14 18:56:32 2013 guillaume marescaux
-// Last update Fri Nov 15 14:15:06 2013 guillaume marescaux
+// Last update Tue Nov 19 13:02:26 2013 laurent ansel
 //
 
 #ifndef 		__MUTEXVAR_HPP__
@@ -25,7 +25,9 @@ private:
 public:
   MutexVar(T var):
     _mutex(new Mutex), _var(var)
-  {}
+  {
+    _mutex->initialize();
+  }
 
   virtual ~MutexVar()
   {
