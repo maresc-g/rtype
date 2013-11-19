@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Nov  6 17:17:27 2013 laurent ansel
-// Last update Mon Nov 18 18:37:01 2013 laurent ansel
+// Last update Mon Nov 18 22:29:04 2013 laurent ansel
 //
 
 #ifndef	_WIN32
@@ -66,9 +66,9 @@ void				ObjectPoolUpdater::run()
 	  else
 	    {
 #ifndef _WIN32
-	      usleep(500);
+	      usleep(5000);
 #else
-	      Sleep(500);
+	      Sleep(5);
 #endif
 	    }
 	}
