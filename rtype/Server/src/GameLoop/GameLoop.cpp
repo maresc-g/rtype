@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Tue Nov 19 13:39:58 2013 antoine maitre
+// Last update Tue Nov 19 17:34:49 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -55,7 +55,8 @@ void			GameLoop::loop()
 	    it = this->_levelManag->getEnemies().erase(it);
 	}
       this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
-      this->destroyDeadEntities(this->_levelManag->getEnemies());
+      this->destroyDeadEntities(this->_levelManag->getEnemies(),
+				this->_levelManag->getPlayers());
       this->_mutex->leave();
       rest = clock() - time;
       if (rest < 1000 / this->_rate)
@@ -64,12 +65,46 @@ void			GameLoop::loop()
 #else
       Sleep((1000 * ((1000 / this->_rate) - rest)) / 1000);
 #endif
+      this->sendScroll(this->_levelManag->getAdv());
+      this->sendScreen(this->_levelManag->getEnemies());
+      this->sendScreen(this->_levelManag->getPlayers());
     }
 }
 
-void			GameLoop::recupScreen()
+void			GameLoop::sendDeadEntity(unsigned int id)
 {
+  std::ostringstream	oss;
 
+  oss << "DEAD " << id;
+  this->sendClient("TCP", oss.str());
+}
+
+void			GameLoop::sendScroll(unsigned int scroll)
+{
+  std::ostringstream	oss;
+
+  oss << "SCROLL " << scroll;
+  this->sendClient("UDP", oss.str());
+}
+
+void			GameLoop::sendClient(const std::string &protocol, const std::string &trame)
+{
+  for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
+    (*it_bis)->sendTrame(protocol, trame);
+}
+
+void			GameLoop::sendScreen(std::list<AEntity *> &list)
+{
+  std::ostringstream	oss;
+
+  for (auto it = list.begin(); it != list.begin(); it++)
+    {
+      oss << "ENTITY " << (*it)->getId() 
+	  << ";" << (*it)->getPath().substr(12, (*it)->getPath().size() - 5)
+	  << ";" << (*it)->getCoord()->getX() << ";" << (*it)->getCoord()->getY();
+      sendClient("UDP", oss.str());
+      oss.str("");
+    }
 }
 
 bool			GameLoop::newPlayer(ClientInfo *newClient)
@@ -90,7 +125,7 @@ void			GameLoop::playerDeath(PlayerInfo *deadPlayer)
 {
   std::ostringstream	oss;
 
-  oss << "DEAD " << deadPlayer->getNum();
+  oss << "DEAD";
   deadPlayer->sendTrame("TCP", std::string(oss.str()));
 }
 
@@ -103,17 +138,24 @@ void			GameLoop::spawnMob()
     }
 }
 
-void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies)
+void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AEntity *> &players)
 {
   for (std::list<AEntity *>::iterator it = enemies.begin(); it != enemies.end(); it++)
     {
       if ((*it)->isDead() == true)
-	it = enemies.erase(it);
+	{
+	  this->sendDeadEntity((*it)->getId());
+	  it = enemies.erase(it);
+	}
     }
   for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
     {
       if ((*it)->getPlayer()->isDead() == true)
-       	this->playerDeath(*it);
+	{
+	  this->sendDeadEntity((*it)->getPlayer()->getId());
+	  this->playerDeath(*it);
+	  players.remove((*it)->getPlayer());
+	}
     }
 }
 
@@ -163,12 +205,12 @@ bool			GameLoop::deletePlayer(ClientInfo *info)
     {
       if ((*it)->isMyInfo(info))
   	{
-  	  pI = *it;
-  	  it = _clients->erase(it);
-  	  delete pI;
+	  pI = *it;
+	  it = _clients->erase(it);
+	  delete pI;
 	  this->_mutex->leave();
-  	  return (true);
-  	}
+	  return (true);
+	}
     }
   this->_mutex->leave();
   return (false);

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:22:19 2013 antoine maitre
-// Last update Mon Nov 18 18:01:21 2013 arthur rucquois
+// Last update Tue Nov 19 16:17:25 2013 antoine maitre
 //
 
 #ifndef		__PLAYERINFO_HH__
@@ -23,15 +23,18 @@ private:
   Player	*_player;
   ClientInfo	*_info;
   int		_num;
-
+  bool		_inGame;
 public:
   PlayerInfo(ClientInfo *, int num);
   ~PlayerInfo();
   AEntity	*getPlayer() const;
+  void		setPlayer(Player *);
   void		actionPlayer(Map *map, int);
   int		getNum() const;
   void		sendTrame(const std::string &protocol, const std::string &trame);
   bool		isMyInfo(ClientInfo *info) const;
+  bool		getIG() const;
+  void		setIG(bool b);
 };
 
 #endif
