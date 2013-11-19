@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:26 2013 guillaume marescaux
-// Last update Tue Nov 19 10:50:06 2013 guillaume marescaux
+// Last update Tue Nov 19 11:06:26 2013 guillaume marescaux
 //
 
 #ifndef 		__CLIENT_HH__
@@ -87,7 +87,6 @@ private:
 
   void			welcome(Trame const &trame);
   void			gamelist(Trame const &trame);
-  void			ok(Trame const &trame);
   void			ko(Trame const &trame);
   void			launchGame(Trame const &trame);
   void			map(Trame const &trame);
