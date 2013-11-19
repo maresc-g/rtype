@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Tue Nov 19 14:23:09 2013 antoine maitre
+// Last update Tue Nov 19 18:23:04 2013 antoine maitre
 //
 
 #include "Level/Map.hh"
@@ -16,7 +16,6 @@ Map::Map(std::string _path)
   std::string contenu;
   std::string op;
   std::string pathMob;
-  int type;
   std::ostringstream oss;
 
   if(fichier)
@@ -31,12 +30,9 @@ Map::Map(std::string _path)
 	(*this->_map)[i].resize(SCREENX);
       while (std::getline(fichier, contenu))
       	{
-      	  op = contenu.substr(0, contenu.find(";"));
-      	  type = atoi(op.c_str());
       	  contenu = contenu.substr(contenu.find(";") + 1, contenu.size() - contenu.find(";"));
       	  op = contenu.substr(0, contenu.find(";"));
       	  contenu = contenu.substr(contenu.find(";") + 1, contenu.size() - contenu.find(";"));
-	  oss << type;
 	  pathMob = _path.substr(0, _path.size() - 3) + oss.str() + ".conf";
 	  oss.str("");
       	}

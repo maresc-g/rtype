@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Tue Nov 19 17:36:27 2013 antoine maitre
+// Last update Tue Nov 19 17:45:23 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -45,7 +45,10 @@ void			GameLoop::loop()
       this->_levelManag->incAdv();
       std::cout << "ADV = " << this->_levelManag->getAdv() << std::endl;
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
-	(*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
+	{
+	  if ((*it)->getIG() == true)
+	    (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
+	}
       for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().begin(); it++)
 	{
 	  const Coordinate	*coord = (*it)->getCoord();
@@ -151,6 +154,7 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
 	  this->sendDeadEntity((*it)->getPlayer()->getId());
 	  this->playerDeath(*it);
 	  players.remove((*it)->getPlayer());
+	  (*it)->setIG(false);
 	}
     }
 }
