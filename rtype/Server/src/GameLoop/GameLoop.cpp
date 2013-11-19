@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Mon Nov 18 22:17:07 2013 laurent ansel
+// Last update Tue Nov 19 12:32:45 2013 laurent ansel
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -43,7 +43,7 @@ void			GameLoop::loop()
       time = clock();
       this->_mutex->enter();
       this->_levelManag->incAdv();
-      std::cout << this->_levelManag->getAdv() << std::endl;
+      std::cout << "ADV = " << this->_levelManag->getAdv() << std::endl;
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
 	(*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
       for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().begin(); it++)

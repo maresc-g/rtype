@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Mon Nov 18 22:30:21 2013 laurent ansel
+// Last update Tue Nov 19 12:47:36 2013 laurent ansel
 //
 
 #include			<unistd.h>
@@ -50,7 +50,11 @@ bool				ClientInfo::standbyCommand() const
 {
   this->_mutex->enter();
   if (!this->_command->empty())
-    getFirstCommand();
+    {
+      this->_mutex->leave();
+      getFirstCommand();
+      this->_mutex->enter();
+    }
   if (this->_command->empty())
     {
       this->_mutex->leave();
@@ -62,6 +66,7 @@ bool				ClientInfo::standbyCommand() const
 
 Command const			*ClientInfo::getFirstCommand() const
 {
+  this->_mutex->enter();
   Command			*command = this->_command->front();
 
   if (command->getAction().empty())
