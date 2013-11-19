@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Tue Nov 19 17:45:23 2013 antoine maitre
+// Last update Tue Nov 19 17:39:30 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -101,7 +101,7 @@ void			GameLoop::sendScreen(std::list<AEntity *> &list)
 
   for (auto it = list.begin(); it != list.begin(); it++)
     {
-      oss << "ENTITY " << (*it)->getId() 
+      oss << "ENTITY " << (*it)->getId()
 	  << ";" << (*it)->getPath().substr(12, (*it)->getPath().size() - 5)
 	  << ";" << (*it)->getCoord()->getX() << ";" << (*it)->getCoord()->getY();
       sendClient("UDP", oss.str());

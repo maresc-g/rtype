@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Nov  6 16:51:50 2013 laurent ansel
-// Last update Wed Nov  6 18:40:49 2013 laurent ansel
+// Last update Tue Nov 19 13:54:10 2013 laurent ansel
 //
 
 #ifndef 			__OBJECTPOOLUPDATER_HH__
@@ -14,6 +14,7 @@
 #include			<map>
 #include			<list>
 #include			"Entities/AEntity.hh"
+#include			"Entities/Player.hh"
 #include			"Thread/Thread.hpp"
 #include			"Mutex/Mutex.hpp"
 

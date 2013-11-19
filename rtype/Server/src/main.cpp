@@ -5,12 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 12:58:03 2013 laurent ansel
-// Last update Tue Nov 19 13:31:38 2013 alexis mestag
+// Last update Tue Nov 19 17:37:58 2013 antoine maitre
 //
 
 #include		<string>
 #include		<iostream>
 #include		<sstream>
+#include		<stdexcept>
 #include		"Server/Server.hh"
 #include		"Error/SocketError.hpp"
 

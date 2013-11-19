@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Nov  6 16:40:00 2013 laurent ansel
-// Last update Wed Nov  6 18:35:36 2013 laurent ansel
+// Last update Tue Nov 19 13:54:07 2013 laurent ansel
 //
 
 #ifndef 			__OBJECTPOOLMANAGER_HH__

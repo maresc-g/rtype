@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 11:18:35 2013 laurent ansel
-// Last update Mon Nov 18 16:32:26 2013 laurent ansel
+// Last update Tue Nov 19 17:06:48 2013 laurent ansel
 //
 
 #include			<sstream>
@@ -110,4 +110,21 @@ std::string const		SpriteLoaderManager::getContentFile(std::string const &name) 
   if (!name.empty() && name.find(CONFCLIENT) != std::string::npos)
     return (this->getConfSprite(name));
   return (this->getSprite(name));
+}
+
+bool				SpriteLoaderManager::getEntitySprite(std::string const &name, AEntity &entity) const
+{
+  std::list<SpriteLoader *>::iterator	it;
+
+  this->_mutex->enter();
+  for (it = this->_sprites->begin() ; it != this->_sprites->end() && (*it)->getPath().find(name) != std::string::npos ; ++it);
+  if (it != this->_sprites->end())
+    {
+      *(*it) >> entity;
+      this->_mutex->leave();
+      return (true);
+    }
+  this->_mutex->leave();
+  return (false);
+
 }

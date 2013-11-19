@@ -5,16 +5,20 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Tue Nov 19 17:37:07 2013 antoine maitre
+// Last update Tue Nov 19 17:39:21 2013 antoine maitre
 //
 
+#include		"SpriteLoaderManager/SpriteLoaderManager.hh"
+#include		"ObjectPoolManager/ObjectPoolManager.hh"
 #include "GameLoop/PlayerInfo.hh"
 
 PlayerInfo::PlayerInfo(ClientInfo *info, int num)
   : _info(info), _num(num), _inGame(true)
 {
-  std::string path = "Res/Sprites/player.conf";
-  _player = new Player(20, 40, path, 1, true);
+  // std::string path = "Res/Sprites/player.conf";
+  // _player = new Player(20, 40, path, 1, true);
+  _player = reinterpret_cast<Player *>(ObjectPoolManager::getInstance()->getCopy(AEntity::PLAYER));
+  SpriteLoaderManager::getInstance()->getEntitySprite("player", *_player);
   _player->setInvincible(40);
 }
 

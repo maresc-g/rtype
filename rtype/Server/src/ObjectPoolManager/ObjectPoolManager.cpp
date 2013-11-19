@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Nov  6 17:04:40 2013 laurent ansel
-// Last update Thu Nov  7 21:52:33 2013 laurent ansel
+// Last update Tue Nov 19 13:40:49 2013 laurent ansel
 //
 
 #include		"ObjectPoolManager/ObjectPoolManager.hh"
@@ -19,6 +19,7 @@ ObjectPoolManager::ObjectPoolManager():
   this->_mutex->initialize();
   this->_mutex->enter();
   (*this->_listEntities)[AEntity::MOB] = new std::list<AEntity *>;
+  (*this->_listEntities)[AEntity::PLAYER] = new std::list<AEntity *>;
   this->_mutex->leave();
 
   this->_updater->start();

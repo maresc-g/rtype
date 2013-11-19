@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 15:04:52 2013 laurent ansel
-// Last update Sun Nov 17 23:40:07 2013 laurent ansel
+// Last update Tue Nov 19 17:12:03 2013 laurent ansel
 //
 
 #include		<utility>
@@ -18,7 +18,7 @@ SpriteLoader::SpriteLoader(size_t const id, std::string const &path, std::string
   _id(id),
   _path(path),
   _confFile(confFile),
-  _entity(new AEntity(0, 0, "", 0, false)),
+  _entity(new s_entity),
   _confClient(std::make_pair("", ""))
 {
 }
@@ -26,6 +26,19 @@ SpriteLoader::SpriteLoader(size_t const id, std::string const &path, std::string
 SpriteLoader::~SpriteLoader()
 {
   delete _entity;
+}
+
+SpriteLoader		&SpriteLoader::operator>>(AEntity &entity)
+{
+  entity.setWidth(this->_entity->_width);
+  entity.setHeight(this->_entity->_height);
+  entity.setLife(this->_entity->_life);
+  entity.setPath(this->_entity->_path);
+  entity.setSpeed(this->_entity->_speed);
+  entity.setDestructible(this->_entity->_destructible);
+  entity.setInformationHitBox(this->_entity->_hitbox);
+  entity.setSpawnProjectile(this->_entity->_spawnProjectile);
+  return (*this);
 }
 
 void			SpriteLoader::getSpawnCoordinate(std::string const &content)
@@ -48,7 +61,7 @@ void			SpriteLoader::getSpawnCoordinate(std::string const &content)
 	  if (spawnProjectile[0] > -1 && spawnProjectile[1] > -1)
 	    {
 	      coord = new Coordinate(spawnProjectile[0], spawnProjectile[1]);
-	      this->_entity->setSpawnProjectile(coord);;
+	      this->_entity->_spawnProjectile = coord;
 	    }
 	}
     }
@@ -68,7 +81,7 @@ void			SpriteLoader::getLife(std::string const &content)
 
 	  str >> life;
 	  if (life > -1)
-	    this->_entity->setLife(life);
+	    this->_entity->_life = life;
 	}
     }
 }
@@ -87,7 +100,7 @@ void			SpriteLoader::getWidthAndHeight(std::string const &content)
 
 	  str >> width;
 	  if (width > -1)
-	    this->_entity->setWidth(width);
+	    this->_entity->_width = width;
 	}
       if ((pos = content.find(HEIGHT)) != std::string::npos && (endPos = content.find("\n", pos)) != std::string::npos)
 	{
@@ -96,7 +109,7 @@ void			SpriteLoader::getWidthAndHeight(std::string const &content)
 
 	  str >> height;
 	  if (height > -1)
-	    this->_entity->setHeight(height);
+	    this->_entity->_height = height;
 	}
     }
 }
@@ -115,7 +128,7 @@ void			SpriteLoader::getSpeed(std::string const &content)
 
 	  str >> speed;
 	  if (speed > -1 && speed < 500)
-	    this->_entity->setSpeed(speed);
+	    this->_entity->_speed = speed;
 	}
     }
 }
@@ -133,7 +146,7 @@ void			SpriteLoader::getDestructible(std::string const &content)
 	  bool		destructible;
 
 	  str >> std::boolalpha >> destructible;
-	  this->_entity->setDestructible(destructible);
+	  this->_entity->_destructible = destructible;
 	}
     }
 }
@@ -207,9 +220,8 @@ void			SpriteLoader::getInformationHitBox(std::string const &content)
 	  if (node)
 	    hitbox->push_back(node);
 	}
-      this->_entity->setInformationHitBox(hitbox);
+      this->_entity->_hitbox = hitbox;
     }
-
 }
 
 void			SpriteLoader::loadConfFile()

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Tue Nov 19 10:47:16 2013 guillaume marescaux
+// Last update Tue Nov 19 17:18:48 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -66,7 +66,7 @@ void			ClientMain::launch()
 
 void			ClientMain::setState(eState s)
 {
-  _state->setVar(s);
+  *_state = s;
 }
 
 eState			ClientMain::getState() const
@@ -76,8 +76,6 @@ eState			ClientMain::getState() const
 
 void			ClientMain::connectToServer(void *param)
 {
-  sf::Clock		clock;
-
   if (param)
     {
       LoginWData		*data = reinterpret_cast<LoginWData*>(param);
@@ -86,18 +84,23 @@ void			ClientMain::connectToServer(void *param)
       std::cout << data->port->getText() << std::endl;
       if (!data->adress->getText().empty() && !data->port->getText().empty())
 	{
+	  *_state = CONNECTING;
 	  _client->setConnectInfo(new ConnectInfo(data->adress->getText(), data->port->getText()));
-	  clock.restart();
-	  while (clock.getElapsedTime().asSeconds() < 1);
-	  if (_client->getConnectInfo())
+	  while (_state->getVar() == CONNECTING);
+	  if (_state->getVar() == CONNECTED)
 	    {
-	      _manager->setActiveWindow(LOBBY);
-	      _manager->getWindowById(LOGIN)->setVisibility(false);
-	      _state->setVar(eState::IN_LOBBY);
-	      static_cast<LobbyWindow*>((*_windows)[LOBBY])->refreshGameList(NULL);
+	      if (_client->getConnectInfo())
+		{
+		  _manager->setActiveWindow(LOBBY);
+		  _manager->getWindowById(LOGIN)->setVisibility(false);
+		  *_state = IN_LOGIN;
+		  static_cast<LobbyWindow*>((*_windows)[LOBBY])->refreshGameList(NULL);
+		}
 	    }
-	  else
+	  else if (_state->getVar() == ERROR_CONNECT)
 	    _manager->addWindow(new SFDialogBox("Error", "Could not connect to server"));
+	  else
+	    _manager->addWindow(new SFDialogBox("Error", "Unknown error"));
 	}
       else
 	_manager->addWindow(new SFDialogBox("Error", "Please fill server IP and PORT"));
@@ -133,6 +136,17 @@ void			ClientMain::callCreateGame(void *data)
 
   std::cout << tmp << std::endl;
   _client->getProto()->protocolMsg(Protocol::CREATE, _client->getId(), &tmp);
+  while (_state->getVar() == WAIT_GAME);
+  if (_state->getVar() == PLAYING)
+    {
+      _manager->setActiveWindow(GAME);
+      _manager->getWindowById(LOBBY)->setVisibility(false);
+    }
+  else
+    {
+      _manager->addWindow(new SFDialogBox("Error", "Unable to launch the game"));
+      *_state = IN_LOBBY;
+    }
 }
 
 void			ClientMain::backToLogin(void *)
