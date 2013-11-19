@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Nov 14 18:56:32 2013 guillaume marescaux
-// Last update Tue Nov 19 13:02:26 2013 laurent ansel
+// Last update Tue Nov 19 13:15:39 2013 guillaume marescaux
 //
 
 #ifndef 		__MUTEXVAR_HPP__
@@ -50,6 +50,16 @@ public:
     tmp = _var;
     _mutex->leave();
     return (tmp);
+  }
+
+  T const		&operator*(void) const
+  {
+    return (getVar());
+  }
+
+  void			operator=(T const &var)
+  {
+    _var = var;
   }
 };
 

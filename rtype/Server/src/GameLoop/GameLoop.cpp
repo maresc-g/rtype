@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Tue Nov 19 12:52:04 2013 laurent ansel
+// Last update Tue Nov 19 13:16:03 2013 laurent ansel
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -87,10 +87,7 @@ bool			GameLoop::newPlayer(ClientInfo *newClient)
 
 void			GameLoop::playerDeath(PlayerInfo *deadPlayer)
 {
-  std::ostringstream	oss;
-
-  oss << "DEAD " << deadPlayer->getNum();
-  deadPlayer->sendTrame("TCP", std::string(oss.str()));
+  deadPlayer->sendTrame("TCP", "DEAD");
 }
 
 void			GameLoop::spawnMob()
