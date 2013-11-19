@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Mon Nov 18 17:59:15 2013 guillaume marescaux
+// Last update Tue Nov 19 10:50:32 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -23,7 +23,7 @@
 
 //----------------------------------BEGIN CTOR / DTOR---------------------------------------
 
-Client::Client(FileSystem::Directory *dir, MutexVar<eState> *state):
+Client::Client(FileSystem::Directory *dir, MutexVar<eState> *state, Action *action):
   Thread(),
   _ptrs(new std::map<Protocol::eProtocol, void(Client::*)(Trame const &)>),
   _sockets(new std::map<eSocket, Socket *>),
@@ -36,7 +36,8 @@ Client::Client(FileSystem::Directory *dir, MutexVar<eState> *state):
   _initialized(new MutexVar<bool>(false)),
   _dir(dir),
   _diffDir(new std::list<std::string>),
-  _state(state)
+  _state(state),
+  _action(action)
 {
   // ptrs
   (*_ptrs)[Protocol::WELCOME] = &Client::welcome;
@@ -466,6 +467,7 @@ void				Client::loop(void)
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
   Trame				*tmp;
   Protocol::eProtocol		msgType;
+  std::string			actionStr;
 
   this->read(0, 0, true);
   tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
@@ -478,6 +480,8 @@ void				Client::loop(void)
       // std::cout << "MSG_TYPE = " << static_cast<int>(msgType) << std::endl;
       (this->*(*_ptrs)[msgType])(*tmp);
     }
+  actionStr = _action->toString();
+  _protocol->protocolMsg(Protocol::ACTION, _id, &actionStr);
   this->write();
 }
 

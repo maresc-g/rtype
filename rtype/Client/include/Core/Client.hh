@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:26 2013 guillaume marescaux
-// Last update Mon Nov 18 16:27:35 2013 guillaume marescaux
+// Last update Tue Nov 19 10:50:06 2013 guillaume marescaux
 //
 
 #ifndef 		__CLIENT_HH__
@@ -23,6 +23,7 @@
 #include		"Mutex/MutexVar.hpp"
 #include		"FileSystem/Directory.hh"
 #include		"Graphic/eState.hh"
+#include		"Action/Action.hh"
 
 class			Client : public Thread
 {
@@ -49,11 +50,12 @@ private:
   FileSystem::Directory			*_dir;
   std::list<std::string>		*_diffDir;
   MutexVar<eState>			*_state;
+  Action				*_action;
 
 public:
 
   // Ctor / Dtor
-  Client(FileSystem::Directory *dir, MutexVar<eState> *_state);
+  Client(FileSystem::Directory *dir, MutexVar<eState> *_state, Action *action);
   virtual ~Client();
 
   // Methods
