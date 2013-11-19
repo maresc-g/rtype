@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Mon Nov 18 16:12:11 2013 laurent ansel
+// Last update Mon Nov 18 22:30:21 2013 laurent ansel
 //
 
 #include			<unistd.h>
@@ -157,17 +157,13 @@ void				ClientInfo::writeOneTrame(std::string const &proto)
       tmp = CircularBufferManager::getInstance()->popTrame(this->_id, proto, CircularBufferManager::WRITE_BUFFER);
       if (tmp)
 	{
-	  std::cout << "CLIENT ID = " << tmp->getHeader().getId() << std::endl;
-	  std::cout << "CLIENT TRAMEID = " << tmp->getHeader().getTrameId() << std::endl;
 	  str = tmp->toString();
 	  ret = (*this->_clientInfo)[proto]->writeSocket(const_cast<char *>(str.c_str()), str.size());
 	  if (ret < str.size())
 	    {
 	      str = tmp->getContent();
-	      std::cout << "SIZE1 = " << tmp->toString().size() << std::endl;
 	      str = str.erase(0, ret);
 	      tmp->setContent(str);
-	      std::cout << "SIZE2 = " << tmp->toString().size() << std::endl;
 	      CircularBufferManager::getInstance()->pushFrontTrame(tmp, CircularBufferManager::WRITE_BUFFER);
 	      (*this->_nbTrame)[proto]++;
 	    }
