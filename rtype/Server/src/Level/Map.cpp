@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Mon Nov 18 18:40:35 2013 antoine maitre
+// Last update Tue Nov 19 12:09:06 2013 antoine maitre
 //
 
 #include "Level/Map.hh"
@@ -68,7 +68,7 @@ void			Map::tryToSet(std::list<AEntity *> &l1, std::list<AEntity *> &l2, int adv
 	{
 	  x = (*hit)->getCoordinate().getX() + (*it)->getCoord()->getX();
 	  y = (*hit)->getCoordinate().getY() + (*it)->getCoord()->getY();
-	  if ((*it)->getCoord()->getX() + (*hit)->getWidth() < 0 || (*it)->getCoord()->getX() > SCREENX ||
+	  if ((*it)->getCoord()->getX() + (*hit)->getWidth() < 0 || (*it)->getCoord()->getX() > SCREENX + 50 ||
 	      (*it)->getCoord()->getY() + (*hit)->getHeight() < 0 || (*it)->getCoord()->getY() > SCREENY)
 	    {
 	      (*it)->setDead(true);

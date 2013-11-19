@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Mon Nov 18 16:15:42 2013 arthur rucquois
+// Last update Mon Nov 18 22:15:03 2013 laurent ansel
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -28,7 +28,7 @@
 #include		"Thread/Thread.hpp"
 #include		"Mutex/Mutex.hpp"
 
-class			GameLoop : public Thread, public Mutex
+class			GameLoop : public Thread
 {
 private:
   LevelManager			*_levelManag;
@@ -36,24 +36,25 @@ private:
   int				_rate;
   std::string			_name;
   unsigned int			_id;
+  Mutex				*_mutex;
 public:
   GameLoop(std::string const &name, unsigned int const id);
   virtual ~GameLoop();
-  void				loop();
+private:
   void				recupScreen();
-  void				newPlayer(ClientInfo *newClient);
   void				deadPlayer(std::list<PlayerInfo *>::iterator &deadPlayer);
-  void				Initialize();
   void				spawnMob();
   void				destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AEntity *> &players);
+public:
+  bool				newPlayer(ClientInfo *newClient);
+  void				loop();
+  void				Initialize();
   unsigned int			getId() const;
   std::string			getName() const;
   unsigned int			getNumPlayer() const;
-  bool				setPlayer(ClientInfo *client);
   void				quitGame();
   bool				deletePlayer(ClientInfo *client);
   unsigned int			getLevel() const;
- //  void	execCommand(Command* command);
 };
 
 #endif

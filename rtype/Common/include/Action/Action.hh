@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 17:50:22 2013 laurent ansel
-// Last update Mon Nov 18 13:40:49 2013 alexis mestag
+// Last update Tue Nov 19 10:06:25 2013 guillaume marescaux
 //
 
 #ifndef 			__ACTION_HH__
@@ -37,6 +37,7 @@ public:
   Action();
   virtual ~Action();
   Action			&operator=(Action const &action);
+  Action			&operator<<(int const action);
   bool				getUp() const;
   bool				getDown() const;
   bool				getRight() const;
@@ -63,6 +64,7 @@ public:
   void				setParam(std::string const &param);
   bool				empty() const;
   void				reset();
+  std::string const		toString(void) const;
 
 private:
   void				setAction(bool const set, Action::eAction const action);

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Mon Nov 18 16:25:21 2013 laurent ansel
+// Last update Mon Nov 18 22:08:40 2013 laurent ansel
 //
 
 #include			<list>
@@ -79,6 +79,8 @@ void				Server::debug(std::string const &str) const
 {
 #ifdef DEBUG_SERVER
   std::cout << str << std::endl;
+#else
+  (void)str;
 #endif
 }
 
@@ -105,9 +107,9 @@ void				Server::initializeSelect() const
     }
   if (timeout)
     this->_select->setTimeout(0, 0);
-  // this->debug("Run Select ...");
+  this->debug("Run Select ...");
   this->_select->runSelect(timeout);
-  // this->debug("Done");
+  this->debug("Done");
 }
 
 void				Server::newClient()
@@ -289,32 +291,11 @@ bool				Server::manageSprite(std::list<ClientInfo *>::iterator &it, Action &acti
   if (action.getGetSprite())
     {
       std::ostringstream	tmp;
-      std::list<Trame *>	*trame;
+      Trame *trame;
 
       tmp << "CONTENTFILE " << SpriteLoaderManager::getInstance()->getContentFile(action.getParam());
-      trame = Trame::ToListTrame((*it)->getId(), (*it)->getTrameId(), "TCP", tmp.str());
-      if (trame)
-	{
-	  for (std::list<Trame *>::iterator itT = trame->begin() ; itT != trame->end() ; ++itT)
-	    {
-	      //	    this->debug((*itT)->toString());
-	      (*it)->pushWriteTrame("TCP", (*itT));
-	    }
-	  delete trame;
-	}
-      // trame->clear();
-      // tmp.str("");
-      // tmp << "CONFSPRITE " << SpriteLoaderManager::getInstance()->getConfSprite(action.getParam());
-      // trame = Trame::ToListTrame((*it)->getId(), (*it)->getTrameId() + 1, "TCP", tmp.str());
-      // if (trame)
-      // 	{
-      // 	  for (std::list<Trame *>::iterator itT = trame->begin() ; itT != trame->end() ; ++itT)
-      // 	    {
-      // 	      //this->debug((*itT)->toString());
-      // 	      (*it)->pushWriteTrame("TCP", (*itT));
-      // 	    }
-      // 	  delete trame;
-      // 	}
+      trame = new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", tmp.str(), true);
+      (*it)->pushWriteTrame("TCP", trame);
       action.setGetSprite(false);
     }
   return (ret);
@@ -328,10 +309,10 @@ void				Server::execCommand()
     {
       if (*it)
 	{
-	  // this->debug("New Command ...");
+	  this->debug("New Command ...");
 	  (*it)->setCommand();
-	  // this->debug("Done");
-	  // this->debug("Check Command ...");
+	  this->debug("Done");
+	  this->debug("Check Command ...");
 	  if ((*it)->standbyCommand())
 	    {
 	      action = (*it)->getAction();
@@ -342,7 +323,7 @@ void				Server::execCommand()
 		  (*it)->setAction(action);
 		}
 	    }
-	  // this->debug("Done");
+	  this->debug("Done");
 	}
     }
 }

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 16:09:33 2013 antoine maitre
-// Last update Tue Nov 12 16:01:58 2013 antoine maitre
+// Last update Tue Nov 19 12:19:58 2013 antoine maitre
 //
 
 #include	"Level/Level.hh"
@@ -17,7 +17,7 @@ Level::Level(int diff)
   std::ostringstream oss;
 
   oss << diff;
-  this->_path = "src/Level/lvl" + oss.str() + "/";
+  this->_path = "Res/Level/Level" + oss.str() + "/";
 }
 
 Level::~Level()

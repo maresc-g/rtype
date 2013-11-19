@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 18:02:37 2013 laurent ansel
-// Last update Mon Nov 18 11:48:45 2013 alexis mestag
+// Last update Tue Nov 19 10:06:21 2013 guillaume marescaux
 //
 
 #include			<iostream>
@@ -28,6 +28,21 @@ Action				&Action::operator=(Action const &other)
       this->_action = other._action;
       this->_param = other._param;
     }
+  return (*this);
+}
+
+Action				&Action::operator<<(int const action)
+{
+  static void			(Action::*func[])(bool const) =
+    {
+      &Action::setUp,
+      &Action::setDown,
+      &Action::setRight,
+      &Action::setLeft,
+      &Action::setFire
+    };
+  for (int i = 0 ; i < Action::QUITGAME ; ++i)
+    (this->*func[i])(action & (1 << i));
   return (*this);
 }
 
@@ -169,4 +184,12 @@ bool				Action::empty() const
 void				Action::reset()
 {
   _action ^= _action;
+}
+
+std::string const		Action::toString(void) const
+{
+  std::string			ret;
+
+  ret = _action;
+  return (ret);
 }
