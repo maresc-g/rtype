@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:39:28 2013 guillaume marescaux
-// Last update Tue Nov 19 11:21:41 2013 guillaume marescaux
+// Last update Tue Nov 19 13:38:43 2013 guillaume marescaux
 //
 
 #include			<sstream>
@@ -127,7 +127,7 @@ void				Protocol::create(int const id, void *data)
 
 void				Protocol::action(int const id, void *data)
 {
-  std::string			tmp("ACTION");
+  std::string			tmp("ACTION ");
   tmp += *(reinterpret_cast<std::string *>(data));
   Trame				*trame = new Trame(id, _trameId, "UDP", tmp, true);
   CircularBufferManager		*manager = CircularBufferManager::getInstance();

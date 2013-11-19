@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Tue Nov 19 12:27:04 2013 guillaume marescaux
+// Last update Tue Nov 19 13:41:29 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -122,12 +122,12 @@ void				Client::exec()
 	      _info->setVar(NULL);
 	    }
 	}
-      if (_state->getVar() == WAIT_SPRITE)
-	{
-	  for (auto it = _diffDir->begin() ; it != _diffDir->end() ; it++)
-	    _protocol->protocolMsg(Protocol::GET_SPRITE, _id, reinterpret_cast<void *>(&(*it)));
-	  _diffDir->clear();
-	}
+      // if (_state->getVar() == WAIT_SPRITE)
+      // 	{
+      // 	  for (auto it = _diffDir->begin() ; it != _diffDir->end() ; it++)
+      // 	    _protocol->protocolMsg(Protocol::GET_SPRITE, _id, reinterpret_cast<void *>(&(*it)));
+      // 	  _diffDir->clear();
+      // 	}
       this->loop();
     }
 }
@@ -285,7 +285,7 @@ void				Client::sprite(Trame const &trame)
 	    _diffDir->push_back((*it).first);
 	}
     }
-  _state->setVar(WAIT_SPRITE);
+  // _state->setVar(WAIT_SPRITE);
 }
 
 void				Client::contentFile(Trame const &trame)
@@ -308,7 +308,10 @@ void				Client::contentFile(Trame const &trame)
   std::cout << "CONTENTFILE END" << std::endl;
 }
 
-void				Client::levelUp(Trame const &) { }
+void				Client::levelUp(Trame const &)
+{
+  *_state = WAIT_GAME;
+}
 
 
 void				Client::endGame(Trame const &)
@@ -411,6 +414,7 @@ bool				Client::initialize(void)
   Trame				*tmp;
   Protocol::eProtocol		msgType;
 
+  *_state = CONNECTING;
   try
     {
       (*_sockets)[TCP]->initialize("TCP");
@@ -425,10 +429,12 @@ bool				Client::initialize(void)
       std::cout << e.what() << std::endl;
       (*_sockets)[TCP]->destroy();
       (*_sockets)[UDP]->destroy();
+      *_state = ERROR_CONNECT;
       return (false);
     }
   catch (std::invalid_argument const &e)
     {
+      *_state = ERROR_CONNECT;
       return (false);
     }
   this->read(0, 0, false);
@@ -444,9 +450,13 @@ bool				Client::initialize(void)
       tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
       msgType = _protocol->getMsg(tmp);
       if (msgType == Protocol::SERVERQUIT)
-	return (false);
+	{
+	  *_state = ERROR_CONNECT;
+	  return (false);
+	}
       delete tmp;
     }
+  *_state = CONNECTED;
   return (true);
 }
 
@@ -480,7 +490,7 @@ void				Client::loop(void)
       // std::cout << "MSG_TYPE = " << static_cast<int>(msgType) << std::endl;
       (this->*(*_ptrs)[msgType])(*tmp);
     }
-  actionStr = _action->toString();
+  actionStr = (std::string)(*_action);
   if (_state->getVar() == PLAYING)
     _protocol->protocolMsg(Protocol::ACTION, _id, &actionStr);
   this->write();
