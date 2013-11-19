@@ -5,15 +5,22 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:04:47 2013 laurent ansel
-// Last update Tue Nov 19 18:04:35 2013 laurent ansel
+// Last update Tue Nov 19 18:55:36 2013 laurent ansel
 //
 
 #ifndef 			__TRAME_HH__
 # define 			__TRAME_HH__
 
+#include			"Socket/ISocketClient.hh"
 #include			"CircularBufferManager/CircularBuffer/Trame/Header/Header.hh"
 
 #define	END_TRAME		"<TRAMEEND>"
+
+struct				s_trame
+{
+  s_header			header;
+  char				content[SIZE_BUFFER];
+};
 
 class				Trame
 {
