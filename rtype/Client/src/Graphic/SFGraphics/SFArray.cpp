@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Nov  8 15:38:07 2013 cyril jourdain
-// Last update Mon Nov 18 14:32:31 2013 cyril jourdain
+// Last update Wed Nov 20 10:28:27 2013 cyril jourdain
 //
 
 #include		"Graphic/SFGraphics/Widgets/SFArray.hh"
