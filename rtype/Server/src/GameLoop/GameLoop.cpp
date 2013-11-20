@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 16:01:48 2013 laurent ansel
+// Last update Wed Nov 20 16:46:28 2013 laurent ansel
 //
 
 #include "SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -15,7 +15,7 @@ GameLoop::GameLoop(std::string const &name, unsigned int const id):
   Thread(),
   _library(&DynamicLibraryManager::getInstance()->getGameLibrariesCopy()),
   _clients(new std::list<PlayerInfo *>),
-  _rate(1),
+  _rate(20),
   _name(name),
   _id(id),
   _criticalError(false),
@@ -49,7 +49,10 @@ void			GameLoop::loop()
 	break;
       time = clock();
       this->_mutex->enter();
-      if (((float)(clock() - scroll) / CLOCKS_PER_SEC) > 5)
+      std::cout << "SCROLL =" << scroll << std::endl;
+      std::cout << "CLOCK =" << clock() << std::endl;
+      std::cout << "TIME =" << (double)((double)(clock() - scroll) / (double)CLOCKS_PER_SEC) << std::endl;
+      if (((float)(clock() - scroll) / CLOCKS_PER_SEC) > (double)0.005)
 	{
 	  scroll = clock();
 	  this->_levelManag->incAdv();
@@ -72,7 +75,7 @@ void			GameLoop::loop()
       this->_mutex->leave();
       end = clock();
       time = end - time;
-      if (((double)time / CLOCKS_PER_SEC) < 1)
+      if (((float)time / CLOCKS_PER_SEC) < 1)
         {
 #ifndef _WIN32
           usleep((1 - ((float)time / CLOCKS_PER_SEC)) * 1000);

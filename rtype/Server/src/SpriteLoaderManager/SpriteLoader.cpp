@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 15:04:52 2013 laurent ansel
-// Last update Wed Nov 20 12:31:19 2013 laurent ansel
+// Last update Wed Nov 20 16:26:18 2013 laurent ansel
 //
 
 #include		<utility>
@@ -239,6 +239,7 @@ void			SpriteLoader::loadConfFile()
       this->getSpeed(content);
       this->getDestructible(content);
       this->getInformationHitBox(content);
+      this->getSpawnCoordinate(content);
     }
 }
 
