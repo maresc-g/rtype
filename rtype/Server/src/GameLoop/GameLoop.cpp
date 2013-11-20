@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 11:13:22 2013 laurent ansel
+// Last update Wed Nov 20 12:26:53 2013 laurent ansel
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -13,7 +13,7 @@
 GameLoop::GameLoop(std::string const &name, unsigned int const id):
   Thread(),
   _clients(new std::list<PlayerInfo *>),
-  _rate(50),
+  _rate(5),
   _name(name),
   _id(id),
   _mutex(new Mutex)
@@ -36,7 +36,6 @@ void			GameLoop::Initialize()
 void			GameLoop::loop()
 {
   clock_t	time = 0;
-  clock_t	rest = 0;
 
   while (!this->_levelManag->getEndGame())
     {
@@ -47,8 +46,8 @@ void			GameLoop::loop()
       sleep(5);
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
 	{
-	  // if ((*it)->getIG() == true)
-	  //   (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
+	  if ((*it)->getIG() == true)
+	    (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
 	}
       for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().begin(); it++)
       	{
@@ -61,13 +60,14 @@ void			GameLoop::loop()
       this->destroyDeadEntities(this->_levelManag->getEnemies(),
       				this->_levelManag->getPlayers());
       this->_mutex->leave();
-      rest = clock() - time;
-      //if (rest < 1000 / this->_rate)
+      if (time < 1000 / this->_rate)
+        {
 #ifndef _WIN32
-	usleep(2500000);//1000 * ((1000 / this->_rate) - rest));
+          usleep(1000000 / this->_rate - time);
 #else
-      Sleep((1000 * ((1000 / this->_rate) - rest)) / 1000);
+          Sleep((1000 / this->_rate - time) / 1000);
 #endif
+        }
       this->_mutex->enter();
       this->sendScroll(this->_levelManag->getAdv());
       this->sendScreen(this->_levelManag->getPlayers());

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 18:02:37 2013 laurent ansel
-// Last update Wed Nov 20 11:22:45 2013 laurent ansel
+// Last update Wed Nov 20 12:19:01 2013 laurent ansel
 //
 
 #include			<iostream>
@@ -46,15 +46,13 @@ Action				&Action::operator<<(int const action)
     {
       &Action::setUp,
       &Action::setDown,
-      &Action::setRight,
       &Action::setLeft,
+      &Action::setRight,
       &Action::setFire,
       NULL
     };
-  std::cout << "ACTION =" << action << std::endl;
   for (int i = 0 ; func[i] ; ++i)
     (this->*func[i])(action & (1 << i));
-  std::cout << "ACTION2 =" << _action->getVar() << std::endl;
   return (*this);
 }
 

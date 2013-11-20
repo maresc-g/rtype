@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Wed Nov 20 10:40:05 2013 antoine maitre
+// Last update Wed Nov 20 12:36:14 2013 antoine maitre
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -76,7 +76,13 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
 	    {
 	      act.setRight(false);
 	      this->_player->move(coord->getX() + this->_player->getSpeed(), coord->getY());
-	      if (coord->getX() > adv + SCREENX - this->_player->getWidth())
+	      std::cout << "COORD =" <<coord->getX() << std::endl;
+	      std::cout << "COORD1 =" <<adv << std::endl;
+	      std::cout << "COORD2 =" <<this->_player->getWidth() << std::endl;
+	      if (coord->getX() >
+		  adv
+		  + SCREENX
+		  - this->_player->getWidth())
 		this->_player->move(adv + SCREENX - this->_player->getWidth(), coord->getY());
 	    }
 	  if (act.getFire())
