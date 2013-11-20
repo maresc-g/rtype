@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 18:20:06 2013 laurent ansel
+// Last update Wed Nov 20 18:30:15 2013 laurent ansel
 //
 
 #include "SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -80,7 +80,7 @@ void			GameLoop::loop()
      	  if ((*it)->getIG() == true)
       	    (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
       	}
-       this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
+
       this->destroyDeadEntities(this->_levelManag->getEnemies(),
       				this->_levelManag->getPlayers());
       this->_mutex->leave();
