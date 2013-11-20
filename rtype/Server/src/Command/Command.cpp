@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 16:01:59 2013 laurent ansel
-// Last update Tue Nov 19 22:32:38 2013 laurent ansel
+// Last update Wed Nov 20 10:54:54 2013 laurent ansel
 //
 
 #include			"Command/Command.hh"
@@ -128,7 +128,6 @@ void				Command::trameToAction()
       while (str.good())
 	{
 	  content = "";
-	  std::cout << str.str() << std::endl;
 	  str >> content;
 	  if ((pos = content.find(END_TRAME)) != std::string::npos)
 	    content = content.substr(0, pos);

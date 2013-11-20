@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 13:04:52 2013 laurent ansel
-// Last update Tue Nov 19 12:55:35 2013 laurent ansel
+// Last update Wed Nov 20 11:04:29 2013 laurent ansel
 //
 
 #ifndef			_WIN32
@@ -24,8 +24,11 @@ UnixMutex::~UnixMutex()
 
 void			UnixMutex::initialize()
 {
-  this->_init = true;
-  pthread_mutex_init(&this->_mutex, NULL);
+  if (!this->_init)
+    {
+      this->_init = true;
+      std::cout << "RET = " << pthread_mutex_init(&this->_mutex, NULL) << std::endl;
+    }
 }
 
 void			UnixMutex::destroy()

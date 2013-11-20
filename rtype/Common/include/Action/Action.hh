@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sat Nov  2 17:50:22 2013 laurent ansel
-// Last update Tue Nov 19 17:45:00 2013 laurent ansel
+// Last update Wed Nov 20 11:19:45 2013 laurent ansel
 //
 
 #ifndef 			__ACTION_HH__
@@ -36,6 +36,7 @@ private:
   std::string			_param;
 public:
   Action();
+  Action(Action const &other);
   virtual ~Action();
   Action			&operator=(Action const &action);
   Action			&operator<<(int const action);
