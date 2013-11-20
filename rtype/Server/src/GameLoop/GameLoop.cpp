@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 13:33:23 2013 antoine maitre
+// Last update Wed Nov 20 13:34:45 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -65,13 +65,12 @@ void			GameLoop::loop()
       this->_mutex->leave();
       end = clock();
       time = end - time;
-      std::cout << "VALEUR TIME = " << ((float)time / CLOCKS_PER_SEC) << " " << 1000 / this->_rate << std::endl;
       if (((double)time / CLOCKS_PER_SEC) < 1000 / this->_rate)
         {
 #ifndef _WIN32
           usleep(1000000 / this->_rate - ((float)time / CLOCKS_PER_SEC));
 #else
-          Sleep((1000 / this->_rate - time) / 1000);
+          Sleep((1000 / this->_rate - ((float)time / CLOCKS_PER_SEC)) / 1000);
 #endif
         }
       this->_mutex->enter();

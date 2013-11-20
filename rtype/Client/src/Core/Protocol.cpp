@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:39:28 2013 guillaume marescaux
-// Last update Wed Nov 20 10:22:22 2013 antoine maitre
+// Last update Wed Nov 20 13:20:23 2013 guillaume marescaux
 //
 
 #include			<sstream>
@@ -111,7 +111,9 @@ void				Protocol::getGamelist(int const id, void *)
 void				Protocol::join(int const id, void *data)
 {
   std::string			tmp("JOIN ");
-  tmp += *(reinterpret_cast<int *>(data));
+  std::ostringstream		value;
+  value << *(reinterpret_cast<int *>(data));
+  tmp += value.str();
   Trame				*trame = new Trame(id, _trameId, "TCP", tmp, true);
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
 

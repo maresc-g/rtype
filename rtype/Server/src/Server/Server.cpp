@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Tue Nov 19 22:31:30 2013 laurent ansel
+// Last update Wed Nov 20 13:19:19 2013 laurent ansel
 //
 
 #include			<list>
@@ -268,16 +268,16 @@ bool				Server::manageGame(std::list<ClientInfo *>::iterator &it, Action &action
       std::istringstream	str(action.getParam());
 
       str >> id;
+      action.setJoin(false);
       if (GameLoopManager::getInstance()->addPlayerInGame(*it, id))
 	{
-	  action.setJoin(false);
 	  this->debug("Join Game");
 	  ret = true;
 	  this->sendListSprite((*it));
 	  (*it)->pushWriteTrame("TCP", new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", "LAUNCHGAME", true));
 	}
       else
-	(*it)->pushWriteTrame("TCP", new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", "KO", true));
+      	(*it)->pushWriteTrame("TCP", new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", "KO", true));
     }
   if (action.getCreate() && !action.getParam().empty())
     {
@@ -339,8 +339,8 @@ void				Server::execCommand()
 		{
 		  this->manageGame(it, action);
 		  this->manageSprite(it, action);
-		  (*it)->setAction(action);
 		}
+	      (*it)->setAction(action);
 	    }
 	  this->debug("Done");
 	}
