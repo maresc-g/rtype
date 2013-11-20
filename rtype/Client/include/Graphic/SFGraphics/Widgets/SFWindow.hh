@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 19:15:41 2013 cyril jourdain
-// Last update Fri Nov 15 20:12:37 2013 cyril jourdain
+// Last update Wed Nov 20 11:13:54 2013 cyril jourdain
 //
 
 #ifndef 		__SFWINDOW_HH__

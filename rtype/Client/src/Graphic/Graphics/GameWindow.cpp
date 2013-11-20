@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:22:54 2013 cyril jourdain
-// Last update Sun Nov 17 23:15:09 2013 cyril jourdain
+// Last update Wed Nov 20 11:08:55 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameWindow.hh"
@@ -27,15 +27,17 @@ void			GameWindow::init()
   _score = new SFLabel();
   _lives = new std::vector<SFImageBox*>;
   addWidget(_HUDBar);
-  addWidget(_gameView);
   addWidget(_score);
+  addWidget(_gameView);
+  _HUDBar->setSize(WIN_X, WIN_Y - _gameView->getBound().height);
   _HUDBar->setPosition(0, _gameView->getBound().height);
-  _HUDBar->setSize(WIN_X, WIN_Y - _HUDBar->getPosition().y);
   _HUDBar->setTexture((*(SFRessourcesManager::getInstance()->Images))[GAME_HUD]);
   _score->setColor(sf::Color::White);
   _score->setText("Score : 00000000");
-  _score->setTextSize(22);
   _score->setPosition(_HUDBar->getPosition().x + 200, _HUDBar->getPosition().y + _HUDBar->getBound().height / 2 - 20);
+  _score->setTextSize(22);
+  std::cout << "POSITION Y HUD : " << _HUDBar->getPosition().y << std::endl;
+  std::cout << "POSITION Y SCORE : " << _score->getPosition().y << std::endl;
   for (int i = 0; i < 3; i++)
     {
       _lives->push_back(new SFImageBox());
