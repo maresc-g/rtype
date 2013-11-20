@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov  8 22:44:47 2013 laurent ansel
-// Last update Tue Nov 19 17:10:14 2013 laurent ansel
+// Last update Wed Nov 20 15:05:51 2013 laurent ansel
 //
 
 #ifndef 			__SPRITELOADER_HH__
@@ -36,6 +36,7 @@ struct				s_entity
   int			_speed;
   bool			_destructible;
   bool			_dead;
+  std::string
   std::list<InformationHitBox *>	*_hitbox;
   Coordinate			*_spawnProjectile;
 };

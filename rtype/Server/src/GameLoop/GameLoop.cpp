@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 13:40:30 2013 laurent ansel
+// Last update Wed Nov 20 14:55:07 2013 laurent ansel
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -13,7 +13,7 @@
 GameLoop::GameLoop(std::string const &name, unsigned int const id):
   Thread(),
   _clients(new std::list<PlayerInfo *>),
-  _rate(5),
+  _rate(20),
   _name(name),
   _id(id),
   _criticalError(false),
@@ -146,10 +146,23 @@ void			GameLoop::playerDeath(PlayerInfo *deadPlayer)
 
 void			GameLoop::spawnMob()
 {
+  AEntity		*entity = NULL;
+  std::vector<std::string>	list;
+  size_t		i;
+
   if (rand() % 10 == 9)
     {
-      this->_levelManag->getEnemies().push_back(ObjectPoolManager::getInstance()->getCopy(AEntity::MOB));
-      this->_levelManag->getEnemies().back()->move(SCREENX + 5, rand() % 80);
+      entity = ObjectPoolManager::getInstance()->getCopy(AEntity::MOB);
+      if (entity)
+	{
+	  list = SpriteLoaderManager::getInstance()->getList("mob");
+	  i = rand() % list.size();
+	  if (SpriteLoaderManager::getInstance()->getEntitySprite(list[i], *entity))
+	    {
+	      this->_levelManag->getEnemies().push_back(entity);
+	      this->_levelManag->getEnemies().back()->move(SCREENX + 5, rand() % 80);
+	    }
+	}
     }
 }
 

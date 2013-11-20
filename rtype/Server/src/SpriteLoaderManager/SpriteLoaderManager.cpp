@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 11:18:35 2013 laurent ansel
-// Last update Wed Nov 20 10:26:36 2013 laurent ansel
+// Last update Wed Nov 20 14:48:46 2013 laurent ansel
 //
 
 #include			<sstream>
@@ -126,5 +126,14 @@ bool				SpriteLoaderManager::getEntitySprite(std::string const &name, AEntity &e
     }
   this->_mutex->leave();
   return (false);
+}
 
+std::list<std::string>		SpriteLoaderManager::getList(std::string const &name) const
+{
+  std::list<std::string>	list;
+
+  for (auto it = this->_sprites->begin() ; it != this->_sprites->end() ; ++it)
+    if ((*it)->getPath().find(name))
+      list.push_back((*it)->getPath());
+  return (list);
 }
