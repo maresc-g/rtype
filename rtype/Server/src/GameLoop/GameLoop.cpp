@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 12:38:15 2013 laurent ansel
+// Last update Wed Nov 20 12:49:48 2013 laurent ansel
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -13,7 +13,7 @@
 GameLoop::GameLoop(std::string const &name, unsigned int const id):
   Thread(),
   _clients(new std::list<PlayerInfo *>),
-  _rate(50),
+  _rate(5),
   _name(name),
   _id(id),
   _mutex(new Mutex)
