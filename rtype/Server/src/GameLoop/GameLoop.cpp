@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 16:46:28 2013 laurent ansel
+// Last update Wed Nov 20 17:44:08 2013 laurent ansel
 //
 
 #include "SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -41,41 +41,52 @@ void			GameLoop::loop()
   clock_t	time = 0;
   clock_t	end = 0;
   clock_t	scroll = 0;
+  clock_t	action = 0;
 
   scroll = clock();
+  action = clock();
   while (!this->_levelManag->getEndGame() && !this->_criticalError)
     {
       if (this->checkActiveClient() == false)
 	break;
       time = clock();
       this->_mutex->enter();
-      std::cout << "SCROLL =" << scroll << std::endl;
-      std::cout << "CLOCK =" << clock() << std::endl;
-      std::cout << "TIME =" << (double)((double)(clock() - scroll) / (double)CLOCKS_PER_SEC) << std::endl;
-      if (((float)(clock() - scroll) / CLOCKS_PER_SEC) > (double)0.005)
+      for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
+	if ((*it)->moveToPixel())
+	  {
+	    std::cout << "Je suis censé bouger" << std::endl;
+	    this->sendEntity((*it));
+	  }
+      for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
+	if ((*it)->moveToPixel())
+	  this->sendEntity((*it));
+      if ((((float)(clock() - scroll)) / CLOCKS_PER_SEC) >= 0.02)
 	{
 	  scroll = clock();
 	  this->_levelManag->incAdv();
+	  this->sendScroll(this->_levelManag->getAdv() * 10 + this->_levelManag->getPixelAdv());
+	  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
+	    if ((*it)->getType() == AEntity::PLAYER)
+	      (*it)->move((*it)->getPosX() + 1, (*it)->getPosY());
 	}
-      for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
-	{
-	  if ((*it)->getIG() == true)
-	    (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
-	}
+      // for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
+      // 	{
+      // 	  if ((*it)->getIG() == true)
+      // 	    (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
+      // 	}
       for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
       	{
       	  const Coordinate	*coord = (*it)->getCoord();
-
       	  if (coord->getX() <= this->_levelManag->getAdv() - (*it)->getWidth())
       	    it = this->_levelManag->getEnemies().erase(it);
       	}
-      this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
+       this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
       this->destroyDeadEntities(this->_levelManag->getEnemies(),
       				this->_levelManag->getPlayers());
       this->_mutex->leave();
       end = clock();
       time = end - time;
-      if (((float)time / CLOCKS_PER_SEC) < 1)
+      if (((float)time / CLOCKS_PER_SEC) <= 0.001)
         {
 #ifndef _WIN32
           usleep((1 - ((float)time / CLOCKS_PER_SEC)) * 1000);
@@ -86,9 +97,8 @@ void			GameLoop::loop()
       this->_mutex->enter();
       if (!this->_criticalError)
 	{
-	  this->sendScroll(this->_levelManag->getAdv());
-	  this->sendScreen(this->_levelManag->getPlayers());
-	  this->sendScreen(this->_levelManag->getEnemies());
+	  // this->sendScreen(this->_levelManag->getPlayers());
+	  // this->sendScreen(this->_levelManag->getEnemies());
 	}
       this->_mutex->leave();
     }
@@ -110,7 +120,7 @@ void			GameLoop::sendScroll(unsigned int scroll)
 {
   std::ostringstream	oss;
 
-  oss << "SCROLL " << scroll * 10;
+  oss << "SCROLL " << scroll;
   this->sendClient("UDP", oss.str());
 }
 
@@ -128,11 +138,21 @@ void			GameLoop::sendScreen(std::list<AEntity *> &list)
     {
       oss << "ENTITY " << (*it)->getId()
 	  << ";" << (*it)->getPath().substr(12, (*it)->getPath().size() - 16)
-	  << ";" << (*it)->getCoord()->getX() * 10 << ";" << (*it)->getCoord()->getY() * 10;
+	  << ";" << (*it)->getPosX() << ";" << (*it)->getPosY();
       std::cout << oss.str() << " " << (*it)->getType() << std::endl;
       sendClient("UDP", oss.str());
       oss.str("");
     }
+}
+
+void			GameLoop::sendEntity(AEntity *yolo)
+{
+  std::ostringstream	oss;
+
+  oss << "ENTITY " << yolo->getId()
+      << ";" << yolo->getPath().substr(12, yolo->getPath().size() - 16)
+      << ";" << yolo->getPosX() << ";" << yolo->getPosY();
+  sendClient("UDP", oss.str());
 }
 
 bool			GameLoop::newPlayer(ClientInfo *newClient)
@@ -270,3 +290,4 @@ bool			GameLoop::checkActiveClient()
       i++;
   return ((i)?(true):(false));
 }
+

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:06 2013 antoine maitre
-// Last update Wed Nov 20 13:15:12 2013 antoine maitre
+// Last update Wed Nov 20 16:18:20 2013 antoine maitre
 //
 
 #include	"Level/LevelManager.hh"
@@ -78,6 +78,11 @@ Map			*LevelManager::getMap()
 }
 
 int			LevelManager::getAdv() const
+{
+  return (this->_currentLevel->getAdv());
+}
+
+int			LevelManager::getPixelAdv() const
 {
   return (this->_currentLevel->getAdv());
 }

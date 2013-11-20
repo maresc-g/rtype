@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Wed Nov 20 16:09:58 2013 laurent ansel
+// Last update Wed Nov 20 16:52:49 2013 antoine maitre
 //
 
 #ifndef 		__AENTITY_HH__
@@ -28,9 +28,11 @@ public:
     };
 
 protected:
+  unsigned int		_id;
+  int			_moveX;
+  int			_moveY;
   int			_pixelX;
   int			_pixelY;
-  unsigned int		_id;
   int			_width;
   int			_height;
   unsigned int		_life;
@@ -81,6 +83,11 @@ public:
   void			setSpawnProjectile(Coordinate *coord);
 
   virtual AEntity::eObject	getType() const;
+  int			getPixelX() const;
+  int			getPixelY() const;
+  bool			moveToPixel();
+  int			getPosX();
+  int			getPosY();
 };
 
 #endif
