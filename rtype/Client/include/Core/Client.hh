@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:26 2013 guillaume marescaux
-// Last update Tue Nov 19 13:50:17 2013 guillaume marescaux
+// Last update Wed Nov 20 12:26:48 2013 guillaume marescaux
 //
 
 #ifndef 		__CLIENT_HH__
@@ -98,6 +98,7 @@ private:
   void			contentFile(Trame const &trame);
   void			levelUp(Trame const &trame);
   void			endGame(Trame const &trame);
+  void			serverQuit(Trame const &trame);
 };
 
 #endif
