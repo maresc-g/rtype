@@ -5,13 +5,12 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:05:50 2013 alexis mestag
-// Last update Wed Nov 13 13:37:39 2013 alexis mestag
+// Last update Wed Nov 20 15:39:46 2013 alexis mestag
 //
 
 #include			<unistd.h>
 #include			<iostream>
 #include			"DynamicLibrary/DynamicLibraryManager.hh"
-#include			"DynamicLibrary/DynamicLibraryUpdater.hh"
 #include			"DynamicLibrary/DynamicLibrary.hh"
 
 static void			*run(void *data)

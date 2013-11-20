@@ -5,15 +5,16 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 19:51:02 2013 alexis mestag
-// Last update Tue Nov 12 17:55:47 2013 alexis mestag
+// Last update Wed Nov 20 15:47:00 2013 alexis mestag
 //
 
 #include			"DynamicLibrary/DynamicLibraryManager.hh"
 
 DynamicLibraryManager::DynamicLibraryManager() :
-  Singleton(), _libraries(new GameLibraries), _mtx(new Mutex)
+  Singleton(), _updater(new DynamicLibraryUpdater), _libraries(new GameLibraries), _mtx(new Mutex)
 {
   this->_mtx->initialize();
+  this->_updater->startUpdate();
 }
 
 DynamicLibraryManager::DynamicLibraryManager(DynamicLibraryManager const &rhs) :
@@ -25,6 +26,9 @@ DynamicLibraryManager::DynamicLibraryManager(DynamicLibraryManager const &rhs) :
 
 DynamicLibraryManager::~DynamicLibraryManager()
 {
+  this->_updater->stopUpdate();
+  this->_updater->waitThread();
+  delete _updater;
   delete _libraries;
   _mtx->destroy();
   delete _mtx;
