@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 19:15:41 2013 cyril jourdain
-// Last update Wed Nov 20 11:13:54 2013 cyril jourdain
+// Last update Wed Nov 20 15:36:47 2013 cyril jourdain
 //
 
 #ifndef 		__SFWINDOW_HH__
@@ -56,26 +56,11 @@ public:
   bool				isVisible() const;
   void				setStayOnTop(bool val);
   bool				isStayOnTop() const;
-  // template<class T>
-  // T				*addWidget()
-  // {
-  //   T		*w = new T;
-
-  //   w->init();
-  //   w->setRenderTarget(_manager->getRenderWindow());
-  //   if (_widgetList)
-  //     {
-  // 	_widgetList->push_back(w);
-  // 	return w;	
-  //     }
-  //   return NULL;
-  // }
 
   template<class T>
   void			setOnCloseCallback(void (T::*)(void *const),
 					   T*)
   {
-    std::cout << "LOL" << std::endl;
   }
 
   SFConnect::EventCallback	*getOnCloseCallback() const
@@ -86,6 +71,7 @@ public:
   void				addWidget(SFWidget *);
   void				draw(sf::RenderWindow *render) const;
   void				setWindowManager(WindowManager *const m){_manager = m;}
+  virtual void			update() {};
 
 };
 
