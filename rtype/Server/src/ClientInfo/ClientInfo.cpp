@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Wed Nov 20 18:31:08 2013 laurent ansel
+// Last update Wed Nov 20 20:53:15 2013 laurent ansel
 //
 
 #include			<unistd.h>
@@ -67,20 +67,25 @@ bool				ClientInfo::standbyCommand() const
 Command const			*ClientInfo::getFirstCommand() const
 {
   this->_mutex->enter();
-  Command			*command = this->_command->front();
-
-  if (command && command->getAction().empty())
+  if (this->_command && !this->_command->empty())
     {
-      if (command)
-	delete command;
-      this->_command->pop_front();
-      if (!this->_command->empty())
-	command = this->_command->front();
-      else
-	command = NULL;
+      Command			*command = this->_command->front();
+
+      if (command && command->getAction().empty())
+	{
+	  if (command)
+	    delete command;
+	  this->_command->pop_front();
+	  if (!this->_command->empty())
+	    command = this->_command->front();
+	  else
+	    command = NULL;
+	}
+      this->_mutex->leave();
+      return (command);
     }
   this->_mutex->leave();
-  return (command);
+  return (NULL);
 }
 
 void				ClientInfo::setCommand()
@@ -242,6 +247,7 @@ void				ClientInfo::setAction(Action const &action)
 {
   this->_mutex->enter();
   Command			*command = this->_command->front();
+
   command->setAction(action);
   this->_mutex->leave();
 }
@@ -327,4 +333,21 @@ SocketClient			*ClientInfo::getClientUdp() const
   tmp = (*this->_clientInfo)["UDP"];
   this->_mutex->leave();
   return (tmp);
+}
+
+bool				ClientInfo::actionServer() const
+{
+  this->_mutex->enter();
+  if (this->_command && !this->_command->empty())
+    {
+      Command			*command = this->_command->front();
+
+      if (command && command->commandServer())
+	{
+	  this->_mutex->leave();
+	  return (true);
+	}
+    }
+  this->_mutex->leave();
+  return (false);
 }

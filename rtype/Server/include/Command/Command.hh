@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:12 2013 laurent ansel
-// Last update Mon Nov 18 17:11:59 2013 laurent ansel
+// Last update Wed Nov 20 20:55:26 2013 laurent ansel
 //
 
 #ifndef 			__COMMAND_HH__
@@ -20,12 +20,14 @@ class				Command
 private:
   Trame				*_trame;
   Action			*_action;
+  bool				_command;
 public:
   Command(Trame *trame);
   virtual ~Command();
   Action			&getAction() const;
   void				setAction(Action const &action);
   void				trameToAction();
+  bool				commandServer() const;
 private:
   void				actionCommand(std::istringstream &str);
   void				quitGameCommand(std::istringstream &str);

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:46:04 2013 laurent ansel
-// Last update Sat Nov 16 13:40:35 2013 laurent ansel
+// Last update Wed Nov 20 20:53:29 2013 laurent ansel
 //
 
 #ifndef 			__CLIENTINFO_HH__
@@ -59,6 +59,8 @@ public:
 
   Action const			&getAction() const;
   void				setAction(Action const &action);
+
+  bool				actionServer() const;
 };
 
 #endif

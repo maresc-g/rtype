@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Wed Nov 20 15:46:05 2013 laurent ansel
+// Last update Wed Nov 20 21:01:02 2013 laurent ansel
 //
 
 #include			<list>
@@ -335,7 +335,7 @@ void				Server::execCommand()
 	  (*it)->setCommand();
 	  this->debug("Done");
 	  this->debug("Check Command ...");
-	  if ((*it)->standbyCommand())
+	  if ((*it)->actionServer() && (*it)->standbyCommand())
 	    {
 	      action = (*it)->getAction();
 	      if (!this->manageQuit(it, action))

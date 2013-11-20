@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Wed Nov 20 19:51:07 2013 antoine maitre
+// Last update Wed Nov 20 20:46:12 2013 laurent ansel
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -43,55 +43,55 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
     {
       const Command	*cmd = this->_info->getFirstCommand();
       if (cmd)
-	{
-	  Action	act = cmd->getAction();
+  	{
+  	  Action	&act = cmd->getAction();
 
-	  (void)map;
-	  if (this->_player->getInvincible() > 0)
-	    this->_player->setInvincible(this->_player->getInvincible() - 1);
-	  if (act.getUp())
-	    {
-	      act.setUp(false);
-	      this->_player->move(this->_player->getPosX(), this->_player->getPosY() - this->_player->getSpeed());
-	      if (this->_player->getPosY() < 0)
-		this->_player->move(this->_player->getPosX(), 0);
-	    }
-	  if (act.getDown())
-	    {
-	      act.setDown(false);
-	      this->_player->move(this->_player->getPosX(), this->_player->getPosY() + this->_player->getSpeed());
-	      if (this->_player->getPosY() >= SCREENY * 10 - this->_player->getHeight())
-		this->_player->move(this->_player->getPosX(), SCREENY - this->_player->getHeight());
-	    }
-	  if (act.getLeft())
-	    {
-	      act.setLeft(false);
-	      this->_player->move(this->_player->getPosX() - this->_player->getSpeed(), this->_player->getPosY());
-	      if (this->_player->getPosX() <  adv)
-		this->_player->move(adv, this->_player->getPosY());
-	    }
-	  if (act.getRight())
-	    {
-	      act.setRight(false);
-	      this->_player->move(this->_player->getPosX() + this->_player->getSpeed(), this->_player->getPosY());
-	      if (this->_player->getPosX() > adv + SCREENX * 10 - this->_player->getWidth())
-		this->_player->move(adv + SCREENX - this->_player->getWidth(), this->_player->getPosY());
-	    }
-	  if (act.getFire())
-	    {
-	      const Coordinate spawn = this->_player->getSpawnProjectile();
-	      AEntity		*projectile;
+  	  (void)map;
+  	  if (this->_player->getInvincible() > 0)
+  	    this->_player->setInvincible(this->_player->getInvincible() - 1);
+  	  if (act.getUp())
+  	    {
+  	      act.setUp(false);
+  	      this->_player->move(this->_player->getPosX(), this->_player->getPosY() - this->_player->getSpeed());
+  	      if (this->_player->getPosY() < 0)
+  	      	this->_player->move(this->_player->getPosX(), 0);
+  	    }
+  	  if (act.getDown())
+  	    {
+  	      act.setDown(false);
+  	      this->_player->move(this->_player->getPosX(), this->_player->getPosY() + this->_player->getSpeed());
+  	      if (this->_player->getPosY() >= SCREENY * 10 - this->_player->getHeight())
+  	      	this->_player->move(this->_player->getPosX(), SCREENY - this->_player->getHeight());
+  	    }
+  	  if (act.getLeft())
+  	    {
+  	      act.setLeft(false);
+  	      this->_player->move(this->_player->getPosX() - this->_player->getSpeed(), this->_player->getPosY());
+  	      if (this->_player->getPosX() <  adv)
+  	      	this->_player->move(adv, this->_player->getPosY());
+  	    }
+  	  if (act.getRight())
+  	    {
+  	      act.setRight(false);
+  	      this->_player->move(this->_player->getPosX() + this->_player->getSpeed(), this->_player->getPosY());
+  	      if (this->_player->getPosX() > adv + SCREENX * 10 - this->_player->getWidth())
+  	      	this->_player->move(adv + SCREENX - this->_player->getWidth(), this->_player->getPosY());
+  	    }
+  	  if (act.getFire())
+  	    {
+  	      const Coordinate spawn = this->_player->getSpawnProjectile();
+  	      AEntity		*projectile;
 
-	      act.setFire(false);
-	      projectile = ObjectPoolManager::getInstance()->getCopy(AEntity::ROCKET);
-	      if (projectile)
-		{
-		  SpriteLoaderManager::getInstance()->getEntitySprite("rocket", *projectile);
-		  map->getPlayers().push_back(projectile);
-		}
-	    }
-	  this->_info->setAction(act);
-	}
+  	      act.setFire(false);
+  	      projectile = ObjectPoolManager::getInstance()->getCopy(AEntity::ROCKET);
+  	      if (projectile)
+  		{
+  		  SpriteLoaderManager::getInstance()->getEntitySprite("rocket", *projectile);
+  		  map->getPlayers().push_back(projectile);
+  		}
+  	    }
+ 	  	  this->_info->setAction(act);
+  	}
     }
 }
 

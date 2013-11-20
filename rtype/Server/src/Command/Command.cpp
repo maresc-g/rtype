@@ -5,14 +5,15 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 16:01:59 2013 laurent ansel
-// Last update Wed Nov 20 10:54:54 2013 laurent ansel
+// Last update Wed Nov 20 20:56:24 2013 laurent ansel
 //
 
 #include			"Command/Command.hh"
 
 Command::Command(Trame *trame):
   _trame(trame),
-  _action(new Action)
+  _action(new Action),
+  _command(false)
 {
 }
 
@@ -56,16 +57,19 @@ void				Command::actionCommand(std::istringstream &str)
 void				Command::quitGameCommand(std::istringstream &)
 {
   this->_action->setQuitGame(true);
+  this->_command = true;
 }
 
 void				Command::quitAllCommand(std::istringstream &)
 {
+  this->_command = true;
   this->_action->setQuitGame(true);
   this->_action->setQuitAll(true);
 }
 
 void				Command::gameListCommand(std::istringstream &)
 {
+  this->_command = true;
   this->_action->setGameList(true);
 }
 
@@ -79,6 +83,7 @@ void				Command::joinCommand(std::istringstream &str)
     param = param.substr(0, posEnd);
   this->_action->setParam(param);
   this->_action->setJoin(true);
+  this->_command = true;
 }
 
 void				Command::createCommand(std::istringstream &str)
@@ -91,6 +96,7 @@ void				Command::createCommand(std::istringstream &str)
     param = param.substr(0, posEnd);
   this->_action->setParam(param);
   this->_action->setCreate(true);
+  this->_command = true;
 }
 
 void				Command::getSpriteCommand(std::istringstream &str)
@@ -103,6 +109,7 @@ void				Command::getSpriteCommand(std::istringstream &str)
     param = param.substr(0, posEnd);
   this->_action->setParam(param);
   this->_action->setGetSprite(true);
+  this->_command = true;
 }
 
 void				Command::trameToAction()
@@ -138,4 +145,9 @@ void				Command::trameToAction()
 	    }
 	}
     }
+}
+
+bool				Command::commandServer() const
+{
+  return (this->_command);
 }
