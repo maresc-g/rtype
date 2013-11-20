@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Tue Nov 19 17:55:19 2013 guillaume marescaux
+// Last update Wed Nov 20 11:14:36 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -485,7 +485,11 @@ void				Client::loop(void)
   Trame				*tmp;
   Protocol::eProtocol		msgType;
   std::string			actionStr;
+  sf::Clock	clock;
+  sf::Time	elapsedTime;
+  float		time;
 
+  clock.restart();
   this->read(0, 0, true);
   tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
   if (tmp)
@@ -501,7 +505,10 @@ void				Client::loop(void)
   if (_state->getVar() == PLAYING && actionStr != "0")
     _protocol->protocolMsg(Protocol::ACTION, _id, &actionStr);
   this->write();
-  usleep(1000);
+  elapsedTime = clock.getElapsedTime();
+  time = 100000 / 60 - elapsedTime.asMicroseconds();
+  if (time > 0)
+    sf::sleep(sf::microseconds(time));
 }
 
 //-----------------------------------END METHODS----------------------------------------
