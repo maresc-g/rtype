@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 13:40:30 2013 laurent ansel
+// Last update Wed Nov 20 14:51:42 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -13,7 +13,7 @@
 GameLoop::GameLoop(std::string const &name, unsigned int const id):
   Thread(),
   _clients(new std::list<PlayerInfo *>),
-  _rate(5),
+  _rate(1),
   _name(name),
   _id(id),
   _criticalError(false),
@@ -38,15 +38,20 @@ void			GameLoop::loop()
 {
   clock_t	time = 0;
   clock_t	end = 0;
+  clock_t	scroll = 0;
 
+  scroll = clock();
   while (!this->_levelManag->getEndGame() && !this->_criticalError)
     {
       if (this->checkActiveClient() == false)
 	break;
       time = clock();
       this->_mutex->enter();
-      this->_levelManag->incAdv();
-      std::cout << "ADV = " << this->_levelManag->getAdv() << std::endl;
+      if (((float)(clock() - scroll) / CLOCKS_PER_SEC) > 5)
+	{
+	  scroll = clock();
+	  this->_levelManag->incAdv();
+	}
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
 	{
 	  if ((*it)->getIG() == true)
@@ -65,10 +70,10 @@ void			GameLoop::loop()
       this->_mutex->leave();
       end = clock();
       time = end - time;
-      if (((double)time / CLOCKS_PER_SEC) < 1000 / this->_rate)
+      if (((double)time / CLOCKS_PER_SEC) < 1)
         {
 #ifndef _WIN32
-          usleep(1000000 / this->_rate - ((float)time / CLOCKS_PER_SEC));
+          usleep((1 - ((float)time / CLOCKS_PER_SEC)) * 1000);
 #else
           Sleep((1000 / this->_rate - ((float)time / CLOCKS_PER_SEC)) / 1000);
 #endif
