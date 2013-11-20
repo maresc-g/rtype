@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 16:17:37 2013 antoine maitre
-// Last update Wed Nov 20 15:33:52 2013 antoine maitre
+// Last update Wed Nov 20 19:49:46 2013 antoine maitre
 //
  
 #ifndef	__LEVEL_HH__
@@ -34,6 +34,7 @@ public:
   void incAdv();
   unsigned int getAdv() const;
   int getPixelAdv() const;
+  int getPosAdv() const;
   std::list<AEntity *> &getEnemies();
   std::list<AEntity *> &getPlayers();
 };

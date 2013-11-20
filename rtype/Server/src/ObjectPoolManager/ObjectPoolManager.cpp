@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Nov  6 17:04:40 2013 laurent ansel
-// Last update Wed Nov 20 16:06:10 2013 laurent ansel
+// Last update Wed Nov 20 18:29:23 2013 antoine maitre
 //
 
 #include		"ObjectPoolManager/ObjectPoolManager.hh"
@@ -41,8 +41,8 @@ AEntity			*ObjectPoolManager::getCopy(enum AEntity::eObject const type)
   std::map<AEntity::eObject, std::list<AEntity *> *>::iterator	it;
   AEntity		*tmp = NULL;
 
-  std::cout << (*_listEntities)[AEntity::MOB]->size() << std::endl;
-  std::cout << (*_listEntities)[AEntity::PLAYER]->size() << std::endl;
+  // std::cout << (*_listEntities)[AEntity::MOB]->size() << std::endl;
+  // std::cout << (*_listEntities)[AEntity::PLAYER]->size() << std::endl;
   if ((it = _listEntities->find(type)) != _listEntities->end())
     if (!it->second->empty())
       {

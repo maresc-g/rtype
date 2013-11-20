@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Wed Nov 20 17:33:27 2013 antoine maitre
+// Last update Wed Nov 20 19:51:07 2013 antoine maitre
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -60,7 +60,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
 	    {
 	      act.setDown(false);
 	      this->_player->move(this->_player->getPosX(), this->_player->getPosY() + this->_player->getSpeed());
-	      if (this->_player->getPosY() >= SCREENY - this->_player->getHeight())
+	      if (this->_player->getPosY() >= SCREENY * 10 - this->_player->getHeight())
 		this->_player->move(this->_player->getPosX(), SCREENY - this->_player->getHeight());
 	    }
 	  if (act.getLeft())
@@ -74,7 +74,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
 	    {
 	      act.setRight(false);
 	      this->_player->move(this->_player->getPosX() + this->_player->getSpeed(), this->_player->getPosY());
-	      if (this->_player->getPosX() > adv + SCREENX - this->_player->getWidth())
+	      if (this->_player->getPosX() > adv + SCREENX * 10 - this->_player->getWidth())
 		this->_player->move(adv + SCREENX - this->_player->getWidth(), this->_player->getPosY());
 	    }
 	  if (act.getFire())

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 16:09:33 2013 antoine maitre
-// Last update Wed Nov 20 15:37:02 2013 antoine maitre
+// Last update Wed Nov 20 19:49:58 2013 antoine maitre
 //
 
 #include	"Level/Level.hh"
@@ -70,6 +70,11 @@ std::list<AEntity *> &Level::getEnemies()
 std::list<AEntity *> &Level::getPlayers()
 {
   return (this->_map->getPlayers());
+}
+
+int			Level::getPosAdv() const
+{
+  return (this->_adv * 10 + _pixelAdv);
 }
 
 unsigned int Level::getAdv() const

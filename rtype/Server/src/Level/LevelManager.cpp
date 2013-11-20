@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:06 2013 antoine maitre
-// Last update Wed Nov 20 16:18:20 2013 antoine maitre
+// Last update Wed Nov 20 19:50:40 2013 antoine maitre
 //
 
 #include	"Level/LevelManager.hh"
@@ -90,4 +90,9 @@ int			LevelManager::getPixelAdv() const
 unsigned int		LevelManager::getDiff() const
 {
   return (this->_diff);
+}
+
+int			LevelManager::getPosAdv() const
+{
+  return (this->_currentLevel->getPosAdv());
 }
