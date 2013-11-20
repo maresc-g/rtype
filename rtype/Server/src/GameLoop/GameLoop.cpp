@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 15:43:06 2013 laurent ansel
+// Last update Wed Nov 20 16:01:48 2013 laurent ansel
 //
 
 #include "SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -153,27 +153,17 @@ void			GameLoop::playerDeath(PlayerInfo *deadPlayer)
 
 void			GameLoop::spawnMob()
 {
-  IDynamicLibrary	*library;
-  AEntity		*entity = NULL;
-  std::vector<std::string>	list;
-  size_t		i;
+  Mob			*entity = NULL;
 
   if (rand() % 10 == 9)
     {
-      library = &this->_library->getRandomLibrary();
-      if (library)
+      entity = this->_library->getRandomInstance();
+      if (entity)
 	{
-	  library->load();
-	  entity = reinterpret_cast<AEntity *>(library->getSymbol("getInstance"));
-	  if (entity)
+	  if (SpriteLoaderManager::getInstance()->getEntitySprite(entity->getPath(), *entity))
 	    {
-	      list = SpriteLoaderManager::getInstance()->getList("mob");
-	      i = rand() % list.size();
-	      if (SpriteLoaderManager::getInstance()->getEntitySprite(list[i], *entity))
-		{
-		  this->_levelManag->getEnemies().push_back(entity);
-		  this->_levelManag->getEnemies().back()->move(SCREENX + 5, rand() % 80);
-		}
+	      this->_levelManag->getEnemies().push_back(entity);
+	      this->_levelManag->getEnemies().back()->move(SCREENX + 5, rand() % 80);
 	    }
 	}
     }

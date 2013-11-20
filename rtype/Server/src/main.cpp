@@ -5,11 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 12:58:03 2013 laurent ansel
-<<<<<<< HEAD
-// Last update Wed Nov 20 15:38:01 2013 laurent ansel
-=======
-// Last update Wed Nov 20 15:57:51 2013 arthur rucquois
->>>>>>> 255df23ab46177f5a0dac9e7774df155f7e79442
+// Last update Wed Nov 20 15:59:24 2013 laurent ansel
 //
 
 #include		<string>
@@ -31,7 +27,6 @@ int			main(int argc, char **argv)
 	{
 	  int			port = std::stoi(argv[1]);
 	  Server		*server = new Server(port);
-	  
 
 	  srand(time(NULL));
 	  server->run();
