@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 12:55:31 2013 antoine maitre
+// Last update Wed Nov 20 13:33:23 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -16,6 +16,7 @@ GameLoop::GameLoop(std::string const &name, unsigned int const id):
   _rate(5),
   _name(name),
   _id(id),
+  _criticalError(false),
   _mutex(new Mutex)
 {
   this->_mutex->initialize();
@@ -38,8 +39,10 @@ void			GameLoop::loop()
   clock_t	time = 0;
   clock_t	end = 0;
 
-  while (!this->_levelManag->getEndGame())
+  while (!this->_levelManag->getEndGame() || this->_criticalError == true)
     {
+      if (this->checkActiveClient() == false)
+	break;
       time = clock();
       this->_mutex->enter();
       this->_levelManag->incAdv();
@@ -77,6 +80,10 @@ void			GameLoop::loop()
       this->sendScreen(this->_levelManag->getEnemies());
       this->_mutex->leave();
     }
+  if (this->_levelManag->getEndGame())
+    sendClient("TCP", "ENDGAME WIN");
+  else if (this->_criticalError == false)
+    sendClient("TCP", "ENDGAME LOOSE");
 }
 
 void			GameLoop::sendDeadEntity(unsigned int id)
@@ -91,7 +98,7 @@ void			GameLoop::sendScroll(unsigned int scroll)
 {
   std::ostringstream	oss;
 
-  oss << "SCROLL " << scroll;
+  oss << "SCROLL " << scroll * 10;
   this->sendClient("UDP", oss.str());
 }
 
@@ -109,7 +116,7 @@ void			GameLoop::sendScreen(std::list<AEntity *> &list)
     {
       oss << "ENTITY " << (*it)->getId()
 	  << ";" << (*it)->getPath().substr(12, (*it)->getPath().size() - 16)
-	  << ";" << (*it)->getCoord()->getX() << ";" << (*it)->getCoord()->getY();
+	  << ";" << (*it)->getCoord()->getX() * 10 << ";" << (*it)->getCoord()->getY() * 10;
       std::cout << oss.str() << " " << (*it)->getType() << std::endl;
       sendClient("UDP", oss.str());
       oss.str("");
@@ -199,7 +206,7 @@ unsigned int		GameLoop::getNumPlayer() const
 void			GameLoop::quitGame()
 {
   this->_mutex->enter();
-
+  this->_criticalError = true;
   this->_mutex->leave();
 }
 
@@ -231,4 +238,14 @@ unsigned int		GameLoop::getLevel() const
   lvl = this->_levelManag->getDiff();
   this->_mutex->leave();
   return (lvl);
+}
+
+bool			GameLoop::checkActiveClient()
+{
+  int			i = 0;
+
+  for (auto it = this->_clients->begin(); it != this->_clients->end(); it++)
+    if ((*it)->getIG() == true)
+      i++;
+  return ((i)?(true):(false));
 }
