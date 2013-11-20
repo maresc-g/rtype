@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Wed Nov 20 11:14:36 2013 guillaume marescaux
+// Last update Wed Nov 20 12:31:39 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -53,6 +53,7 @@ Client::Client(FileSystem::Directory *dir, MutexVar<eState> *state, Action *acti
   (*_ptrs)[Protocol::CONTENTFILE] = &Client::contentFile;
   (*_ptrs)[Protocol::LEVELUP] = &Client::levelUp;
   (*_ptrs)[Protocol::ENDGAME] = &Client::endGame;
+  (*_ptrs)[Protocol::SERVERQUIT] = &Client::serverQuit;
   // sockets
   (*_sockets)[TCP] = new Socket;
   (*_sockets)[UDP] = new Socket;
@@ -326,6 +327,12 @@ void				Client::endGame(Trame const &)
   *_state = IN_LOBBY;
 }
 
+void				Client::serverQuit(Trame const &)
+{
+  this->destroy();
+  *_state = IN_LOGIN;
+}
+
 //---------------------------------END PRIVATE METHODS--------------------------------------
 
 //----------------------------------BEGIN METHODS---------------------------------------
@@ -389,6 +396,12 @@ void				Client::readFromSocket(eSocket sock)
 	  size = (*_socketsClient)[sock]->readSocket(buff, SIZE_BUFFER);
 	  if (size > 0)
 	    tmp.append(buff, size);
+	  else
+	    {
+	      this->destroy();
+	      *_state = IN_LOGIN;
+	      return;
+	    }
 	}
       tmpTrame = Trame::cutToListTrame(tmp); 
       // std::cout << "TO STRING = ";
