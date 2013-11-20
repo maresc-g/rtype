@@ -5,11 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-<<<<<<< HEAD
-// Last update Wed Nov 20 13:35:19 2013 laurent ansel
-=======
-// Last update Wed Nov 20 13:34:45 2013 antoine maitre
->>>>>>> 366ee30a97c52c8315d97875aeddd13fb15fd37a
+// Last update Wed Nov 20 13:36:09 2013 laurent ansel
 //
 
 #include "GameLoop/GameLoop.hh"
