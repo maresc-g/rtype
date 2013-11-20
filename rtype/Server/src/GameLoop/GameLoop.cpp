@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 11:13:22 2013 laurent ansel
+// Last update Wed Nov 20 11:25:13 2013 laurent ansel
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -47,8 +47,8 @@ void			GameLoop::loop()
       sleep(5);
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
 	{
-	  // if ((*it)->getIG() == true)
-	  //   (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
+	  if ((*it)->getIG() == true)
+	    (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
 	}
       for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().begin(); it++)
       	{
