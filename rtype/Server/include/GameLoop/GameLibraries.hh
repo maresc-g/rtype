@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:17:46 2013 alexis mestag
-// Last update Tue Nov 12 18:02:58 2013 alexis mestag
+// Last update Wed Nov 20 15:06:48 2013 alexis mestag
 //
 
 #ifndef			__GAMELIBRARIES_HH__
@@ -38,6 +38,7 @@ public:
   void			setLibrary(IDynamicLibrary &lib);
 
   GameLibraries		&getDeepCopy() const;
+  IDynamicLibrary	&getRandomLibrary();
 };
 
 #endif

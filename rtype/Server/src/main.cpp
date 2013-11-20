@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 12:58:03 2013 laurent ansel
-// Last update Wed Nov 20 09:41:32 2013 laurent ansel
+// Last update Wed Nov 20 15:38:01 2013 laurent ansel
 //
 
 #include		<string>
@@ -25,6 +25,7 @@ int			main(int argc, char **argv)
 	{
 	  int			port = std::stoi(argv[1]);
 	  Server		*server = new Server(port);
+	  
 
 	  server->run();
 	  delete server;

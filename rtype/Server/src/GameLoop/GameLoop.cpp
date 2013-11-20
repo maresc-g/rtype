@@ -5,15 +5,17 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 14:55:07 2013 laurent ansel
+// Last update Wed Nov 20 15:43:06 2013 laurent ansel
 //
 
+#include "SpriteLoaderManager/SpriteLoaderManager.hh"
 #include "GameLoop/GameLoop.hh"
 
 GameLoop::GameLoop(std::string const &name, unsigned int const id):
   Thread(),
+  _library(&DynamicLibraryManager::getInstance()->getGameLibrariesCopy()),
   _clients(new std::list<PlayerInfo *>),
-  _rate(20),
+  _rate(1),
   _name(name),
   _id(id),
   _criticalError(false),
@@ -38,15 +40,20 @@ void			GameLoop::loop()
 {
   clock_t	time = 0;
   clock_t	end = 0;
+  clock_t	scroll = 0;
 
+  scroll = clock();
   while (!this->_levelManag->getEndGame() && !this->_criticalError)
     {
       if (this->checkActiveClient() == false)
 	break;
       time = clock();
       this->_mutex->enter();
-      this->_levelManag->incAdv();
-      std::cout << "ADV = " << this->_levelManag->getAdv() << std::endl;
+      if (((float)(clock() - scroll) / CLOCKS_PER_SEC) > 5)
+	{
+	  scroll = clock();
+	  this->_levelManag->incAdv();
+	}
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
 	{
 	  if ((*it)->getIG() == true)
@@ -65,10 +72,10 @@ void			GameLoop::loop()
       this->_mutex->leave();
       end = clock();
       time = end - time;
-      if (((double)time / CLOCKS_PER_SEC) < 1000 / this->_rate)
+      if (((double)time / CLOCKS_PER_SEC) < 1)
         {
 #ifndef _WIN32
-          usleep(1000000 / this->_rate - ((float)time / CLOCKS_PER_SEC));
+          usleep((1 - ((float)time / CLOCKS_PER_SEC)) * 1000);
 #else
           Sleep((1000 / this->_rate - ((float)time / CLOCKS_PER_SEC)) / 1000);
 #endif
@@ -146,21 +153,27 @@ void			GameLoop::playerDeath(PlayerInfo *deadPlayer)
 
 void			GameLoop::spawnMob()
 {
+  IDynamicLibrary	*library;
   AEntity		*entity = NULL;
   std::vector<std::string>	list;
   size_t		i;
 
   if (rand() % 10 == 9)
     {
-      entity = ObjectPoolManager::getInstance()->getCopy(AEntity::MOB);
-      if (entity)
+      library = &this->_library->getRandomLibrary();
+      if (library)
 	{
-	  list = SpriteLoaderManager::getInstance()->getList("mob");
-	  i = rand() % list.size();
-	  if (SpriteLoaderManager::getInstance()->getEntitySprite(list[i], *entity))
+	  library->load();
+	  entity = reinterpret_cast<AEntity *>(library->getSymbol("getInstance"));
+	  if (entity)
 	    {
-	      this->_levelManag->getEnemies().push_back(entity);
-	      this->_levelManag->getEnemies().back()->move(SCREENX + 5, rand() % 80);
+	      list = SpriteLoaderManager::getInstance()->getList("mob");
+	      i = rand() % list.size();
+	      if (SpriteLoaderManager::getInstance()->getEntitySprite(list[i], *entity))
+		{
+		  this->_levelManag->getEnemies().push_back(entity);
+		  this->_levelManag->getEnemies().back()->move(SCREENX + 5, rand() % 80);
+		}
 	    }
 	}
     }

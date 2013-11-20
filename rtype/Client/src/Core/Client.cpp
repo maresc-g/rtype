@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Wed Nov 20 12:31:39 2013 guillaume marescaux
+// Last update Wed Nov 20 13:54:07 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -515,8 +515,11 @@ void				Client::loop(void)
       (this->*(*_ptrs)[msgType])(*tmp);
     }
   actionStr = (std::string)(*_action);
-  if (_state->getVar() == PLAYING && actionStr != "0")
-    _protocol->protocolMsg(Protocol::ACTION, _id, &actionStr);
+  if (_state->getVar() == PLAYING && !_action->empty())
+    {
+      _protocol->protocolMsg(Protocol::ACTION, _id, &actionStr);
+      _action->reset();
+    }
   this->write();
   elapsedTime = clock.getElapsedTime();
   time = 100000 / 60 - elapsedTime.asMicroseconds();
