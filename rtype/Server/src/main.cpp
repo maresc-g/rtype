@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 12:58:03 2013 laurent ansel
-// Last update Tue Nov 19 17:37:58 2013 antoine maitre
+// Last update Wed Nov 20 09:41:32 2013 laurent ansel
 //
 
 #include		<string>
@@ -30,11 +30,6 @@ int			main(int argc, char **argv)
 	  delete server;
 	}
       catch (std::invalid_argument const &e)
-	{
-	  std::cerr << "Invalid port" << std::endl;
-	  ret = 2;
-	}
-      catch (std::out_of_range const &e)
 	{
 	  std::cerr << "Invalid port" << std::endl;
 	  ret = 2;
