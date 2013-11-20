@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 17:36:41 2013 cyril jourdain
-// Last update Sun Nov 17 23:06:10 2013 cyril jourdain
+// Last update Wed Nov 20 13:04:26 2013 cyril jourdain
 //
 
 #ifndef 		__GAMEWINDOW_HH__
@@ -31,6 +31,7 @@ public:
 
 public:
   void			init();
+  virtual void		update();
 };
 
 #endif

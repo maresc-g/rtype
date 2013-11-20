@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 17:56:23 2013 cyril jourdain
-// Last update Mon Nov 18 16:24:23 2013 cyril jourdain
+// Last update Wed Nov 20 15:53:56 2013 cyril jourdain
 //
 
 #ifndef 		__GAMEVIEW_HH__
@@ -33,11 +33,11 @@ public:
   virtual void			init();
   virtual sf::FloatRect		&getBound() const;
   virtual void			setBackgroundColor(sf::Color const) {};
+  void				update(sf::RenderWindow *);
 
 private:
   virtual void			draw(sf::RenderTarget &target, sf::RenderStates states) const;
   virtual void			onKeyPressed(void *const key);
-
 
 };
 

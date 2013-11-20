@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Oct 28 15:04:47 2013 cyril jourdain
-// Last update Sun Nov 17 23:09:15 2013 cyril jourdain
+// Last update Wed Nov 20 16:07:20 2013 cyril jourdain
 //
 
 #ifndef 		__GLOBAL_HH__
@@ -57,6 +57,14 @@
 #define			GAME_HUD			"gameHUD"
 #define			GAME_HUD_LIVES_RES		"Res/game_lives.png"
 #define			GAME_HUD_LIVES			"game_lives"
+
+/* ********** SPRITES ********* */
+#define			SPRITE_PLAYER_CONF		"Res/Sprites/player.sprite"
+#define			SPRITE_PLAYER		        "player"
+#define			SPRITE_ROCKET_CONF		"Res/Sprites/rocket.sprite"
+#define			SPRITE_ROCKET			"rocket"
+
+/* *********** FONT ***********/
 
 #define			ARIAL_FONT_RES			"Res/arial.ttf"
 #define			ARIAL_FONT			"arial"

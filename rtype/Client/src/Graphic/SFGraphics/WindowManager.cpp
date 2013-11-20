@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:18:05 2013 cyril jourdain
-// Last update Wed Nov 20 10:30:56 2013 cyril jourdain
+// Last update Wed Nov 20 15:59:11 2013 cyril jourdain
 //
 
 #include	<iostream>
@@ -265,6 +265,23 @@ void		WindowManager::init()
   SFRessourcesManager::loadDefaultRessources();
 }
 
+
+void		WindowManager::update()
+{
+  // if (_windowList && !_windowList->empty())
+  //   {
+  //     for (auto it = _windowList->begin(); it != _windowList->end(); ++it)
+  // 	{
+  // 	  if (it->second && it->second->isVisible())
+  // 	    {
+  // 	      it->second->update();
+  // 	    }
+  // 	}
+  //   }
+  if (_active)
+    _active->update();
+}
+
 void		WindowManager::exec()
 {
   sf::Clock	clock;
@@ -278,6 +295,7 @@ void		WindowManager::exec()
       _window->display();
       _window->clear();
       draw();
+      update();
       elapsedTime = clock.getElapsedTime();
       time = 100000 / _fps - elapsedTime.asMicroseconds();
       if (time > 0)
@@ -376,3 +394,7 @@ unsigned int			WindowManager::getLastWindowIndex() const
   return (index);
 }
 
+void				WindowManager::setFPS(unsigned short const fps)
+{
+  _fps = fps;
+}

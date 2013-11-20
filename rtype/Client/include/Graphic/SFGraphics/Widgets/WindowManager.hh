@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:00:35 2013 cyril jourdain
-// Last update Fri Nov  8 14:37:39 2013 cyril jourdain
+// Last update Wed Nov 20 14:20:40 2013 cyril jourdain
 //
 
 #ifndef 		__WINDOWMANAGER_HH__
@@ -56,6 +56,7 @@ public:
   void			addWindow(SFWindow *);
   void			init();
   void			exec();
+  void			update();
 
 public:
   sf::RenderWindow	*getRenderWindow() const;
@@ -65,6 +66,7 @@ public:
   void			removeWindowById(unsigned int const id);
   void			removeWindowCallback(void *param);
   unsigned int		getLastWindowIndex() const;
+  void			setFPS(unsigned short const fps);
 
 private:
   void			setFocusedWindow(sf::Event const &mouse);
