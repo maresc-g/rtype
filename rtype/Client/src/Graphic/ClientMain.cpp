@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Tue Nov 19 17:43:15 2013 guillaume marescaux
+// Last update Wed Nov 20 10:43:45 2013 guillaume marescaux
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -135,6 +135,7 @@ void			ClientMain::callCreateGame(void *data)
   std::string		tmp = reinterpret_cast<SFTextBox *>(data)->getText();
 
   std::cout << tmp << std::endl;
+  *_state = WAIT_GAME;
   _client->getProto()->protocolMsg(Protocol::CREATE, _client->getId(), &tmp);
   while (_state->getVar() == WAIT_GAME);
   if (_state->getVar() == PLAYING)
@@ -168,6 +169,7 @@ void			ClientMain::refreshGameList(void *)
 
 void			ClientMain::sendKeyPress(PressedKey const &keys)
 {
+  std::cout << "KEY PRESSED" << std::endl;
   _action->setLeft(keys.left);
   _action->setRight(keys.right);
   _action->setUp(keys.up);
