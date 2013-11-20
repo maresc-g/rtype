@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 13:36:09 2013 laurent ansel
+// Last update Wed Nov 20 13:40:30 2013 laurent ansel
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -39,7 +39,7 @@ void			GameLoop::loop()
   clock_t	time = 0;
   clock_t	end = 0;
 
-  while (!this->_levelManag->getEndGame() || this->_criticalError == true)
+  while (!this->_levelManag->getEndGame() && !this->_criticalError)
     {
       if (this->checkActiveClient() == false)
 	break;
@@ -74,9 +74,12 @@ void			GameLoop::loop()
 #endif
         }
       this->_mutex->enter();
-      this->sendScroll(this->_levelManag->getAdv());
-      this->sendScreen(this->_levelManag->getPlayers());
-      this->sendScreen(this->_levelManag->getEnemies());
+      if (!this->_criticalError)
+	{
+	  this->sendScroll(this->_levelManag->getAdv());
+	  this->sendScreen(this->_levelManag->getPlayers());
+	  this->sendScreen(this->_levelManag->getEnemies());
+	}
       this->_mutex->leave();
     }
   if (this->_levelManag->getEndGame())
