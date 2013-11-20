@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:17:46 2013 alexis mestag
-// Last update Wed Nov 20 15:06:48 2013 alexis mestag
+// Last update Wed Nov 20 15:55:47 2013 alexis mestag
 //
 
 #ifndef			__GAMELIBRARIES_HH__
@@ -14,6 +14,7 @@
 # include		<map>
 # include		<string>
 # include		"DynamicLibrary/IDynamicLibrary.hh"
+# include		"Entities/Mob.hh"
 
 class			GameLibraries
 {
@@ -39,6 +40,8 @@ public:
 
   GameLibraries		&getDeepCopy() const;
   IDynamicLibrary	&getRandomLibrary();
+  Mob			*getRandomInstance();
+  void			loadLibraries();
 };
 
 #endif
