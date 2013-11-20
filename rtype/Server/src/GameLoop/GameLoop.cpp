@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 17:44:08 2013 laurent ansel
+// Last update Wed Nov 20 18:20:06 2013 laurent ansel
 //
 
 #include "SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -51,12 +51,18 @@ void			GameLoop::loop()
 	break;
       time = clock();
       this->_mutex->enter();
+      for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
+      	{
+      	  const Coordinate	*coord = (*it)->getCoord();
+      	  if (coord->getX() <= this->_levelManag->getAdv() - (*it)->getWidth())
+      	    it = this->_levelManag->getEnemies().erase(it);
+      	}
       for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
-	if ((*it)->moveToPixel())
-	  {
-	    std::cout << "Je suis censé bouger" << std::endl;
-	    this->sendEntity((*it));
-	  }
+      	if ((*it)->moveToPixel())
+      	  {
+	    //      	    std::cout << "Je suis censé bouger" << std::endl;
+      	    this->sendEntity((*it));
+      	  }
       for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
 	if ((*it)->moveToPixel())
 	  this->sendEntity((*it));
@@ -69,16 +75,10 @@ void			GameLoop::loop()
 	    if ((*it)->getType() == AEntity::PLAYER)
 	      (*it)->move((*it)->getPosX() + 1, (*it)->getPosY());
 	}
-      // for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
-      // 	{
-      // 	  if ((*it)->getIG() == true)
-      // 	    (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
-      // 	}
-      for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
+      for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
       	{
-      	  const Coordinate	*coord = (*it)->getCoord();
-      	  if (coord->getX() <= this->_levelManag->getAdv() - (*it)->getWidth())
-      	    it = this->_levelManag->getEnemies().erase(it);
+     	  if ((*it)->getIG() == true)
+      	    (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
       	}
        this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
       this->destroyDeadEntities(this->_levelManag->getEnemies(),
@@ -86,7 +86,7 @@ void			GameLoop::loop()
       this->_mutex->leave();
       end = clock();
       time = end - time;
-      if (((float)time / CLOCKS_PER_SEC) <= 0.001)
+      if (((float)time / CLOCKS_PER_SEC) <= 0.01)
         {
 #ifndef _WIN32
           usleep((1 - ((float)time / CLOCKS_PER_SEC)) * 1000);
