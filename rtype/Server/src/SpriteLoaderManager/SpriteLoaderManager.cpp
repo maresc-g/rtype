@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 11:18:35 2013 laurent ansel
-// Last update Tue Nov 19 17:06:48 2013 laurent ansel
+// Last update Wed Nov 20 10:26:36 2013 laurent ansel
 //
 
 #include			<sstream>
@@ -16,7 +16,7 @@ SpriteLoaderManager::SpriteLoaderManager():
   _sprites(new std::list<SpriteLoader *>),
   _mutex(new Mutex),
   _quit(false),
-  _updater(new SpriteLoaderUpdater(_sprites, *_mutex, _quit, "Res/Sprites"))
+  _updater(new SpriteLoaderUpdater(_sprites, *_mutex, _quit, PATH_SPRITE))
 {
   this->_mutex->initialize();
   this->_updater->start();
@@ -117,7 +117,7 @@ bool				SpriteLoaderManager::getEntitySprite(std::string const &name, AEntity &e
   std::list<SpriteLoader *>::iterator	it;
 
   this->_mutex->enter();
-  for (it = this->_sprites->begin() ; it != this->_sprites->end() && (*it)->getPath().find(name) != std::string::npos ; ++it);
+  for (it = this->_sprites->begin() ; it != this->_sprites->end() && (*it)->getPath().find(name) == std::string::npos ; ++it);
   if (it != this->_sprites->end())
     {
       *(*it) >> entity;

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov  8 22:44:27 2013 laurent ansel
-// Last update Tue Nov 19 17:06:20 2013 laurent ansel
+// Last update Wed Nov 20 10:19:29 2013 laurent ansel
 //
 
 #ifndef 			__SPRITELOADERMANAGER_HH__
@@ -16,6 +16,8 @@
 #include			"Utility/Singleton.hpp"
 #include			"Mutex/Mutex.hpp"
 #include			"SpriteLoaderManager/SpriteLoaderUpdater.hh"
+
+#define	PATH_SPRITE		"Res/Sprites"
 
 class				SpriteLoaderManager : public Singleton<SpriteLoaderManager>
 {
