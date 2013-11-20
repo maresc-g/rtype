@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 09:32:17 2013 antoine maitre
+// Last update Wed Nov 20 09:55:28 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -68,9 +68,11 @@ void			GameLoop::loop()
 #else
       Sleep((1000 * ((1000 / this->_rate) - rest)) / 1000);
 #endif
-      //      this->sendScroll(this->_levelManag->getAdv());
-      this->sendScreen(this->_levelManag->getEnemies());
+      this->_mutex->enter();
+      this->sendScroll(this->_levelManag->getAdv());
       this->sendScreen(this->_levelManag->getPlayers());
+      this->sendScreen(this->_levelManag->getEnemies());
+      this->_mutex->leave();
     }
 }
 
@@ -103,8 +105,9 @@ void			GameLoop::sendScreen(std::list<AEntity *> &list)
   for (auto it = list.begin(); it != list.end(); it++)
     {
       oss << "ENTITY " << (*it)->getId()
-	  << ";" << (*it)->getPath().substr(12, (*it)->getPath().size() - 17)
+	  << ";" << (*it)->getPath().substr(12, (*it)->getPath().size() - 16)
 	  << ";" << (*it)->getCoord()->getX() << ";" << (*it)->getCoord()->getY();
+      std::cout << oss.str() << " " << (*it)->getType() << std::endl;
       sendClient("UDP", oss.str());
       oss.str("");
     }

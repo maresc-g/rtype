@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Tue Nov 19 23:07:33 2013 antoine maitre
+// Last update Wed Nov 20 09:47:52 2013 antoine maitre
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -81,7 +81,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
 	    {
 	      const Coordinate spawn = this->_player->getSpawnProjectile();
 	      act.setFire(false);
-	      map->getPlayers().push_back(new Rocket(spawn.getX(), spawn.getY(), "Rocket", 5, true, 1, 0));
+	      map->getPlayers().push_back(new Rocket(spawn.getX(), spawn.getY(), "Res/Sprites/rocket.conf", 5, true, 1, 0));
 	    }
 	  this->_info->setAction(act);
 	}
