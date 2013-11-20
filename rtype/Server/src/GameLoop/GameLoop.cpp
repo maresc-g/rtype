@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 16:48:24 2013 antoine maitre
+// Last update Wed Nov 20 16:51:05 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -142,10 +142,10 @@ void			GameLoop::sendEntity(AEntity *yolo)
 {
   std::ostringstream	oss;
 
-  oss << "ENTITY " << (*it)->getId()
-      << ";" << (*it)->getPath().substr(12, (*it)->getPath().size() - 16)
-      << ";" << (*it)->getPosX() << ";" << (*it)->getPosY();
-  std::cout << oss.str() << " " << (*it)->getType() << std::endl;
+  oss << "ENTITY " << yolo->getId()
+      << ";" << yolo->getPath().substr(12, yolo->getPath().size() - 16)
+      << ";" << yolo->getPosX() << ";" << yolo->getPosY();
+  std::cout << oss.str() << " " << yolo->getType() << std::endl;
   sendClient("UDP", oss.str());
 }
 

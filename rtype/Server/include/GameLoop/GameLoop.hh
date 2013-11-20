@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Wed Nov 20 13:30:41 2013 antoine maitre
+// Last update Wed Nov 20 16:49:39 2013 antoine maitre
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -50,6 +50,7 @@ public:
   void				sendDeadEntity(unsigned int);
   void				sendScroll(unsigned int scroll);
   void				sendClient(const std::string &, const std::string &);
+  void				sendEntity(AEntity *);
   bool				newPlayer(ClientInfo *newClient);
   void				playerDeath(PlayerInfo *deadPlayer);
   void				loop();
