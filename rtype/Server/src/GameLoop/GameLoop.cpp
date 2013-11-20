@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 20:01:56 2013 antoine maitre
+// Last update Wed Nov 20 23:38:13 2013 antoine maitre
 //
 
 #include "SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -51,21 +51,17 @@ void			GameLoop::loop()
 	break;
       time = clock();
       this->_mutex->enter();
-      for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
-      	{
-      	  const Coordinate	*coord = (*it)->getCoord();
-      	  if (coord->getX() <= this->_levelManag->getAdv() - (*it)->getWidth())
-      	    it = this->_levelManag->getEnemies().erase(it);
-      	}
+
+      /*	Méthode permettant d'incrémenter pixel par pixel le déplacement des entités	*/
       for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
       	if ((*it)->moveToPixel())
-      	  {
-	    //      	    std::cout << "Je suis censé bouger" << std::endl;
-      	    this->sendEntity((*it));
-      	  }
+	  this->sendEntity((*it));
       for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
 	if ((*it)->moveToPixel())
 	  this->sendEntity((*it));
+
+
+      /*	Condition permettant l'avancement du scroll et move de 1 pixel pour le player	*/
       if ((((float)(clock() - scroll)) / CLOCKS_PER_SEC) >= 0.02)
 	{
 	  scroll = clock();
@@ -75,14 +71,22 @@ void			GameLoop::loop()
 	    if ((*it)->getType() == AEntity::PLAYER)
 	      (*it)->move((*it)->getPosX() + 1, (*it)->getPosY());
 	}
+
+
+      /*	Boucle exécutant les actions en cours de chaque client				*/
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
       	{
      	  if ((*it)->getIG() == true)
       	    (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getPosAdv());
       	}
 
+      /*	Méthode permettant le check des collisions au sein de Map			*/
+      this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
+
+      /*	Destruction de toutes les entités mortes durant la boucle de jeu		*/
       this->destroyDeadEntities(this->_levelManag->getEnemies(),
       				this->_levelManag->getPlayers());
+
       this->_mutex->leave();
       end = clock();
       time = end - time;
@@ -95,11 +99,6 @@ void			GameLoop::loop()
 #endif
         }
       this->_mutex->enter();
-      if (!this->_criticalError)
-	{
-	  // this->sendScreen(this->_levelManag->getPlayers());
-	  // this->sendScreen(this->_levelManag->getEnemies());
-	}
       this->_mutex->leave();
     }
   if (this->_levelManag->getEndGame())
