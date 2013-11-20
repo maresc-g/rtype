@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:15:14 2013 laurent ansel
-// Last update Tue Nov 19 22:32:29 2013 laurent ansel
+// Last update Wed Nov 20 10:49:35 2013 laurent ansel
 //
 
 #include			<list>
@@ -128,6 +128,8 @@ Trame				*Trame::toTrame(std::string const &str)
       str.copy(str2, str.size());
       trame = reinterpret_cast<s_trame *>(str2);
       header = new Header(trame->header.idClient, trame->header.idTrame, trame->header.protocole);
+      if (str.size() - sizeof(s_header) > 0)
+	trame->content[str.size() - sizeof(s_header)] = 0;
       return (new Trame(header, std::string(trame->content)));
     }
   return (NULL);
