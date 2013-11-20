@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Nov  5 10:47:00 2013 laurent ansel
-// Last update Tue Nov 19 22:34:39 2013 laurent ansel
+// Last update Wed Nov 20 13:35:03 2013 laurent ansel
 //
 
 #include			"GameLoop/GameLoopManager.hh"
@@ -108,9 +108,9 @@ bool				GameLoopManager::deletePlayer(ClientInfo *client)
 {
   std::list<GameLoop *>::iterator	it;
 
-  if (client->getIdGame())
+  if (client->getIdGame() > 0)
     {
-      for (it = this->_listGame->end() ; it != this->_listGame->end() && (*it)->getId() != client->getIdGame() ; ++it);
+      for (it = this->_listGame->begin() ; it != this->_listGame->end() && (*it)->getId() != client->getIdGame() ; ++it);
       if (it != this->_listGame->end())
 	{
 	  if ((*it)->deletePlayer(client))
