@@ -5,13 +5,13 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov 18 10:34:21 2013 alexis mestag
-// Last update Mon Nov 18 14:50:25 2013 alexis mestag
+// Last update Wed Nov 20 15:27:14 2013 alexis mestag
 //
 
 #include			"AI/Donkey.hh"
 
 Donkey::Donkey() :
-  Mob(0, 0, "", 2)
+  Mob(0, 0, "Res/Sprites/Player.gif", 2)
 {
   
 }
