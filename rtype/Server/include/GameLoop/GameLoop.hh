@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Wed Nov 20 10:18:28 2013 antoine maitre
+// Last update Wed Nov 20 13:30:41 2013 antoine maitre
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -37,6 +37,7 @@ private:
   int				_rate;
   std::string			_name;
   unsigned int			_id;
+  bool				_criticalError;
   Mutex				*_mutex;
 public:
   GameLoop(std::string const &name, unsigned int const id);
@@ -59,6 +60,7 @@ public:
   void				quitGame();
   bool				deletePlayer(ClientInfo *client);
   unsigned int			getLevel() const;
+  bool				checkActiveClient();
 };
 
 #endif
