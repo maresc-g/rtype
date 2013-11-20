@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 15:04:52 2013 laurent ansel
-// Last update Wed Nov 20 00:30:20 2013 laurent ansel
+// Last update Wed Nov 20 10:17:22 2013 laurent ansel
 //
 
 #include		<utility>
@@ -21,6 +21,7 @@ SpriteLoader::SpriteLoader(size_t const id, std::string const &path, std::string
   _entity(new s_entity),
   _confClient(std::make_pair("", ""))
 {
+  std::cout << "PATH == " << path << std::endl;
 }
 
 SpriteLoader::~SpriteLoader()

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 11:18:35 2013 laurent ansel
-// Last update Tue Nov 19 17:06:48 2013 laurent ansel
+// Last update Wed Nov 20 10:18:59 2013 laurent ansel
 //
 
 #include			<sstream>
@@ -16,7 +16,7 @@ SpriteLoaderManager::SpriteLoaderManager():
   _sprites(new std::list<SpriteLoader *>),
   _mutex(new Mutex),
   _quit(false),
-  _updater(new SpriteLoaderUpdater(_sprites, *_mutex, _quit, "Res/Sprites"))
+  _updater(new SpriteLoaderUpdater(_sprites, *_mutex, _quit, PATH_SPRITE))
 {
   this->_mutex->initialize();
   this->_updater->start();
