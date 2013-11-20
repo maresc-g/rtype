@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Wed Nov 20 16:05:14 2013 cyril jourdain
+// Last update Wed Nov 20 16:11:55 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -93,6 +93,15 @@ void			GameView::update(sf::RenderWindow *win)
       //std::cout << "Player position :" << (*it)->getX() << "/" << (*it)->getY() << std::endl;
       if ((*it)->getType() == "player")
 	{
+	  _sprite = SFRessourcesManager::getInstance()->getSprite(SPRITE_PLAYER);
+	  _sprite->setPosition((*it)->getX(), (*it)->getY());
+	  win->setView(*_customView);
+	  win->draw(*_sprite);
+	  win->setView(win->getDefaultView());
+	}
+      else if ((*it)->getType() == "rocket")
+	{
+	  _sprite = SFRessourcesManager::getInstance()->getSprite(SPRITE_ROCKET);
 	  _sprite->setPosition((*it)->getX(), (*it)->getY());
 	  win->setView(*_customView);
 	  win->draw(*_sprite);
