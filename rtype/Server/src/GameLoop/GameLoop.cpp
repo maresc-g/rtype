@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 12:26:53 2013 laurent ansel
+// Last update Wed Nov 20 12:38:15 2013 laurent ansel
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -13,7 +13,7 @@
 GameLoop::GameLoop(std::string const &name, unsigned int const id):
   Thread(),
   _clients(new std::list<PlayerInfo *>),
-  _rate(5),
+  _rate(50),
   _name(name),
   _id(id),
   _mutex(new Mutex)
@@ -43,13 +43,12 @@ void			GameLoop::loop()
       this->_mutex->enter();
       this->_levelManag->incAdv();
       std::cout << "ADV = " << this->_levelManag->getAdv() << std::endl;
-      sleep(5);
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
 	{
 	  if ((*it)->getIG() == true)
 	    (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getAdv());
 	}
-      for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().begin(); it++)
+      for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
       	{
       	  const Coordinate	*coord = (*it)->getCoord();
 
