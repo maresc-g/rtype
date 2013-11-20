@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 09:23:30 2013 antoine maitre
+// Last update Wed Nov 20 09:32:17 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -68,7 +68,7 @@ void			GameLoop::loop()
 #else
       Sleep((1000 * ((1000 / this->_rate) - rest)) / 1000);
 #endif
-      this->sendScroll(this->_levelManag->getAdv());
+      //      this->sendScroll(this->_levelManag->getAdv());
       this->sendScreen(this->_levelManag->getEnemies());
       this->sendScreen(this->_levelManag->getPlayers());
     }
@@ -100,7 +100,6 @@ void			GameLoop::sendScreen(std::list<AEntity *> &list)
 {
   std::ostringstream	oss;
 
-  std::cout << list.size() << std::endl;
   for (auto it = list.begin(); it != list.end(); it++)
     {
       oss << "ENTITY " << (*it)->getId()

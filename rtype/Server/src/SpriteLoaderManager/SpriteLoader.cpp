@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 15:04:52 2013 laurent ansel
-// Last update Tue Nov 19 17:12:03 2013 laurent ansel
+// Last update Wed Nov 20 00:30:20 2013 laurent ansel
 //
 
 #include		<utility>
@@ -33,7 +33,7 @@ SpriteLoader		&SpriteLoader::operator>>(AEntity &entity)
   entity.setWidth(this->_entity->_width);
   entity.setHeight(this->_entity->_height);
   entity.setLife(this->_entity->_life);
-  entity.setPath(this->_entity->_path);
+  entity.setPath(this->_path);
   entity.setSpeed(this->_entity->_speed);
   entity.setDestructible(this->_entity->_destructible);
   entity.setInformationHitBox(this->_entity->_hitbox);
