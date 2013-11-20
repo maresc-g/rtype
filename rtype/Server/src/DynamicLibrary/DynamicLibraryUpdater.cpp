@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:05:50 2013 alexis mestag
-// Last update Wed Nov 20 15:39:46 2013 alexis mestag
+// Last update Wed Nov 20 19:55:53 2013 alexis mestag
 //
 
 #include			<unistd.h>
@@ -16,6 +16,7 @@
 static void			*run(void *data)
 {
   DynamicLibraryUpdater		*dlu;
+  bool				inotifyRet;
 
   dlu = reinterpret_cast<DynamicLibraryUpdater *>(data);
   do
@@ -23,9 +24,11 @@ static void			*run(void *data)
       std::cout << "The directory '" << dlu->getDirectory().getPath()
 		<< "' has been modified" << std::endl;
       dlu->updateLibraries();
-      dlu->getInotify().waitEvent(dlu->getDirectory().getPath());
-      std::cout << "Thread : event received !" << std::endl;
-    } while (dlu->getCanUpdate());
+      inotifyRet = dlu->getInotify().waitEvent(dlu->getDirectory().getPath());
+      // std::cout << "inotifyRet = " << inotifyRet << std::endl;
+    } while (dlu->getCanUpdate() && inotifyRet);
+  if (!inotifyRet)
+    std::cerr << "Something went wrong while monitoring Libraries directory" << std::endl;
   return (NULL);
 }
 

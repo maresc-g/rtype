@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Wed Nov 20 11:12:21 2013 laurent ansel
+// Last update Wed Nov 20 18:31:08 2013 laurent ansel
 //
 
 #include			<unistd.h>
@@ -49,7 +49,6 @@ ClientInfo::~ClientInfo()
 bool				ClientInfo::standbyCommand() const
 {
   this->_mutex->enter();
-  std::cout << this->_command->size() << std::endl;
   if (!this->_command->empty())
     {
       this->_mutex->leave();
