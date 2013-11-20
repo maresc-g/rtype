@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 09:55:28 2013 antoine maitre
+// Last update Wed Nov 20 10:00:22 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -226,7 +226,6 @@ unsigned int		GameLoop::getLevel() const
 
   this->_mutex->enter();
   lvl = this->_levelManag->getDiff();
-  lvl = 0;
   this->_mutex->leave();
   return (lvl);
 }
