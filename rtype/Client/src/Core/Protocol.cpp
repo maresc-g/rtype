@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:39:28 2013 guillaume marescaux
-// Last update Tue Nov 19 17:42:23 2013 guillaume marescaux
+// Last update Wed Nov 20 10:22:22 2013 antoine maitre
 //
 
 #include			<sstream>
@@ -76,7 +76,7 @@ Protocol::eProtocol		Protocol::getMsg(Trame *trame)
   // std::cout.write(trame->getContent().c_str(), trame->getContent().size());
   // std::cout << std::endl;
   iss >> tmp;
-  tmp2.erase(0, tmp.size() + 2);
+  tmp2.erase(0, tmp.size() + 1);
   pos = tmp2.find(END_TRAME);
   if (pos != std::string::npos)
     tmp2.erase(pos, pos + std::string(END_TRAME).size());

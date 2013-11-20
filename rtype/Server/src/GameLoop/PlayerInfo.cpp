@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Wed Nov 20 09:47:52 2013 antoine maitre
+// Last update Wed Nov 20 10:28:34 2013 antoine maitre
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -37,16 +37,17 @@ AEntity		*PlayerInfo::getPlayer() const
 
 void		PlayerInfo::actionPlayer(Map *map, int adv)
 {
+  const Coordinate	*coord = this->_player->getCoord();
+
+  this->_player->move(coord->getX() + 1, coord->getY());
   if (this->_info->standbyCommand())
     {
-      const Coordinate	*coord = this->_player->getCoord();
       const Command	*cmd = this->_info->getFirstCommand();
       if (cmd)
 	{
 	  Action	act = cmd->getAction();
 
 	  (void)map;
-	  this->_player->move(coord->getX() + 1, coord->getY());
 	  if (this->_player->getInvincible() > 0)
 	    this->_player->setInvincible(this->_player->getInvincible() - 1);
 	  if (act.getUp())

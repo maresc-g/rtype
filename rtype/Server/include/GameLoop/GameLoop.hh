@@ -5,11 +5,12 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Tue Nov 19 16:23:10 2013 antoine maitre
+// Last update Wed Nov 20 10:18:28 2013 antoine maitre
 //
 
 #ifndef	__GAMELOOP_HH__
 #define __GAMELOOP_HH__
+
 
 #ifndef		_WIN32
 #include		<unistd.h>
