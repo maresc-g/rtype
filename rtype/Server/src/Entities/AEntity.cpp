@@ -5,9 +5,10 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Wed Nov 20 16:44:39 2013 antoine maitre
+// Last update Wed Nov 20 17:32:41 2013 antoine maitre
 //
 
+#include		<iostream>
 #include		"Entities/AEntity.hh"
 
 AEntity::AEntity()
@@ -197,25 +198,6 @@ int			AEntity::getPixelY() const
   return (this->_pixelY);
 }
 
-bool			AEntity::moveToPixel()
-{
-  bool			ret = false;
-
-  if (this->_moveX || this->_moveY)
-    ret = true;
-  this->_pixelX = this->_pixelX + (this->_moveX >= 0)?(1):(-1);
-  this->_pixelY = this->_pixelY + (this->_moveY >= 0)?(1):(-1);
-  this->_moveX = this->_moveX + (this->_moveX >= 0)?(1):(-1);
-  this->_moveY = this->_moveY + (this->_moveY >= 0)?(1):(-1);
-  this->_pixelX = this->_coord->getX() + this->_pixelX;
-  this->_pixelY = this->_coord->getY() + this->_pixelY;
-  this->_coord->setX(this->_pixelX / 10);
-  this->_coord->setY(this->_pixelY / 10);
-  this->_pixelX = this->_pixelX % 10;
-  this->_pixelY = this->_pixelY % 10;
-  return (ret);
-}
-
 int			AEntity::getPosX()
 {
   return (this->_coord->getX() * 10 + this->_pixelX);
@@ -225,3 +207,50 @@ int			AEntity::getPosY()
 {
   return (this->_coord->getY() * 10 + this->_pixelY);
 }
+
+bool			AEntity::moveToPixel()
+{
+  bool			ret = true;
+
+  std::cout << "Move " << this->_moveX << " " << this->_moveY << std::endl;
+  if (!this->_moveX && !this->_moveY)
+    ret = false;
+  else
+    {
+      if (this->_moveX)
+	{
+	  if (this->_moveX > 0)
+	    {
+	      this->_pixelX = this->_pixelX + 1;
+	      this->_moveX = this->_moveX - 1;
+	    }
+	  else
+	    {
+	      this->_pixelX = this->_pixelX - 1;
+	      this->_moveX = this->_moveX + 1;
+	    }
+	  this->_pixelX = this->_coord->getX() * 10 + this->_pixelX;
+	  this->_coord->setX(this->_pixelX / 10);
+	  this->_pixelX = this->_pixelX % 10;
+	}
+      if (this->_moveY)
+	{
+	  if (this->_moveY > 0)
+	    {
+	      this->_pixelY = this->_pixelY + 1;
+	      this->_moveY = this->_moveY - 1;
+	    }
+	  else
+	    {
+	      this->_pixelY = this->_pixelY - 1;
+	      this->_moveY = this->_moveY + 1;
+	    }
+	  this->_pixelY = this->_coord->getY() * 10 + this->_pixelY;
+	  this->_coord->setY(this->_pixelY / 10);
+	  this->_pixelY = this->_pixelY % 10;
+	}
+    }
+  std::cout << "Move " << this->_moveX << " " << this->_moveY << std::endl;
+  return (ret);
+}
+

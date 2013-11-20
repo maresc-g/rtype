@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Wed Nov 20 10:43:45 2013 guillaume marescaux
+// Last update Wed Nov 20 14:48:57 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -115,11 +115,22 @@ void			ClientMain::joinGame(void *)
   /* Need to do server stuff */
   if (line)
     {
+      *_state = WAIT_GAME;
       int i = std::stoi((*line)["ID"].getData());
       _client->getProto()->protocolMsg(Protocol::JOIN, _client->getId(), &i);
+      while (_state->getVar() == WAIT_GAME);
+      if (_state->getVar() == PLAYING)
+	{
+	  _manager->setActiveWindow(GAME);
+	  _manager->getWindowById(LOBBY)->setVisibility(false);
+	  _manager->setFPS(60);
+	}
+      else
+	{
+	  _manager->addWindow(new SFDialogBox("Error", "Unable to launch the game"));
+	  *_state = IN_LOBBY;
+	}
     }
-  // _manager->setActiveWindow(GAME);
-  // _manager->getWindowById(LOBBY)->setVisibility(false);
 }
 
 void			ClientMain::createGame(void *)

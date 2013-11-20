@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Mon Nov 18 13:36:36 2013 laurent ansel
+// Last update Wed Nov 20 15:36:21 2013 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
@@ -20,6 +20,7 @@
 #include			"Thread/Thread.hpp"
 #include			"Select/Select.hh"
 #include			"ClientInfo/ClientInfo.hh"
+#include			"DynamicLibrary/DynamicLibraryUpdater.hh"
 
 class				Server
 {

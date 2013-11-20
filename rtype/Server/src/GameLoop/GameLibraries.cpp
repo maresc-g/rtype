@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:18:29 2013 alexis mestag
-// Last update Tue Nov 12 18:06:04 2013 alexis mestag
+// Last update Wed Nov 20 15:57:39 2013 alexis mestag
 //
 
 #include			"GameLoop/GameLibraries.hh"
@@ -92,4 +92,47 @@ std::map<std::string, IDynamicLibrary *>	&GameLibraries::getLibrariesDeepCopy() 
 GameLibraries			&GameLibraries::getDeepCopy() const
 {
   return (*new GameLibraries(*this));
+}
+
+IDynamicLibrary			&GameLibraries::getRandomLibrary()
+{
+  auto it = _libraries->cbegin();
+  long int			size;
+  long int			idx;
+  long int			i;
+
+  size = _libraries->size();
+  idx = random() % size;
+  i = 0;
+  for (; it != _libraries->end() && i < idx ; ++it)
+    i++;
+  return (*it->second);
+}
+
+Mob				*GameLibraries::getRandomInstance()
+{
+  IDynamicLibrary		*lib = &this->getRandomLibrary();
+  Mob				*(*getInstance)();
+  Mob				*mob;
+
+  getInstance = reinterpret_cast<Mob *(*)()>(lib->getSymbol("getInstance"));
+  mob = getInstance();
+  return (mob);
+}
+
+void				GameLibraries::loadLibraries()
+{
+  bool				ok;
+
+  for (auto it = _libraries->begin() ; it != _libraries->end() ; ++it)
+    {
+      ok = (it->second)->load();
+      if (!ok)
+	{
+	  delete it->second;
+	  it = _libraries->erase(it);
+	  if (!_libraries->empty())
+	    --it;
+	}
+    }
 }

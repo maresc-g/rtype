@@ -5,13 +5,14 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Oct 29 13:30:23 2013 cyril jourdain
-// Last update Mon Nov 18 14:08:07 2013 cyril jourdain
+
 //
 
 #include			"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
 #include			"Graphic/Global.hh"
 
-SFRessourcesManager::SFRessourcesManager()
+SFRessourcesManager::SFRessourcesManager() :
+  _sprites(new std::map<std::string, AnimatedSprite *>)
 {
 }
 
@@ -42,4 +43,24 @@ void			SFRessourcesManager::loadDefaultRessources()
   Images->loadImage(GAME_HUD_RES, GAME_HUD);
   Images->loadImage(GAME_HUD_LIVES_RES, GAME_HUD_LIVES);
   Fonts->loadFont(ARIAL_FONT_RES, ARIAL_FONT);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_PLAYER, SPRITE_PLAYER_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_ROCKET, SPRITE_ROCKET_CONF);
+}
+
+void			SFRessourcesManager::addSprite(std::string const &name, std::string const &path)
+{
+  AnimatedSprite	*sprite;
+
+  sprite = new AnimatedSprite();
+  if (sprite){
+    sprite->loadFromFile(path);
+    (*_sprites)[name] = sprite;
+  }
+}
+
+AnimatedSprite		*SFRessourcesManager::getSprite(std::string const &str) const
+{
+  if ((*_sprites)[str])
+    return ((*_sprites)[str]);
+  return NULL;
 }

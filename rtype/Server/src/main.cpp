@@ -5,13 +5,15 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 12:58:03 2013 laurent ansel
-// Last update Wed Nov 20 09:41:32 2013 laurent ansel
+// Last update Wed Nov 20 15:59:24 2013 laurent ansel
 //
 
 #include		<string>
 #include		<iostream>
 #include		<sstream>
 #include		<stdexcept>
+#include		<stdlib.h>
+#include		<ctime>
 #include		"Server/Server.hh"
 #include		"Error/SocketError.hpp"
 
@@ -26,6 +28,7 @@ int			main(int argc, char **argv)
 	  int			port = std::stoi(argv[1]);
 	  Server		*server = new Server(port);
 
+	  srand(time(NULL));
 	  server->run();
 	  delete server;
 	}

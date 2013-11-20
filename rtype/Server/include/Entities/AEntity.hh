@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Wed Nov 20 16:44:59 2013 antoine maitre
+// Last update Wed Nov 20 16:52:49 2013 antoine maitre
 //
 
 #ifndef 		__AENTITY_HH__
@@ -21,6 +21,7 @@ public:
   enum			eObject
     {
       PROJECTILE,
+      ROCKET,
       PLAYER,
       MOB,
       NOTHING

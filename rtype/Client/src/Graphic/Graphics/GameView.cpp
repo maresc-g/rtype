@@ -5,13 +5,15 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Tue Nov 19 13:26:21 2013 cyril jourdain
+// Last update Wed Nov 20 16:11:55 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
 #include		"Graphic/ClientMain.hh"
 #include		"Graphic/Global.hh"
 #include		"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
+#include		"Map/Map.hh"
+#include		"Map/Entity.hh"
 
 GameView::GameView() :
   SFWidget()
@@ -30,7 +32,7 @@ void			GameView::init()
   _bounds->top = 0;
   _bounds->left = 0;
   _bounds->width = WIN_X;
-  _bounds->height = WIN_Y - 100;
+  _bounds->height = WIN_Y;
   _customView->setViewport(sf::FloatRect(_bounds->left / WIN_X,
 				   _bounds->top / WIN_Y,
 				   _bounds->width / WIN_X,
@@ -40,11 +42,8 @@ void			GameView::init()
   _background->init();
   _background->setSize(WIN_X, WIN_Y);
   _background->setTexture((*(SFRessourcesManager::getInstance()->Images))[GAME_BACKGROUND]);
-  _sprite = new AnimatedSprite();
-  std::string dir  = SPRITE_DIR;
-  dir += "/player.sprite";
-  _sprite->loadFromFile(dir);
-  _sprite->play("left");
+  _sprite = SFRessourcesManager::getInstance()->getSprite(SPRITE_PLAYER);
+  _sprite->play("right");
   _clock = new sf::Clock();
   _clock->restart();
 }
@@ -69,4 +68,44 @@ void			GameView::onKeyPressed(void *const)
   _keys->down = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
   _keys->space = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
   ClientMain::getInstance()->sendKeyPress(*_keys);
+}
+
+void			GameView::update(sf::RenderWindow *win)
+{
+  static unsigned int	oldScroll = 0;
+  static sf::Clock	clock;
+  std::list<Entity*>	entities = Map::getInstance()->getEntities();
+
+  if (oldScroll == 0)
+    {
+      clock.restart();
+      oldScroll = 1;
+    }
+  if (clock.getElapsedTime().asMilliseconds() >= 4)
+    if (oldScroll <= Map::getInstance()->getScroll() * 10)
+      {
+	_customView->move(1, 0);
+	oldScroll++;
+	clock.restart();
+      }
+  for (auto it = entities.begin(); it != entities.end(); ++it)
+    {
+      //std::cout << "Player position :" << (*it)->getX() << "/" << (*it)->getY() << std::endl;
+      if ((*it)->getType() == "player")
+	{
+	  _sprite = SFRessourcesManager::getInstance()->getSprite(SPRITE_PLAYER);
+	  _sprite->setPosition((*it)->getX(), (*it)->getY());
+	  win->setView(*_customView);
+	  win->draw(*_sprite);
+	  win->setView(win->getDefaultView());
+	}
+      else if ((*it)->getType() == "rocket")
+	{
+	  _sprite = SFRessourcesManager::getInstance()->getSprite(SPRITE_ROCKET);
+	  _sprite->setPosition((*it)->getX(), (*it)->getY());
+	  win->setView(*_customView);
+	  win->draw(*_sprite);
+	  win->setView(win->getDefaultView());
+	}
+    }
 }

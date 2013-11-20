@@ -5,13 +5,14 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov  8 22:44:27 2013 laurent ansel
-// Last update Wed Nov 20 10:19:29 2013 laurent ansel
+// Last update Wed Nov 20 14:51:41 2013 laurent ansel
 //
 
 #ifndef 			__SPRITELOADERMANAGER_HH__
 # define 			__SPRITELOADERMANAGER_HH__
 
 #include			<list>
+#include			<vector>
 #include			"Thread/Thread.hpp"
 #include			"Utility/Singleton.hpp"
 #include			"Mutex/Mutex.hpp"
@@ -38,6 +39,7 @@ public:
   std::list<std::string> const	getSpriteList() const;
   std::list<std::string> const	getConfClientList() const;
   bool				getEntitySprite(std::string const &name, AEntity &entity) const;
+  std::vector<std::string>	getList(std::string const &name) const;
 };
 
 #endif
