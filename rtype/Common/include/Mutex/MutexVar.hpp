@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Thu Nov 14 18:56:32 2013 guillaume marescaux
-// Last update Tue Nov 19 13:15:39 2013 guillaume marescaux
+// Last update Wed Nov 20 10:39:04 2013 laurent ansel
 //
 
 #ifndef 		__MUTEXVAR_HPP__
@@ -59,7 +59,7 @@ public:
 
   void			operator=(T const &var)
   {
-    _var = var;
+    setVar(var);
   }
 };
 
