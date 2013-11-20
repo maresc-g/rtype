@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Wed Nov 20 13:28:50 2013 laurent ansel
+// Last update Wed Nov 20 15:46:05 2013 laurent ansel
 //
 
 #include			<list>
@@ -36,6 +36,7 @@ Server::Server(int const port):
   GameLoopManager::getInstance();
   ObjectPoolManager::getInstance();
   SpriteLoaderManager::getInstance();
+  DynamicLibraryManager::getInstance();
   this->_socket->insert(std::make_pair("TCP" , new Socket));
   this->debug("Initialize tcp socket ...");
   (*this->_socket)["TCP"]->initialize("TCP");
@@ -75,6 +76,7 @@ Server::~Server()
   GameLoopManager::deleteInstance();
   ObjectPoolManager::deleteInstance();
   SpriteLoaderManager::deleteInstance();
+  DynamicLibraryManager::deleteInstance();
 }
 
 void				Server::debug(std::string const &str) const

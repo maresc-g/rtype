@@ -5,13 +5,15 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 14:51:42 2013 antoine maitre
+// Last update Wed Nov 20 16:01:48 2013 laurent ansel
 //
 
+#include "SpriteLoaderManager/SpriteLoaderManager.hh"
 #include "GameLoop/GameLoop.hh"
 
 GameLoop::GameLoop(std::string const &name, unsigned int const id):
   Thread(),
+  _library(&DynamicLibraryManager::getInstance()->getGameLibrariesCopy()),
   _clients(new std::list<PlayerInfo *>),
   _rate(1),
   _name(name),
@@ -151,10 +153,19 @@ void			GameLoop::playerDeath(PlayerInfo *deadPlayer)
 
 void			GameLoop::spawnMob()
 {
+  Mob			*entity = NULL;
+
   if (rand() % 10 == 9)
     {
-      this->_levelManag->getEnemies().push_back(ObjectPoolManager::getInstance()->getCopy(AEntity::MOB));
-      this->_levelManag->getEnemies().back()->move(SCREENX + 5, rand() % 80);
+      entity = this->_library->getRandomInstance();
+      if (entity)
+	{
+	  if (SpriteLoaderManager::getInstance()->getEntitySprite(entity->getPath(), *entity))
+	    {
+	      this->_levelManag->getEnemies().push_back(entity);
+	      this->_levelManag->getEnemies().back()->move(SCREENX + 5, rand() % 80);
+	    }
+	}
     }
 }
 

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov  8 22:44:47 2013 laurent ansel
-// Last update Tue Nov 19 17:10:14 2013 laurent ansel
+// Last update Wed Nov 20 15:30:42 2013 laurent ansel
 //
 
 #ifndef 			__SPRITELOADER_HH__

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Wed Nov 20 13:30:41 2013 antoine maitre
+// Last update Wed Nov 20 15:35:26 2013 laurent ansel
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -20,6 +20,7 @@
 #endif
 
 #include		<string>
+#include		"DynamicLibrary/DynamicLibraryManager.hh"
 #include		"ObjectPoolManager/ObjectPoolManager.hh"
 #include		"ClientInfo/ClientInfo.hh"
 #include		"ObjectPoolManager/ObjectPoolManager.hh"
@@ -32,6 +33,7 @@
 class			GameLoop : public Thread
 {
 private:
+  GameLibraries			*_library;
   LevelManager			*_levelManag;
   std::list<PlayerInfo *>	*_clients;
   int				_rate;
