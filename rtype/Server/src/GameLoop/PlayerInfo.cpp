@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Wed Nov 20 12:37:54 2013 antoine maitre
+// Last update Wed Nov 20 16:05:22 2013 antoine maitre
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -54,30 +54,30 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
 	  if (act.getUp())
 	    {
 	      act.setUp(false);
-	      this->_player->move(coord->getX(), coord->getY() - this->_player->getSpeed());
-	      if (coord->getY() < 0)
-		this->_player->move(coord->getX(), 0);
+	      this->_player->move(this->_player->getPosX(), this->_player->getPosY() - this->_player->getSpeed());
+	      if (this->_player->getPosY() < 0)
+		this->_player->move(this->_player->getPosX(), 0);
 	    }
 	  if (act.getDown())
 	    {
 	      act.setDown(false);
-	      this->_player->move(coord->getX(), coord->getY() + this->_player->getSpeed());
-	      if (coord->getY() >= SCREENY - this->_player->getHeight())
-		this->_player->move(coord->getX(), SCREENY - this->_player->getHeight());
+	      this->_player->move(this->_player->getPosX(), this->_player->getPosY() + this->_player->getSpeed());
+	      if (this->_player->getPosY() >= SCREENY - this->_player->getHeight())
+		this->_player->move(this->_player->getPosX(), SCREENY - this->_player->getHeight());
 	    }
 	  if (act.getLeft())
 	    {
 	      act.setLeft(false);
-	      this->_player->move(coord->getX() - this->_player->getSpeed(), coord->getY());
-	      if (coord->getX() <  adv)
-		this->_player->move(adv, coord->getY());
+	      this->_player->move(this->_player->getPosX() - this->_player->getSpeed(), this->_player->getPosY());
+	      if (this->_player->getPosX() <  adv)
+		this->_player->move(adv, this->_player->getPosY());
 	    }
 	  if (act.getRight())
 	    {
 	      act.setRight(false);
-	      this->_player->move(coord->getX() + this->_player->getSpeed(), coord->getY());
-	      if (coord->getX() > adv + SCREENX - this->_player->getWidth())
-		this->_player->move(adv + SCREENX - this->_player->getWidth(), coord->getY());
+	      this->_player->move(this->_player->getPosX() + this->_player->getSpeed(), this->_player->getPosY());
+	      if (this->_player->getPosX() > adv + SCREENX - this->_player->getWidth())
+		this->_player->move(adv + SCREENX - this->_player->getWidth(), this->_player->getPosY());
 	    }
 	  if (act.getFire())
 	    {

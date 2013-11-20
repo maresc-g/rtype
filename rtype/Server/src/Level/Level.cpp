@@ -5,13 +5,13 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 16:09:33 2013 antoine maitre
-// Last update Wed Nov 20 14:14:03 2013 antoine maitre
+// Last update Wed Nov 20 15:37:02 2013 antoine maitre
 //
 
 #include	"Level/Level.hh"
 
 Level::Level(int diff)
-  : _diff(diff), _finish(false), _adv(0)
+  : _diff(diff), _finish(false), _adv(0), _pixelAdv(0)
 {
   std::string pathMap;
   std::ostringstream oss;
@@ -50,7 +50,14 @@ Map	*Level::getMap()
 void	Level::incAdv()
 {
   if (this->_adv < this->_map->getPosX())
-    this->_adv++;
+    {
+      this->_pixelAdv++;
+      if (this->_pixelAdv == 10)
+	{
+	  this->_pixelAdv = 0;
+	  this->_adv++;
+	}
+    }
   else
     this->_finish = true;
 }
@@ -68,4 +75,9 @@ std::list<AEntity *> &Level::getPlayers()
 unsigned int Level::getAdv() const
 {
   return (this->_adv);
+}
+
+int Level::getPixelAdv() const
+{
+  return (this->_pixelAdv);
 }

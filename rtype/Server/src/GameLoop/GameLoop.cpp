@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Wed Nov 20 14:51:42 2013 antoine maitre
+// Last update Wed Nov 20 16:48:24 2013 antoine maitre
 //
 
 #include "GameLoop/GameLoop.hh"
@@ -47,10 +47,20 @@ void			GameLoop::loop()
 	break;
       time = clock();
       this->_mutex->enter();
-      if (((float)(clock() - scroll) / CLOCKS_PER_SEC) > 5)
+      for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
+	if ((*it)->moveToPixel())
+	  this->sendEntity((*it));
+      for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
+	if ((*it)->moveToPixel())
+	  this->sendEntity((*it));
+      if ((((float)(clock() - scroll)) / CLOCKS_PER_SEC) >= 0.004)
 	{
 	  scroll = clock();
 	  this->_levelManag->incAdv();
+	  this->sendScroll(this->_levelManag->getAdv() * 10 + this->_levelManag->getPixelAdv());
+	  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
+	    if ((*it)->getType() == AEntity::PLAYER)
+	      (*it)->move((*it)->getPosX() + 1, (*it)->getPosY());
 	}
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
 	{
@@ -60,7 +70,6 @@ void			GameLoop::loop()
       for (std::list<AEntity *>::iterator it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
       	{
       	  const Coordinate	*coord = (*it)->getCoord();
-
       	  if (coord->getX() <= this->_levelManag->getAdv() - (*it)->getWidth())
       	    it = this->_levelManag->getEnemies().erase(it);
       	}
@@ -70,7 +79,7 @@ void			GameLoop::loop()
       this->_mutex->leave();
       end = clock();
       time = end - time;
-      if (((double)time / CLOCKS_PER_SEC) < 1)
+      if (((float)time / CLOCKS_PER_SEC) <= 0.001)
         {
 #ifndef _WIN32
           usleep((1 - ((float)time / CLOCKS_PER_SEC)) * 1000);
@@ -81,7 +90,6 @@ void			GameLoop::loop()
       this->_mutex->enter();
       if (!this->_criticalError)
 	{
-	  this->sendScroll(this->_levelManag->getAdv());
 	  this->sendScreen(this->_levelManag->getPlayers());
 	  this->sendScreen(this->_levelManag->getEnemies());
 	}
@@ -105,7 +113,7 @@ void			GameLoop::sendScroll(unsigned int scroll)
 {
   std::ostringstream	oss;
 
-  oss << "SCROLL " << scroll * 10;
+  oss << "SCROLL " << scroll;
   this->sendClient("UDP", oss.str());
 }
 
@@ -123,11 +131,22 @@ void			GameLoop::sendScreen(std::list<AEntity *> &list)
     {
       oss << "ENTITY " << (*it)->getId()
 	  << ";" << (*it)->getPath().substr(12, (*it)->getPath().size() - 16)
-	  << ";" << (*it)->getCoord()->getX() * 10 << ";" << (*it)->getCoord()->getY() * 10;
+	  << ";" << (*it)->getPosX() << ";" << (*it)->getPosY();
       std::cout << oss.str() << " " << (*it)->getType() << std::endl;
       sendClient("UDP", oss.str());
       oss.str("");
     }
+}
+
+void			GameLoop::sendEntity(AEntity *yolo)
+{
+  std::ostringstream	oss;
+
+  oss << "ENTITY " << (*it)->getId()
+      << ";" << (*it)->getPath().substr(12, (*it)->getPath().size() - 16)
+      << ";" << (*it)->getPosX() << ";" << (*it)->getPosY();
+  std::cout << oss.str() << " " << (*it)->getType() << std::endl;
+  sendClient("UDP", oss.str());
 }
 
 bool			GameLoop::newPlayer(ClientInfo *newClient)
@@ -256,3 +275,4 @@ bool			GameLoop::checkActiveClient()
       i++;
   return ((i)?(true):(false));
 }
+
