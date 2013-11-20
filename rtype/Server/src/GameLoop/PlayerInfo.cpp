@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Wed Nov 20 12:24:48 2013 laurent ansel
+// Last update Wed Nov 20 12:34:53 2013 laurent ansel
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -19,10 +19,10 @@ PlayerInfo::PlayerInfo(ClientInfo *info, int num)
   // _player = new Player(20, 40, path, 1, true);
   _player = reinterpret_cast<Player *>(ObjectPoolManager::getInstance()->getCopy(AEntity::PLAYER));
   if (_player)
-    SpriteLoaderManager::getInstance()->getEntitySprite("player", *_player);
-  else
-    std::cout << "NULL" << std::endl;
-  _player->setInvincible(40);
+    {
+      SpriteLoaderManager::getInstance()->getEntitySprite("player", *_player);
+      _player->setInvincible(40);
+    }
 }
 
 PlayerInfo::~PlayerInfo()
@@ -75,13 +75,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
 	    {
 	      act.setRight(false);
 	      this->_player->move(coord->getX() + this->_player->getSpeed(), coord->getY());
-	      std::cout << "COORD =" <<coord->getX() << std::endl;
-	      std::cout << "COORD1 =" <<adv << std::endl;
-	      std::cout << "COORD2 =" <<this->_player->getWidth() << std::endl;
-	      if (coord->getX() >
-		  adv
-		  + SCREENX
-		  - this->_player->getWidth())
+	      if (coord->getX() > adv + SCREENX - this->_player->getWidth())
 		this->_player->move(adv + SCREENX - this->_player->getWidth(), coord->getY());
 	    }
 	  if (act.getFire())
