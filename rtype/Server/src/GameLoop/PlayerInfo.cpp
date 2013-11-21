@@ -5,11 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-<<<<<<< HEAD
-// Last update Thu Nov 21 14:52:42 2013 laurent ansel
-=======
-// Last update Thu Nov 21 12:46:54 2013 antoine maitre
->>>>>>> 92d5277c3369cac5dcf75ef995fdb9b2363d4265
+// Last update Thu Nov 21 14:57:15 2013 laurent ansel
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
