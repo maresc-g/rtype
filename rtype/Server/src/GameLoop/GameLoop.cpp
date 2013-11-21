@@ -5,9 +5,10 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov 21 15:02:03 2013 antoine maitre
+// Last update Thu Nov 21 15:35:43 2013 antoine maitre
 //
 
+#include <time.h>
 #include "SpriteLoaderManager/SpriteLoaderManager.hh"
 #include "GameLoop/GameLoop.hh"
 
@@ -36,6 +37,16 @@ void			GameLoop::Initialize()
   this->_levelManag->Initialize();
 }
 
+void			GameLoop::scrolling()
+{
+  this->_levelManag->incAdv();
+  this->_mutex->enter();
+  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
+    if ((*it)->getType() == AEntity::PLAYER)
+      (*it)->move((*it)->getPosX() + 1, (*it)->getPosY());
+  this->_mutex->leave();
+}
+
 void			GameLoop::loop()
 {
   clock_t	time = 0;
@@ -56,23 +67,12 @@ void			GameLoop::loop()
       for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
       	if ((*it)->moveToPixel())
 	  this->sendEntity((*it));
+      this->_mutex->leave();
       for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
 	if ((*it)->moveToPixel())
 	  this->sendEntity((*it));
 
-
-      /*	Condition permettant l'avancement du scroll et move de 1 pixel pour le player	*/
-      if ((((float)(clock() - scroll)) / CLOCKS_PER_SEC) >= 0.05)
-	{
-	  scroll = clock();
-	  this->_levelManag->incAdv();
-	  this->sendScroll(this->_levelManag->getPosAdv());
-	  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
-	    if ((*it)->getType() == AEntity::PLAYER)
-	      (*it)->move((*it)->getPosX() + 1, (*it)->getPosY());
-	}
-
-
+      this->_mutex->enter();
       /*	Boucle exécutant les actions en cours de chaque client				*/
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
       	{
@@ -90,27 +90,31 @@ void			GameLoop::loop()
       this->_mutex->leave();
       end = clock();
       time = end - time;
-      if (((float)time / CLOCKS_PER_SEC) <= 0.01)
+      if (((double)time / CLOCKS_PER_SEC) <= 0.03)
         {
+	  for (double i = 0 ; i <= 0.03 - ((double)time / CLOCKS_PER_SEC) ; i += 0.03)
+	    scrolling();
+	  this->sendScroll(this->_levelManag->getPosAdv());
 #ifndef _WIN32
-          usleep((1 - ((float)time / CLOCKS_PER_SEC)) * 1000);
+	  usleep(((double)0.03 - ((double)time / CLOCKS_PER_SEC)) * 1000000);
 #else
           Sleep((1000 / this->_rate - ((float)time / CLOCKS_PER_SEC)) / 1000);
 #endif
-        }
+	  action -= ((double)0.03 - ((double)time / CLOCKS_PER_SEC)) * CLOCKS_PER_SEC;
+	}
       this->_mutex->enter();
       if ((((float)(clock() - action)) / CLOCKS_PER_SEC) > 0.04)
-	{
-	  action = clock();
-	  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
-	    if ((*it)->getType() != AEntity::PLAYER)
-	      {
-		(static_cast<AProjectile *>(*it))->move();
-		this->sendEntity((*it));
-	      }
-	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
-	    this->sendEntity((*it));
-	}
+      	{
+      	  action = clock();
+      	  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
+      	    if ((*it)->getType() != AEntity::PLAYER)
+      	      {
+      		(static_cast<AProjectile *>(*it))->move();
+      		this->sendEntity((*it));
+      	      }
+      	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
+      	    this->sendEntity((*it));
+      	}
       this->_mutex->leave();
     }
   if (this->_levelManag->getEndGame())
@@ -143,16 +147,17 @@ void			GameLoop::sendClient(const std::string &protocol, const std::string &tram
 
 void			GameLoop::sendScreen(std::list<AEntity *> &list)
 {
-  std::ostringstream	oss;
+  // std::ostringstream	oss;
 
   for (auto it = list.begin(); it != list.end(); it++)
     {
-      oss << "ENTITY " << (*it)->getId()
-	  << ";" << (*it)->getPath().substr(12, (*it)->getPath().size() - 16)
-	  << ";" << (*it)->getPosX() << ";" << (*it)->getPosY();
-      std::cout << oss.str() << " " << (*it)->getType() << std::endl;
-      sendClient("UDP", oss.str());
-      oss.str("");
+      sendEntity(*it);
+      // oss << "ENTITY " << (*it)->getId()
+      // 	  << ";" << (*it)->getPath().substr(12, (*it)->getPath().size() - 16)
+      // 	  << ";" << (*it)->getPosX() << ";" << (*it)->getPosY();
+      // std::cout << oss.str() << " " << (*it)->getType() << std::endl;
+      // sendClient("UDP", oss.str());
+      // oss.str("");
     }
 }
 
@@ -165,8 +170,8 @@ void			GameLoop::sendEntity(AEntity *entity)
   oss << "ENTITY " << entity->getId() << ";";
   if (!entity->getPath().empty() && entity->getPath().size() > path.size() + 1 && (pos = entity->getPath().find(EXTENSION_SPRITE)) != std::string::npos)
     oss << entity->getPath().substr(path.size() + 1, pos - (path.size() + 1));
-  if (entity->getType() == AEntity::PLAYER)
-    oss << reinterpret_cast<Player *>(entity)->getNum();
+  // if (entity->getType() == AEntity::PLAYER)
+  //   oss << reinterpret_cast<Player *>(entity)->getNum();
   oss << ";" << entity->getPosX() << ";" << entity->getPosY();
   sendClient("UDP", oss.str());
 }

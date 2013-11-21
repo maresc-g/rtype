@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:46:04 2013 laurent ansel
-// Last update Wed Nov 20 20:53:29 2013 laurent ansel
+// Last update Thu Nov 21 14:04:40 2013 laurent ansel
 //
 
 #ifndef 			__CLIENTINFO_HH__
@@ -27,6 +27,7 @@ private:
   Mutex				*_mutex;
   unsigned int			_trameId;
   unsigned int			_idGame;
+  std::list<std::pair<int, int>	>	*_delai;
 public:
   ClientInfo(SocketClient *clientTcp, SocketClient *clientUdp = NULL, unsigned int const id = 0);
   virtual ~ClientInfo();
@@ -61,6 +62,10 @@ public:
   void				setAction(Action const &action);
 
   bool				actionServer() const;
+
+  void				setDelai(int const second, int const milli);
+  void				getDelai(int delai[2]) const;
+  bool				availableDelai() const;
 };
 
 #endif

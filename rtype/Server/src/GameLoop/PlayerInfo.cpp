@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Thu Nov 21 15:13:46 2013 antoine maitre
+// Last update Thu Nov 21 16:03:42 2013 antoine maitre
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -43,7 +43,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
       const Command	*cmd = this->_info->getFirstCommand();
       if (cmd)
   	{
-  	  Action	&act = cmd->getAction();
+	  Action	&act = cmd->getAction();
 
   	  (void)map;
   	  if (this->_player->getInvincible() > 0)
@@ -89,7 +89,6 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
   		  projectile->movePos(this->_player->getPosX(), this->_player->getPosY());
 		  map->getPlayers().push_back(projectile);
   		}
-	      std::cout << "0x" << projectile << std::endl;
   	    }
 	  this->_info->setAction(act);
   	}

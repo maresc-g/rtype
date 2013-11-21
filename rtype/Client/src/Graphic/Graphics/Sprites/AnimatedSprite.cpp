@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 //
 // Started on  Wed Jun 19 13:45:16 2013 cyril jourdain
-// Last update Mon Nov 18 15:58:41 2013 cyril jourdain
+// Last update Thu Nov 21 14:39:17 2013 cyril jourdain
 //
 
 #include	"Graphic/Graphics/Sprites/AnimatedSprite.hh"
@@ -17,7 +17,7 @@
 
 AnimatedSprite::AnimatedSprite() :
   _animations(new std::map<std::string, Animation *>),
-  _isPlaying(false), _current(""), _count(0)
+  _isPlaying(false), _current(""), _count(0), _loopPlay(true)
 {
   _vertex[0].position = sf::Vector2f(0, 0);
   _vertex[1].position = sf::Vector2f(0, 1);
@@ -45,6 +45,7 @@ AnimatedSprite::AnimatedSprite(AnimatedSprite const &other) :
   _isPlaying = other._isPlaying;
   _current = other._current;
   _count = other._count;
+  _loopPlay = other._loopPlay;
 }
 
 AnimatedSprite		&AnimatedSprite::operator=(AnimatedSprite const &other)
@@ -60,6 +61,7 @@ AnimatedSprite		&AnimatedSprite::operator=(AnimatedSprite const &other)
       }
       _isPlaying = other._isPlaying;
       _current = other._current;
+      _loopPlay = other._loopPlay;
     }
   return (*this);
 }
@@ -75,8 +77,10 @@ AnimatedSprite::~AnimatedSprite()
     }
 }
 
-void			AnimatedSprite::addAnimation(std::string const &name, Animation *anim)
+void			AnimatedSprite::addAnimation(std::string const &name, Animation *anim,
+						     bool loopPlay)
 {
+  _loopPlay = loopPlay;
   if (anim)
     (*_animations)[name] = anim;
 }
@@ -107,15 +111,18 @@ void			AnimatedSprite::update(sf::Clock &)
     _count++;
     if (_count % (*_animations)[_current]->getFrameLenght() >= (*_animations)[_current]->getFrameLenght() - 1)
       {
-	frame = (*_animations)[_current]->getFrame(_count / ((*_animations)[_current]->getFrameLenght()));
-	_vertex[0].texCoords = sf::Vector2f(frame->left, frame->top);
-	_vertex[1].texCoords = sf::Vector2f(frame->left, frame->top + frame->height);
-	_vertex[2].texCoords = sf::Vector2f(frame->left + frame->width, frame->top + frame->height);
-	_vertex[3].texCoords = sf::Vector2f(frame->left + frame->width, frame->top);
-	_vertex[0].position = sf::Vector2f(0, 0);
-	_vertex[1].position = sf::Vector2f(0, frame->height);
-	_vertex[2].position = sf::Vector2f(frame->width, frame->height);
-	_vertex[3].position = sf::Vector2f(frame->width, 0);
+	// if (!(_count == (*_animations)[_current]->getFrameCount() && !_loopPlay))
+	//   {
+	    frame = (*_animations)[_current]->getFrame(_count / ((*_animations)[_current]->getFrameLenght()));
+	    _vertex[0].texCoords = sf::Vector2f(frame->left, frame->top);
+	    _vertex[1].texCoords = sf::Vector2f(frame->left, frame->top + frame->height);
+	    _vertex[2].texCoords = sf::Vector2f(frame->left + frame->width, frame->top + frame->height);
+	    _vertex[3].texCoords = sf::Vector2f(frame->left + frame->width, frame->top);
+	    _vertex[0].position = sf::Vector2f(0, 0);
+	    _vertex[1].position = sf::Vector2f(0, frame->height);
+	    _vertex[2].position = sf::Vector2f(frame->width, frame->height);
+	    _vertex[3].position = sf::Vector2f(frame->width, 0);
+	  // }
       }
   }
 }

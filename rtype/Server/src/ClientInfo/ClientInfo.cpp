@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Wed Nov 20 20:53:15 2013 laurent ansel
+// Last update Thu Nov 21 14:23:05 2013 laurent ansel
 //
 
 #include			<unistd.h>
@@ -18,13 +18,16 @@ ClientInfo::ClientInfo(SocketClient *clientTcp, SocketClient *clientUdp, unsigne
   _id(id),
   _mutex(new Mutex),
   _trameId(1),
-  _idGame(0)
+  _idGame(0),
+  _delai(new std::list<std::pair<int, int> >)
 {
   this->_mutex->initialize();
   this->_clientInfo->insert(std::make_pair("TCP", clientTcp));
   this->_clientInfo->insert(std::make_pair("UDP", clientUdp));
   this->_nbTrame->insert(std::make_pair("TCP", 0));
   this->_nbTrame->insert(std::make_pair("UDP", 0));
+  this->_mutex->enter();
+  this->_mutex->leave();
 }
 
 ClientInfo::~ClientInfo()
@@ -347,6 +350,49 @@ bool				ClientInfo::actionServer() const
 	  this->_mutex->leave();
 	  return (true);
 	}
+    }
+  this->_mutex->leave();
+  return (false);
+}
+
+void				ClientInfo::setDelai(int const second, int const milli)
+{
+  this->_mutex->enter();
+  int				delai[2];
+
+  delai[0] = second;
+  delai[1] = milli;
+  this->_delai->push_back(std::make_pair(delai[0], delai[1]));
+  this->_mutex->leave();
+}
+
+void				ClientInfo::getDelai(int delai[2]) const
+{
+  this->_mutex->enter();
+  std::pair<int, int>		tmp;
+
+  if (!this->_delai->empty())
+    {
+      tmp = this->_delai->front();
+      this->_delai->pop_front();
+      delai[0] = tmp.first;
+      delai[1] = tmp.second;
+    }
+  else
+    {
+      delai[0] = -1;
+      delai[1] = -1;
+    }
+  this->_mutex->leave();
+}
+
+bool				ClientInfo::availableDelai() const
+{
+  this->_mutex->enter();
+  if (!this->_delai->empty())
+    {
+      this->_mutex->leave();
+      return (true);
     }
   this->_mutex->leave();
   return (false);
