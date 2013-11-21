@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov 21 14:57:02 2013 laurent ansel
+// Last update Thu Nov 21 15:24:56 2013 laurent ansel
 //
 
 #include <time.h>
@@ -47,6 +47,16 @@ void			GameLoop::scrolling()
   this->_mutex->leave();
 }
 
+void			GameLoop::action()
+{
+  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
+    if ((*it)->getType() != AEntity::PLAYER)
+      {
+	(static_cast<AProjectile *>(*it))->move();
+	this->sendEntity((*it));
+      }
+}
+
 void			GameLoop::loop()
 {
   clock_t	time = 0;
@@ -77,7 +87,7 @@ void			GameLoop::loop()
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
       	{
      	  if ((*it)->getIG() == true)
-      	    (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getPosAdv());
+      	    while ((*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getPosAdv()));
       	}
 
       /*	Méthode permettant le check des collisions au sein de Map			*/
@@ -105,13 +115,10 @@ void			GameLoop::loop()
       this->_mutex->enter();
       if ((((float)(clock() - action)) / CLOCKS_PER_SEC) > 0.04)
       	{
-      	  action = clock();
-      	  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
-      	    if ((*it)->getType() != AEntity::PLAYER)
-      	      {
-      		(static_cast<AProjectile *>(*it))->move();
-      		this->sendEntity((*it));
-      	      }
+	  std::cout << "TIME = " << ((float)(clock() - action)) / CLOCKS_PER_SEC << std::endl;
+	  for (double i = 0 ; i < (0.04 - ((float)(clock() - action)) / CLOCKS_PER_SEC) ; i += 0.04)
+	    this->action();
+	  action = clock();
       	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
       	    this->sendEntity((*it));
       	}
