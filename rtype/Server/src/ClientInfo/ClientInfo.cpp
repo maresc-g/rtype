@@ -5,10 +5,12 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Thu Nov 21 14:23:05 2013 laurent ansel
+// Last update Thu Nov 21 16:46:21 2013 laurent ansel
 //
 
+#ifndef				_WIN32
 #include			<unistd.h>
+#endif
 #include			"ClientInfo/ClientInfo.hh"
 
 ClientInfo::ClientInfo(SocketClient *clientTcp, SocketClient *clientUdp, unsigned int const id):
@@ -396,4 +398,11 @@ bool				ClientInfo::availableDelai() const
     }
   this->_mutex->leave();
   return (false);
+}
+
+void				ClientInfo::quitGame()
+{
+  this->_mutex->enter();
+  this->_idGame = 0;
+  this->_mutex->leave();
 }

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Thu Nov 21 16:08:09 2013 antoine maitre
+// Last update Thu Nov 21 21:38:53 2013 antoine maitre
 //
 
 #include		<iostream>
@@ -79,8 +79,8 @@ void			AEntity::collision()
 
 void			AEntity::move(int const x, int const y)
 {
-  _moveX = x - this->getPosX() + (_moveX);
-  _moveY = y - this->getPosY() + (_moveY);
+  _moveX = x - this->getPosX();
+  _moveY = y - this->getPosY();
 }
 
 Coordinate const	*AEntity::getCoord() const

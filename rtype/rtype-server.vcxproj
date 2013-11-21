@@ -47,9 +47,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <WarningLevel>Level2</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalOptions>/D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\SFML-2.1\include;$(SolutionDir)\Common\include;$(SolutionDir)\Server\include;$(SolutionDir)\Client\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -58,11 +60,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\SFML-2.1\include;$(SolutionDir)\Common\include;$(SolutionDir)\Server\include;$(SolutionDir)\Client\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -71,10 +74,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Common\src\Action\Action.cpp" />
     <ClCompile Include="Common\src\CircularBufferManager\CircularBufferManager.cpp" />
     <ClCompile Include="Common\src\CircularBufferManager\CircularBuffer\CircularBuffer.cpp" />
     <ClCompile Include="Common\src\CircularBufferManager\CircularBuffer\Trame\Header\Header.cpp" />
     <ClCompile Include="Common\src\CircularBufferManager\CircularBuffer\Trame\Trame.cpp" />
+    <ClCompile Include="Common\src\FileSystem\Directory.cpp" />
+    <ClCompile Include="Common\src\FileSystem\Entry.cpp" />
+    <ClCompile Include="Common\src\FileSystem\File.cpp" />
     <ClCompile Include="Common\src\Mutex\UnixMutex.cpp" />
     <ClCompile Include="Common\src\Mutex\WindowsMutex.cpp" />
     <ClCompile Include="Common\src\Select\Select.cpp" />
@@ -85,7 +92,6 @@
     <ClCompile Include="Common\src\Thread\PthreadCondition.cpp" />
     <ClCompile Include="Common\src\Thread\UnixThread.cpp" />
     <ClCompile Include="Common\src\Thread\WindowsThread.cpp" />
-    <ClCompile Include="Server\src\Action\Action.cpp" />
     <ClCompile Include="Server\src\ClientInfo\ClientInfo.cpp" />
     <ClCompile Include="Server\src\Command\Command.cpp" />
     <ClCompile Include="Server\src\DynamicLibrary\ADynamicLibrary.cpp" />
@@ -97,27 +103,39 @@
     <ClCompile Include="Server\src\Entities\ACharacter.cpp" />
     <ClCompile Include="Server\src\Entities\AEntity.cpp" />
     <ClCompile Include="Server\src\Entities\Coordinate.cpp" />
+    <ClCompile Include="Server\src\Entities\InformationHitBox.cpp" />
     <ClCompile Include="Server\src\Entities\Mob.cpp" />
     <ClCompile Include="Server\src\Entities\Player.cpp" />
-    <ClCompile Include="Server\src\FileSystem\Directory.cpp" />
-    <ClCompile Include="Server\src\FileSystem\Entry.cpp" />
-    <ClCompile Include="Server\src\FileSystem\File.cpp" />
+    <ClCompile Include="Server\src\Entities\Weapon\AProjectile.cpp" />
+    <ClCompile Include="Server\src\Entities\Weapon\Rocket.cpp" />
+    <ClCompile Include="Server\src\Entities\Weapon\Weapon.cpp" />
     <ClCompile Include="Server\src\GameLoop\GameLibraries.cpp" />
     <ClCompile Include="Server\src\GameLoop\GameLoop.cpp" />
     <ClCompile Include="Server\src\GameLoop\GameLoopManager.cpp" />
     <ClCompile Include="Server\src\GameLoop\PlayerInfo.cpp" />
+    <ClCompile Include="Server\src\Inotify\UnixInotify.cpp" />
+    <ClCompile Include="Server\src\Inotify\WindowsInotify.cpp" />
     <ClCompile Include="Server\src\Level\Level.cpp" />
     <ClCompile Include="Server\src\Level\LevelManager.cpp" />
     <ClCompile Include="Server\src\Level\Map.cpp" />
     <ClCompile Include="Server\src\main.cpp" />
+    <ClCompile Include="Server\src\ObjectPoolManager\ObjectPoolManager.cpp" />
+    <ClCompile Include="Server\src\ObjectPoolManager\ObjectPoolUpdater.cpp" />
     <ClCompile Include="Server\src\Server\Server.cpp" />
+    <ClCompile Include="Server\src\SpriteLoaderManager\SpriteLoader.cpp" />
+    <ClCompile Include="Server\src\SpriteLoaderManager\SpriteLoaderManager.cpp" />
+    <ClCompile Include="Server\src\SpriteLoaderManager\SpriteLoaderUpdater.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Common\include\Action\Action.hh" />
     <None Include="Common\include\CircularBufferManager\CircularBufferManager.hh" />
     <None Include="Common\include\CircularBufferManager\CircularBuffer\CircularBuffer.hh" />
     <None Include="Common\include\CircularBufferManager\CircularBuffer\Trame\Header\Header.hh" />
     <None Include="Common\include\CircularBufferManager\CircularBuffer\Trame\Trame.hh" />
     <None Include="Common\include\Error\IError.hh" />
+    <None Include="Common\include\FileSystem\Directory.hh" />
+    <None Include="Common\include\FileSystem\Entry.hh" />
+    <None Include="Common\include\FileSystem\File.hh" />
     <None Include="Common\include\Mutex\IMutex.hh" />
     <None Include="Common\include\Mutex\UnixMutex.hh" />
     <None Include="Common\include\Mutex\WindowsMutex.hh" />
@@ -132,7 +150,6 @@
     <None Include="Common\include\Thread\PthreadCondition.hh" />
     <None Include="Common\include\Thread\UnixThread.hh" />
     <None Include="Common\include\Thread\WindowsThread.hh" />
-    <None Include="Server\include\Action\Action.hh" />
     <None Include="Server\include\ClientInfo\ClientInfo.hh" />
     <None Include="Server\include\Command\Command.hh" />
     <None Include="Server\include\DynamicLibrary\ADynamicLibrary.hh" />
@@ -145,19 +162,28 @@
     <None Include="Server\include\Entities\ACharacter.hh" />
     <None Include="Server\include\Entities\AEntity.hh" />
     <None Include="Server\include\Entities\Coordinate.hh" />
+    <None Include="Server\include\Entities\InformationHitBox.hh" />
     <None Include="Server\include\Entities\Mob.hh" />
     <None Include="Server\include\Entities\Player.hh" />
-    <None Include="Server\include\FileSystem\Directory.hh" />
-    <None Include="Server\include\FileSystem\Entry.hh" />
-    <None Include="Server\include\FileSystem\File.hh" />
+    <None Include="Server\include\Entities\Weapon\AProjectile.hh" />
+    <None Include="Server\include\Entities\Weapon\Rocket.hh" />
+    <None Include="Server\include\Entities\Weapon\Weapon.hh" />
     <None Include="Server\include\GameLoop\GameLibraries.hh" />
     <None Include="Server\include\GameLoop\GameLoop.hh" />
     <None Include="Server\include\GameLoop\GameLoopManager.hh" />
     <None Include="Server\include\GameLoop\PlayerInfo.hh" />
+    <None Include="Server\include\Inotify\IInotify.hh" />
+    <None Include="Server\include\Inotify\UnixInotify.hh" />
+    <None Include="Server\include\Inotify\WindowsInotify.hh" />
     <None Include="Server\include\Level\Level.hh" />
     <None Include="Server\include\Level\LevelManager.hh" />
     <None Include="Server\include\Level\Map.hh" />
+    <None Include="Server\include\ObjectPoolManager\ObjectPoolManager.hh" />
+    <None Include="Server\include\ObjectPoolManager\ObjectPoolUpdater.hh" />
     <None Include="Server\include\Server\Server.hh" />
+    <None Include="Server\include\SpriteLoaderManager\SpriteLoader.hh" />
+    <None Include="Server\include\SpriteLoaderManager\SpriteLoaderManager.hh" />
+    <None Include="Server\include\SpriteLoaderManager\SpriteLoaderUpdater.hh" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common\include\Error\SocketError.hpp" />
@@ -166,6 +192,7 @@
     <ClInclude Include="Common\include\Socket\SocketClient.hpp" />
     <ClInclude Include="Common\include\Thread\Thread.hpp" />
     <ClInclude Include="Common\include\Utility\Singleton.hpp" />
+    <ClInclude Include="Server\include\Inotify\Inotify.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

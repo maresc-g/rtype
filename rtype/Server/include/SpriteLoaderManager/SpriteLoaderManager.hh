@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Fri Nov  8 22:44:27 2013 laurent ansel
-// Last update Thu Nov 21 10:37:33 2013 laurent ansel
+// Last update Thu Nov 21 17:20:32 2013 laurent ansel
 //
 
 #ifndef 			__SPRITELOADERMANAGER_HH__
@@ -20,6 +20,7 @@
 
 #define	PATH_SPRITE		"Res/Sprites"
 #define	EXTENSION_SPRITE	".gif"
+#define	EXTENSION_SPRITE2	".png"
 
 class				SpriteLoaderManager : public Singleton<SpriteLoaderManager>
 {
