@@ -1,0 +1,12 @@
+[file=Res/Sprites/player1.gif]
+[size=3]
+[name=up]
+66 0 32 15
+99 0 32 15
+132 0 32 15
+[/]
+[name=down]
+66 0 32 15
+33 0 32 15
+0 0 32 15
+[/]
