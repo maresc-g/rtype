@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Thu Nov 21 10:04:19 2013 antoine maitre
+// Last update Thu Nov 21 12:44:05 2013 antoine maitre
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -61,7 +61,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
   	      act.setDown(false);
   	      this->_player->move(this->_player->getPosX(), this->_player->getPosY() + this->_player->getSpeed());
   	      if (this->_player->getPosY() >= SCREENY * 10 - this->_player->getHeight())
-  	      	this->_player->move(this->_player->getPosX(), SCREENY - this->_player->getHeight());
+  	      	this->_player->move(this->_player->getPosX(), SCREENY * 10 - this->_player->getHeight());
   	    }
   	  if (act.getLeft())
   	    {
@@ -75,7 +75,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
   	      act.setRight(false);
   	      this->_player->move(this->_player->getPosX() + this->_player->getSpeed(), this->_player->getPosY());
   	      if (this->_player->getPosX() > adv + SCREENX * 10 - this->_player->getWidth())
-  	      	this->_player->move(adv + SCREENX - this->_player->getWidth(), this->_player->getPosY());
+  	      	this->_player->move(adv + SCREENX * 10 - this->_player->getWidth(), this->_player->getPosY());
   	    }
   	  if (act.getFire())
   	    {
@@ -87,7 +87,8 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
   	      if (projectile)
   		{
   		  SpriteLoaderManager::getInstance()->getEntitySprite("rocket", *projectile);
-  		  map->getPlayers().push_back(projectile);
+  		  projectile->movePos(this->_player->getPosX(), this->_player->getPosY());
+		  map->getPlayers().push_back(projectile);
   		}
   	    }
 	  this->_info->setAction(act);
