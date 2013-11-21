@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov 21 16:35:57 2013 antoine maitre
+// Last update Thu Nov 21 16:48:16 2013 antoine maitre
 //
 
 #include <time.h>
@@ -84,7 +84,8 @@ void			GameLoop::loop()
 	  this->sendEntity((*it));
 
       this->_mutex->enter();
-      /*	Boucle exécutant les actions en cours de chaque client				*/
+
+            /*	Boucle exécutant les actions en cours de chaque client				*/
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
       	{
      	  if ((*it)->getIG() == true)
