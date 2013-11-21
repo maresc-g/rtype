@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Oct 28 15:04:47 2013 cyril jourdain
-// Last update Wed Nov 20 16:07:20 2013 cyril jourdain
+// Last update Thu Nov 21 13:36:36 2013 cyril jourdain
 //
 
 #ifndef 		__GLOBAL_HH__
@@ -59,8 +59,8 @@
 #define			GAME_HUD_LIVES			"game_lives"
 
 /* ********** SPRITES ********* */
-#define			SPRITE_PLAYER_CONF		"Res/Sprites/player.sprite"
-#define			SPRITE_PLAYER		        "player"
+#define			SPRITE_PLAYER1_CONF		"Res/Sprites/player1.sprite"
+#define			SPRITE_PLAYER1		        "player1"
 #define			SPRITE_ROCKET_CONF		"Res/Sprites/rocket.sprite"
 #define			SPRITE_ROCKET			"rocket"
 
