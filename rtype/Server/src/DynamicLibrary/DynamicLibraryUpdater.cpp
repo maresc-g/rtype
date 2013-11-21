@@ -8,7 +8,9 @@
 // Last update Wed Nov 20 19:55:53 2013 alexis mestag
 //
 
+#ifndef				_WIN32
 #include			<unistd.h>
+#endif
 #include			<iostream>
 #include			"DynamicLibrary/DynamicLibraryManager.hh"
 #include			"DynamicLibrary/DynamicLibrary.hh"

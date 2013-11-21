@@ -10,7 +10,8 @@
 
 #include <iostream>
 
-#include			<cmath>
+#define _USE_MATH_DEFINES
+#include			<math.h>
 #include			<string.h>
 #include			<map>
 #include			<sstream>
@@ -116,7 +117,7 @@ void				Client::exec()
       while (!_initialized->getVar())
 	{
 	  while (!_info->getVar())
-	    usleep(1000);
+	    sf::microseconds(10000);
 	  _initialized->setVar(this->initialize());
 	  if (!_initialized->getVar())
 	    {

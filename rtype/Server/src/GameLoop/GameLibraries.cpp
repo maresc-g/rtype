@@ -102,7 +102,7 @@ IDynamicLibrary			&GameLibraries::getRandomLibrary()
   long int			i;
 
   size = _libraries->size();
-  idx = random() % size;
+  idx = rand() % size;
   i = 0;
   for (; it != _libraries->end() && i < idx ; ++it)
     i++;

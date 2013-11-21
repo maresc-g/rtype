@@ -8,7 +8,9 @@
 // Last update Thu Nov 21 14:23:05 2013 laurent ansel
 //
 
+#ifndef				_WIN32
 #include			<unistd.h>
+#endif
 #include			"ClientInfo/ClientInfo.hh"
 
 ClientInfo::ClientInfo(SocketClient *clientTcp, SocketClient *clientUdp, unsigned int const id):
