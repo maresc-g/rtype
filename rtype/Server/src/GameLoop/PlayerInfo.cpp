@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Thu Nov 21 10:57:57 2013 laurent ansel
+// Last update Thu Nov 21 14:52:42 2013 laurent ansel
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -45,7 +45,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
       const Command	*cmd = this->_info->getFirstCommand();
       if (cmd)
   	{
-  	  Action	&act = cmd->getAction();
+	  Action	&act = cmd->getAction();
 
   	  (void)map;
   	  if (this->_player->getInvincible() > 0)
