@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Thu Nov 21 09:47:54 2013 alexis mestag
+// Last update Thu Nov 21 10:21:29 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -42,8 +42,10 @@ void			GameView::init()
   _background->init();
   _background->setSize(WIN_X, WIN_Y);
   _background->setTexture((*(SFRessourcesManager::getInstance()->Images))[GAME_BACKGROUND]);
-  _sprite = SFRessourcesManager::getInstance()->getSprite(SPRITE_PLAYER);
-  _sprite->play("right");
+  _player = SFRessourcesManager::getInstance()->getSprite(SPRITE_PLAYER);
+  _player->play("right");
+  _rocket = SFRessourcesManager::getInstance()->getSprite(SPRITE_ROCKET);
+  _rocket->play("right");
   _clock = new sf::Clock();
   _clock->restart();
 }
@@ -56,8 +58,9 @@ sf::FloatRect		&GameView::getBound() const
 void			GameView::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
   target.draw(*_background, states);
-  target.draw(*_sprite, states);
-  _sprite->update(*_clock);
+  //target.draw(*_player, states);
+  _player->update(*_clock);
+  _rocket->update(*_clock);
 }
 
 void			GameView::onKeyPressed(void *const)
@@ -92,19 +95,17 @@ void			GameView::update(sf::RenderWindow *win)
     {
       //std::cout << "Player position :" << (*it)->getX() << "/" << (*it)->getY() << std::endl;
       if ((*it)->getType() == "player")
+      	{
+      	  _player->setPosition((*it)->getX(), (*it)->getY());
+      	  win->setView(*_customView);
+      	  win->draw(*_player);
+      	  win->setView(win->getDefaultView());
+      	}
+      if ((*it)->getType() == "rocket")
 	{
-	  _sprite = SFRessourcesManager::getInstance()->getSprite(SPRITE_PLAYER);
-	  _sprite->setPosition((*it)->getX(), (*it)->getY());
+	  _rocket->setPosition((*it)->getX(), (*it)->getY());
 	  win->setView(*_customView);
-	  win->draw(*_sprite);
-	  win->setView(win->getDefaultView());
-	}
-      else if ((*it)->getType() == "rocket")
-	{
-	  _sprite = SFRessourcesManager::getInstance()->getSprite(SPRITE_ROCKET);
-	  _sprite->setPosition((*it)->getX(), (*it)->getY());
-	  win->setView(*_customView);
-	  win->draw(*_sprite);
+	  win->draw(*_rocket);
 	  win->setView(win->getDefaultView());
 	}
     }

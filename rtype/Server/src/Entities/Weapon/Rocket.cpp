@@ -5,13 +5,13 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:50:16 2013 guillaume marescaux
-// Last update Thu Nov 14 11:22:50 2013 antoine maitre
+// Last update Thu Nov 21 10:25:06 2013 antoine maitre
 //
 
 #include			"Entities/Weapon/Rocket.hh"
 
 Rocket::Rocket(int const x, int const y, std::string const &path, int const speed, bool const destructible, int const vx, int const vy)
-  : AProjectile(x, y, path, speed, destructible, vx, vy)
+  : AProjectile(x, y, path, speed, destructible, 30, 0)
 {
   
 }

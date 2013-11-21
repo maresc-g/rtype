@@ -5,7 +5,11 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
+<<<<<<< HEAD
 // Last update Thu Nov 21 10:56:22 2013 laurent ansel
+=======
+// Last update Thu Nov 21 10:33:33 2013 antoine maitre
+>>>>>>> e00c146c007c68fc733721b478a3689ef97f56e0
 //
 
 #include "SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -62,11 +66,11 @@ void			GameLoop::loop()
 
 
       /*	Condition permettant l'avancement du scroll et move de 1 pixel pour le player	*/
-      if ((((float)(clock() - scroll)) / CLOCKS_PER_SEC) >= 0.02)
+      if ((((float)(clock() - scroll)) / CLOCKS_PER_SEC) >= 0.05)
 	{
 	  scroll = clock();
 	  this->_levelManag->incAdv();
-	  this->sendScroll(this->_levelManag->getAdv() * 10 + this->_levelManag->getPixelAdv());
+	  this->sendScroll(this->_levelManag->getPosAdv());
 	  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
 	    if ((*it)->getType() == AEntity::PLAYER)
 	      (*it)->move((*it)->getPosX() + 1, (*it)->getPosY());
@@ -99,6 +103,18 @@ void			GameLoop::loop()
 #endif
         }
       this->_mutex->enter();
+      if ((((float)(clock() - action)) / CLOCKS_PER_SEC) > 0.04)
+	{
+	  action = clock();
+	  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
+	    if ((*it)->getType() != AEntity::PLAYER)
+	      {
+		(static_cast<AProjectile *>(*it))->move();
+		this->sendEntity((*it));
+	      }
+	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
+	    this->sendEntity((*it));
+	}
       this->_mutex->leave();
     }
   if (this->_levelManag->getEndGame())

@@ -5,7 +5,11 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
+<<<<<<< HEAD
 // Last update Thu Nov 21 10:34:40 2013 laurent ansel
+=======
+// Last update Thu Nov 21 10:04:19 2013 antoine maitre
+>>>>>>> e00c146c007c68fc733721b478a3689ef97f56e0
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -91,7 +95,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
   		  map->getPlayers().push_back(projectile);
   		}
   	    }
- 	  	  this->_info->setAction(act);
+	  this->_info->setAction(act);
   	}
     }
 }
