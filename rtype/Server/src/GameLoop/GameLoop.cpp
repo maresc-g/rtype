@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov 21 13:34:43 2013 antoine maitre
+// Last update Thu Nov 21 15:02:03 2013 antoine maitre
 //
 
 #include "SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -123,8 +123,7 @@ void			GameLoop::sendDeadEntity(unsigned int id)
 {
   std::ostringstream	oss;
 
-  std::cout << "YOURE DEAD!!!!" << std::endl;
-  oss << "DEAD " << id;
+  oss << "REMOVEENTITY " << id;
   this->sendClient("TCP", oss.str());
 }
 
@@ -218,6 +217,8 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
 	{
 	  this->sendDeadEntity((*it)->getId());
 	  it = enemies.erase(it);
+	  if (it != enemies.begin())
+	    --it;
 	}
     }
   for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
@@ -230,12 +231,12 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
 	  (*it)->setIG(false);
 	}
     }
-  for (auto it = players.begin(); it != players.end(); it++)
+  for (auto it = players.begin(); it != players.end(); ++it)
     {
       if ((*it)->isDead() == true)
 	{
 	  this->sendDeadEntity((*it)->getId());
-	  it = enemies.erase(it);
+	  it = players.erase(it);
 	}
     }    
 }

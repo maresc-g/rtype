@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Thu Nov 21 13:36:22 2013 antoine maitre
+// Last update Thu Nov 21 14:59:08 2013 antoine maitre
 //
 
 #include "Level/Map.hh"
@@ -59,8 +59,8 @@ void			Map::tryToSet(std::list<AEntity *> &l1, std::list<AEntity *> &l2, int adv
 
   for (auto it = l1.begin(); it != l1.end(); ++it)
     {
-      if ((*it)->getCoord()->getX() + (*it)->getWidth() + 10 < adv || (*it)->getCoord()->getX() > adv + SCREENX + 50 ||
-	  (*it)->getCoord()->getY() + (*it)->getHeight() < 0 || (*it)->getCoord()->getY() > SCREENY)
+      if ((*it)->getCoord()->getX() + 10 < adv || (*it)->getCoord()->getX() > adv + SCREENX + 10 ||
+	  (*it)->getCoord()->getY() + 10 < 0 || (*it)->getCoord()->getY() > SCREENY + 10)
 	{
 	  (*it)->setDead(true);
 	  continue;
@@ -73,8 +73,8 @@ void			Map::tryToSet(std::list<AEntity *> &l1, std::list<AEntity *> &l2, int adv
 	  for (int i = y; i < y + (*hit)->getHeight(); i++)
 	    for (int j = x - adv; j < x - adv + (*hit)->getWidth(); j++)
 	      {
-		if ((i >= 0 && i < SCREENY) && (j >= 0 && j <= SCREENX) && 
-		    (*this->_map)[i][j] == 0 || (*this->_map)[i][j] == (*it)->getId())
+		if (((i >= 0 && i < SCREENY) && (j >= 0 && j <= SCREENX)) && 
+		    ((*this->_map)[i][j] == 0 || (*this->_map)[i][j] == (*it)->getId()))
 		  (*this->_map)[i][j] = (*it)->getId();
 		else if ((i >= 0 && i < SCREENY) && (j >= 0 && j <= SCREENX))
 		  {
