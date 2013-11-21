@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov 21 10:57:13 2013 laurent ansel
+// Last update Thu Nov 21 14:46:43 2013 cyril jourdain
 //
 
 #include "SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -165,8 +165,6 @@ void			GameLoop::sendEntity(AEntity *entity)
   oss << "ENTITY " << entity->getId() << ";";
   if (!entity->getPath().empty() && entity->getPath().size() > path.size() + 1 && (pos = entity->getPath().find(EXTENSION_SPRITE)) != std::string::npos)
     oss << entity->getPath().substr(path.size() + 1, pos - (path.size() + 1));
-  if (entity->getType() == AEntity::PLAYER)
-    oss << reinterpret_cast<Player *>(entity)->getNum();
   oss << ";" << entity->getPosX() << ";" << entity->getPosY();
   sendClient("UDP", oss.str());
 }
