@@ -5,12 +5,12 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov 21 16:35:57 2013 antoine maitre
+// Last update Thu Nov 21 17:13:40 2013 laurent ansel
 //
 
-#include <time.h>
-#include "SpriteLoaderManager/SpriteLoaderManager.hh"
-#include "GameLoop/GameLoop.hh"
+#include		"GameLoop/GameLoopManager.hh"
+#include		"SpriteLoaderManager/SpriteLoaderManager.hh"
+#include		"GameLoop/GameLoop.hh"
 
 GameLoop::GameLoop(std::string const &name, unsigned int const id):
   Thread(),
@@ -41,7 +41,7 @@ void			GameLoop::scrolling()
 {
   this->_levelManag->incAdv();
   this->_mutex->enter();
-  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
+  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
     if ((*it)->getType() == AEntity::PLAYER)
       (*it)->move((*it)->getPosX() + 1, (*it)->getPosY());
   this->_mutex->leave();
@@ -49,8 +49,7 @@ void			GameLoop::scrolling()
 
 void			GameLoop::action()
 {
-  std::cout << "LAURENT GROS PD" << std::endl;
-  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
+  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
     if ((*it)->getType() != AEntity::PLAYER)
       {
 	(static_cast<AProjectile *>(*it))->move();
@@ -62,10 +61,8 @@ void			GameLoop::loop()
 {
   clock_t	time = 0;
   clock_t	end = 0;
-  clock_t	scroll = 0;
   clock_t	action = 0;
 
-  scroll = clock();
   action = clock();
   while (!this->_levelManag->getEndGame() && !this->_criticalError)
     {
@@ -75,11 +72,11 @@ void			GameLoop::loop()
       this->_mutex->enter();
 
       /*	Méthode permettant d'incrémenter pixel par pixel le déplacement des entités	*/
-      for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
+      for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
       	if ((*it)->moveToPixel())
 	  this->sendEntity((*it));
       this->_mutex->leave();
-      for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
+      for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
 	if ((*it)->moveToPixel())
 	  this->sendEntity((*it));
 
@@ -116,19 +113,21 @@ void			GameLoop::loop()
       this->_mutex->enter();
       if ((((float)(clock() - action)) / CLOCKS_PER_SEC) > 0.04)
       	{
-	  std::cout << "TIME = " << ((float)(clock() - action)) / CLOCKS_PER_SEC << std::endl;
-	  //	  for (double i = 0 ; i < (0.04 - ((float)(clock() - action)) / CLOCKS_PER_SEC) ; i += 0.04)
 	  this->action();
 	  action = clock();
-      	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
+      	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
       	    this->sendEntity((*it));
       	}
       this->_mutex->leave();
     }
+  this->_mutex->enter();
   if (this->_levelManag->getEndGame())
     sendClient("TCP", "ENDGAME WIN");
   else if (this->_criticalError == false)
     sendClient("TCP", "ENDGAME LOOSE");
+  quitClients();
+  this->_mutex->leave();
+  GameLoopManager::getInstance()->quitGame(this->_id);
 }
 
 void			GameLoop::sendDeadEntity(unsigned int id)
@@ -155,18 +154,8 @@ void			GameLoop::sendClient(const std::string &protocol, const std::string &tram
 
 void			GameLoop::sendScreen(std::list<AEntity *> &list)
 {
-  // std::ostringstream	oss;
-
-  for (auto it = list.begin(); it != list.end(); it++)
-    {
-      sendEntity(*it);
-      // oss << "ENTITY " << (*it)->getId()
-      // 	  << ";" << (*it)->getPath().substr(12, (*it)->getPath().size() - 16)
-      // 	  << ";" << (*it)->getPosX() << ";" << (*it)->getPosY();
-      // std::cout << oss.str() << " " << (*it)->getType() << std::endl;
-      // sendClient("UDP", oss.str());
-      // oss.str("");
-    }
+  for (auto it = list.begin(); it != list.end(); ++it)
+    sendEntity(*it);
 }
 
 void			GameLoop::sendEntity(AEntity *entity)
@@ -178,8 +167,6 @@ void			GameLoop::sendEntity(AEntity *entity)
   oss << "ENTITY " << entity->getId() << ";";
   if (!entity->getPath().empty() && entity->getPath().size() > path.size() + 1 && (pos = entity->getPath().find(EXTENSION_SPRITE)) != std::string::npos)
     oss << entity->getPath().substr(path.size() + 1, pos - (path.size() + 1));
-  // if (entity->getType() == AEntity::PLAYER)
-  //   oss << reinterpret_cast<Player *>(entity)->getNum();
   oss << ";" << entity->getPosX() << ";" << entity->getPosY();
   sendClient("UDP", oss.str());
 }
@@ -224,7 +211,7 @@ void			GameLoop::spawnMob()
 
 void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AEntity *> &players)
 {
-  for (std::list<AEntity *>::iterator it = enemies.begin(); it != enemies.end(); it++)
+  for (std::list<AEntity *>::iterator it = enemies.begin(); it != enemies.end(); ++it)
     {
       if ((*it)->isDead() == true)
 	{
@@ -234,7 +221,7 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
 	    --it;
 	}
     }
-  for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
+  for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
     {
       if ((*it)->getPlayer()->isDead() == true)
 	{
@@ -251,7 +238,7 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
 	  this->sendDeadEntity((*it)->getId());
 	  it = players.erase(it);
 	}
-    }    
+    }
 }
 
 unsigned int		GameLoop::getId() const
@@ -296,7 +283,7 @@ bool			GameLoop::deletePlayer(ClientInfo *info)
   PlayerInfo		*pI;
 
   this->_mutex->enter();
-  for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
+  for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
     {
       if ((*it)->isMyInfo(info))
   	{
@@ -325,9 +312,16 @@ bool			GameLoop::checkActiveClient()
 {
   int			i = 0;
 
-  for (auto it = this->_clients->begin(); it != this->_clients->end(); it++)
+  for (auto it = this->_clients->begin(); it != this->_clients->end(); ++it)
     if ((*it)->getIG() == true)
       i++;
   return ((i)?(true):(false));
 }
 
+
+void			GameLoop::quitClients()
+{
+
+  for (auto it = this->_clients->begin(); it != this->_clients->end(); ++it)
+    (*it)->quitGame();
+}

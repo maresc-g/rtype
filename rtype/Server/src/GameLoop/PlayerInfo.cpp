@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Thu Nov 21 16:28:38 2013 antoine maitre
+// Last update Thu Nov 21 16:53:12 2013 laurent ansel
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -124,4 +124,9 @@ bool		PlayerInfo::getIG() const
 void		PlayerInfo::setIG(bool b)
 {
   this->_inGame = b;
+}
+
+void		PlayerInfo::quitGame()
+{
+  this->_info->quitGame();
 }
