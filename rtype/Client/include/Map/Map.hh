@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:30:57 2013 guillaume marescaux
-// Last update Tue Nov 19 11:19:53 2013 guillaume marescaux
+// Last update Thu Nov 21 13:04:47 2013 guillaume marescaux
 //
 
 #ifndef 		__MAP_HH__
@@ -39,7 +39,7 @@ private:
 public:
 
   // Methods
-  void			moveEntity(int const id, int const x, int const y);
+  void			moveEntity(int const id, int const x, int const y, std::string const &direction);
   void			addEntity(Entity *entity);
   void			removeEntity(int const id);
   void			clear();
@@ -51,6 +51,7 @@ public:
   unsigned int		getScroll(void) const;
   std::list<Entity *> const	&getMap(void) const;
   std::list<Entity *> const	&getEntities(void) const;
+  Entity const			*getEntityById(int const id) const;
 };
 
 #endif

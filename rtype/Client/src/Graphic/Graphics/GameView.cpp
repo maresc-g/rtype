@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Thu Nov 21 10:21:29 2013 cyril jourdain
+// Last update Thu Nov 21 13:07:32 2013 guillaume marescaux
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -94,9 +94,10 @@ void			GameView::update(sf::RenderWindow *win)
   for (auto it = entities.begin(); it != entities.end(); ++it)
     {
       //std::cout << "Player position :" << (*it)->getX() << "/" << (*it)->getY() << std::endl;
-      if ((*it)->getType() == "player")
+      if ((*it)->getType() == "player1")
       	{
       	  _player->setPosition((*it)->getX(), (*it)->getY());
+	  _player->play((*it)->getDirection());
       	  win->setView(*_customView);
       	  win->draw(*_player);
       	  win->setView(win->getDefaultView());
@@ -104,6 +105,7 @@ void			GameView::update(sf::RenderWindow *win)
       if ((*it)->getType() == "rocket")
 	{
 	  _rocket->setPosition((*it)->getX(), (*it)->getY());
+	  _rocket->play((*it)->getDirection());
 	  win->setView(*_customView);
 	  win->draw(*_rocket);
 	  win->setView(win->getDefaultView());
