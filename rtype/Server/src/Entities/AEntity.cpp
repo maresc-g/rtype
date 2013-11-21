@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Thu Nov 21 10:37:07 2013 antoine maitre
+// Last update Thu Nov 21 12:39:59 2013 antoine maitre
 //
 
 #include		<iostream>
@@ -79,9 +79,8 @@ void			AEntity::collision()
 
 void			AEntity::move(int const x, int const y)
 {
-  std::cout << "Je passe dans le move(x, y)!!!" << std::endl;
-  _moveX = x - (getPosX());
-  _moveY = y - (getPosY());
+  _moveX = x - this->getPosX() + _moveX;
+  _moveY = y - this->getPosY() + _moveY;
 }
 
 Coordinate const	*AEntity::getCoord() const
@@ -255,3 +254,10 @@ bool			AEntity::moveToPixel()
   return (ret);
 }
 
+void			AEntity::movePos(int x, int y)
+{
+  this->_coord->setX(x / 10);
+  this->_pixelX = x % 10;
+  this->_coord->setY(y / 10);
+  this->_pixelY = y % 10;
+}

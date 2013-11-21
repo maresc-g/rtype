@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Jun 19 11:02:47 2013 cyril jourdain
-// Last update Tue Jul  2 13:01:20 2013 cyril jourdain
+// Last update Thu Nov 21 14:15:49 2013 cyril jourdain
 //
 
 #ifndef				__ANIMATION_HH__
@@ -39,6 +39,7 @@ public:
   sf::IntRect			*getFrame(unsigned int) const;
   sf::Texture			*getSpriteSheet() const;
   unsigned int			getFrameLenght() const;
+  unsigned int			getFrameCount() const;
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Nov 18 13:40:35 2013 cyril jourdain
-// Last update Mon Nov 18 13:40:51 2013 cyril jourdain
+
 //
 
 #include		"Graphic/Graphics/Sprites/Animation.hh"
@@ -88,6 +88,11 @@ sf::Texture		*Animation::getSpriteSheet() const
 }
 
 unsigned int		Animation::getFrameLenght() const
+{
+  return (_frameLength);
+}
+
+unsigned int		Animation::getFrameCount() const
 {
   return (_frameLength);
 }

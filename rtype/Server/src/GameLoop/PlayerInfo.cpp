@@ -5,7 +5,11 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
+<<<<<<< HEAD
 // Last update Thu Nov 21 14:52:42 2013 laurent ansel
+=======
+// Last update Thu Nov 21 12:46:54 2013 antoine maitre
+>>>>>>> 92d5277c3369cac5dcf75ef995fdb9b2363d4265
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -62,7 +66,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
   	      act.setDown(false);
   	      this->_player->move(this->_player->getPosX(), this->_player->getPosY() + this->_player->getSpeed());
   	      if (this->_player->getPosY() >= SCREENY * 10 - this->_player->getHeight())
-  	      	this->_player->move(this->_player->getPosX(), SCREENY - this->_player->getHeight());
+  	      	this->_player->move(this->_player->getPosX(), SCREENY * 10 - this->_player->getHeight());
   	    }
   	  if (act.getLeft())
   	    {
@@ -76,7 +80,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
   	      act.setRight(false);
   	      this->_player->move(this->_player->getPosX() + this->_player->getSpeed(), this->_player->getPosY());
   	      if (this->_player->getPosX() > adv + SCREENX * 10 - this->_player->getWidth())
-  	      	this->_player->move(adv + SCREENX - this->_player->getWidth(), this->_player->getPosY());
+  	      	this->_player->move(adv + SCREENX * 10 - this->_player->getWidth(), this->_player->getPosY());
   	    }
   	  if (act.getFire())
   	    {
@@ -88,7 +92,8 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
   	      if (projectile)
   		{
   		  SpriteLoaderManager::getInstance()->getEntitySprite("rocket", *projectile);
-  		  map->getPlayers().push_back(projectile);
+  		  projectile->movePos(this->_player->getPosX(), this->_player->getPosY());
+		  map->getPlayers().push_back(projectile);
   		}
   	    }
 	  this->_info->setAction(act);
