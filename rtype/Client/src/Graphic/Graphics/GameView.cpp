@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Thu Nov 21 13:07:32 2013 guillaume marescaux
+// Last update Thu Nov 21 13:39:54 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -42,7 +42,7 @@ void			GameView::init()
   _background->init();
   _background->setSize(WIN_X, WIN_Y);
   _background->setTexture((*(SFRessourcesManager::getInstance()->Images))[GAME_BACKGROUND]);
-  _player = SFRessourcesManager::getInstance()->getSprite(SPRITE_PLAYER);
+  _player = SFRessourcesManager::getInstance()->getSprite(SPRITE_PLAYER1);
   _player->play("right");
   _rocket = SFRessourcesManager::getInstance()->getSprite(SPRITE_ROCKET);
   _rocket->play("right");
