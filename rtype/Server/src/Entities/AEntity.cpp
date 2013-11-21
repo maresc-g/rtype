@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Wed Nov 20 18:11:53 2013 laurent ansel
+// Last update Thu Nov 21 10:37:07 2013 antoine maitre
 //
 
 #include		<iostream>
@@ -79,6 +79,7 @@ void			AEntity::collision()
 
 void			AEntity::move(int const x, int const y)
 {
+  std::cout << "Je passe dans le move(x, y)!!!" << std::endl;
   _moveX = x - (getPosX());
   _moveY = y - (getPosY());
 }

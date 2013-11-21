@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov 21 10:20:10 2013 antoine maitre
+// Last update Thu Nov 21 10:33:33 2013 antoine maitre
 //
 
 #include "SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -105,7 +105,7 @@ void			GameLoop::loop()
 	  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
 	    if ((*it)->getType() != AEntity::PLAYER)
 	      {
-		(*it)->move(0,0);
+		(static_cast<AProjectile *>(*it))->move();
 		this->sendEntity((*it));
 	      }
 	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
