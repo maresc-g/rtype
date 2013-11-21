@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Thu Nov 21 12:39:59 2013 antoine maitre
+// Last update Thu Nov 21 16:05:54 2013 laurent ansel
 //
 
 #include		<iostream>
@@ -221,13 +221,13 @@ bool			AEntity::moveToPixel()
 	{
 	  if (this->_moveX > 0)
 	    {
-	      this->_pixelX = this->_pixelX + 1;
-	      this->_moveX = this->_moveX - 1;
+	      this->_pixelX = this->_pixelX + 3;
+	      this->_moveX = this->_moveX - 3;
 	    }
 	  else
 	    {
-	      this->_pixelX = this->_pixelX - 1;
-	      this->_moveX = this->_moveX + 1;
+	      this->_pixelX = this->_pixelX - 3;
+	      this->_moveX = this->_moveX + 3;
 	    }
 	  this->_pixelX = this->_coord->getX() * 10 + this->_pixelX;
 	  this->_coord->setX(this->_pixelX / 10);
@@ -237,13 +237,13 @@ bool			AEntity::moveToPixel()
 	{
 	  if (this->_moveY > 0)
 	    {
-	      this->_pixelY = this->_pixelY + 1;
-	      this->_moveY = this->_moveY - 1;
+	      this->_pixelY = this->_pixelY + 3;
+	      this->_moveY = this->_moveY - 3;
 	    }
 	  else
 	    {
-	      this->_pixelY = this->_pixelY - 1;
-	      this->_moveY = this->_moveY + 1;
+	      this->_pixelY = this->_pixelY - 3;
+	      this->_moveY = this->_moveY + 3;
 	    }
 	  this->_pixelY = this->_coord->getY() * 10 + this->_pixelY;
 	  this->_coord->setY(this->_pixelY / 10);
