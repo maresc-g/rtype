@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Wed Nov 20 10:35:51 2013 antoine maitre
+// Last update Thu Nov 21 14:59:08 2013 antoine maitre
 //
 
 #include "Level/Map.hh"
@@ -59,21 +59,22 @@ void			Map::tryToSet(std::list<AEntity *> &l1, std::list<AEntity *> &l2, int adv
 
   for (auto it = l1.begin(); it != l1.end(); ++it)
     {
+      if ((*it)->getCoord()->getX() + 10 < adv || (*it)->getCoord()->getX() > adv + SCREENX + 10 ||
+	  (*it)->getCoord()->getY() + 10 < 0 || (*it)->getCoord()->getY() > SCREENY + 10)
+	{
+	  (*it)->setDead(true);
+	  continue;
+	}
       const auto info = (*it)->getInformationHitBox();
       for (auto hit = info.begin(); hit != info.end(); hit++)
 	{
 	  x = (*hit)->getCoordinate().getX() + (*it)->getCoord()->getX();
 	  y = (*hit)->getCoordinate().getY() + (*it)->getCoord()->getY();
-	  if ((*it)->getCoord()->getX() + (*hit)->getWidth() < 0 || (*it)->getCoord()->getX() > SCREENX + 50 ||
-	      (*it)->getCoord()->getY() + (*hit)->getHeight() < 0 || (*it)->getCoord()->getY() > SCREENY)
-	    {
-	      (*it)->setDead(true);
-	      break;
-	    }
 	  for (int i = y; i < y + (*hit)->getHeight(); i++)
 	    for (int j = x - adv; j < x - adv + (*hit)->getWidth(); j++)
 	      {
-		if ((i >= 0 && i < SCREENY) && (j >= 0 && j <= SCREENX) && (*this->_map)[i][j] == 0)
+		if (((i >= 0 && i < SCREENY) && (j >= 0 && j <= SCREENX)) && 
+		    ((*this->_map)[i][j] == 0 || (*this->_map)[i][j] == (*it)->getId()))
 		  (*this->_map)[i][j] = (*it)->getId();
 		else if ((i >= 0 && i < SCREENY) && (j >= 0 && j <= SCREENX))
 		  {

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Thu Nov 21 14:57:15 2013 laurent ansel
+// Last update Thu Nov 21 16:53:12 2013 laurent ansel
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -38,8 +38,6 @@ AEntity		*PlayerInfo::getPlayer() const
 
 void		PlayerInfo::actionPlayer(Map *map, int adv)
 {
-  const Coordinate	*coord = this->_player->getCoord();
-
   if (this->_info->standbyCommand())
     {
       const Command	*cmd = this->_info->getFirstCommand();
@@ -90,6 +88,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
   		  SpriteLoaderManager::getInstance()->getEntitySprite("rocket", *projectile);
   		  projectile->movePos(this->_player->getPosX(), this->_player->getPosY());
 		  map->getPlayers().push_back(projectile);
+		  std::cout << "POS = " << map->getPlayers().size() << std::endl;
   		}
   	    }
 	  this->_info->setAction(act);
@@ -125,4 +124,9 @@ bool		PlayerInfo::getIG() const
 void		PlayerInfo::setIG(bool b)
 {
   this->_inGame = b;
+}
+
+void		PlayerInfo::quitGame()
+{
+  this->_info->quitGame();
 }

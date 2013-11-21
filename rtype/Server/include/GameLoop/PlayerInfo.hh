@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:22:19 2013 antoine maitre
-// Last update Tue Nov 19 17:16:30 2013 laurent ansel
+// Last update Thu Nov 21 16:53:25 2013 laurent ansel
 //
 
 #ifndef		__PLAYERINFO_HH__
@@ -35,6 +35,7 @@ public:
   bool		isMyInfo(ClientInfo *info) const;
   bool		getIG() const;
   void		setIG(bool b);
+  void		quitGame();
 };
 
 #endif

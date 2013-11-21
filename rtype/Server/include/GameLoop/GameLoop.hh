@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Thu Nov 21 14:37:44 2013 laurent ansel
+// Last update Thu Nov 21 16:53:32 2013 laurent ansel
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -66,6 +66,8 @@ public:
   bool				checkActiveClient();
 private:
   void				scrolling();
+  void				action();
+  void				quitClients();
 };
 
 #endif

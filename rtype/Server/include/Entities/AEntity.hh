@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Thu Nov 21 11:27:35 2013 antoine maitre
+// Last update Thu Nov 21 14:12:40 2013 antoine maitre
 //
 
 #ifndef 		__AENTITY_HH__
@@ -89,6 +89,7 @@ public:
   int			getPosX();
   int			getPosY();
   void			movePos(int, int);
+  void			resetMove();
 };
 
 #endif
