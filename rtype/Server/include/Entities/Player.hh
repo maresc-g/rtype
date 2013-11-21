@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:43:58 2013 guillaume marescaux
-// Last update Thu Nov  7 21:39:22 2013 laurent ansel
+// Last update Thu Nov 21 10:34:03 2013 laurent ansel
 //
 
 #ifndef 		__PLAYER_HH__
@@ -16,10 +16,14 @@
 
 class			Player : public ACharacter
 {
+private:
+  int			_numPlayer;
 public:
   Player(int const x, int const y, std::string const &path, int const speed, bool const destructible);
   virtual ~Player();
   AEntity::eObject	getType() const;
+  void			setNum(int const num);
+  int			getNum() const;
 };
 
 #endif

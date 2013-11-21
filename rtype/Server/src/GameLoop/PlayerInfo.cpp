@@ -5,12 +5,12 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Wed Nov 20 20:46:12 2013 laurent ansel
+// Last update Thu Nov 21 10:34:40 2013 laurent ansel
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
 #include		"ObjectPoolManager/ObjectPoolManager.hh"
-#include "GameLoop/PlayerInfo.hh"
+#include		"GameLoop/PlayerInfo.hh"
 
 PlayerInfo::PlayerInfo(ClientInfo *info, int num)
   : _info(info), _num(num), _inGame(true)
@@ -22,6 +22,7 @@ PlayerInfo::PlayerInfo(ClientInfo *info, int num)
     {
       SpriteLoaderManager::getInstance()->getEntitySprite("player", *_player);
       _player->setInvincible(40);
+      _player->setNum(num);
     }
 }
 
