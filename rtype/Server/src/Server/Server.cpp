@@ -167,7 +167,8 @@ void				Server::recvTrameUdp()
 		if ((*it)->getId() == trame->getHeader().getId() && !(*it)->alreadySetUdp())
 		  {
 		    (*it)->setClientUdp(new SocketClient((*this->_socket)["UDP"]->getSocket().getSocket(), "UDP", (*this->_socket)["UDP"]->getSocket().getAddr()));
-		    trame->getHeader().setTrameId(0);
+			(*it)->getClientUdp()->setAddr((*this->_socket)["UDP"]->getSocket().getAddr());
+			trame->getHeader().setTrameId(0);
 		    trame->getHeader().setProto("TCP");
 		    trame->setContent("CHECK" + std::string(END_TRAME));
 		    (*it)->pushWriteTrame("TCP", trame);
