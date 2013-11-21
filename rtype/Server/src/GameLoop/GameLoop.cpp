@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov 21 15:35:43 2013 antoine maitre
+// Last update Thu Nov 21 16:35:57 2013 antoine maitre
 //
 
 #include <time.h>
@@ -45,6 +45,17 @@ void			GameLoop::scrolling()
     if ((*it)->getType() == AEntity::PLAYER)
       (*it)->move((*it)->getPosX() + 1, (*it)->getPosY());
   this->_mutex->leave();
+}
+
+void			GameLoop::action()
+{
+  std::cout << "LAURENT GROS PD" << std::endl;
+  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
+    if ((*it)->getType() != AEntity::PLAYER)
+      {
+	(static_cast<AProjectile *>(*it))->move();
+	this->sendEntity((*it));
+      }
 }
 
 void			GameLoop::loop()
@@ -105,13 +116,10 @@ void			GameLoop::loop()
       this->_mutex->enter();
       if ((((float)(clock() - action)) / CLOCKS_PER_SEC) > 0.04)
       	{
-      	  action = clock();
-      	  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
-      	    if ((*it)->getType() != AEntity::PLAYER)
-      	      {
-      		(static_cast<AProjectile *>(*it))->move();
-      		this->sendEntity((*it));
-      	      }
+	  std::cout << "TIME = " << ((float)(clock() - action)) / CLOCKS_PER_SEC << std::endl;
+	  //	  for (double i = 0 ; i < (0.04 - ((float)(clock() - action)) / CLOCKS_PER_SEC) ; i += 0.04)
+	  this->action();
+	  action = clock();
       	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
       	    this->sendEntity((*it));
       	}

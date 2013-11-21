@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 15:04:52 2013 laurent ansel
-// Last update Thu Nov 21 15:04:07 2013 laurent ansel
+// Last update Thu Nov 21 15:07:16 2013 laurent ansel
 //
 
 #include		<utility>
@@ -36,8 +36,6 @@ SpriteLoader		&SpriteLoader::operator>>(AEntity &entity)
   entity.setPath(this->_path);
   entity.setSpeed(this->_entity->_speed);
   entity.setDestructible(this->_entity->_destructible);
-  if (!this->_entity->_hitbox)
-    std::cout << "PATH = " << this->_path;
   entity.setInformationHitBox(this->_entity->_hitbox);
   entity.setSpawnProjectile(this->_entity->_spawnProjectile);
   return (*this);

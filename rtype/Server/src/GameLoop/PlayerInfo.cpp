@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Thu Nov 21 16:03:42 2013 antoine maitre
+// Last update Thu Nov 21 16:28:38 2013 antoine maitre
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -88,6 +88,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
   		  SpriteLoaderManager::getInstance()->getEntitySprite("rocket", *projectile);
   		  projectile->movePos(this->_player->getPosX(), this->_player->getPosY());
 		  map->getPlayers().push_back(projectile);
+		  std::cout << "POS = " << map->getPlayers().size() << std::endl;
   		}
   	    }
 	  this->_info->setAction(act);

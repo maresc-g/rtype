@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:50:16 2013 guillaume marescaux
-// Last update Thu Nov 21 15:00:52 2013 antoine maitre
+// Last update Thu Nov 21 16:23:53 2013 antoine maitre
 //
 
 #include			"Entities/Weapon/Rocket.hh"
@@ -20,4 +20,9 @@ Rocket::Rocket(int const x, int const y, std::string const &path, int const spee
 Rocket::~Rocket()
 {
 
+}
+
+AEntity::eObject	Rocket::getType() const
+{
+  return (AEntity::ROCKET);
 }
