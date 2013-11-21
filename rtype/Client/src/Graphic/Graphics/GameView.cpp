@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Wed Nov 20 18:20:42 2013 laurent ansel
+// Last update Thu Nov 21 09:47:54 2013 alexis mestag
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -18,7 +18,7 @@
 GameView::GameView() :
   SFWidget()
 {
-  _customView = new sf::View(sf::FloatRect(0,0,WIN_X, WIN_Y - 100));
+  _customView = new sf::View(sf::FloatRect(0,0,800, 800));
   _customView->setViewport(sf::FloatRect(0,0,1,1));
   _keys = new PressedKey;
 }
