@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov 21 10:33:33 2013 antoine maitre
+// Last update Thu Nov 21 10:57:13 2013 laurent ansel
 //
 
 #include "SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -156,23 +156,29 @@ void			GameLoop::sendScreen(std::list<AEntity *> &list)
     }
 }
 
-void			GameLoop::sendEntity(AEntity *yolo)
+void			GameLoop::sendEntity(AEntity *entity)
 {
   std::ostringstream	oss;
+  std::string		path(PATH_SPRITE);
+  size_t		pos;
 
-  oss << "ENTITY " << yolo->getId()
-      << ";" << yolo->getPath().substr(12, yolo->getPath().size() - 16)
-      << ";" << yolo->getPosX() << ";" << yolo->getPosY();
+  oss << "ENTITY " << entity->getId() << ";";
+  if (!entity->getPath().empty() && entity->getPath().size() > path.size() + 1 && (pos = entity->getPath().find(EXTENSION_SPRITE)) != std::string::npos)
+    oss << entity->getPath().substr(path.size() + 1, pos - (path.size() + 1));
+  if (entity->getType() == AEntity::PLAYER)
+    oss << reinterpret_cast<Player *>(entity)->getNum();
+  oss << ";" << entity->getPosX() << ";" << entity->getPosY();
   sendClient("UDP", oss.str());
 }
 
 bool			GameLoop::newPlayer(ClientInfo *newClient)
 {
-  int			i = 0;
+  int			i = 1;
 
   this->_mutex->enter();
-  for (auto it = _clients->begin(); it != _clients->end() && i != (*it)->getNum(); ++it)
-    i++;
+  if (!this->_clients->empty())
+    for (auto it = _clients->begin(); it != _clients->end() && i == (*it)->getNum(); ++it)
+      i++;
   this->_clients->push_back(new PlayerInfo(newClient, i));
   this->_clients->front()->getPlayer()->move(this->_levelManag->getAdv() + 20, 40);
   this->_levelManag->getPlayers().push_back(this->_clients->front()->getPlayer());
