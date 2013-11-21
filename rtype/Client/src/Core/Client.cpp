@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Thu Nov 21 13:28:39 2013 guillaume marescaux
+// Last update Thu Nov 21 14:59:24 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -20,7 +20,6 @@
 #include			"Game/GameList.hh"
 #include			"Map/Map.hh"
 #include			"Error/SocketError.hpp"
-#include			"MD5/md5.hh"
 
 //----------------------------------BEGIN CTOR / DTOR---------------------------------------
 
@@ -309,24 +308,24 @@ void				Client::sprite(Trame const &trame)
     {
       if (!inDir((*it).first))
 	_diffDir->push_back((*it).first);
-      else
-	{
-	  ifs.open((*it).first);
-	  if (ifs.is_open())
-	    {
-	      c = ifs.get();
-	      content = "";
-	      while (ifs.good())
-		{
-		  content += c;
-		  c = ifs.get();
-		}
-	      if (md5(content) != files[(*it).first])
-		_diffDir->push_back((*it).first);
-	    }
-	  else
-	    _diffDir->push_back((*it).first);
-	}
+      // else
+      // 	{
+      // 	  ifs.open((*it).first);
+      // 	  if (ifs.is_open())
+      // 	    {
+      // 	      c = ifs.get();
+      // 	      content = "";
+      // 	      while (ifs.good())
+      // 		{
+      // 		  content += c;
+      // 		  c = ifs.get();
+      // 		}
+      // 	      if (md5(content) != files[(*it).first])
+      // 		_diffDir->push_back((*it).first);
+      // 	    }
+      // 	  else
+      // 	    _diffDir->push_back((*it).first);
+      // 	}
     }
   // _state->setVar(WAIT_SPRITE);
 }
