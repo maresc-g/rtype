@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov 21 17:13:40 2013 laurent ansel
+// Last update Thu Nov 21 17:20:10 2013 laurent ansel
 //
 
 #include		"GameLoop/GameLoopManager.hh"
@@ -165,7 +165,8 @@ void			GameLoop::sendEntity(AEntity *entity)
   size_t		pos;
 
   oss << "ENTITY " << entity->getId() << ";";
-  if (!entity->getPath().empty() && entity->getPath().size() > path.size() + 1 && (pos = entity->getPath().find(EXTENSION_SPRITE)) != std::string::npos)
+  if (!entity->getPath().empty() && entity->getPath().size() > path.size() + 1 && ((pos = entity->getPath().find(EXTENSION_SPRITE)) != std::string::npos ||
+										   (pos = entity->getPath().find(EXTENSION_SPRITE2)) != std::string::npos))
     oss << entity->getPath().substr(path.size() + 1, pos - (path.size() + 1));
   oss << ";" << entity->getPosX() << ";" << entity->getPosY();
   sendClient("UDP", oss.str());
