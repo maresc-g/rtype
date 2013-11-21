@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov 21 15:24:56 2013 laurent ansel
+// Last update Thu Nov 21 16:35:57 2013 antoine maitre
 //
 
 #include <time.h>
@@ -49,6 +49,7 @@ void			GameLoop::scrolling()
 
 void			GameLoop::action()
 {
+  std::cout << "LAURENT GROS PD" << std::endl;
   for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); it++)
     if ((*it)->getType() != AEntity::PLAYER)
       {
@@ -87,7 +88,7 @@ void			GameLoop::loop()
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
       	{
      	  if ((*it)->getIG() == true)
-      	    while ((*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getPosAdv()));
+      	    (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getPosAdv());
       	}
 
       /*	Méthode permettant le check des collisions au sein de Map			*/
@@ -116,8 +117,8 @@ void			GameLoop::loop()
       if ((((float)(clock() - action)) / CLOCKS_PER_SEC) > 0.04)
       	{
 	  std::cout << "TIME = " << ((float)(clock() - action)) / CLOCKS_PER_SEC << std::endl;
-	  for (double i = 0 ; i < (0.04 - ((float)(clock() - action)) / CLOCKS_PER_SEC) ; i += 0.04)
-	    this->action();
+	  //	  for (double i = 0 ; i < (0.04 - ((float)(clock() - action)) / CLOCKS_PER_SEC) ; i += 0.04)
+	  this->action();
 	  action = clock();
       	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); it++)
       	    this->sendEntity((*it));
@@ -134,7 +135,7 @@ void			GameLoop::sendDeadEntity(unsigned int id)
 {
   std::ostringstream	oss;
 
-  oss << "DEAD " << id;
+  oss << "REMOVEENTITY " << id;
   this->sendClient("TCP", oss.str());
 }
 
@@ -229,6 +230,8 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
 	{
 	  this->sendDeadEntity((*it)->getId());
 	  it = enemies.erase(it);
+	  if (it != enemies.begin())
+	    --it;
 	}
     }
   for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); it++)
@@ -241,6 +244,14 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
 	  (*it)->setIG(false);
 	}
     }
+  for (auto it = players.begin(); it != players.end(); ++it)
+    {
+      if ((*it)->isDead() == true)
+	{
+	  this->sendDeadEntity((*it)->getId());
+	  it = players.erase(it);
+	}
+    }    
 }
 
 unsigned int		GameLoop::getId() const

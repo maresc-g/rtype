@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Thu Nov 21 15:25:30 2013 laurent ansel
+// Last update Thu Nov 21 16:28:38 2013 antoine maitre
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -36,11 +36,8 @@ AEntity		*PlayerInfo::getPlayer() const
   return (this->_player);
 }
 
-bool		PlayerInfo::actionPlayer(Map *map, int adv)
+void		PlayerInfo::actionPlayer(Map *map, int adv)
 {
-  bool		ret = false;
-  const Coordinate	*coord = this->_player->getCoord();
-
   if (this->_info->standbyCommand())
     {
       const Command	*cmd = this->_info->getFirstCommand();
@@ -53,7 +50,6 @@ bool		PlayerInfo::actionPlayer(Map *map, int adv)
   	    this->_player->setInvincible(this->_player->getInvincible() - 1);
   	  if (act.getUp())
   	    {
-	      ret = true;
   	      act.setUp(false);
   	      this->_player->move(this->_player->getPosX(), this->_player->getPosY() - this->_player->getSpeed());
   	      if (this->_player->getPosY() < 0)
@@ -61,7 +57,6 @@ bool		PlayerInfo::actionPlayer(Map *map, int adv)
   	    }
   	  if (act.getDown())
   	    {
-	      ret = true;
   	      act.setDown(false);
   	      this->_player->move(this->_player->getPosX(), this->_player->getPosY() + this->_player->getSpeed());
   	      if (this->_player->getPosY() >= SCREENY * 10 - this->_player->getHeight())
@@ -69,7 +64,6 @@ bool		PlayerInfo::actionPlayer(Map *map, int adv)
   	    }
   	  if (act.getLeft())
   	    {
-	      ret = true;
   	      act.setLeft(false);
   	      this->_player->move(this->_player->getPosX() - this->_player->getSpeed(), this->_player->getPosY());
   	      if (this->_player->getPosX() <  adv)
@@ -77,7 +71,6 @@ bool		PlayerInfo::actionPlayer(Map *map, int adv)
   	    }
   	  if (act.getRight())
   	    {
-	      ret = true;
   	      act.setRight(false);
   	      this->_player->move(this->_player->getPosX() + this->_player->getSpeed(), this->_player->getPosY());
   	      if (this->_player->getPosX() > adv + SCREENX * 10 - this->_player->getWidth())
@@ -85,7 +78,6 @@ bool		PlayerInfo::actionPlayer(Map *map, int adv)
   	    }
   	  if (act.getFire())
   	    {
-	      ret = true;
   	      const Coordinate spawn = this->_player->getSpawnProjectile();
   	      AEntity		*projectile;
 
@@ -96,12 +88,12 @@ bool		PlayerInfo::actionPlayer(Map *map, int adv)
   		  SpriteLoaderManager::getInstance()->getEntitySprite("rocket", *projectile);
   		  projectile->movePos(this->_player->getPosX(), this->_player->getPosY());
 		  map->getPlayers().push_back(projectile);
+		  std::cout << "POS = " << map->getPlayers().size() << std::endl;
   		}
   	    }
 	  this->_info->setAction(act);
   	}
     }
-  return (ret);
 }
 
 int		PlayerInfo::getNum() const
