@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Fri Nov 22 16:04:33 2013 cyril jourdain
+// Last update Fri Nov 22 16:11:07 2013 guillaume marescaux
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -143,12 +143,10 @@ void			GameView::update(sf::RenderWindow *win)
     {
       delete *it;
     }
-  std::cout << "TOTAL SCROLL = " << _totalScroll << std::endl;
 }
 
 void			GameView::reset()
 {
-  std::cout << "TOTAL SCROLL IN RESET = " << (_totalScroll * -1) << std::endl;
   _customView->move((_totalScroll * -1), 0);
   _scroll = 0;
   _totalScroll = 0;
