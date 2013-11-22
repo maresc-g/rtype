@@ -5,11 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-<<<<<<< HEAD
-// Last update Fri Nov 22 12:58:09 2013 laurent ansel
-=======
-// Last update Fri Nov 22 13:16:30 2013 antoine maitre
->>>>>>> 8a5e762bc7273ae3473acb270cb12ac21dbc48a9
+// Last update Fri Nov 22 13:22:33 2013 laurent ansel
 //
 
 #include		<time.h>
