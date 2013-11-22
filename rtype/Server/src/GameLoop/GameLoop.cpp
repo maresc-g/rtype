@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Fri Nov 22 11:28:42 2013 arthur rucquois
+// Last update Fri Nov 22 13:05:37 2013 antoine maitre
 //
 
 #include		"GameLoop/GameLoopManager.hh"
@@ -77,13 +77,13 @@ void			GameLoop::loop()
 
       /*	Méthode permettant d'incrémenter pixel par pixel le déplacement des entités	*/
       //      std::cout << "SIZE = " << this->_levelManag->getPlayers().size() << std::endl;
-      for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
-      	if ((*it)->moveToPixel())
-	  this->sendEntity((*it));
-      this->_mutex->leave();
-      for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
-	if ((*it)->moveToPixel())
-	  this->sendEntity((*it));
+      // for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
+      // 	if ((*it)->moveToPixel())
+      // 	  this->sendEntity((*it));
+      // this->_mutex->leave();
+      // for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
+      // 	if ((*it)->moveToPixel())
+      // 	  this->sendEntity((*it));
 
       this->_mutex->enter();
 
