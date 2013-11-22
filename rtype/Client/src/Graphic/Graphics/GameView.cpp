@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Fri Nov 22 13:01:15 2013 guillaume marescaux
+// Last update Fri Nov 22 13:49:14 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -133,23 +133,12 @@ void			GameView::update(sf::RenderWindow *win)
       }
   for (auto it = entities->begin(); it != entities->end(); ++it)
     {
-      //std::cout << "Player position :" << (*it)->getX() << "/" << (*it)->getY() << std::endl;
-      if ((*it)->getType() == "player1")
-      	{
-      	  _player->setPosition((*it)->getX(), (*it)->getY());
-	  _player->play((*it)->getDirection());
-      	  win->setView(*_customView);
-      	  win->draw(*_player);
-      	  win->setView(win->getDefaultView());
-      	}
-      if ((*it)->getType() == "rocket")
-	{
-	  _rocket->setPosition((*it)->getX(), (*it)->getY());
-	  _rocket->play((*it)->getDirection());
-	  win->setView(*_customView);
-	  win->draw(*_rocket);
-	  win->setView(win->getDefaultView());
-	}
+      _player = SFRessourcesManager::getInstance()->getSprite((*it)->getType());
+      _player->setPosition((*it)->getX(), (*it)->getY());
+      _player->play((*it)->getDirection());
+      win->setView(*_customView);
+      win->draw(*_player);
+      win->setView(win->getDefaultView());
     }
   for (auto it = entities->begin() ; it != entities->end() ; it++)
     {
