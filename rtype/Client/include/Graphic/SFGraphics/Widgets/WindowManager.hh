@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:00:35 2013 cyril jourdain
-// Last update Fri Nov 22 13:28:02 2013 cyril jourdain
+// Last update Fri Nov 22 15:23:12 2013 guillaume marescaux
 //
 
 #ifndef 		__WINDOWMANAGER_HH__
@@ -65,6 +65,7 @@ public:
   SFWindow		*getWindowById(unsigned int const id) const;
   void			removeWindowById(unsigned int const id);
   void			removeWindowCallback(void *param);
+  void			removeWindowNoCallback(void *param);
   unsigned int		getLastWindowIndex() const;
   void			setFPS(unsigned short const fps);
   SFWindow		*getActiveWindow() const;

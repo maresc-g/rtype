@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Nov 15 19:31:49 2013 cyril jourdain
-// Last update Fri Nov 15 23:04:04 2013 cyril jourdain
+// Last update Fri Nov 22 15:17:50 2013 guillaume marescaux
 //
 
 #ifndef 		__SFDIALOGTEXTBOX_HH__
@@ -21,6 +21,7 @@ private:
   std::string		_name;
   std::string		_content;
   SFImageBox		*_background;
+  SFButton		*_okButton;
   SFButton		*_closeButton;
   SFLabel		*_label;
   SFLabel		*_title;

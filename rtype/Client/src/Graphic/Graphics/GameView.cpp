@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Fri Nov 22 13:49:14 2013 cyril jourdain
+// Last update Fri Nov 22 14:54:59 2013 guillaume marescaux
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -48,6 +48,9 @@ void			GameView::init()
   // _rocket->play("right");
   _clock = new sf::Clock();
   _clock->restart();
+  _scroll = 0;
+  _totalScroll = 0;
+  _clockScroll = new sf::Clock();
 }
 
 sf::FloatRect		&GameView::getBound() const
@@ -65,6 +68,8 @@ void			GameView::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 void			GameView::onKeyPressed(void *const)
 {
+  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+    ClientMain::getInstance()->quitGame();
   // _keys->left = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
   // _keys->right = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
   // _keys->up = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
@@ -113,23 +118,22 @@ void			GameView::checkKeys()
 
 void			GameView::update(sf::RenderWindow *win)
 {
-  static unsigned int	oldScroll = 0;
-  static sf::Clock	clock;
   std::list<Entity*>	*entities = Map::getInstance()->getEntities();
 
   checkKeys();
 
-  if (oldScroll == 0)
+  if (_scroll == 0)
     {
-      clock.restart();
-      oldScroll = 1;
+      _clockScroll->restart();
+      _scroll = 1;
     }
-  if (clock.getElapsedTime().asMilliseconds() >= 5)
-    if (oldScroll <= Map::getInstance()->getScroll()/* * 10*/)
+  if (_clockScroll->getElapsedTime().asMilliseconds() >= 5)
+    if (_scroll <= Map::getInstance()->getScroll()/* * 10*/)
       {
 	_customView->move(1, 0);
-	oldScroll++;
-	clock.restart();
+	_scroll++;
+	_clockScroll->restart();
+	_totalScroll++;
       }
   for (auto it = entities->begin(); it != entities->end(); ++it)
     {
@@ -144,4 +148,14 @@ void			GameView::update(sf::RenderWindow *win)
     {
       delete *it;
     }
+  std::cout << "TOTAL SCROLL = " << _totalScroll << std::endl;
+}
+
+void			GameView::reset()
+{
+  std::cout << "TOTAL SCROLL IN RESET = " << (_totalScroll * -1) << std::endl;
+  _customView->move((_totalScroll * -1), 0);
+  // _customView->setCenter(0,0);
+  _scroll = 0;
+  _totalScroll = 0;
 }

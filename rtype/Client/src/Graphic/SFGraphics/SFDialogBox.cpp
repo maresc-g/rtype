@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Nov  7 16:47:22 2013 cyril jourdain
-// Last update Fri Nov 15 19:38:27 2013 cyril jourdain
+// Last update Fri Nov 22 15:10:49 2013 guillaume marescaux
 //
 
 #include		"Graphic/SFGraphics/Widgets/SFDialogBox.hh"
