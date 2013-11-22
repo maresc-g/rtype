@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Fri Nov 22 13:54:03 2013 antoine maitre
+// Last update Fri Nov 22 14:11:30 2013 antoine maitre
 //
 
 #include		<time.h>
@@ -134,6 +134,11 @@ void			GameLoop::loop()
 		if ((*it)->getType() == AEntity::PLAYER)
 		  this->sendEntity((*it));
 	      }
+	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
+	    {
+	      if ((*it)->getType() == AEntity::WALL)
+		this->sendEntity((*it));
+	    }
       	}
       this->_mutex->leave();
     }
