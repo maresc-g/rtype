@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Oct 28 15:04:47 2013 cyril jourdain
-// Last update Thu Nov 21 13:36:36 2013 cyril jourdain
+// Last update Fri Nov 22 14:34:53 2013 cyril jourdain
 //
 
 #ifndef 		__GLOBAL_HH__
@@ -61,8 +61,36 @@
 /* ********** SPRITES ********* */
 #define			SPRITE_PLAYER1_CONF		"./Res/Sprites/player1.sprite"
 #define			SPRITE_PLAYER1		        "player1"
+#define			SPRITE_PLAYER2_CONF		"./Res/Sprites/player2.sprite"
+#define			SPRITE_PLAYER2		        "player2"
+#define			SPRITE_PLAYER3_CONF		"./Res/Sprites/player3.sprite"
+#define			SPRITE_PLAYER3		        "player3"
+#define			SPRITE_PLAYER4_CONF		"./Res/Sprites/player4.sprite"
+#define			SPRITE_PLAYER4		        "player4"
 #define			SPRITE_ROCKET_CONF		"./Res/Sprites/rocket.sprite"
 #define			SPRITE_ROCKET			"rocket"
+#define			SPRITE_WALLD1_CONF		"./Res/Sprites/walld1.sprite"
+#define			SPRITE_WALLD1			"walld1"
+#define			SPRITE_WALLD2_CONF		"./Res/Sprites/walld2.sprite"
+#define			SPRITE_WALLD2			"walld2"
+#define			SPRITE_WALLD3_CONF		"./Res/Sprites/walld3.sprite"
+#define			SPRITE_WALLD3			"walld3"
+#define			SPRITE_WALLD4_CONF		"./Res/Sprites/walld4.sprite"
+#define			SPRITE_WALLD4			"walld4"
+#define			SPRITE_WALLD5_CONF		"./Res/Sprites/walld5.sprite"
+#define			SPRITE_WALLD5			"walld5"
+#define			SPRITE_WALLU1_CONF		"./Res/Sprites/wallu1.sprite"
+#define			SPRITE_WALLU1			"wallu1"
+#define			SPRITE_WALLU2_CONF		"./Res/Sprites/wallu2.sprite"
+#define			SPRITE_WALLU2			"wallu2"
+#define			SPRITE_WALLU3_CONF		"./Res/Sprites/wallu3.sprite"
+#define			SPRITE_WALLU3			"wallu3"
+#define			SPRITE_WALLU4_CONF		"./Res/Sprites/wallu4.sprite"
+#define			SPRITE_WALLU4			"wallu4"
+#define			SPRITE_WALLU5_CONF		"./Res/Sprites/wallu5.sprite"
+#define			SPRITE_WALLU5			"wallu5"
+
+
 
 /* *********** FONT ***********/
 
