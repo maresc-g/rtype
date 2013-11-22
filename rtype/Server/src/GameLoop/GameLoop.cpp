@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Fri Nov 22 13:31:12 2013 antoine maitre
+// Last update Fri Nov 22 13:42:47 2013 antoine maitre
 //
 
 #include		<time.h>
@@ -192,8 +192,13 @@ void			GameLoop::sendEntity(AEntity *entity)
 bool			GameLoop::newPlayer(ClientInfo *newClient)
 {
   int			i = 1;
-
+  
   this->_mutex->enter();
+  if (this->_clients->size())
+    {
+      this->_mutex->leave();
+      return (false);
+    }
   if (!this->_clients->empty())
     for (auto it = _clients->begin(); it != _clients->end() && i == (*it)->getNum(); ++it)
       i++;
