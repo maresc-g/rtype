@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:48 2013 antoine maitre
-// Last update Wed Nov 20 19:51:21 2013 antoine maitre
+// Last update Fri Nov 22 10:57:23 2013 arthur rucquois
 //
 
 #ifndef __LEVELMANAGER_HH__
@@ -43,6 +43,9 @@ public:
   int getPosAdv() const;
   std::list<AEntity *> &getEnemies();
   std::list<AEntity *> &getPlayers();
+  std::list<AEntity *> &getWalls();
+  std::list<AEntity *> &getInactiveWalls();
+  std::list<AEntity *>::iterator const	&spawnWall(std::list<AEntity *>::iterator &it);
   unsigned int getDiff() const;
 };
 

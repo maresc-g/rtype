@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Nov 12 18:52:21 2013 laurent ansel
-// Last update Wed Nov 13 16:42:53 2013 laurent ansel
+// Last update Fri Nov 22 10:54:26 2013 alexis mestag
 //
 
 #include			<list>
@@ -13,6 +13,7 @@
 
 InformationHitBox::InformationHitBox(Coordinate const &coord, int const width, int const height):
   _coord(new Coordinate(coord)),
+  _origCoord(new Coordinate(coord)),
   _width(width),
   _height(height)
 {
@@ -23,10 +24,13 @@ InformationHitBox::~InformationHitBox()
 {
   if (_coord)
     delete _coord;
+  if (_origCoord)
+    delete _origCoord;
 }
 
 InformationHitBox::InformationHitBox(InformationHitBox const &other):
-  _coord(other._coord),
+  _coord(new Coordinate(other.getCoordinate())),
+  _origCoord(new Coordinate(other.getOrigCoordinate())),
   _width(other._width),
   _height(other._height)
 {
@@ -38,6 +42,7 @@ InformationHitBox		&InformationHitBox::operator=(InformationHitBox const &other)
   if (this != &other)
     {
       this->_coord = other._coord;
+      this->_origCoord = other._origCoord;
       this->setWidth(other.getWidth());
       this->setHeight(other.getHeight());
     }
@@ -47,6 +52,11 @@ InformationHitBox		&InformationHitBox::operator=(InformationHitBox const &other)
 Coordinate const		&InformationHitBox::getCoordinate() const
 {
   return (*this->_coord);
+}
+
+Coordinate const		&InformationHitBox::getOrigCoordinate() const
+{
+  return (*this->_origCoord);
 }
 
 int			InformationHitBox::getWidth() const

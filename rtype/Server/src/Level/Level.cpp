@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 16:09:33 2013 antoine maitre
-// Last update Wed Nov 20 19:49:58 2013 antoine maitre
+// Last update Fri Nov 22 11:04:31 2013 arthur rucquois
 //
 
 #include	"Level/Level.hh"
@@ -70,6 +70,22 @@ std::list<AEntity *> &Level::getEnemies()
 std::list<AEntity *> &Level::getPlayers()
 {
   return (this->_map->getPlayers());
+}
+
+std::list<AEntity *> &Level::getWalls()
+{
+  return (this->_map->getWalls());
+}
+
+std::list<AEntity *> &Level::getInactiveWalls()
+{
+  return (this->_map->getInactiveWalls());
+}
+
+std::list<AEntity *>::iterator const	&Level::spawnWall(std::list<AEntity *>::iterator &it)
+{
+  it = this->_map->spawnWall(it);
+  return it;
 }
 
 int			Level::getPosAdv() const

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:06 2013 antoine maitre
-// Last update Wed Nov 20 19:50:40 2013 antoine maitre
+// Last update Fri Nov 22 11:01:07 2013 arthur rucquois
 //
 
 #include	"Level/LevelManager.hh"
@@ -70,6 +70,22 @@ std::list<AEntity *> &LevelManager::getEnemies()
 std::list<AEntity *> &LevelManager::getPlayers()
 {
   return (this->_currentLevel->getPlayers());
+}
+
+std::list<AEntity *> &LevelManager::getWalls()
+{
+  return (this->_currentLevel->getWalls());
+}
+
+std::list<AEntity *> &LevelManager::getInactiveWalls()
+{
+  return (this->_currentLevel->getInactiveWalls());
+}
+
+std::list<AEntity *>::iterator const	&LevelManager::spawnWall(std::list<AEntity *>::iterator &it)
+{
+  it = this->_currentLevel->spawnWall(it);
+  return it;
 }
 
 Map			*LevelManager::getMap()
