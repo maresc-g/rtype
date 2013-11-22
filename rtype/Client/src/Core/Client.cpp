@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Fri Nov 22 16:58:37 2013 guillaume marescaux
+// Last update Fri Nov 22 17:31:58 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -227,7 +227,6 @@ void				Client::entity(Trame const &trame)
   y = std::stoi(token);
   if (map->exists(id))
     {
-      std::cout << "BEFORE MOVE ENTITY" << std::endl;
       entity = map->getEntityById(id);
       saveX = entity->getX();
       saveY = entity->getY();
@@ -249,7 +248,6 @@ void				Client::entity(Trame const &trame)
       else
 	direction = "left";
       map->moveEntity(id, x, y, direction);
-      std::cout << "AFTER MOVE ENTITY" << std::endl;
     }
   else
     map->addEntity(new Entity(id, x, y, type));
