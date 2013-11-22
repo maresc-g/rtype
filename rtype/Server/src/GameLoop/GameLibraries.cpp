@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:18:29 2013 alexis mestag
-// Last update Thu Nov 21 12:28:11 2013 alexis mestag
+// Last update Fri Nov 22 16:25:45 2013 alexis mestag
 //
 
 #include			"GameLoop/GameLibraries.hh"
@@ -109,6 +109,18 @@ IDynamicLibrary			*GameLibraries::getRandomLibrary()
   return (it != _libraries->end() ? it->second : NULL);
 }
 
+void				GameLibraries::removeLibrary(IDynamicLibrary const &lib)
+{
+  for (auto it = _libraries->begin() ; it != _libraries->end() ; ++it)
+    {
+      if (it->second->getPath() == lib.getPath()) {
+	delete it->second;
+	_libraries->erase(it);
+	break;
+      }
+    }
+}
+
 Mob				*GameLibraries::getRandomInstance()
 {
   IDynamicLibrary		*lib = this->getRandomLibrary();
@@ -118,7 +130,10 @@ Mob				*GameLibraries::getRandomInstance()
   if (lib)
     {
       getInstance = reinterpret_cast<Mob *(*)()>(lib->getSymbol("getInstance"));
-      mob = getInstance();
+      if (getInstance)
+	mob = getInstance();
+      else
+	this->removeLibrary(*lib);
     }
   return (mob);
 }
