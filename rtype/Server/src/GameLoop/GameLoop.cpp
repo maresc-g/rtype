@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Fri Nov 22 14:50:11 2013 antoine maitre
+// Last update Fri Nov 22 15:08:17 2013 antoine maitre
 //
 
 #include		<time.h>
@@ -196,7 +196,6 @@ void			GameLoop::sendEntity(AEntity *entity)
 										   (pos = entity->getPath().find(EXTENSION_SPRITE2)) != std::string::npos))
     oss << entity->getPath().substr(path.size() + 1, pos - (path.size() + 1));
   oss << ";" << entity->getPosX() << ";" << entity->getPosY();
-  std::cout << oss.str() << std::endl;
   sendClient("UDP", oss.str());
 }
 
