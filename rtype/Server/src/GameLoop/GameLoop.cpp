@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Fri Nov 22 15:12:18 2013 laurent ansel
+// Last update Fri Nov 22 15:35:08 2013 antoine maitre
 //
 
 #include		<time.h>
@@ -69,7 +69,7 @@ void			GameLoop::loop()
   while (!this->_levelManag->getEndGame() && !this->_criticalError)
     {
       SuperVaisseau = false;
-      // this->spawnWalls();
+      this->spawnWalls();
       if (this->checkActiveClient() == false)
 	break;
       time = clock();
@@ -137,7 +137,9 @@ void			GameLoop::loop()
 	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
 	    {
 	      if ((*it)->getType() == AEntity::WALL)
-		this->sendEntity((*it));
+		{
+		  this->sendEntity((*it));
+		}
 	    }
       	}
       this->_mutex->leave();
@@ -244,14 +246,22 @@ void			GameLoop::spawnWalls()
 {
   bool			spawnable = false;
 
-  for (auto it = _levelManag->getInactiveWalls().begin(); it != _levelManag->getInactiveWalls().end(); it++)
+  for (auto it = _levelManag->getInactiveWalls().begin(); it != _levelManag->getInactiveWalls().end(); ++it)
     {
       spawnable = SpriteLoaderManager::getInstance()->getEntitySprite((*it)->getPath(), *(*it));
-      if (spawnable && (*it)->getPosX() <= this->_levelManag->getAdv() + SCREENX + 5)
-	it = this->_levelManag->spawnWall(it);
+      if (spawnable && (*it)->getPosX() == this->_levelManag->getPosAdv() + SCREENX * 10 + 1)
+	{
+	  std::cout << (*it)->getPosX() << " " << this->_levelManag->getPosAdv() + SCREENX * 10 + 1 << std::endl;
+	  it = this->_levelManag->spawnWall(it);
+	}
       else if (!spawnable)
-	it = _levelManag->getInactiveWalls().erase(it);
-      it++;
+	{
+	  it = _levelManag->getInactiveWalls().erase(it);
+	  if (_levelManag->getInactiveWalls().empty())
+	    break;
+	  if (it != _levelManag->getInactiveWalls().begin())
+	    it--;
+	}
     }
 }
 

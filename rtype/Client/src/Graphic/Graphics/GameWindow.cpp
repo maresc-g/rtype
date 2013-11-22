@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:22:54 2013 cyril jourdain
-// Last update Fri Nov 22 13:20:47 2013 cyril jourdain
+// Last update Fri Nov 22 14:37:50 2013 guillaume marescaux
 //
 
 #include		"Graphic/Graphics/GameWindow.hh"
@@ -63,4 +63,9 @@ void			GameWindow::update()
 {
   if (_gameView)
     _gameView->update(_manager->getRenderWindow());
+}
+
+void			GameWindow::reset()
+{
+  _gameView->reset();
 }

@@ -5,12 +5,13 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Fri Nov 22 13:40:05 2013 cyril jourdain
+// Last update Fri Nov 22 14:35:59 2013 guillaume marescaux
 //
 
 #include		"Graphic/ClientMain.hh"
 #include		"Graphic/SFGraphics/Widgets/SFDialogBox.hh"
 #include		"Graphic/SFGraphics/Widgets/SFDialogTextBox.hh"
+#include		"Map/Map.hh"
 
 static void	*trampoline(void *param)
 {
@@ -188,4 +189,16 @@ void			ClientMain::sendKeyPress(PressedKey const &keys)
   // std::cout << "Up= " <<  _action->getUp() << std::endl;
   // std::cout << "Down= " <<  _action->getDown() << std::endl;
   // std::cout << "Fire= " <<  _action->getFire() << std::endl;
+}
+
+
+void			ClientMain::quitGame()
+{
+  _client->getProto()->protocolMsg(Protocol::QUIT_GAME, _client->getId(), NULL);
+  Map::getInstance()->clear();
+  *_state = IN_LOBBY;
+  _manager->getWindowById(GAME)->setVisibility(false);
+  _manager->setFPS(60);
+  _manager->setActiveWindow(LOBBY);
+  static_cast<GameWindow *>(_manager->getWindowById(GAME))->reset();
 }
