@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:22:47 2013 guillaume marescaux
-// Last update Thu Nov 21 13:05:41 2013 guillaume marescaux
+// Last update Fri Nov 22 13:01:00 2013 guillaume marescaux
 //
 
 #include			"Map/Map.hh"
@@ -123,6 +123,17 @@ bool				Map::exists(int const id) const
 
 //-------------------------------------END METHODS------------------------------------------
 
+std::list<Entity *>		*Map::copyList(std::list<Entity*> const &toCopy) const
+{
+  std::list<Entity *>		*ret = new std::list<Entity *>;
+
+  for (auto it = toCopy.begin() ; it != toCopy.end() ; it++)
+    {
+      ret->push_back(new Entity(**it));
+    }
+  return (ret);
+}
+
 void				Map::setScroll(unsigned int const scroll)
 {
   _mutex->enter();
@@ -140,24 +151,24 @@ unsigned int			Map::getScroll(void) const
   return (tmp);
 }
 
-std::list<Entity *> const	&Map::getMap(void) const
+std::list<Entity *>		*Map::getMap(void) const
 {
   std::list<Entity *>		*tmp;
 
   _mutex->enter();
-  tmp = _map;
+  tmp = this->copyList(*_map);
   _mutex->leave();
-  return (*tmp);
+  return (tmp);
 }
 
-std::list<Entity *> const	&Map::getEntities(void) const
+std::list<Entity *>		*Map::getEntities(void) const
 {
-  std::list<Entity *>		*tmp;
+  std::list<Entity *>		*tmp = new std::list<Entity *>;
 
   _mutex->enter();
-  tmp = _entities;
+  tmp = this->copyList(*_entities);
   _mutex->leave();
-  return (*tmp);
+  return (tmp);
 }
 
 Entity const			*Map::getEntityById(int const id) const

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:30:57 2013 guillaume marescaux
-// Last update Thu Nov 21 13:04:47 2013 guillaume marescaux
+// Last update Fri Nov 22 12:57:54 2013 guillaume marescaux
 //
 
 #ifndef 		__MAP_HH__
@@ -46,11 +46,15 @@ public:
   bool			exists(int const id) const;
   void			addDecor(Entity *entity);
 
+private:
+  std::list<Entity *>	*copyList(std::list<Entity *> const &toCopy) const;
+
+public:
   // Getters / Setters
   void			setScroll(unsigned int const scroll);
   unsigned int		getScroll(void) const;
-  std::list<Entity *> const	&getMap(void) const;
-  std::list<Entity *> const	&getEntities(void) const;
+  std::list<Entity *>		*getMap(void) const;
+  std::list<Entity *>		*getEntities(void) const;
   Entity const			*getEntityById(int const id) const;
 };
 

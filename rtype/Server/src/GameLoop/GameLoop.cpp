@@ -8,6 +8,7 @@
 // Last update Fri Nov 22 12:58:09 2013 laurent ansel
 //
 
+#include		<time.h>
 #include		"GameLoop/GameLoopManager.hh"
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
 #include		"GameLoop/GameLoop.hh"

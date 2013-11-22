@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Fri Nov 22 11:29:12 2013 cyril jourdain
+// Last update Fri Nov 22 13:01:15 2013 guillaume marescaux
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -115,7 +115,7 @@ void			GameView::update(sf::RenderWindow *win)
 {
   static unsigned int	oldScroll = 0;
   static sf::Clock	clock;
-  std::list<Entity*>	entities = Map::getInstance()->getEntities();
+  std::list<Entity*>	*entities = Map::getInstance()->getEntities();
 
   checkKeys();
 
@@ -131,7 +131,7 @@ void			GameView::update(sf::RenderWindow *win)
 	oldScroll++;
 	clock.restart();
       }
-  for (auto it = entities.begin(); it != entities.end(); ++it)
+  for (auto it = entities->begin(); it != entities->end(); ++it)
     {
       //std::cout << "Player position :" << (*it)->getX() << "/" << (*it)->getY() << std::endl;
       if ((*it)->getType() == "player1")
@@ -150,5 +150,9 @@ void			GameView::update(sf::RenderWindow *win)
 	  win->draw(*_rocket);
 	  win->setView(win->getDefaultView());
 	}
+    }
+  for (auto it = entities->begin() ; it != entities->end() ; it++)
+    {
+      delete *it;
     }
 }
