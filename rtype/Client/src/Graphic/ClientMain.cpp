@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Fri Nov 22 10:29:19 2013 cyril jourdain
+// Last update Fri Nov 22 12:43:11 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -183,10 +183,10 @@ void			ClientMain::sendKeyPress(PressedKey const &keys)
   _action->setUp(keys.up);
   _action->setDown(keys.down);
   _action->setFire(keys.space);
-  std::cout << "##############" << std::endl;
-  std::cout << "Left= " <<  _action->getLeft() << std::endl;
-  std::cout << "Right= " <<  _action->getRight() << std::endl;
-  std::cout << "Up= " <<  _action->getUp() << std::endl;
-  std::cout << "Down= " <<  _action->getDown() << std::endl;
-  std::cout << "Fire= " <<  _action->getFire() << std::endl;
+  // std::cout << "##############" << std::endl;
+  // std::cout << "Left= " <<  _action->getLeft() << std::endl;
+  // std::cout << "Right= " <<  _action->getRight() << std::endl;
+  // std::cout << "Up= " <<  _action->getUp() << std::endl;
+  // std::cout << "Down= " <<  _action->getDown() << std::endl;
+  // std::cout << "Fire= " <<  _action->getFire() << std::endl;
 }
