@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Fri Nov 22 15:01:08 2013 guillaume marescaux
+// Last update Fri Nov 22 16:03:32 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -114,12 +114,13 @@ void				Client::exec()
 {
   while (_running->getVar())
     {
-      while (!_initialized->getVar())
+      while (!_initialized->getVar() && _running->getVar())
 	{
-	  while (!_info->getVar())
+	  while (!_info->getVar() && _running->getVar())
 	    sf::sleep(sf::microseconds(100000));
-	  _initialized->setVar(this->initialize());
-	  if (!_initialized->getVar())
+	  if (_running->getVar())
+	    _initialized->setVar(this->initialize());
+	  if (!_initialized->getVar() && _running->getVar())
 	    {
 	      delete _info->getVar();
 	      _info->setVar(NULL);
@@ -131,7 +132,8 @@ void				Client::exec()
       // 	    _protocol->protocolMsg(Protocol::GET_SPRITE, _id, reinterpret_cast<void *>(&(*it)));
       // 	  _diffDir->clear();
       // 	}
-      this->loop();
+      if (_running->getVar())
+	this->loop();
     }
 }
 
@@ -592,6 +594,13 @@ void				Client::loop(void)
   if (time > 0)
     sf::sleep(sf::microseconds(time));
   // std::cout << "AFTER LOOP" << std::endl;
+}
+
+void				Client::quit()
+{
+  this->destroy();
+  *_running = false;
+  std::cout << "QUITTED" << std::endl;
 }
 
 //-----------------------------------END METHODS----------------------------------------
