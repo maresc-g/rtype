@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Fri Nov 22 14:14:05 2013 laurent ansel
+// Last update Fri Nov 22 14:55:56 2013 laurent ansel
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -160,6 +160,8 @@ void		PlayerInfo::sendMsg()
     {
       if (!(*it)->isSetEndTrame())
 	(*it)->appendContent(END_TRAME);
+      std::cout << "ID (" << (*it)->getHeader().getId() << ") = ";
+      std::cout.write((*it)->getContent().c_str(), (*it)->getContent().size());
       this->_info->pushWriteTrame((*it)->getHeader().getProto(), (*it));
     }
   this->_msg->clear();

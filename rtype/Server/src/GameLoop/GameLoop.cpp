@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Fri Nov 22 15:08:17 2013 antoine maitre
+// Last update Fri Nov 22 15:35:08 2013 antoine maitre
 //
 
 #include		<time.h>
@@ -350,6 +350,15 @@ bool			GameLoop::deletePlayer(ClientInfo *info)
       if ((*it)->isMyInfo(info))
   	{
 	  pI = *it;
+	  this->sendDeadEntity((*it)->getPlayer()->getId());
+	  for (auto itP = this->_levelManag->getPlayers().begin(); itP != this->_levelManag->getPlayers().end(); ++itP)
+	    {
+	      if ((*itP)->getId() == (*it)->getPlayer()->getId())
+		{
+		  itP = this->_levelManag->getPlayers().erase(itP);
+		  break;
+		}
+	    }
 	  it = _clients->erase(it);
 	  delete pI;
 	  this->_mutex->leave();
