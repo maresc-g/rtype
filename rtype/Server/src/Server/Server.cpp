@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Fri Nov 22 00:07:28 2013 laurent ansel
+// Last update Fri Nov 22 14:02:48 2013 laurent ansel
 //
 
 #include			<list>
@@ -56,6 +56,7 @@ Server::Server(int const port):
 
 Server::~Server()
 {
+  GameLoopManager::deleteInstance();
   if ((*this->_socket)["TCP"])
     {
       (*this->_socket)["TCP"]->destroy();
@@ -73,7 +74,6 @@ Server::~Server()
   delete _client;
   delete _select;
   CircularBufferManager::deleteInstance();
-  GameLoopManager::deleteInstance();
   ObjectPoolManager::deleteInstance();
   SpriteLoaderManager::deleteInstance();
   DynamicLibraryManager::deleteInstance();
@@ -102,7 +102,7 @@ void				Server::initializeSelect() const
 	{
 	  timeout = true;
 	  delai[0] = 0;
-	  delai[1] = 800;
+	  delai[1] = 500;
 	}
       this->_select->pushFd((*it)->getFdTcp(), Select::READ);
       if ((*it)->canWriteSomething("TCP"))

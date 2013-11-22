@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Fri Nov 22 10:53:19 2013 laurent ansel
+// Last update Fri Nov 22 14:00:34 2013 laurent ansel
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -23,7 +23,10 @@ PlayerInfo::PlayerInfo(ClientInfo *info, int num):
   _player = reinterpret_cast<Player *>(ObjectPoolManager::getInstance()->getCopy(AEntity::PLAYER));
   if (_player)
     {
-      SpriteLoaderManager::getInstance()->getEntitySprite("player", *_player);
+      std::ostringstream str;
+
+      str << "player";// << num;
+      SpriteLoaderManager::getInstance()->getEntitySprite(str.str(), *_player);
       _player->setInvincible(40);
       _player->setNum(num);
     }

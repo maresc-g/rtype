@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Fri Nov 22 13:42:47 2013 antoine maitre
+// Last update Fri Nov 22 14:03:47 2013 laurent ansel
 //
 
 #include		<time.h>
@@ -143,7 +143,8 @@ void			GameLoop::loop()
     sendClient("TCP", "ENDGAME LOOSE");
   quitClients();
   this->_mutex->leave();
-  GameLoopManager::getInstance()->quitGame(this->_id);
+  if (!this->_criticalError)
+    GameLoopManager::getInstance()->quitGame(this->_id);
 }
 
 void			GameLoop::sendDeadEntity(unsigned int id)
@@ -165,7 +166,8 @@ void			GameLoop::sendScroll(unsigned int scroll)
 void			GameLoop::sendClient(const std::string &protocol, const std::string &trame)
 {
   for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
-       (*it_bis)->pushMsg(protocol, trame);
+    if (!this->_criticalError)
+      (*it_bis)->pushMsg(protocol, trame);
   //    (*it_bis)->sendTrame(protocol, trame);
 }
 
@@ -192,9 +194,9 @@ void			GameLoop::sendEntity(AEntity *entity)
 bool			GameLoop::newPlayer(ClientInfo *newClient)
 {
   int			i = 1;
-  
+
   this->_mutex->enter();
-  if (this->_clients->size())
+  if (this->_clients->size() >= 4)
     {
       this->_mutex->leave();
       return (false);
