@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Fri Nov 22 10:53:31 2013 laurent ansel
+// Last update Fri Nov 22 10:55:56 2013 laurent ansel
 //
 
 #include		"GameLoop/GameLoopManager.hh"
@@ -71,6 +71,10 @@ void			GameLoop::loop()
       time = clock();
       this->_mutex->enter();
 
+      /*	Destruction de toutes les entités mortes durant la boucle de jeu		*/
+      this->destroyDeadEntities(this->_levelManag->getEnemies(),
+      				this->_levelManag->getPlayers());
+
       /*	Méthode permettant d'incrémenter pixel par pixel le déplacement des entités	*/
       //      std::cout << "SIZE = " << this->_levelManag->getPlayers().size() << std::endl;
       for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
@@ -92,10 +96,6 @@ void			GameLoop::loop()
 
       /*	Méthode permettant le check des collisions au sein de Map			*/
       this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
-
-      /*	Destruction de toutes les entités mortes durant la boucle de jeu		*/
-      this->destroyDeadEntities(this->_levelManag->getEnemies(),
-      				this->_levelManag->getPlayers());
 
       this->_mutex->leave();
       end = clock();
