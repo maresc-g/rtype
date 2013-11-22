@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Fri Nov 22 10:55:17 2013 laurent ansel
+// Last update Fri Nov 22 16:57:40 2013 antoine maitre
 //
 
 #include		<iostream>
@@ -136,6 +136,11 @@ std::list<InformationHitBox *> const	&AEntity::getInformationHitBox() const
 void			AEntity::setInformationHitBox(std::list<InformationHitBox *> *list)
 {
   this->_hitbox = list;
+}
+
+void			AEntity::setId(unsigned int const id)
+{
+  this->_id = id;
 }
 
 unsigned int		AEntity::getId() const
