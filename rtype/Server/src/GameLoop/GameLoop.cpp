@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Fri Nov 22 13:42:47 2013 antoine maitre
+// Last update Fri Nov 22 13:54:03 2013 antoine maitre
 //
 
 #include		<time.h>
@@ -69,6 +69,7 @@ void			GameLoop::loop()
   while (!this->_levelManag->getEndGame() && !this->_criticalError)
     {
       SuperVaisseau = false;
+      // this->spawnWalls();
       if (this->checkActiveClient() == false)
 	break;
       time = clock();
@@ -194,7 +195,7 @@ bool			GameLoop::newPlayer(ClientInfo *newClient)
   int			i = 1;
   
   this->_mutex->enter();
-  if (this->_clients->size())
+  if (this->_clients->size() >= 4)
     {
       this->_mutex->leave();
       return (false);
