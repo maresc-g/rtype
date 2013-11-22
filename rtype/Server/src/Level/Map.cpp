@@ -5,38 +5,37 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Fri Nov 22 11:29:38 2013 arthur rucquois
+// Last update Fri Nov 22 14:12:19 2013 arthur rucquois
 //
 
 #include "Level/Map.hh"
 
 Map::Map(std::string _path)
 {
-  std::ifstream fichier(_path.c_str(), std::ios::in);
-  std::string contenu;
-  std::string op;
-  std::string pathMob;
+  std::ifstream file(_path.c_str(), std::ios::in);
+  std::string content;
+  std::string wallType;
+  std::string wallX;
+  std::string wallY;
   std::ostringstream oss;
 
-  if(fichier)
+  if(file)
     {
-      std::getline(fichier, contenu);
-      op = contenu.substr(0, contenu.find("x"));
-      this->_x = std::stoi(op);
-      contenu = contenu.substr(contenu.find("x") + 1, contenu.size() - contenu.find("x"));
-      this->_y = std::stoi(contenu);
+      std::getline(file, content);
+      this->_x = std::stoi(content.substr(0, content.find("x")));
+      this->_y = std::stoi(content.substr(content.find("x") + 1, content.size() - content.find("x")));
       this->_map = new std::vector<std::vector<unsigned int>> (SCREENY);
       for (int i = 0; i < SCREENY ; i++)
 	(*this->_map)[i].resize(SCREENX);
-      while (std::getline(fichier, contenu))
+      while (std::getline(file, content))
       	{
-      	  contenu = contenu.substr(contenu.find(";") + 1, contenu.size() - contenu.find(";"));
-      	  op = contenu.substr(0, contenu.find(";"));
-      	  contenu = contenu.substr(contenu.find(";") + 1, contenu.size() - contenu.find(";"));
-	  pathMob = _path.substr(0, _path.size() - 3) + oss.str() + ".conf";
-	  oss.str("");
+      	  wallType = content.substr(0, content.find(";"));
+	  wallX = content.substr(content.find(";") + 1, content.size() - (content.find(";") + 1));
+	  wallY = wallX.substr(wallX.find(";") + 1, wallX.size() - (wallX.find(";") + 1));
+	  wallX = wallX.substr(0, wallX.find(";"));
+	  this->_inactiveWalls.push_back(new Wall(std::stoi(wallX), std::stoi(wallY), "Res/Sprites/wall" + wallType));
       	}
-      fichier.close();
+      file.close();
     }
   else
     std::cerr << "Impossible d'ouvrir le fichier !" << std::endl;
