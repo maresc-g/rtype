@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:16:57 2013 laurent ansel
-// Last update Tue Nov 19 19:23:51 2013 laurent ansel
+// Last update Fri Nov 22 12:36:11 2013 guillaume marescaux
 //
 
 #include			<sstream>
@@ -16,6 +16,22 @@ Header::Header(unsigned int const id, unsigned int const trameId, std::string co
   _trameId(trameId),
   _proto(proto)
 {
+}
+
+Header::Header(Header const &other)
+{
+  *this = other;
+}
+
+Header				&Header::operator=(Header const &other)
+{
+  if (this != &other)
+    {
+      _id = other._id;
+      _trameId = other._trameId;
+      _proto = other._proto;
+    }
+  return (*this);
 }
 
 Header::~Header()

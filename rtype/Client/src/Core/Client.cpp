@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Fri Nov 22 10:35:12 2013 cyril jourdain
+// Last update Fri Nov 22 12:37:21 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -245,7 +245,6 @@ void				Client::entity(Trame const &trame)
 	direction = (retY >= 0 ? "left_up" : "left_down");
       else
 	direction = "left";
-      // std::cout << "DIRECTION = " << direction << std::endl;
       map->moveEntity(id, x, y, direction);
     }
   else
@@ -527,6 +526,21 @@ void				Client::destroy(void)
   (*_sockets)[UDP]->destroy();
 }
 
+std::list<Trame *>		*Client::splitCommand(Trame const &trame)
+{
+  std::list<Trame *>		*trameList = new std::list<Trame *>;
+  std::istringstream		iss(trame.getContent());
+  std::string			token;
+
+  while (iss.good() && !iss.str().empty())
+    {
+      std::getline(iss, token, '|');
+      trameList->push_back(new Trame(new Header(trame.getHeader()), token,
+				     (token.find(END_TRAME) == std::string::npos ? true : false)));
+    }
+  return (trameList);
+}
+
 void				Client::loop(void)
 {
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
@@ -536,7 +550,9 @@ void				Client::loop(void)
   sf::Clock	clock;
   sf::Time	elapsedTime;
   float		time;
+  std::list<Trame *>		*trameList;
 
+  // std::cout << "BEFORE LOOP" << std::endl;
   clock.restart();
   this->read(0, 0, true);
   tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
@@ -544,10 +560,25 @@ void				Client::loop(void)
     {
       // std::cout << "CONTENT = ";
       // std::cout.write(tmp->getContent().c_str(), tmp->getContent().size());
-      // std::cout << std::endl;
-      msgType = _protocol->getMsg(tmp);
-      // std::cout << "MSG_TYPE = " << static_cast<int>(msgType) << std::endl;
-      (this->*(*_ptrs)[msgType])(*tmp);
+      //std::cout << std::endl;
+      if (tmp->getContent().find("|") != std::string::npos)
+	{
+	  // std::cout << "BEFORE LOOP TRAMELIST" << std::endl;
+	  trameList = this->splitCommand(*tmp);
+	  for (auto it = trameList->begin() ; it != trameList->end() ; it++)
+	    {
+	      msgType = _protocol->getMsg(*it);
+	      (this->*(*_ptrs)[msgType])(**it);
+	    }
+	  delete trameList;
+	  // std::cout << "AFTER LOOP TRAMELIST" << std::endl;
+	}
+      else
+	{
+	  msgType = _protocol->getMsg(tmp);
+	  (this->*(*_ptrs)[msgType])(*tmp);
+	}
+      delete tmp;
     }
   actionStr = (std::string)(*_action);
   if (_state->getVar() == PLAYING && !_action->empty())
@@ -560,6 +591,7 @@ void				Client::loop(void)
   time = 100000 / 60 - elapsedTime.asMicroseconds();
   if (time > 0)
     sf::sleep(sf::microseconds(time));
+  // std::cout << "AFTER LOOP" << std::endl;
 }
 
 //-----------------------------------END METHODS----------------------------------------

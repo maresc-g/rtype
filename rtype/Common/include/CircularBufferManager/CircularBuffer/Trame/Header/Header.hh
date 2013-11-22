@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:07:45 2013 laurent ansel
-// Last update Fri Nov 15 11:36:56 2013 laurent ansel
+// Last update Fri Nov 22 11:08:02 2013 guillaume marescaux
 //
 
 #ifndef 			__HEADER_HH__
@@ -29,6 +29,8 @@ private:
   std::string			_proto;
 public:
   Header(unsigned int const id, unsigned int const trameId, std::string const &proto);
+  Header(Header const &other);
+  Header			&operator=(Header const &other);
   virtual ~Header();
   unsigned int			getId() const;
   unsigned int			getTrameId() const;
