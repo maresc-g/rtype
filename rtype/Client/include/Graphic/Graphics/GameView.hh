@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 17:56:23 2013 cyril jourdain
-// Last update Fri Nov 22 10:36:15 2013 cyril jourdain
+// Last update Fri Nov 22 14:55:12 2013 guillaume marescaux
 //
 
 #ifndef 		__GAMEVIEW_HH__
@@ -25,6 +25,9 @@ private:
   AnimatedSprite	*_rocket;
   sf::Clock		*_clock;
   PressedKey		*_keys;
+  unsigned int		_scroll;
+  int			_totalScroll;
+  sf::Clock		*_clockScroll;
 
 public:
   GameView();
@@ -36,6 +39,7 @@ public:
   virtual void			setBackgroundColor(sf::Color const) {};
   void				update(sf::RenderWindow *);
   void				checkKeys();
+  void				reset();
 
 private:
   virtual void			draw(sf::RenderTarget &target, sf::RenderStates states) const;

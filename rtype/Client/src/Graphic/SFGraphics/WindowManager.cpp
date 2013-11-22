@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:18:05 2013 cyril jourdain
-// Last update Fri Nov 22 13:46:34 2013 cyril jourdain
+// Last update Fri Nov 22 15:22:57 2013 guillaume marescaux
 //
 
 #include	<iostream>
@@ -372,6 +372,21 @@ void				WindowManager::removeWindowCallback(void *param)
 	}
       else
 	std::cout << "NO CALLBACK FOUND" << std::endl;
+      _windowList->erase(it);
+      _active = NULL;
+    }
+}
+
+void				WindowManager::removeWindowNoCallback(void *param)
+{
+  unsigned int	id = *(reinterpret_cast<unsigned int*>(param));
+
+  auto it = find_if(_windowList->begin(), _windowList->end(),
+		    [&](const std::pair<unsigned int, SFWindow*>& val) -> bool {
+		      return val.first == id;
+		    });
+  if (it != _windowList->end())
+    {
       _windowList->erase(it);
       _active = NULL;
     }
