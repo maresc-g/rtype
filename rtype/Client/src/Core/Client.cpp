@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Fri Nov 22 12:49:02 2013 guillaume marescaux
+// Last update Fri Nov 22 13:34:57 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -117,7 +117,7 @@ void				Client::exec()
       while (!_initialized->getVar())
 	{
 	  while (!_info->getVar())
-	    sf::microseconds(10000);
+	    sf::sleep(sf::microseconds(100000));
 	  _initialized->setVar(this->initialize());
 	  if (!_initialized->getVar())
 	    {
