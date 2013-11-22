@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Fri Nov 22 15:35:08 2013 antoine maitre
+// Last update Fri Nov 22 17:18:18 2013 antoine maitre
 //
 
 #include		<time.h>
@@ -21,9 +21,11 @@ GameLoop::GameLoop(std::string const &name, unsigned int const id):
   _name(name),
   _id(id),
   _criticalError(false),
-  _mutex(new Mutex)
+  _mutex(new Mutex),
+  _idEntity(0)
 {
   this->_mutex->initialize();
+  this->_library->loadLibraries();
 }
 
 GameLoop::~GameLoop()
@@ -58,6 +60,43 @@ void			GameLoop::action()
       }
 }
 
+void			GameLoop::execAction(Action const &act, AEntity *entity, int const adv, Map *map)
+{
+  if (act.getUp())
+    {
+      entity->move(entity->getPosX(), entity->getPosY() - entity->getSpeed());
+    }
+  if (act.getDown())
+    {
+      entity->move(entity->getPosX(), entity->getPosY() + entity->getSpeed());
+    }
+  if (act.getLeft())
+    {
+      entity->move(entity->getPosX() - entity->getSpeed(), entity->getPosY());
+    }
+  if (act.getRight())
+    {
+      entity->move(entity->getPosX() + entity->getSpeed(), entity->getPosY());
+    }
+  if (act.getFire())
+    {
+      const Coordinate spawn = entity->getSpawnProjectile();
+      AEntity		*projectile;
+
+      projectile = ObjectPoolManager::getInstance()->getCopy(AEntity::ROCKET);
+      if (projectile)
+	{
+	  SpriteLoaderManager::getInstance()->getEntitySprite("rocket", *projectile);
+	  projectile->setId(_idEntity);
+	  _idEntity++;
+	  projectile->movePos(entity->getPosX(), entity->getPosY());
+	  map->getPlayers().push_back(projectile);
+	  std::cout << "POS = " << map->getPlayers().size() << std::endl;
+	}
+    }
+
+}
+
 void			GameLoop::loop()
 {
   clock_t	time = 0;
@@ -69,6 +108,7 @@ void			GameLoop::loop()
   while (!this->_levelManag->getEndGame() && !this->_criticalError)
     {
       SuperVaisseau = false;
+      this->spawnMob();
       this->spawnWalls();
       if (this->checkActiveClient() == false)
 	break;
@@ -98,8 +138,11 @@ void			GameLoop::loop()
       for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
       	{
      	  if ((*it)->getIG() == true)
-      	    (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getPosAdv());
+      	    (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getPosAdv(), _idEntity);
       	}
+      for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
+	if ((*it)->getType() == AEntity::MOB)
+	  this->execAction(*reinterpret_cast<Mob *>((*it))->getAction(), *it, this->_levelManag->getPosAdv(), this->_levelManag->getMap());
 
       /*	Méthode permettant le check des collisions au sein de Map			*/
       this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
@@ -135,12 +178,7 @@ void			GameLoop::loop()
 		  this->sendEntity((*it));
 	      }
 	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
-	    {
-	      if ((*it)->getType() == AEntity::WALL)
-		{
-		  this->sendEntity((*it));
-		}
-	    }
+	    this->sendEntity((*it));
       	}
       this->_mutex->leave();
     }
@@ -214,6 +252,8 @@ bool			GameLoop::newPlayer(ClientInfo *newClient)
       i++;
   this->_clients->push_back(new PlayerInfo(newClient, i));
   this->_clients->back()->getPlayer()->movePos(this->_levelManag->getPosAdv() + 20, 40);
+  this->_clients->back()->getPlayer()->setId(_idEntity);
+  _idEntity++;
   this->_levelManag->getPlayers().push_back(this->_clients->back()->getPlayer());
   this->_mutex->leave();
   return (true);
@@ -228,15 +268,17 @@ void			GameLoop::spawnMob()
 {
   Mob			*entity = NULL;
 
-  if (rand() % 10 == 9)
+  if (rand () % 100 == 9)
     {
       entity = this->_library->getRandomInstance();
       if (entity)
 	{
 	  if (SpriteLoaderManager::getInstance()->getEntitySprite(entity->getPath(), *entity))
 	    {
+	      entity->setId(_idEntity);
+	      _idEntity++;
 	      this->_levelManag->getEnemies().push_back(entity);
-	      this->_levelManag->getEnemies().back()->move(SCREENX + 5, rand() % 80);
+	      this->_levelManag->getEnemies().back()->movePos(this->_levelManag->getPosAdv() + SCREENX * 10 + 1, rand() % 800);
 	    }
 	}
     }
@@ -251,6 +293,8 @@ void			GameLoop::spawnWalls()
       spawnable = SpriteLoaderManager::getInstance()->getEntitySprite((*it)->getPath(), *(*it));
       if (spawnable && (*it)->getPosX() == this->_levelManag->getPosAdv() + SCREENX * 10 + 1)
 	{
+	  (*it)->setId(_idEntity);
+	  _idEntity++;
 	  std::cout << (*it)->getPosX() << " " << this->_levelManag->getPosAdv() + SCREENX * 10 + 1 << std::endl;
 	  it = this->_levelManag->spawnWall(it);
 	}

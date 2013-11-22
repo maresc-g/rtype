@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Fri Nov 22 11:30:52 2013 arthur rucquois
+// Last update Fri Nov 22 17:09:42 2013 antoine maitre
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -41,6 +41,7 @@ private:
   unsigned int			_id;
   bool				_criticalError;
   Mutex				*_mutex;
+  unsigned int			_idEntity;
 public:
   GameLoop(std::string const &name, unsigned int const id);
   virtual ~GameLoop();
@@ -69,6 +70,7 @@ private:
   void				scrolling();
   void				action();
   void				quitClients();
+  void				execAction(Action const &action, AEntity *entity, int const adv, Map *map);
 };
 
 #endif

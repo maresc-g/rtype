@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Fri Nov 22 11:32:04 2013 arthur rucquois
+// Last update Fri Nov 22 16:57:02 2013 antoine maitre
 //
 
 #ifndef 		__AENTITY_HH__
@@ -72,6 +72,7 @@ public:
   void			setInformationHitBox(std::list<InformationHitBox *> *list);
 
   unsigned int		getId() const;
+  void			setId(unsigned int const id);
   bool			isDead() const;
   void			setDead(bool);
 
