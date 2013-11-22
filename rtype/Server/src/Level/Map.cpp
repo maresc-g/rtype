@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Fri Nov 22 14:12:19 2013 arthur rucquois
+// Last update Fri Nov 22 14:37:23 2013 antoine maitre
 //
 
 #include "Level/Map.hh"
@@ -39,6 +39,7 @@ Map::Map(std::string _path)
     }
   else
     std::cerr << "Impossible d'ouvrir le fichier !" << std::endl;
+  std::cout << this->_inactiveWalls.size() << std::endl;
 }
 
 Map::~Map()
@@ -120,7 +121,7 @@ std::list<AEntity *> &Map::getInactiveWalls()
 
 std::list<AEntity *>::iterator const	&Map::spawnWall(std::list<AEntity *>::iterator &it)
 {
-  this->_walls.push_back((*it));
+  this->_enemies.push_back((*it));
   it = this->_inactiveWalls.erase(it);
   return (it);
 }
