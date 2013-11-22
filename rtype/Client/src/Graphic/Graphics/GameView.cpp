@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Thu Nov 21 14:49:16 2013 cyril jourdain
+// Last update Fri Nov 22 11:29:12 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -43,9 +43,9 @@ void			GameView::init()
   _background->setSize(WIN_X, WIN_Y);
   _background->setTexture((*(SFRessourcesManager::getInstance()->Images))[GAME_BACKGROUND]);
   _player = SFRessourcesManager::getInstance()->getSprite(SPRITE_PLAYER1);
-  _player->play("right");
+  //_player->play("right");
   _rocket = SFRessourcesManager::getInstance()->getSprite(SPRITE_ROCKET);
-  _rocket->play("right");
+  // _rocket->play("right");
   _clock = new sf::Clock();
   _clock->restart();
 }
@@ -65,12 +65,50 @@ void			GameView::draw(sf::RenderTarget &target, sf::RenderStates states) const
 
 void			GameView::onKeyPressed(void *const)
 {
-  _keys->left = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
-  _keys->right = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
-  _keys->up = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
-  _keys->down = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
-  _keys->space = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
-  ClientMain::getInstance()->sendKeyPress(*_keys);
+  // _keys->left = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+  // _keys->right = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+  // _keys->up = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
+  // _keys->down = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
+  // _keys->space = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
+  // ClientMain::getInstance()->sendKeyPress(*_keys);
+}
+
+void			GameView::checkKeys()
+{
+  static sf::Clock		clock;
+  static sf::Clock		clockSpace;
+  static bool			init = false;
+  static bool			saveSpace;
+
+  if (!init)
+    {
+      clock.restart();
+      clockSpace.restart();
+      init = true;
+      _keys->space = 0;
+    }
+  if (clock.getElapsedTime().asMicroseconds() >= 60000)
+    {
+      _keys->left = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
+      _keys->right = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+      _keys->up = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
+      _keys->down = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
+    }
+  if (clockSpace.getElapsedTime().asMicroseconds() >= 300000)
+    {
+      saveSpace = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
+      if (saveSpace)
+	{
+	  _keys->space = saveSpace;
+	  clockSpace.restart();
+	}
+    }
+  if (clock.getElapsedTime().asMicroseconds() >= 60000)
+    {
+      ClientMain::getInstance()->sendKeyPress(*_keys);
+      _keys->space = 0;
+      clock.restart();
+    }
 }
 
 void			GameView::update(sf::RenderWindow *win)
@@ -79,12 +117,14 @@ void			GameView::update(sf::RenderWindow *win)
   static sf::Clock	clock;
   std::list<Entity*>	entities = Map::getInstance()->getEntities();
 
+  checkKeys();
+
   if (oldScroll == 0)
     {
       clock.restart();
       oldScroll = 1;
     }
-  if (clock.getElapsedTime().asMilliseconds() >= 2)
+  if (clock.getElapsedTime().asMilliseconds() >= 5)
     if (oldScroll <= Map::getInstance()->getScroll()/* * 10*/)
       {
 	_customView->move(1, 0);

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 //
 // Started on  Wed Jun 19 13:45:16 2013 cyril jourdain
-// Last update Thu Nov 21 14:39:17 2013 cyril jourdain
+// Last update Fri Nov 22 11:47:37 2013 cyril jourdain
 //
 
 #include	"Graphic/Graphics/Sprites/AnimatedSprite.hh"
@@ -17,7 +17,7 @@
 
 AnimatedSprite::AnimatedSprite() :
   _animations(new std::map<std::string, Animation *>),
-  _isPlaying(false), _current(""), _count(0), _loopPlay(true)
+  _isPlaying(false), _current(""), _count(0), _loopPlay(false), _old("")
 {
   _vertex[0].position = sf::Vector2f(0, 0);
   _vertex[1].position = sf::Vector2f(0, 1);
@@ -46,6 +46,7 @@ AnimatedSprite::AnimatedSprite(AnimatedSprite const &other) :
   _current = other._current;
   _count = other._count;
   _loopPlay = other._loopPlay;
+  _old = other._old;
 }
 
 AnimatedSprite		&AnimatedSprite::operator=(AnimatedSprite const &other)
@@ -62,6 +63,7 @@ AnimatedSprite		&AnimatedSprite::operator=(AnimatedSprite const &other)
       _isPlaying = other._isPlaying;
       _current = other._current;
       _loopPlay = other._loopPlay;
+      _old = other._old;
     }
   return (*this);
 }
@@ -92,9 +94,20 @@ void			AnimatedSprite::play(std::string const &name)
       std::cout << "Error : Animation [" << name << "] not found" << std::endl;
       return;
     }
-  _isPlaying = true;
-  _texture = (*_animations)[name]->getSpriteSheet();
-  _current = name;
+  if (_isPlaying)
+    {
+      if ((*_animations)[_current] && (*_animations)[_current]->isEnded())
+	{
+	  _texture = (*_animations)[name]->getSpriteSheet();
+	  _current = name;
+	}
+    }
+  else
+    {
+      _isPlaying = true;
+      _texture = (*_animations)[name]->getSpriteSheet();
+      _current = name;
+    }
 }
 
 void			AnimatedSprite::pause()
@@ -102,28 +115,32 @@ void			AnimatedSprite::pause()
   _isPlaying = false;
 }
 
-void			AnimatedSprite::update(sf::Clock &)
+void			AnimatedSprite::update(sf::Clock &clock)
 {
   
   sf::IntRect *frame;
-
+  
   if ((*_animations)[_current] && _isPlaying){
-    _count++;
-    if (_count % (*_animations)[_current]->getFrameLenght() >= (*_animations)[_current]->getFrameLenght() - 1)
+    if (_old != "" && _current != _old)
       {
-	// if (!(_count == (*_animations)[_current]->getFrameCount() && !_loopPlay))
-	//   {
-	    frame = (*_animations)[_current]->getFrame(_count / ((*_animations)[_current]->getFrameLenght()));
-	    _vertex[0].texCoords = sf::Vector2f(frame->left, frame->top);
-	    _vertex[1].texCoords = sf::Vector2f(frame->left, frame->top + frame->height);
-	    _vertex[2].texCoords = sf::Vector2f(frame->left + frame->width, frame->top + frame->height);
-	    _vertex[3].texCoords = sf::Vector2f(frame->left + frame->width, frame->top);
-	    _vertex[0].position = sf::Vector2f(0, 0);
-	    _vertex[1].position = sf::Vector2f(0, frame->height);
-	    _vertex[2].position = sf::Vector2f(frame->width, frame->height);
-	    _vertex[3].position = sf::Vector2f(frame->width, 0);
-	  // }
+    	(*_animations)[_old]->reset();
+    	(*_animations)[_current]->reset();
       }
+    if ((*_animations)[_current]->getFrameCount() == 1 ||
+    	(*_animations)[_current]->getCurrentFrame() + 1 != (*_animations)[_current]->getFrameCount())
+      {
+    	(*_animations)[_current]->update(clock);
+      }
+    frame = (*_animations)[_current]->getFrame();
+    _vertex[0].texCoords = sf::Vector2f(frame->left, frame->top);
+    _vertex[1].texCoords = sf::Vector2f(frame->left, frame->top + frame->height);
+    _vertex[2].texCoords = sf::Vector2f(frame->left + frame->width, frame->top + frame->height);
+    _vertex[3].texCoords = sf::Vector2f(frame->left + frame->width, frame->top);
+    _vertex[0].position = sf::Vector2f(0, 0);
+    _vertex[1].position = sf::Vector2f(0, frame->height);
+    _vertex[2].position = sf::Vector2f(frame->width, frame->height);
+    _vertex[3].position = sf::Vector2f(frame->width, 0);
+    _old = _current;
   }
 }
 

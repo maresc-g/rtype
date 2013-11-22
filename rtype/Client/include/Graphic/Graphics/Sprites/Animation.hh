@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Jun 19 11:02:47 2013 cyril jourdain
-// Last update Thu Nov 21 14:15:49 2013 cyril jourdain
+// Last update Fri Nov 22 11:47:15 2013 cyril jourdain
 //
 
 #ifndef				__ANIMATION_HH__
@@ -22,6 +22,8 @@ private:
   std::vector<sf::IntRect *>	*_spriteList;
   unsigned int			_frameCount;
   unsigned int			_frameLength;
+  unsigned int			_currentFrame;
+  unsigned int			_count;
 
 public:
   Animation();
@@ -34,12 +36,16 @@ public:
   void				setSpriteSheet(sf::Texture *texure);
   void				addFrame(sf::IntRect const &);
   void				setFrameLenght(unsigned int);
+  void				reset();
+  void				update(sf::Clock &);
+  bool				isEnded() const;
 
 public:
-  sf::IntRect			*getFrame(unsigned int) const;
+  sf::IntRect			*getFrame() const;
   sf::Texture			*getSpriteSheet() const;
   unsigned int			getFrameLenght() const;
   unsigned int			getFrameCount() const;
+  unsigned int			getCurrentFrame() const;
 };
 
 #endif

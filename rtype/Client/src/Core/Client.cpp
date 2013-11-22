@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Thu Nov 21 14:59:24 2013 guillaume marescaux
+// Last update Fri Nov 22 10:35:12 2013 cyril jourdain
 //
 
 #include <iostream>
@@ -245,7 +245,7 @@ void				Client::entity(Trame const &trame)
 	direction = (retY >= 0 ? "left_up" : "left_down");
       else
 	direction = "left";
-      std::cout << "DIRECTION = " << direction << std::endl;
+      // std::cout << "DIRECTION = " << direction << std::endl;
       map->moveEntity(id, x, y, direction);
     }
   else
@@ -544,7 +544,7 @@ void				Client::loop(void)
     {
       // std::cout << "CONTENT = ";
       // std::cout.write(tmp->getContent().c_str(), tmp->getContent().size());
-      std::cout << std::endl;
+      // std::cout << std::endl;
       msgType = _protocol->getMsg(tmp);
       // std::cout << "MSG_TYPE = " << static_cast<int>(msgType) << std::endl;
       (this->*(*_ptrs)[msgType])(*tmp);

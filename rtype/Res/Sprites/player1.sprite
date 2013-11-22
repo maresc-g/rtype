@@ -1,32 +1,26 @@
 [file=Res/Sprites/player1.gif]
 [size=3]
 [name=up]
-66 0 32 15
 99 0 32 15
 132 0 32 15
 [/]
 [name=left_up]
-66 0 32 15
 99 0 32 15
 132 0 32 15
 [/]
 [name=right_up]
-66 0 32 15
 99 0 32 15
 132 0 32 15
 [/]
 [name=down]
-66 0 32 15
 33 0 32 15
 0 0 32 15
 [/]
 [name=right_down]
-66 0 32 15
 33 0 32 15
 0 0 32 15
 [/]
 [name=left_down]
-66 0 32 15
 33 0 32 15
 0 0 32 15
 [/]

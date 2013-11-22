@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Jun 19 13:33:40 2013 cyril jourdain
-// Last update Thu Nov 21 14:05:20 2013 cyril jourdain
+// Last update Thu Nov 21 16:57:27 2013 cyril jourdain
 //
 
 #ifndef 		__ANIMATEDSPRITE_HH__
@@ -30,6 +30,7 @@ private:
   std::string		_current;
   unsigned int		_count;
   bool			_loopPlay;
+  std::string		_old;
 
 public:
   AnimatedSprite();

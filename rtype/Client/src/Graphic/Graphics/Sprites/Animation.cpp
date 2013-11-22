@@ -13,14 +13,14 @@
 
 Animation::Animation() :
   _texture(NULL), _spriteList(new std::vector<sf::IntRect *>),
-  _frameCount(0), _frameLength(20)
+  _frameCount(0), _frameLength(500000), _currentFrame(0), _count(0)
 {
   //  _texture = new sf::Texture();
 }
 
 Animation::Animation(Animation const &other) :
   _texture(other._texture), _spriteList(new std::vector<sf::IntRect *>),
-  _frameCount(other._frameCount), _frameLength(other._frameLength)
+  _frameCount(other._frameCount), _frameLength(other._frameLength), _count(other._count)
 {
   if (this != &other)
     {
@@ -40,6 +40,7 @@ Animation		&Animation::operator=(Animation const &other)
 	_spriteList->push_back(new sf::IntRect(*(*it)));
       _frameCount = other._frameCount;
       _frameLength = other._frameLength;
+      _count = other._count;
     }
   return (*this);
 }
@@ -75,10 +76,50 @@ void			Animation::setFrameLenght(unsigned int lenght)
   _frameLength = lenght;
 }
 
-sf::IntRect		*Animation::getFrame(unsigned int frame) const
+void			Animation::reset()
+{
+  _currentFrame = 0;
+}
+
+void			Animation::update(sf::Clock &clock)
+{
+  static sf::Clock inClock;
+  static bool inited = false;
+  unsigned int		time;
+
+  if (!inited)
+    {
+      inClock.restart();
+      inited = true;
+    }
+  time = inClock.getElapsedTime().asMicroseconds();
+  if (time >= _frameLength)
+    {
+      if (_currentFrame + 1 != _frameCount)
+	_currentFrame++;
+      // std::cout << "new frame = " << _currentFrame  << std::endl;
+      //_currentFrame %= _frameCount;
+      // std::cout << "Current frame : " << _currentFrame << std::endl;
+      // std::cout << "Frame Count  : " << _frameCount << std::endl;
+      inClock.restart();
+    } 
+}
+
+bool			Animation::isEnded() const
+{
+  if (_currentFrame + 1 == _frameCount)
+    return true;
+  return false;
+}
+
+sf::IntRect		*Animation::getFrame() const
 {
   if (_frameCount > 0)
-    return ((*_spriteList)[frame % _frameCount]);
+    {
+      //std::cout << "getFrame ID:" << frame % _frameCount << std::endl;
+      // std::cout << "CURRENT FRAME=" << _currentFrame << std::endl;
+      return ((*_spriteList)[_currentFrame]);
+    }
   return (NULL);
 }
 
@@ -94,5 +135,10 @@ unsigned int		Animation::getFrameLenght() const
 
 unsigned int		Animation::getFrameCount() const
 {
-  return (_frameLength);
+  return (_frameCount);
+}
+
+unsigned int		Animation::getCurrentFrame() const
+{
+  return (_currentFrame);
 }

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:07:33 2013 guillaume marescaux
-// Last update Thu Nov 21 13:05:14 2013 guillaume marescaux
+// Last update Thu Nov 21 18:22:03 2013 cyril jourdain
 //
 
 #ifndef 		__ENTITY_HH__
@@ -27,7 +27,7 @@ private:
 public:
 
   // Ctor / Dtor
-  Entity(int const id = 0, int const x = 0, int const y = 0, std::string const &type = "", std::string const &direction = "LEFT");
+  Entity(int const id = 0, int const x = 0, int const y = 0, std::string const &type = "", std::string const &direction = "left");
   Entity(Entity const &other);
   Entity		&operator=(Entity const &other);
   virtual ~Entity();

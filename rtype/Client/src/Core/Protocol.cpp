@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:39:28 2013 guillaume marescaux
-// Last update Thu Nov 21 13:28:27 2013 guillaume marescaux
+// Last update Thu Nov 21 15:25:57 2013 cyril jourdain
 //
 
 #include			<sstream>
@@ -59,9 +59,7 @@ Protocol::~Protocol()
 
 void				Protocol::protocolMsg(eProtocol proto, int const id, void *data)
 {
-  std::cout << "a" << std::endl;  
   (this->*(*_ptrs)[proto])(id, data);
-  std::cout << "b" << std::endl;  
   _trameId++;
 }
 
@@ -96,7 +94,7 @@ void				Protocol::initialize(int const id, void *)
   Trame				*trame = new Trame(id, _trameId, "UDP", "INITIALIZE", true);
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
 
-  std::cout << "TRAME = " << trame->toString() << std::endl;
+  // std::cout << "TRAME = " << trame->toString() << std::endl;
   manager->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
 }
 
@@ -137,7 +135,7 @@ void				Protocol::action(int const id, void *data)
   Trame				*trame = new Trame(id, _trameId, "UDP", tmp, true);
   CircularBufferManager		*manager = CircularBufferManager::getInstance();
 
-  std::cout << "|" << *(reinterpret_cast<std::string *>(data)) << "|" << std::endl;
+  // std::cout << "|" << *(reinterpret_cast<std::string *>(data)) << "|" << std::endl;
   manager->pushTrame(trame, CircularBufferManager::WRITE_BUFFER);
 }
 
