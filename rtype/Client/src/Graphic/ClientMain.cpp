@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Fri Nov 22 12:43:11 2013 cyril jourdain
+// Last update Fri Nov 22 13:40:05 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -119,9 +119,9 @@ void			ClientMain::joinGame(void *)
       while (_state->getVar() == WAIT_GAME);
       if (_state->getVar() == PLAYING)
 	{
-	  _manager->setActiveWindow(GAME);
 	  _manager->getWindowById(LOBBY)->setVisibility(false);
 	  _manager->setFPS(60);
+	  _manager->setActiveWindow(GAME);
 	}
       else
 	{
@@ -167,7 +167,6 @@ void			ClientMain::backToLogin(void *)
 
 void			ClientMain::refreshGameList(void *)
 {
-  _client->getProto()->getMsg(new Trame(0, 0, "UDP", "TEST"));
   _client->getProto()->protocolMsg(Protocol::GET_GAMELIST, _client->getId(), NULL);
   *_state = GAMELIST;
   while (_state->getVar() == GAMELIST)

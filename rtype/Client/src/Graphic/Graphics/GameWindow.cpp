@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:22:54 2013 cyril jourdain
-// Last update Wed Nov 20 15:52:10 2013 cyril jourdain
+// Last update Fri Nov 22 13:20:47 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameWindow.hh"
@@ -27,6 +27,7 @@ void			GameWindow::init()
   _score = new SFLabel();
   _lives = new std::vector<SFImageBox*>;
   addWidget(_gameView);
+
   // addWidget(_score);
   // addWidget(_HUDBar);
 
