@@ -5,11 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-<<<<<<< HEAD
-// Last update Fri Nov 22 11:55:01 2013 guillaume marescaux
-=======
-// Last update Fri Nov 22 10:35:12 2013 cyril jourdain
->>>>>>> ad67b073dd45e758f497755beb470922ef54e26e
+// Last update Fri Nov 22 12:37:21 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -249,10 +245,6 @@ void				Client::entity(Trame const &trame)
 	direction = (retY >= 0 ? "left_up" : "left_down");
       else
 	direction = "left";
-<<<<<<< HEAD
-=======
-      // std::cout << "DIRECTION = " << direction << std::endl;
->>>>>>> ad67b073dd45e758f497755beb470922ef54e26e
       map->moveEntity(id, x, y, direction);
     }
   else
@@ -568,7 +560,6 @@ void				Client::loop(void)
     {
       // std::cout << "CONTENT = ";
       // std::cout.write(tmp->getContent().c_str(), tmp->getContent().size());
-<<<<<<< HEAD
       //std::cout << std::endl;
       if (tmp->getContent().find("|") != std::string::npos)
 	{
@@ -588,12 +579,6 @@ void				Client::loop(void)
 	  (this->*(*_ptrs)[msgType])(*tmp);
 	}
       delete tmp;
-=======
-      // std::cout << std::endl;
-      msgType = _protocol->getMsg(tmp);
-      // std::cout << "MSG_TYPE = " << static_cast<int>(msgType) << std::endl;
-      (this->*(*_ptrs)[msgType])(*tmp);
->>>>>>> ad67b073dd45e758f497755beb470922ef54e26e
     }
   actionStr = (std::string)(*_action);
   if (_state->getVar() == PLAYING && !_action->empty())

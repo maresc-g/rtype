@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:16:57 2013 laurent ansel
-// Last update Fri Nov 22 11:09:11 2013 guillaume marescaux
+// Last update Fri Nov 22 12:36:11 2013 guillaume marescaux
 //
 
 #include			<sstream>
@@ -31,6 +31,7 @@ Header				&Header::operator=(Header const &other)
       _trameId = other._trameId;
       _proto = other._proto;
     }
+  return (*this);
 }
 
 Header::~Header()

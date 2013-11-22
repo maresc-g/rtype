@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:26 2013 guillaume marescaux
-// Last update Wed Nov 20 12:26:48 2013 guillaume marescaux
+// Last update Fri Nov 22 12:39:15 2013 guillaume marescaux
 //
 
 #ifndef 		__CLIENT_HH__
@@ -66,6 +66,7 @@ public:
   void			read(long const sec, long const usec, bool timeout);
   void			exec(void);
   void			disconnect(void);
+  std::list<Trame *>	*splitCommand(Trame const &trame);
 
   // Getters / Setters
   void			setConnectInfo(ConnectInfo *info);
