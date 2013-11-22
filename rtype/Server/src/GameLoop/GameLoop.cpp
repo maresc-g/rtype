@@ -5,7 +5,11 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
+<<<<<<< HEAD
 // Last update Fri Nov 22 14:03:47 2013 laurent ansel
+=======
+// Last update Fri Nov 22 13:54:03 2013 antoine maitre
+>>>>>>> 9d2407d1049a32e4c761073e2ebe226adbf4861c
 //
 
 #include		<time.h>
@@ -69,6 +73,7 @@ void			GameLoop::loop()
   while (!this->_levelManag->getEndGame() && !this->_criticalError)
     {
       SuperVaisseau = false;
+      // this->spawnWalls();
       if (this->checkActiveClient() == false)
 	break;
       time = clock();

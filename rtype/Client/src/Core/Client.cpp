@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Fri Nov 22 13:34:57 2013 guillaume marescaux
+// Last update Fri Nov 22 13:57:14 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -189,7 +189,7 @@ void				Client::map(Trame const &trame)
       std::getline(*tokenStream, vars["type"], ';');
       std::getline(*tokenStream, vars["x"], ';');
       std::getline(*tokenStream, vars["y"], ';');
-      map->addDecor(new Entity(std::stoi(vars["id"]), std::stoi(vars["x"]), std::stoi(vars["y"]), vars["type"]));
+      map->addEntity(new Entity(std::stoi(vars["id"]), std::stoi(vars["x"]), std::stoi(vars["y"]), vars["type"]));
       delete tokenStream;
     }  
 }
