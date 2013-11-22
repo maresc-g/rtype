@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:22:47 2013 guillaume marescaux
-// Last update Fri Nov 22 13:01:00 2013 guillaume marescaux
+// Last update Fri Nov 22 13:56:37 2013 guillaume marescaux
 //
 
 #include			"Map/Map.hh"
@@ -13,7 +13,7 @@
 //----------------------------------BEGIN CTOR / DTOR---------------------------------------
 
 Map::Map():
-  _map(new std::list<Entity *>), _entities(new std::list<Entity *>), _mutex(new Mutex), _scroll(0)
+  _entities(new std::list<Entity *>), _mutex(new Mutex), _scroll(0)
 {
   _mutex->initialize();
 }
@@ -21,11 +21,6 @@ Map::Map():
 Map::~Map()
 {
   _mutex->enter();
-  for (auto it = _map->begin() ; it != _map->end() ; it++)
-    {
-      delete (*it);
-    }
-  delete _map;
   for (auto it = _entities->begin() ; it != _entities->end() ; it++)
     {
       delete (*it);
@@ -66,16 +61,6 @@ void				Map::addEntity(Entity *entity)
     }
 }
 
-void				Map::addDecor(Entity *entity)
-{
-  if (entity)
-    {
-      _mutex->enter();
-      _map->push_back(entity);
-      _mutex->leave();
-    }
-}
-
 void				Map::removeEntity(int const id)
 {
   _mutex->enter();
@@ -94,15 +79,11 @@ void				Map::removeEntity(int const id)
 void				Map::clear()
 {
   _mutex->enter();
-  for (auto it = _map->begin() ; it != _map->end() ; it++)
-    {
-      delete *it;
-    }
   for (auto it = _entities->begin() ; it != _entities->end() ; it++)
     {
       delete *it;
     }
-  _map->clear();
+  _entities->clear();
   _mutex->leave();
 }
 
@@ -147,16 +128,6 @@ unsigned int			Map::getScroll(void) const
 
   _mutex->enter();
   tmp = _scroll;
-  _mutex->leave();
-  return (tmp);
-}
-
-std::list<Entity *>		*Map::getMap(void) const
-{
-  std::list<Entity *>		*tmp;
-
-  _mutex->enter();
-  tmp = this->copyList(*_map);
   _mutex->leave();
   return (tmp);
 }

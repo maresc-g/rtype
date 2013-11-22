@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:30:57 2013 guillaume marescaux
-// Last update Fri Nov 22 12:57:54 2013 guillaume marescaux
+// Last update Fri Nov 22 13:56:11 2013 guillaume marescaux
 //
 
 #ifndef 		__MAP_HH__
@@ -23,7 +23,6 @@ class			Map : public Singleton<Map>
 private:
 
   // Attributes
-  std::list<Entity *>	*_map;
   std::list<Entity *>	*_entities;
   Mutex			*_mutex;
   unsigned int		_scroll;
@@ -44,7 +43,6 @@ public:
   void			removeEntity(int const id);
   void			clear();
   bool			exists(int const id) const;
-  void			addDecor(Entity *entity);
 
 private:
   std::list<Entity *>	*copyList(std::list<Entity *> const &toCopy) const;
@@ -53,7 +51,6 @@ public:
   // Getters / Setters
   void			setScroll(unsigned int const scroll);
   unsigned int		getScroll(void) const;
-  std::list<Entity *>		*getMap(void) const;
   std::list<Entity *>		*getEntities(void) const;
   Entity const			*getEntityById(int const id) const;
 };
