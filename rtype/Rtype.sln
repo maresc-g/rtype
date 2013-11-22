@@ -5,6 +5,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "rtype-client.vcxp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "rtype-server.vcxproj", "{582CB1C6-FED1-4688-AEC5-BF535E15179B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Donkey", "Donkey.vcxproj", "{5E155B9F-5367-47F3-8F38-1A797CB91EFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -19,6 +21,10 @@ Global
 		{582CB1C6-FED1-4688-AEC5-BF535E15179B}.Debug|Win32.Build.0 = Debug|Win32
 		{582CB1C6-FED1-4688-AEC5-BF535E15179B}.Release|Win32.ActiveCfg = Release|Win32
 		{582CB1C6-FED1-4688-AEC5-BF535E15179B}.Release|Win32.Build.0 = Release|Win32
+		{5E155B9F-5367-47F3-8F38-1A797CB91EFD}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5E155B9F-5367-47F3-8F38-1A797CB91EFD}.Debug|Win32.Build.0 = Debug|Win32
+		{5E155B9F-5367-47F3-8F38-1A797CB91EFD}.Release|Win32.ActiveCfg = Release|Win32
+		{5E155B9F-5367-47F3-8F38-1A797CB91EFD}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
