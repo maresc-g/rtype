@@ -44,7 +44,20 @@ void			SFRessourcesManager::loadDefaultRessources()
   Images->loadImage(GAME_HUD_LIVES_RES, GAME_HUD_LIVES);
   Fonts->loadFont(ARIAL_FONT_RES, ARIAL_FONT);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_PLAYER1, SPRITE_PLAYER1_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_PLAYER2, SPRITE_PLAYER2_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_PLAYER3, SPRITE_PLAYER3_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_PLAYER4, SPRITE_PLAYER4_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_ROCKET, SPRITE_ROCKET_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLD1, SPRITE_WALLD1_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLD2, SPRITE_WALLD2_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLD3, SPRITE_WALLD3_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLD4, SPRITE_WALLD4_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLD5, SPRITE_WALLD5_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU1, SPRITE_WALLU1_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU2, SPRITE_WALLU2_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU3, SPRITE_WALLU3_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU4, SPRITE_WALLU4_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU5, SPRITE_WALLU5_CONF);
 }
 
 void			SFRessourcesManager::addSprite(std::string const &name, std::string const &path)
