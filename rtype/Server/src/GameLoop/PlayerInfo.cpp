@@ -5,15 +5,18 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Thu Nov 21 16:53:12 2013 laurent ansel
+// Last update Fri Nov 22 10:53:19 2013 laurent ansel
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
 #include		"ObjectPoolManager/ObjectPoolManager.hh"
 #include		"GameLoop/PlayerInfo.hh"
 
-PlayerInfo::PlayerInfo(ClientInfo *info, int num)
-  : _info(info), _num(num), _inGame(true)
+PlayerInfo::PlayerInfo(ClientInfo *info, int num):
+  _info(info),
+  _num(num),
+  _inGame(true),
+  _msg(new std::list<Trame *>)
 {
   // std::string path = "Res/Sprites/player.conf";
   // _player = new Player(20, 40, path, 1, true);
@@ -28,7 +31,10 @@ PlayerInfo::PlayerInfo(ClientInfo *info, int num)
 
 PlayerInfo::~PlayerInfo()
 {
-
+  for (auto it = this->_msg->begin() ; it != this->_msg->end() ; ++it)
+    if ((*it))
+      delete (*it);
+  delete this->_msg;;
 }
 
 AEntity		*PlayerInfo::getPlayer() const
@@ -129,4 +135,29 @@ void		PlayerInfo::setIG(bool b)
 void		PlayerInfo::quitGame()
 {
   this->_info->quitGame();
+}
+
+void		PlayerInfo::pushMsg(std::string const &proto, std::string const &content)
+{
+  Trame		*trame = new Trame(this->_info->getId(), this->_info->getTrameId(), proto, content);
+
+  if (!this->_msg->empty() && proto == this->_msg->back()->getHeader().getProto())
+    this->_msg->back()->appendContent("|" + content);
+  else
+    {
+      if (!this->_msg->empty())
+	this->_msg->back()->appendContent(END_TRAME);
+      this->_msg->push_back(trame);
+    }
+}
+
+void		PlayerInfo::sendMsg()
+{
+  for (auto it = this->_msg->begin() ; it != this->_msg->end() ; ++it)
+    {
+      if (!(*it)->isSetEndTrame())
+	(*it)->appendContent(END_TRAME);
+      this->_info->pushWriteTrame((*it)->getHeader().getProto(), (*it));
+    }
+  this->_msg->clear();
 }

@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:22:19 2013 antoine maitre
-// Last update Thu Nov 21 16:53:25 2013 laurent ansel
+// Last update Fri Nov 22 10:19:28 2013 laurent ansel
 //
 
 #ifndef		__PLAYERINFO_HH__
@@ -24,6 +24,7 @@ private:
   ClientInfo	*_info;
   int		_num;
   bool		_inGame;
+  std::list<Trame *>	*_msg;
 public:
   PlayerInfo(ClientInfo *, int num);
   ~PlayerInfo();
@@ -36,6 +37,8 @@ public:
   bool		getIG() const;
   void		setIG(bool b);
   void		quitGame();
+  void		pushMsg(std::string const &proto, std::string const &content);
+  void		sendMsg();
 };
 
 #endif

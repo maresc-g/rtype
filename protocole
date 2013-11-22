@@ -26,7 +26,7 @@ server -> CONFSPRITE %name;%content TCP
 client -> "ACTION %action" UDP
 server -> "ENTITY %id;%type;%x;%y" UDP
 server -> "SCROLL %pos" UDP
-server -> "REMOVEENTITY %id" TCP
+server -> "REMOVEENTITY %id" UDP
 server -> "DEAD" TCP
 
 server -> LEVELUP %lvl TCP

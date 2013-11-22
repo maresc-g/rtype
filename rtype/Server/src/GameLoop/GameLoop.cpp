@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Fri Nov 22 00:22:43 2013 laurent ansel
+// Last update Fri Nov 22 10:53:31 2013 laurent ansel
 //
 
 #include		"GameLoop/GameLoopManager.hh"
@@ -72,7 +72,7 @@ void			GameLoop::loop()
       this->_mutex->enter();
 
       /*	Méthode permettant d'incrémenter pixel par pixel le déplacement des entités	*/
-      std::cout << "SIZE = " << this->_levelManag->getPlayers().size() << std::endl;
+      //      std::cout << "SIZE = " << this->_levelManag->getPlayers().size() << std::endl;
       for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
       	if ((*it)->moveToPixel())
 	  this->sendEntity((*it));
@@ -105,6 +105,8 @@ void			GameLoop::loop()
 	  for (double i = 0 ; i <= 0.03 - ((double)time / CLOCKS_PER_SEC) ; i += 0.03)
 	    scrolling();
 	  this->sendScroll(this->_levelManag->getPosAdv());
+	  for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
+	    (*it_bis)->sendMsg();
 #ifndef _WIN32
 	  usleep(((double)0.03 - ((double)time / CLOCKS_PER_SEC)) * 1000000);
 #else
@@ -139,7 +141,7 @@ void			GameLoop::sendDeadEntity(unsigned int id)
   std::ostringstream	oss;
 
   oss << "REMOVEENTITY " << id;
-  this->sendClient("TCP", oss.str());
+  this->sendClient("UDP", oss.str());
 }
 
 void			GameLoop::sendScroll(unsigned int scroll)
@@ -153,7 +155,8 @@ void			GameLoop::sendScroll(unsigned int scroll)
 void			GameLoop::sendClient(const std::string &protocol, const std::string &trame)
 {
   for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
-    (*it_bis)->sendTrame(protocol, trame);
+       (*it_bis)->pushMsg(protocol, trame);
+    // (*it_bis)->sendTrame(protocol, trame);
 }
 
 void			GameLoop::sendScreen(std::list<AEntity *> &list)
@@ -193,7 +196,7 @@ bool			GameLoop::newPlayer(ClientInfo *newClient)
 
 void			GameLoop::playerDeath(PlayerInfo *deadPlayer)
 {
-  deadPlayer->sendTrame("TCP", "DEAD");
+  deadPlayer->pushMsg("TCP", "DEAD");
 }
 
 void			GameLoop::spawnMob()
