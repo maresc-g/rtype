@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Nov  6 16:51:50 2013 laurent ansel
-// Last update Thu Nov 21 15:46:36 2013 laurent ansel
+// Last update Thu Nov 21 22:42:21 2013 laurent ansel
 //
 
 #ifndef 			__OBJECTPOOLUPDATER_HH__

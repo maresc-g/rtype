@@ -5,13 +5,13 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:01:50 2013 laurent ansel
-// Last update Thu Nov 21 14:51:04 2013 laurent ansel
+// Last update Fri Nov 22 00:07:36 2013 laurent ansel
 //
 
 #ifndef 			__SERVER_HH__
 # define 			__SERVER_HH__
 
-#define DEBUG_SERVER
+//#define DEBUG_SERVER
 
 #include			<map>
 #include			<string>

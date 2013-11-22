@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Thu Nov 21 21:43:31 2013 antoine maitre
+// Last update Fri Nov 22 00:22:43 2013 laurent ansel
 //
 
 #include		"GameLoop/GameLoopManager.hh"
@@ -72,9 +72,10 @@ void			GameLoop::loop()
       this->_mutex->enter();
 
       /*	Méthode permettant d'incrémenter pixel par pixel le déplacement des entités	*/
+      std::cout << "SIZE = " << this->_levelManag->getPlayers().size() << std::endl;
       for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
       	if ((*it)->moveToPixel())
-      	  this->sendEntity((*it));
+	  this->sendEntity((*it));
       this->_mutex->leave();
       for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
 	if ((*it)->moveToPixel())
@@ -107,7 +108,7 @@ void			GameLoop::loop()
 #ifndef _WIN32
 	  usleep(((double)0.03 - ((double)time / CLOCKS_PER_SEC)) * 1000000);
 #else
-          Sleep((1000 / this->_rate - ((float)time / CLOCKS_PER_SEC)) / 1000);
+          Sleep(((double)0.03 - ((double)time / CLOCKS_PER_SEC)) * 1000);
 #endif
 	  action -= ((double)0.03 - ((double)time / CLOCKS_PER_SEC)) * CLOCKS_PER_SEC;
 	}
@@ -151,7 +152,6 @@ void			GameLoop::sendScroll(unsigned int scroll)
 
 void			GameLoop::sendClient(const std::string &protocol, const std::string &trame)
 {
-  std::cout << "CLIENT SIZE " << this->_clients->size() << std::endl;
   for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
     (*it_bis)->sendTrame(protocol, trame);
 }
@@ -173,7 +173,6 @@ void			GameLoop::sendEntity(AEntity *entity)
 										   (pos = entity->getPath().find(EXTENSION_SPRITE2)) != std::string::npos))
     oss << entity->getPath().substr(path.size() + 1, pos - (path.size() + 1));
   oss << ";" << entity->getPosX() << ";" << entity->getPosY();
-  std::cout << oss.str() << std::endl;
   sendClient("UDP", oss.str());
 }
 
@@ -223,6 +222,8 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
 	{
 	  this->sendDeadEntity((*it)->getId());
 	  it = enemies.erase(it);
+	  if (enemies.empty())
+	    break;
 	  if (it != enemies.begin())
 	    --it;
 	}
@@ -243,6 +244,10 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
 	{
 	  this->sendDeadEntity((*it)->getId());
 	  it = players.erase(it);
+	  if (players.empty())
+	    break;
+	  if (it != players.begin())
+	    --it;
 	}
     }
 }

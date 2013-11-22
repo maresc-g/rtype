@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Thu Nov 21 21:38:53 2013 antoine maitre
+// Last update Fri Nov 22 00:23:29 2013 laurent ansel
 //
 
 #include		<iostream>
@@ -218,6 +218,7 @@ bool			AEntity::moveToPixel()
     {
       if (this->_moveX)
 	{
+	  std::cout << _moveX << "\t" << _moveY << std::endl;
 	  if (this->_moveX > 0)
 	    {
 	      this->_pixelX = this->_pixelX + 8;

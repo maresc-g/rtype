@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:26:32 2013 laurent ansel
-// Last update Tue Nov 19 11:09:18 2013 laurent ansel
+// Last update Thu Nov 21 22:32:57 2013 laurent ansel
 //
 
 #ifndef _WIN32
@@ -77,7 +77,12 @@ int			UnixSocketClient::getSocket() const
 
 void			UnixSocketClient::setAddr(struct sockaddr_in *addr)
 {
-  this->_addr = addr;
+  if (addr)
+    {
+      this->_addr->sin_family = addr->sin_family;
+      this->_addr->sin_port = addr->sin_port;
+      this->_addr->sin_addr.s_addr = addr->sin_addr.s_addr;
+    }
 }
 
 struct sockaddr_in	*UnixSocketClient::getAddr() const
