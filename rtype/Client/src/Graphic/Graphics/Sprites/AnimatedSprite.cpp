@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 //
 // Started on  Wed Jun 19 13:45:16 2013 cyril jourdain
-// Last update Fri Nov 22 11:47:37 2013 cyril jourdain
+// Last update Fri Nov 22 16:14:16 2013 cyril jourdain
 //
 
 #include	"Graphic/Graphics/Sprites/AnimatedSprite.hh"

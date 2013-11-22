@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 13:31:55 2013 cyril jourdain
-// Last update Wed Nov  6 14:12:58 2013 cyril jourdain
+// Last update Fri Nov 22 15:18:51 2013 cyril jourdain
 //
 
 #include		"Graphic/SFGraphics/Ressources/SFImageLoader.hh"
@@ -33,7 +33,6 @@ void			SFImageLoader::loadImage(std::string const &path,
   if (!(_images)[name])
     {
       (_images)[name] = new sf::Texture();
-	  std::cout << path << std::endl;
       ((_images)[name])->loadFromFile(path);
     }
   else
