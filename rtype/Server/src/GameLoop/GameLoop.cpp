@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Fri Nov 22 13:16:30 2013 antoine maitre
+// Last update Fri Nov 22 13:26:15 2013 antoine maitre
 //
 
 #include		<time.h>
@@ -198,8 +198,8 @@ bool			GameLoop::newPlayer(ClientInfo *newClient)
     for (auto it = _clients->begin(); it != _clients->end() && i == (*it)->getNum(); ++it)
       i++;
   this->_clients->push_back(new PlayerInfo(newClient, i));
-  this->_clients->front()->getPlayer()->move(this->_levelManag->getAdv() + 20, 40);
-  this->_levelManag->getPlayers().push_back(this->_clients->front()->getPlayer());
+  this->_clients->back()->getPlayer()->movePos(this->_levelManag->getPosAdv() + 20, 40);
+  this->_levelManag->getPlayers().push_back(this->_clients->back()->getPlayer());
   this->_mutex->leave();
   return (true);
 }
