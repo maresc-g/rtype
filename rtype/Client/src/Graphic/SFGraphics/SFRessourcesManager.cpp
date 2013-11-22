@@ -47,6 +47,7 @@ void			SFRessourcesManager::loadDefaultRessources()
   SFRessourcesManager::getInstance()->addSprite(SPRITE_PLAYER2, SPRITE_PLAYER2_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_PLAYER3, SPRITE_PLAYER3_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_PLAYER4, SPRITE_PLAYER4_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_MOB1, SPRITE_MOB1_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_ROCKET, SPRITE_ROCKET_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLD1, SPRITE_WALLD1_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLD2, SPRITE_WALLD2_CONF);
