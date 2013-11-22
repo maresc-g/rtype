@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Fri Nov 22 17:18:18 2013 antoine maitre
+// Last update Fri Nov 22 22:36:48 2013 antoine maitre
 //
 
 #include		<time.h>
@@ -187,10 +187,12 @@ void			GameLoop::loop()
     sendClient("TCP", "ENDGAME WIN");
   else if (this->_criticalError == false)
     sendClient("TCP", "ENDGAME LOOSE");
-  quitClients();
+  for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
+    (*it_bis)->sendMsg();  quitClients();
   this->_mutex->leave();
   if (!this->_criticalError)
     GameLoopManager::getInstance()->quitGame(this->_id);
+  std::cout << "YOLO SORTIS DE GAME" << std::endl;
 }
 
 void			GameLoop::sendDeadEntity(unsigned int id)
