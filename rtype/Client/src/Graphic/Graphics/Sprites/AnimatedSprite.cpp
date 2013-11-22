@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 //
 // Started on  Wed Jun 19 13:45:16 2013 cyril jourdain
-// Last update Fri Nov 22 15:33:55 2013 cyril jourdain
+// Last update Fri Nov 22 16:14:16 2013 cyril jourdain
 //
 
 #include	"Graphic/Graphics/Sprites/AnimatedSprite.hh"
@@ -121,16 +121,16 @@ void			AnimatedSprite::update(sf::Clock &clock)
   sf::IntRect *frame;
   
   if ((*_animations)[_current] && _isPlaying){
-    // if (_old != "" && _current != _old)
-    //   {
-    // 	(*_animations)[_old]->reset();
-    // 	(*_animations)[_current]->reset();
-    //   }
-    // if ((*_animations)[_current]->getFrameCount() == 1 ||
-    // 	(*_animations)[_current]->getCurrentFrame() + 1 != (*_animations)[_current]->getFrameCount())
-    //   {
-    // 	(*_animations)[_current]->update(clock);
-    //   }
+    if (_old != "" && _current != _old)
+      {
+    	(*_animations)[_old]->reset();
+    	(*_animations)[_current]->reset();
+      }
+    if ((*_animations)[_current]->getFrameCount() == 1 ||
+    	(*_animations)[_current]->getCurrentFrame() + 1 != (*_animations)[_current]->getFrameCount())
+      {
+    	(*_animations)[_current]->update(clock);
+      }
     frame = (*_animations)[_current]->getFrame();
     _vertex[0].texCoords = sf::Vector2f(frame->left, frame->top);
     _vertex[1].texCoords = sf::Vector2f(frame->left, frame->top + frame->height);
@@ -140,7 +140,7 @@ void			AnimatedSprite::update(sf::Clock &clock)
     _vertex[1].position = sf::Vector2f(0, frame->height);
     _vertex[2].position = sf::Vector2f(frame->width, frame->height);
     _vertex[3].position = sf::Vector2f(frame->width, 0);
-    // _old = _current;
+    _old = _current;
   }
 }
 
