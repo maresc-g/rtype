@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:18:05 2013 cyril jourdain
-// Last update Thu Nov 21 12:36:29 2013 cyril jourdain
+// Last update Fri Nov 22 13:40:27 2013 cyril jourdain
 //
 
 #include	<iostream>
@@ -38,7 +38,7 @@ SFWidget	*WindowManager::getFocused() const
 void		WindowManager::draw() const
 {
   if (_active)
-    _window->setView(*(_active->getView()));
+      _window->setView(*(_active->getView()));
   if (_windowList && !_windowList->empty())
     {
       for (auto it = _windowList->begin(); it != _windowList->end(); ++it)
@@ -279,7 +279,10 @@ void		WindowManager::update()
   // 	}
   //   }
   if (_active)
-    _active->update();
+    {
+      _active->update();
+      std::cout << "TOTO" << std::endl;
+    }
 }
 
 void		WindowManager::exec()
@@ -367,7 +370,6 @@ void				WindowManager::removeWindowCallback(void *param)
     {
       if (it->second->getOnCloseCallback())
 	{
-	  std::cout << "HERE" << std::endl;
 	  it->second->getOnCloseCallback()->_function(it->second->getOnCloseCallback()->_param);
 	  //std::cout << it->second->getOnCloseCallback()->_function << std::endl;
 	}
@@ -397,4 +399,9 @@ unsigned int			WindowManager::getLastWindowIndex() const
 void				WindowManager::setFPS(unsigned short const fps)
 {
   _fps = fps;
+}
+
+SFWindow			*WindowManager::getActiveWindow() const
+{
+  return _active;
 }
