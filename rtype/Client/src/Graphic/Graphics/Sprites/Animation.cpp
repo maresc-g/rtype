@@ -81,7 +81,7 @@ void			Animation::reset()
   _currentFrame = 0;
 }
 
-void			Animation::update(sf::Clock &clock)
+void			Animation::update(sf::Clock &)
 {
   static sf::Clock inClock;
   static bool inited = false;
