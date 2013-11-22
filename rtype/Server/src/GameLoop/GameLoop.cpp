@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Fri Nov 22 13:26:15 2013 antoine maitre
+// Last update Fri Nov 22 13:31:12 2013 antoine maitre
 //
 
 #include		<time.h>
@@ -166,7 +166,7 @@ void			GameLoop::sendClient(const std::string &protocol, const std::string &tram
 {
   for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
        (*it_bis)->pushMsg(protocol, trame);
-    // (*it_bis)->sendTrame(protocol, trame);
+  //    (*it_bis)->sendTrame(protocol, trame);
 }
 
 void			GameLoop::sendScreen(std::list<AEntity *> &list)

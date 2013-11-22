@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Nov  6 16:51:50 2013 laurent ansel
-// Last update Thu Nov 21 22:42:21 2013 laurent ansel
+// Last update Fri Nov 22 13:20:11 2013 laurent ansel
 //
 
 #ifndef 			__OBJECTPOOLUPDATER_HH__
@@ -18,7 +18,7 @@
 #include			"Thread/Thread.hpp"
 #include			"Mutex/Mutex.hpp"
 
-#define	MAX_OBJECT		100
+#define	MAX_OBJECT		5000
 
 class				ObjectPoolUpdater : public Thread
 {
