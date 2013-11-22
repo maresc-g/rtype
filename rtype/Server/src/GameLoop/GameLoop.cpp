@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Fri Nov 22 13:05:37 2013 antoine maitre
+// Last update Fri Nov 22 13:16:30 2013 antoine maitre
 //
 
 #include		"GameLoop/GameLoopManager.hh"
@@ -62,10 +62,12 @@ void			GameLoop::loop()
   clock_t	time = 0;
   clock_t	end = 0;
   clock_t	action = 0;
+  bool			SuperVaisseau;
 
   action = clock();
   while (!this->_levelManag->getEndGame() && !this->_criticalError)
     {
+      SuperVaisseau = false;
       if (this->checkActiveClient() == false)
 	break;
       time = clock();
@@ -75,15 +77,18 @@ void			GameLoop::loop()
       this->destroyDeadEntities(this->_levelManag->getEnemies(),
       				this->_levelManag->getPlayers());
 
-      /*	Méthode permettant d'incrémenter pixel par pixel le déplacement des entités	*/
-      //      std::cout << "SIZE = " << this->_levelManag->getPlayers().size() << std::endl;
-      // for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
-      // 	if ((*it)->moveToPixel())
-      // 	  this->sendEntity((*it));
-      // this->_mutex->leave();
-      // for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
-      // 	if ((*it)->moveToPixel())
-      // 	  this->sendEntity((*it));
+      /*      	Méthode permettant d'incrémenter pixel par pixel le déplacement des entités	*/
+      //           std::cout << "SIZE = " << this->_levelManag->getPlayers().size() << std::endl;
+      for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
+      	if ((*it)->moveToPixel())
+	  {
+	    this->sendEntity((*it));
+	    SuperVaisseau = true;
+	  }
+      this->_mutex->leave();
+      for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
+      	if ((*it)->moveToPixel())
+      	  this->sendEntity((*it));
 
       this->_mutex->enter();
 
@@ -119,10 +124,14 @@ void			GameLoop::loop()
       	{
 	  this->action();
 	  action = clock();
-      	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
-      	    this->sendEntity((*it));
-	  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
-	    this->sendEntity((*it));
+      	  // for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
+      	  //   this->sendEntity((*it));
+	  if (SuperVaisseau == false)
+	    for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
+	      {
+		if ((*it)->getType() == AEntity::PLAYER)
+		  this->sendEntity((*it));
+	      }
       	}
       this->_mutex->leave();
     }
