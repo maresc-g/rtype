@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Thu Nov 21 14:12:40 2013 antoine maitre
+// Last update Fri Nov 22 11:32:04 2013 arthur rucquois
 //
 
 #ifndef 		__AENTITY_HH__
@@ -24,6 +24,7 @@ public:
       ROCKET,
       PLAYER,
       MOB,
+      WALL,
       NOTHING
     };
 

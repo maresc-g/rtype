@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Nov  5 10:14:28 2013 antoine maitre
-// Last update Mon Nov 18 14:53:11 2013 antoine maitre
+// Last update Thu Nov 21 12:58:30 2013 arthur rucquois
 //
 
 #include		"Entities/ACharacter.hh"

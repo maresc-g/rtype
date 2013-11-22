@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Fri Nov 22 10:55:56 2013 laurent ansel
+// Last update Fri Nov 22 11:28:42 2013 arthur rucquois
 //
 
 #include		"GameLoop/GameLoopManager.hh"
@@ -214,6 +214,21 @@ void			GameLoop::spawnMob()
 	      this->_levelManag->getEnemies().back()->move(SCREENX + 5, rand() % 80);
 	    }
 	}
+    }
+}
+
+void			GameLoop::spawnWalls()
+{
+  bool			spawnable = false;
+
+  for (auto it = _levelManag->getInactiveWalls().begin(); it != _levelManag->getInactiveWalls().end(); it++)
+    {
+      spawnable = SpriteLoaderManager::getInstance()->getEntitySprite((*it)->getPath(), *(*it));
+      if (spawnable && (*it)->getPosX() <= this->_levelManag->getAdv() + SCREENX + 5)
+	it = this->_levelManag->spawnWall(it);
+      else if (!spawnable)
+	it = _levelManag->getInactiveWalls().erase(it);
+      it++;
     }
 }
 
