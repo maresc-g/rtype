@@ -5,7 +5,11 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
+<<<<<<< HEAD
 // Last update Fri Nov 22 00:23:29 2013 laurent ansel
+=======
+// Last update Fri Nov 22 09:13:12 2013 antoine maitre
+>>>>>>> 67a82b32223794b6f2ac04667ff0316a5e6d6238
 //
 
 #include		<iostream>
@@ -79,8 +83,8 @@ void			AEntity::collision()
 
 void			AEntity::move(int const x, int const y)
 {
-  _moveX = x - this->getPosX();
-  _moveY = y - this->getPosY();
+  _moveX = x - this->getPosX() + this->_moveX;
+  _moveY = y - this->getPosY() + this->_moveY;
 }
 
 Coordinate const	*AEntity::getCoord() const
@@ -221,13 +225,17 @@ bool			AEntity::moveToPixel()
 	  std::cout << _moveX << "\t" << _moveY << std::endl;
 	  if (this->_moveX > 0)
 	    {
-	      this->_pixelX = this->_pixelX + 8;
-	      this->_moveX = this->_moveX - 8;
+	      this->_pixelX = this->_pixelX + this->_speed;
+	      this->_moveX = this->_moveX - this->_speed;
+	      if (this->_moveX < 0)
+		this->_moveX = 0;
 	    }
 	  else
 	    {
-	      this->_pixelX = this->_pixelX - 8;
-	      this->_moveX = this->_moveX + 8;
+	      this->_pixelX = this->_pixelX - this->_speed;
+	      this->_moveX = this->_moveX + this->_speed;
+	      if (this->_moveX > 0)
+		this->_moveX = 0;
 	    }
 	  this->_pixelX = this->_coord->getX() * 10 + this->_pixelX;
 	  this->_coord->setX(this->_pixelX / 10);
@@ -237,13 +245,17 @@ bool			AEntity::moveToPixel()
 	{
 	  if (this->_moveY > 0)
 	    {
-	      this->_pixelY = this->_pixelY + 8;
-	      this->_moveY = this->_moveY - 8;
+	      this->_pixelY = this->_pixelY + this->_speed;
+	      this->_moveY = this->_moveY - this->_speed;
+	      if (this->_moveY < 0)
+		this->_moveY = 0;
 	    }
 	  else
 	    {
-	      this->_pixelY = this->_pixelY - 8;
-	      this->_moveY = this->_moveY + 8;
+	      this->_pixelY = this->_pixelY - this->_speed;
+	      this->_moveY = this->_moveY + this->_speed;
+	      if (this->_moveY > 0)
+		this->_moveY = 0;
 	    }
 	  this->_pixelY = this->_coord->getY() * 10 + this->_pixelY;
 	  this->_coord->setY(this->_pixelY / 10);
