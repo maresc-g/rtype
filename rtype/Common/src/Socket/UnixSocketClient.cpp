@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:26:32 2013 laurent ansel
-// Last update Fri Nov 22 13:49:38 2013 cyril jourdain
+// Last update Fri Nov 22 14:50:25 2013 laurent ansel
 //
 
 #ifndef _WIN32
@@ -55,9 +55,9 @@ int			UnixSocketClient::writeSocket(char *buf, int const size) const
   int			ret = 0;
   socklen_t		addrlen = sizeof(*this->_addr);
 
-  // std::cout << "WRITE : [";
-  // std::cout.write(buf, size);
-  // std::cout << "]" << std::endl;
+  std::cout << "WRITE : [";
+  std::cout.write(buf, size);
+  std::cout << "]" << std::endl;
   if (this->_proto == "UDP")
     ret = sendto(this->_socket, buf, size, 0, (struct sockaddr *)this->_addr, addrlen);
   else

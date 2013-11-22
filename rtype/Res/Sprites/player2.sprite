@@ -1,0 +1,32 @@
+[file=Res/Sprites/player2.gif]
+[size=3]
+[name=up]
+99 0 32 15
+132 0 32 15
+[/]
+[name=left_up]
+99 0 32 15
+132 0 32 15
+[/]
+[name=right_up]
+99 0 32 15
+132 0 32 15
+[/]
+[name=down]
+33 0 32 15
+0 0 32 15
+[/]
+[name=right_down]
+33 0 32 15
+0 0 32 15
+[/]
+[name=left_down]
+33 0 32 15
+0 0 32 15
+[/]
+[name=left]
+66 0 32 15
+[/]
+[name=right]
+66 0 32 15
+[/]

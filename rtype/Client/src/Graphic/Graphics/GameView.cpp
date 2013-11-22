@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Fri Nov 22 14:54:59 2013 guillaume marescaux
+// Last update Fri Nov 22 15:33:41 2013 guillaume marescaux
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -128,7 +128,7 @@ void			GameView::update(sf::RenderWindow *win)
       _scroll = 1;
     }
   if (_clockScroll->getElapsedTime().asMilliseconds() >= 5)
-    if (_scroll <= Map::getInstance()->getScroll()/* * 10*/)
+    if (_scroll <= Map::getInstance()->getScroll())
       {
 	_customView->move(1, 0);
 	_scroll++;
