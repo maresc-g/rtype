@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5E155B9F-5367-47F3-8F38-1A797CB91EFD}</ProjectGuid>
+    <RootNamespace>Donkey</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetExt>.dll</TargetExt>
+    <OutDir>$(SolutionDir)\Libraries\</OutDir>
+    <IntDir>$(SolutionDir)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level1</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>C:\Users\Alexis\Documents\GitHub\rtype\rtype\Server\include;C:\Users\Alexis\Documents\GitHub\rtype\rtype\Common\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <OutputFile>$(OutDir)$(ProjectName)$(TargetExt)</OutputFile>
+      <ImportLibrary>$(SolutionDir)$(TargetName).lib</ImportLibrary>
+      <ProgramDatabaseFile>$(SolutionDir)$(TargetName).pdb</ProgramDatabaseFile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\rtype\Common\src\Action\Action.cpp" />
+    <ClCompile Include="..\rtype\Common\src\Mutex\WindowsMutex.cpp" />
+    <ClCompile Include="..\rtype\Server\src\AI\Donkey.cpp" />
+    <ClCompile Include="..\rtype\Server\src\Entities\ACharacter.cpp" />
+    <ClCompile Include="..\rtype\Server\src\Entities\AEntity.cpp" />
+    <ClCompile Include="..\rtype\Server\src\Entities\Coordinate.cpp" />
+    <ClCompile Include="..\rtype\Server\src\Entities\InformationHitBox.cpp" />
+    <ClCompile Include="..\rtype\Server\src\Entities\Mob.cpp" />
+    <ClCompile Include="..\rtype\Server\src\Entities\Weapon\AProjectile.cpp" />
+    <ClCompile Include="..\rtype\Server\src\Entities\Weapon\Weapon.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\rtype\Common\include\Action\Action.hh" />
+    <None Include="..\rtype\Common\include\Mutex\WindowsMutex.hh" />
+    <None Include="..\rtype\Server\include\AI\Donkey.hh" />
+    <None Include="..\rtype\Server\include\Entities\ACharacter.hh" />
+    <None Include="..\rtype\Server\include\Entities\AEntity.hh" />
+    <None Include="..\rtype\Server\include\Entities\Coordinate.hh" />
+    <None Include="..\rtype\Server\include\Entities\InformationHitBox.hh" />
+    <None Include="..\rtype\Server\include\Entities\Mob.hh" />
+    <None Include="..\rtype\Server\include\Entities\Weapon\AProjectile.hh" />
+    <None Include="..\rtype\Server\include\Entities\Weapon\Weapon.hh" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\rtype\Common\include\Mutex\Mutex.hpp" />
+    <ClInclude Include="..\rtype\Common\include\Mutex\MutexVar.hpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
