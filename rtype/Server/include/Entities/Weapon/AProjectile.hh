@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:46:24 2013 guillaume marescaux
-// Last update Mon Nov 18 10:29:28 2013 antoine maitre
+// Last update Thu Nov 21 15:36:06 2013 alexis mestag
 //
 
 #ifndef 		__APROJECTILE_HH__
@@ -30,6 +30,8 @@ public:
   ~AProjectile();
   void			move();
   AEntity::eObject	getType() const;
+  void			setVector(int const vx, int const vy);
+  operator		std::string() const;
 };
 
 #endif
