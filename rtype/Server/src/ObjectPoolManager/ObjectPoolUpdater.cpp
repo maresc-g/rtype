@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Nov  6 17:17:27 2013 laurent ansel
-// Last update Thu Nov 21 16:22:21 2013 antoine maitre
+// Last update Fri Nov 22 13:19:58 2013 laurent ansel
 //
 
 #ifndef	_WIN32
@@ -92,12 +92,12 @@ void				ObjectPoolUpdater::run()
       if (!_quit)
 	{
 	  this->_mutex.leave();
-	  if (nbObject && size / nbObject > 50)
+	  if (nbObject && size / nbObject > MAX_OBJECT - (MAX_OBJECT / 3))
 	    {
 #ifndef _WIN32
-	      sleep(1);
+	      usleep(500000);
 #else
-	      Sleep(1000);
+	      Sleep(500);
 #endif
 	    }
 	  else
