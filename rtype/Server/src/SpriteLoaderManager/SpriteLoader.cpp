@@ -5,11 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 15:04:52 2013 laurent ansel
-<<<<<<< HEAD
-// Last update Fri Nov 22 15:20:34 2013 laurent ansel
-=======
-// Last update Fri Nov 22 15:18:29 2013 antoine maitre
->>>>>>> efc16d3f69975e9335e14adf76d3bb02d1821b31
+// Last update Fri Nov 22 15:40:10 2013 laurent ansel
 //
 
 #include		<utility>
@@ -42,10 +38,6 @@ SpriteLoader		&SpriteLoader::operator>>(AEntity &entity)
   entity.setDestructible(this->_entity->_destructible);
   entity.setInformationHitBox(this->_entity->_hitbox);
   entity.setSpawnProjectile(this->_entity->_spawnProjectile);
-  if (this->_entity->_hitbox == NULL)
-    std::cout << "NULLLLLLLL" << std::endl;
-  if (this->_entity->_hitbox->empty())
-    std::cout << "VIIIIIIIIDE" << std::endl;    
   return (*this);
 }
 
@@ -199,10 +191,6 @@ InformationHitBox	*SpriteLoader::findInformationHitBox(std::string const &str)
       tmp[3] = std::stoi(str.substr(posSize + 1));
       hitbox = new InformationHitBox(Coordinate(tmp[0], tmp[1]), tmp[2], tmp[3]);
     }
-  std::cout << this->isHere(str) << std::endl;
-  std::cout << pos << std::endl;
-  std::cout << endPos << std::endl;
-  std::cout << posSize << std::endl;
   return (hitbox);
 }
 
