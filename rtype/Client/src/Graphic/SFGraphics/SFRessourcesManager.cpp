@@ -68,6 +68,7 @@ void			SFRessourcesManager::addSprite(std::string const &name, std::string const
   if (sprite){
     sprite->loadFromFile(path);
     (*_sprites)[name] = sprite;
+    std::cout << name << " loaded" << std::endl;
   }
 }
 
