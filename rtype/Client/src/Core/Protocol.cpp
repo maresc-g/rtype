@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:39:28 2013 guillaume marescaux
-// Last update Thu Nov 21 15:25:57 2013 cyril jourdain
+// Last update Fri Nov 22 17:01:11 2013 guillaume marescaux
 //
 
 #include			<sstream>
@@ -82,6 +82,14 @@ Protocol::eProtocol		Protocol::getMsg(Trame *trame)
   if (pos != std::string::npos)
     tmp.erase(pos, pos + std::string(END_TRAME).size());
   trame->setContent(tmp2);
+  try
+    {
+      _equivalent->at(tmp);
+    }
+  catch (std::out_of_range)
+    {
+      return (END);
+    }
   return ((*_equivalent)[tmp]);
 }
 

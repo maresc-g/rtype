@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:17:46 2013 alexis mestag
-// Last update Thu Nov 21 12:27:20 2013 alexis mestag
+// Last update Fri Nov 22 16:22:55 2013 alexis mestag
 //
 
 #ifndef			__GAMELIBRARIES_HH__
@@ -27,6 +27,7 @@ private:
 
   GameLibraries(GameLibraries const &rhs);
   GameLibraries		&operator=(GameLibraries const &rhs);
+  void			removeLibrary(IDynamicLibrary const &lib);
 
 public:
   GameLibraries();

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Fri Nov 22 14:35:59 2013 guillaume marescaux
+// Last update Fri Nov 22 15:56:47 2013 guillaume marescaux
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -191,7 +191,6 @@ void			ClientMain::sendKeyPress(PressedKey const &keys)
   // std::cout << "Fire= " <<  _action->getFire() << std::endl;
 }
 
-
 void			ClientMain::quitGame()
 {
   _client->getProto()->protocolMsg(Protocol::QUIT_GAME, _client->getId(), NULL);
@@ -201,4 +200,9 @@ void			ClientMain::quitGame()
   _manager->setFPS(60);
   _manager->setActiveWindow(LOBBY);
   static_cast<GameWindow *>(_manager->getWindowById(GAME))->reset();
+}
+
+void			ClientMain::quit()
+{
+  _client->quit();
 }

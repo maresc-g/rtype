@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Fri Nov 22 15:33:41 2013 guillaume marescaux
+// Last update Fri Nov 22 16:11:07 2013 guillaume marescaux
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -43,9 +43,6 @@ void			GameView::init()
   _background->setSize(WIN_X, WIN_Y);
   _background->setTexture((*(SFRessourcesManager::getInstance()->Images))[GAME_BACKGROUND]);
   _player = SFRessourcesManager::getInstance()->getSprite(SPRITE_PLAYER1);
-  //_player->play("right");
-  _rocket = SFRessourcesManager::getInstance()->getSprite(SPRITE_ROCKET);
-  // _rocket->play("right");
   _clock = new sf::Clock();
   _clock->restart();
   _scroll = 0;
@@ -61,9 +58,6 @@ sf::FloatRect		&GameView::getBound() const
 void			GameView::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
   target.draw(*_background, states);
-  //target.draw(*_player, states);
-  _player->update(*_clock);
-  _rocket->update(*_clock);
 }
 
 void			GameView::onKeyPressed(void *const)
@@ -121,11 +115,11 @@ void			GameView::update(sf::RenderWindow *win)
   std::list<Entity*>	*entities = Map::getInstance()->getEntities();
 
   checkKeys();
-
   if (_scroll == 0)
     {
       _clockScroll->restart();
-      _scroll = 1;
+      _scroll = Map::getInstance()->getScroll();
+      _customView->move(_scroll, 0);
     }
   if (_clockScroll->getElapsedTime().asMilliseconds() >= 5)
     if (_scroll <= Map::getInstance()->getScroll())
@@ -138,6 +132,7 @@ void			GameView::update(sf::RenderWindow *win)
   for (auto it = entities->begin(); it != entities->end(); ++it)
     {
       _player = SFRessourcesManager::getInstance()->getSprite((*it)->getType());
+      _player->update(*_clock);
       _player->setPosition((*it)->getX(), (*it)->getY());
       _player->play((*it)->getDirection());
       win->setView(*_customView);
@@ -148,14 +143,11 @@ void			GameView::update(sf::RenderWindow *win)
     {
       delete *it;
     }
-  std::cout << "TOTAL SCROLL = " << _totalScroll << std::endl;
 }
 
 void			GameView::reset()
 {
-  std::cout << "TOTAL SCROLL IN RESET = " << (_totalScroll * -1) << std::endl;
   _customView->move((_totalScroll * -1), 0);
-  // _customView->setCenter(0,0);
   _scroll = 0;
   _totalScroll = 0;
 }

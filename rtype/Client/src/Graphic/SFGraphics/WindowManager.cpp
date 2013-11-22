@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:18:05 2013 cyril jourdain
-// Last update Fri Nov 22 15:22:57 2013 guillaume marescaux
+// Last update Fri Nov 22 15:50:44 2013 guillaume marescaux
 //
 
 #include	<iostream>
@@ -14,6 +14,7 @@
 #include	"Graphic/SFGraphics/Ressources/SFImageLoader.hh"
 #include	"Graphic/SFGraphics/Widgets/SFConnect.hh"
 #include	"Graphic/Global.hh"
+#include	"Graphic/ClientMain.hh"
 
 WindowManager::WindowManager() :
   _widgetList(new std::list<SFWidget*>), _focus(NULL),
@@ -302,7 +303,10 @@ void		WindowManager::exec()
 	sf::sleep(sf::microseconds(time));
     }
   if (_window)
-    _window->close();
+    {
+      ClientMain::getInstance()->quit();
+      _window->close();
+    }
 }
 
 sf::RenderWindow	*WindowManager::getRenderWindow() const {return (_window);}
