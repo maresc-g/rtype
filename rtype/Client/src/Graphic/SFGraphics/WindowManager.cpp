@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:18:05 2013 cyril jourdain
-// Last update Fri Nov 22 13:40:27 2013 cyril jourdain
+// Last update Fri Nov 22 13:46:34 2013 cyril jourdain
 //
 
 #include	<iostream>
@@ -279,10 +279,7 @@ void		WindowManager::update()
   // 	}
   //   }
   if (_active)
-    {
-      _active->update();
-      std::cout << "TOTO" << std::endl;
-    }
+    _active->update();
 }
 
 void		WindowManager::exec()
