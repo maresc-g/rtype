@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Jun 19 13:33:40 2013 cyril jourdain
-// Last update Tue Jul  9 13:32:03 2013 cyril jourdain
+// Last update Thu Nov 21 14:05:20 2013 cyril jourdain
 //
 
 #ifndef 		__ANIMATEDSPRITE_HH__
@@ -29,6 +29,7 @@ private:
   bool			_isPlaying;
   std::string		_current;
   unsigned int		_count;
+  bool			_loopPlay;
 
 public:
   AnimatedSprite();
@@ -39,7 +40,7 @@ public:
 public:
   void			play(std::string const &);
   void			pause();
-  void			addAnimation(std::string const &, Animation *);
+  void			addAnimation(std::string const &, Animation *, bool loopPlay = false);
   void			loadFromFile(std::string const &file);
   virtual void		update(sf::Clock &);
 

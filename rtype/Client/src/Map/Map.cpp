@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:22:47 2013 guillaume marescaux
-// Last update Tue Nov 19 12:26:16 2013 guillaume marescaux
+// Last update Thu Nov 21 13:05:41 2013 guillaume marescaux
 //
 
 #include			"Map/Map.hh"
@@ -40,7 +40,7 @@ Map::~Map()
 
 //------------------------------------BEGIN METHODS-----------------------------------------
 
-void				Map::moveEntity(int const id, int const x, int const y)
+void				Map::moveEntity(int const id, int const x, int const y, std::string const &direction)
 {
   _mutex->enter();
   for (auto it = _entities->begin() ; it != _entities->end() ; it++)
@@ -49,6 +49,7 @@ void				Map::moveEntity(int const id, int const x, int const y)
 	{
 	  (*it)->setX(x);
 	  (*it)->setY(y);
+	  (*it)->setDirection(direction);
 	  break;
 	}
     }
@@ -157,4 +158,14 @@ std::list<Entity *> const	&Map::getEntities(void) const
   tmp = _entities;
   _mutex->leave();
   return (*tmp);
+}
+
+Entity const			*Map::getEntityById(int const id) const
+{
+  for (auto it = _entities->begin() ; it != _entities->end() ; it++)
+    {
+      if ((*it)->getId() == id)
+	return (*it);
+    }
+  return (NULL);
 }

@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Nov  6 17:17:27 2013 laurent ansel
-// Last update Wed Nov 20 16:06:43 2013 laurent ansel
+// Last update Thu Nov 21 16:22:21 2013 antoine maitre
 //
 
 #ifndef	_WIN32
@@ -35,11 +35,43 @@ ObjectPoolUpdater::~ObjectPoolUpdater()
 
 }
 
+AEntity				*ObjectPoolUpdater::getMob()
+{
+  return (new Mob(0, 0, "", 0));
+}
+
+AEntity				*ObjectPoolUpdater::getRocket()
+{
+  return (new Rocket(0, 0, "", 0, true, 0, 0));
+}
+
+AEntity				*ObjectPoolUpdater::getPlayer()
+{
+  return (new Player(0, 0, "", 0, true));
+}
+
+AEntity				*ObjectPoolUpdater::getEntity(enum AEntity::eObject const entity)
+{
+  static s_create		tab[] =
+  {
+    {AEntity::MOB,	&ObjectPoolUpdater::getMob},
+    {AEntity::ROCKET,	&ObjectPoolUpdater::getRocket},
+    {AEntity::PLAYER,	&ObjectPoolUpdater::getPlayer}
+  };
+  static unsigned int		size = sizeof(tab) / sizeof(*tab);
+
+  for (size_t i = 0 ; i < size ; ++i)
+    if (tab[i]._entity == entity)
+      return ((this->*tab[i].func)());
+  return (NULL);
+}
+
 void				ObjectPoolUpdater::run()
 {
   std::map<AEntity::eObject, AEntity *>::iterator	itEntity;
   size_t			size;
   size_t			nbObject;
+  AEntity			*entity = NULL;
 
   this->_mutex.enter();
   while (!_quit)
@@ -51,7 +83,10 @@ void				ObjectPoolUpdater::run()
 	{
 	  size += it->second->size();
 	  if (it->second->size() < MAX_OBJECT)
-	    it->second->push_back(itEntity->second);
+	    {
+	      entity = this->getEntity(itEntity->second->getType());
+	      it->second->push_back(entity);
+	    }
 	  ++itEntity;
 	}
       if (!_quit)

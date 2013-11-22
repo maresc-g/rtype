@@ -10,15 +10,21 @@
 
 #ifdef _WIN32
 
+#include		<iostream>
 #include		<string.h>
 #include		"Socket/WindowsSocketClient.hh"
 
 WindowsSocketClient::WindowsSocketClient(SOCKET const socket, std::string const &protocole, struct sockaddr_in *addr):
   _socket(socket),
   _proto(protocole),
-  _addr(addr)
+  _addr(new struct sockaddr_in)
 {
-
+  if (addr)
+    {
+      this->_addr->sin_family = addr->sin_family;
+      this->_addr->sin_port = addr->sin_port;
+      this->_addr->sin_addr.s_addr = addr->sin_addr.s_addr;
+    }
 }
 
 WindowsSocketClient::~WindowsSocketClient()
@@ -31,24 +37,48 @@ int			WindowsSocketClient::readSocket(char *buf, int const size) const
 {
   DWORD			ret = 0;
   WSABUF		dataBuf;
+  DWORD			lp = 0;
+  int			addrlen = sizeof(*this->_addr);
 
   dataBuf.len = SIZE_BUFFER;
   dataBuf.buf = buf;
-  if (WSARecv(this->_socket, &dataBuf, 1, &ret, 0, NULL, NULL) == SOCKET_ERROR)
-    return (-1);
-  return (ret);
+  if (this->_proto == "UDP")
+	  {
+		  if (WSARecvFrom(this->_socket, &dataBuf, 1, &ret, &lp, (SOCKADDR *)this->_addr, &addrlen, NULL, NULL) == SOCKET_ERROR)
+		   return (-1);
+	  }
+  else
+	if (WSARecv(this->_socket, &dataBuf, 1, &ret, &lp, NULL, NULL) == SOCKET_ERROR)
+		 return (-1);
+  std::cout << this->_addr->sin_family << std::endl;
+   	std::cout << "READ = ";
+std::cout.write(buf, ret);
+std::cout << std::endl;
+ return (ret);
 }
 
 int			WindowsSocketClient::writeSocket(char *buf, int const size) const
 {
+  char			tmp[SIZE_BUFFER];
   DWORD			ret = 0;
   WSABUF		dataBuf;
+  DWORD			lp = 0;
+  int			addrlen = sizeof(*this->_addr);
 
+  std::cout << "buffer = ";
+  std::cout.write(buf, size);
+  std::cout << std::endl;
   dataBuf.len = size;
   dataBuf.buf = buf;
-  if (WSASend(this->_socket, &dataBuf, 1, &ret, 0, NULL, NULL) == SOCKET_ERROR)
-    return (-1);
-  return (ret);
+  if (this->_proto == "UDP")
+  {
+	  if (WSASendTo(this->_socket, &dataBuf, 1, &ret, lp, (SOCKADDR *)this->_addr, addrlen, NULL, NULL) == SOCKET_ERROR)
+		return (-1);
+ }
+  else
+	  if (WSASend(this->_socket, &dataBuf, 1, &ret, lp, NULL, NULL) == SOCKET_ERROR)
+ 	return (-1);
+   return (ret);
 }
 
 void			WindowsSocketClient::closeSocket() const
@@ -63,7 +93,12 @@ int			WindowsSocketClient::getSocket() const
 
 void			WindowsSocketClient::setAddr(struct sockaddr_in *addr)
 {
-  this->_addr = addr;
+  if (addr)
+    {
+      this->_addr->sin_family = addr->sin_family;
+      this->_addr->sin_port = addr->sin_port;
+      this->_addr->sin_addr.s_addr = addr->sin_addr.s_addr;
+    }
 }
 
 struct sockaddr_in	*WindowsSocketClient::getAddr() const

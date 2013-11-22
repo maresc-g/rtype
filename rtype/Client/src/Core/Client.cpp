@@ -5,11 +5,13 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Wed Nov 20 13:54:07 2013 guillaume marescaux
+// Last update Thu Nov 21 14:59:24 2013 guillaume marescaux
 //
 
 #include <iostream>
 
+#define _USE_MATH_DEFINES
+#include			<math.h>
 #include			<string.h>
 #include			<map>
 #include			<sstream>
@@ -19,7 +21,6 @@
 #include			"Game/GameList.hh"
 #include			"Map/Map.hh"
 #include			"Error/SocketError.hpp"
-#include			"MD5/md5.hh"
 
 //----------------------------------BEGIN CTOR / DTOR---------------------------------------
 
@@ -53,7 +54,7 @@ Client::Client(FileSystem::Directory *dir, MutexVar<eState> *state, Action *acti
   (*_ptrs)[Protocol::CONTENTFILE] = &Client::contentFile;
   (*_ptrs)[Protocol::LEVELUP] = &Client::levelUp;
   (*_ptrs)[Protocol::ENDGAME] = &Client::endGame;
-  (*_ptrs)[Protocol::SERVERQUIT] = &Client::serverQuit;
+  (*_ptrs)[Protocol::SERVERQUITTED] = &Client::serverQuit;
   // sockets
   (*_sockets)[TCP] = new Socket;
   (*_sockets)[UDP] = new Socket;
@@ -116,7 +117,7 @@ void				Client::exec()
       while (!_initialized->getVar())
 	{
 	  while (!_info->getVar())
-	    usleep(1000);
+	    sf::microseconds(10000);
 	  _initialized->setVar(this->initialize());
 	  if (!_initialized->getVar())
 	    {
@@ -202,6 +203,17 @@ void				Client::entity(Trame const &trame)
   std::string			type;
   int				x;
   int				y;
+  int				saveX;
+  int				saveY;
+  int				retX;
+  int				retY;
+  Entity const			*entity;
+  std::string			direction;
+  double			norme1;
+  double			norme2;
+  double			scal;
+  double			cosA;
+  double			angle;
 
   std::getline(iss, token, ';');
   id = std::stoi(token);
@@ -212,7 +224,30 @@ void				Client::entity(Trame const &trame)
   std::getline(iss, token, ';');
   y = std::stoi(token);
   if (map->exists(id))
-    map->moveEntity(id, x, y);
+    {
+      entity = map->getEntityById(id);
+      saveX = entity->getX();
+      saveY = entity->getY();
+      retX = x - saveX;
+      retY = saveY - y;
+      norme1 = sqrt(pow(retX, 2) + pow(retY, 2));
+      norme2 = sqrt(pow(1, 2) + pow(0, 2));
+      scal = retX * 1 + retY * 0;
+      cosA = scal / (norme1 * norme2);
+      angle = acos(cosA) * 180.0 / M_PI;
+      if (angle >= 0 && angle <= 23)
+	direction = "right";
+      else if (angle > 23 && angle <= 68)
+	direction = (retY >= 0 ? "right_up" : "right_down");
+      else if (angle > 68 && angle <= 113)
+	direction = (retY >= 0 ? "up" : "down");
+      else if (angle > 113 && angle <= 158)
+	direction = (retY >= 0 ? "left_up" : "left_down");
+      else
+	direction = "left";
+      std::cout << "DIRECTION = " << direction << std::endl;
+      map->moveEntity(id, x, y, direction);
+    }
   else
     map->addEntity(new Entity(id, x, y, type));
 }
@@ -274,24 +309,24 @@ void				Client::sprite(Trame const &trame)
     {
       if (!inDir((*it).first))
 	_diffDir->push_back((*it).first);
-      else
-	{
-	  ifs.open((*it).first);
-	  if (ifs.is_open())
-	    {
-	      c = ifs.get();
-	      content = "";
-	      while (ifs.good())
-		{
-		  content += c;
-		  c = ifs.get();
-		}
-	      if (md5(content) != files[(*it).first])
-		_diffDir->push_back((*it).first);
-	    }
-	  else
-	    _diffDir->push_back((*it).first);
-	}
+      // else
+      // 	{
+      // 	  ifs.open((*it).first);
+      // 	  if (ifs.is_open())
+      // 	    {
+      // 	      c = ifs.get();
+      // 	      content = "";
+      // 	      while (ifs.good())
+      // 		{
+      // 		  content += c;
+      // 		  c = ifs.get();
+      // 		}
+      // 	      if (md5(content) != files[(*it).first])
+      // 		_diffDir->push_back((*it).first);
+      // 	    }
+      // 	  else
+      // 	    _diffDir->push_back((*it).first);
+      // 	}
     }
   // _state->setVar(WAIT_SPRITE);
 }
@@ -469,7 +504,7 @@ bool				Client::initialize(void)
       this->read(0, 0, false);
       tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
       msgType = _protocol->getMsg(tmp);
-      if (msgType == Protocol::SERVERQUIT)
+      if (msgType == Protocol::SERVERQUITTED)
 	{
 	  *_state = ERROR_CONNECT;
 	  return (false);

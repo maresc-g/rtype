@@ -5,15 +5,18 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Thu Nov 21 10:57:57 2013 laurent ansel
+// Last update Fri Nov 22 10:53:19 2013 laurent ansel
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
 #include		"ObjectPoolManager/ObjectPoolManager.hh"
 #include		"GameLoop/PlayerInfo.hh"
 
-PlayerInfo::PlayerInfo(ClientInfo *info, int num)
-  : _info(info), _num(num), _inGame(true)
+PlayerInfo::PlayerInfo(ClientInfo *info, int num):
+  _info(info),
+  _num(num),
+  _inGame(true),
+  _msg(new std::list<Trame *>)
 {
   // std::string path = "Res/Sprites/player.conf";
   // _player = new Player(20, 40, path, 1, true);
@@ -28,7 +31,10 @@ PlayerInfo::PlayerInfo(ClientInfo *info, int num)
 
 PlayerInfo::~PlayerInfo()
 {
-
+  for (auto it = this->_msg->begin() ; it != this->_msg->end() ; ++it)
+    if ((*it))
+      delete (*it);
+  delete this->_msg;;
 }
 
 AEntity		*PlayerInfo::getPlayer() const
@@ -38,14 +44,12 @@ AEntity		*PlayerInfo::getPlayer() const
 
 void		PlayerInfo::actionPlayer(Map *map, int adv)
 {
-  const Coordinate	*coord = this->_player->getCoord();
-
   if (this->_info->standbyCommand())
     {
       const Command	*cmd = this->_info->getFirstCommand();
       if (cmd)
   	{
-  	  Action	&act = cmd->getAction();
+	  Action	&act = cmd->getAction();
 
   	  (void)map;
   	  if (this->_player->getInvincible() > 0)
@@ -62,7 +66,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
   	      act.setDown(false);
   	      this->_player->move(this->_player->getPosX(), this->_player->getPosY() + this->_player->getSpeed());
   	      if (this->_player->getPosY() >= SCREENY * 10 - this->_player->getHeight())
-  	      	this->_player->move(this->_player->getPosX(), SCREENY - this->_player->getHeight());
+  	      	this->_player->move(this->_player->getPosX(), SCREENY * 10 - this->_player->getHeight());
   	    }
   	  if (act.getLeft())
   	    {
@@ -76,7 +80,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
   	      act.setRight(false);
   	      this->_player->move(this->_player->getPosX() + this->_player->getSpeed(), this->_player->getPosY());
   	      if (this->_player->getPosX() > adv + SCREENX * 10 - this->_player->getWidth())
-  	      	this->_player->move(adv + SCREENX - this->_player->getWidth(), this->_player->getPosY());
+  	      	this->_player->move(adv + SCREENX * 10 - this->_player->getWidth(), this->_player->getPosY());
   	    }
   	  if (act.getFire())
   	    {
@@ -88,7 +92,9 @@ void		PlayerInfo::actionPlayer(Map *map, int adv)
   	      if (projectile)
   		{
   		  SpriteLoaderManager::getInstance()->getEntitySprite("rocket", *projectile);
-  		  map->getPlayers().push_back(projectile);
+  		  projectile->movePos(this->_player->getPosX(), this->_player->getPosY());
+		  map->getPlayers().push_back(projectile);
+		  std::cout << "POS = " << map->getPlayers().size() << std::endl;
   		}
   	    }
 	  this->_info->setAction(act);
@@ -124,4 +130,34 @@ bool		PlayerInfo::getIG() const
 void		PlayerInfo::setIG(bool b)
 {
   this->_inGame = b;
+}
+
+void		PlayerInfo::quitGame()
+{
+  this->_info->quitGame();
+}
+
+void		PlayerInfo::pushMsg(std::string const &proto, std::string const &content)
+{
+  Trame		*trame = new Trame(this->_info->getId(), this->_info->getTrameId(), proto, content);
+
+  if (!this->_msg->empty() && proto == this->_msg->back()->getHeader().getProto())
+    this->_msg->back()->appendContent("|" + content);
+  else
+    {
+      if (!this->_msg->empty())
+	this->_msg->back()->appendContent(END_TRAME);
+      this->_msg->push_back(trame);
+    }
+}
+
+void		PlayerInfo::sendMsg()
+{
+  for (auto it = this->_msg->begin() ; it != this->_msg->end() ; ++it)
+    {
+      if (!(*it)->isSetEndTrame())
+	(*it)->appendContent(END_TRAME);
+      this->_info->pushWriteTrame((*it)->getHeader().getProto(), (*it));
+    }
+  this->_msg->clear();
 }

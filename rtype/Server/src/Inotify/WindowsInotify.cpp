@@ -103,7 +103,8 @@ void			WindowsInotify::destroyInotify()
 
 void			WindowsInotify::rmWatch(std::string const &path)
 {
-  if ((std::map<std::string, std::pair<HANDLE, enum IInotify::eInotify> >::iterator it = this->_fd->find(path)) != this->_fd->end())
+	std::map<std::string, std::pair<HANDLE, enum IInotify::eInotify> >::iterator it = this->_fd->find(path);
+	if (it != this->_fd->end())
     {
       CloseHandle(it->second.first);
       it = this->_fd->erase(it);

@@ -33,6 +33,7 @@ void			SFImageLoader::loadImage(std::string const &path,
   if (!(_images)[name])
     {
       (_images)[name] = new sf::Texture();
+	  std::cout << path << std::endl;
       ((_images)[name])->loadFromFile(path);
     }
   else

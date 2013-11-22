@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Nov  6 17:04:40 2013 laurent ansel
-// Last update Wed Nov 20 18:29:23 2013 antoine maitre
+// Last update Thu Nov 21 22:30:20 2013 laurent ansel
 //
 
 #include		"ObjectPoolManager/ObjectPoolManager.hh"
@@ -32,6 +32,14 @@ ObjectPoolManager::~ObjectPoolManager()
   this->_quit = true;
   this->_mutex->leave();
   this->_updater->waitThread();
+  for (auto it = this->_listEntities->begin() ; it != this->_listEntities->end() ; ++it)
+    {
+      for (auto itObject = it->second->begin() ; itObject != it->second->end() ; ++itObject)
+	if ((*itObject))
+	  delete *itObject;
+      if (it->second)
+	delete it->second;
+    }
   this->_mutex->destroy();
 }
 

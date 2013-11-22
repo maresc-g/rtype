@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Nov  6 16:51:50 2013 laurent ansel
-// Last update Tue Nov 19 13:54:10 2013 laurent ansel
+// Last update Thu Nov 21 22:42:21 2013 laurent ansel
 //
 
 #ifndef 			__OBJECTPOOLUPDATER_HH__
@@ -31,6 +31,17 @@ public:
   ObjectPoolUpdater(std::map<AEntity::eObject, std::list<AEntity *> *> *list, Mutex &mutex, bool &quit);
   virtual ~ObjectPoolUpdater();
   void				run();
+private:
+  AEntity			*getMob();
+  AEntity			*getRocket();
+  AEntity			*getPlayer();
+  AEntity			*getEntity(enum AEntity::eObject const entity);
+};
+
+struct				s_create
+{
+  enum AEntity::eObject		_entity;
+  AEntity			*(ObjectPoolUpdater::*func)();
 };
 
 void				*startUpdater(void *data);

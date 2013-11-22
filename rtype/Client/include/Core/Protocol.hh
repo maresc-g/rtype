@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:33:27 2013 guillaume marescaux
-// Last update Tue Nov 19 13:50:36 2013 guillaume marescaux
+// Last update Thu Nov 21 13:28:05 2013 guillaume marescaux
 //
 
 #ifndef 		__PROTOCOL_HH__
@@ -44,7 +44,7 @@ public:
       SPRITE,
       CONTENTFILE,
       LEVELUP,
-      SERVERQUIT,
+      SERVERQUITTED,
       END
     };
 

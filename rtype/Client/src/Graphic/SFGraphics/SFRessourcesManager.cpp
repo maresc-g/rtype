@@ -43,7 +43,7 @@ void			SFRessourcesManager::loadDefaultRessources()
   Images->loadImage(GAME_HUD_RES, GAME_HUD);
   Images->loadImage(GAME_HUD_LIVES_RES, GAME_HUD_LIVES);
   Fonts->loadFont(ARIAL_FONT_RES, ARIAL_FONT);
-  SFRessourcesManager::getInstance()->addSprite(SPRITE_PLAYER, SPRITE_PLAYER_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_PLAYER1, SPRITE_PLAYER1_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_ROCKET, SPRITE_ROCKET_CONF);
 }
 

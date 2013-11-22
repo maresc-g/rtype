@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Wed Nov 20 21:01:02 2013 laurent ansel
+// Last update Fri Nov 22 00:07:28 2013 laurent ansel
 //
 
 #include			<list>
@@ -91,12 +91,19 @@ void				Server::debug(std::string const &str) const
 void				Server::initializeSelect() const
 {
   bool				timeout = false;
+  int				delai[2] = {0, 0};
 
   this->_select->clear();
   this->_select->pushFd((*this->_socket)["TCP"]->getSocket().getSocket(), Select::READ);
   this->_select->pushFd((*this->_socket)["UDP"]->getSocket().getSocket(), Select::READ);
   for (std::list<ClientInfo *>::iterator it = this->_client->begin() ; it != this->_client->end() ; ++it)
     {
+      if ((*it)->getIdGame() > 0 && !timeout)
+	{
+	  timeout = true;
+	  delai[0] = 0;
+	  delai[1] = 800;
+	}
       this->_select->pushFd((*it)->getFdTcp(), Select::READ);
       if ((*it)->canWriteSomething("TCP"))
 	{
@@ -109,10 +116,12 @@ void				Server::initializeSelect() const
 	  timeout = true;
 	}
     }
-  if (timeout)
-    this->_select->setTimeout(0, 0);
-  else
-    this->_select->setTimeout(1, 0);
+  if (!timeout)
+    {
+      delai[0] = 1;
+      delai[1] = 0;
+    }
+  this->_select->setTimeout(delai[0], delai[1]);
   this->debug("Run Select ...");
   this->_select->runSelect(true);
   this->debug("Done");
@@ -158,7 +167,8 @@ void				Server::recvTrameUdp()
 		if ((*it)->getId() == trame->getHeader().getId() && !(*it)->alreadySetUdp())
 		  {
 		    (*it)->setClientUdp(new SocketClient((*this->_socket)["UDP"]->getSocket().getSocket(), "UDP", (*this->_socket)["UDP"]->getSocket().getAddr()));
-		    trame->getHeader().setTrameId(0);
+			(*it)->getClientUdp()->setAddr((*this->_socket)["UDP"]->getSocket().getAddr());
+			trame->getHeader().setTrameId(0);
 		    trame->getHeader().setProto("TCP");
 		    trame->setContent("CHECK" + std::string(END_TRAME));
 		    (*it)->pushWriteTrame("TCP", trame);
@@ -421,7 +431,7 @@ void				Server::run()
       if (!quit)
 	this->readAndWriteClient();
       if (!quit)
-	this->execCommand();
+      	this->execCommand();
     }
   this->debug("Shutdown Server ...");
   this->quitAllClient();

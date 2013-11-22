@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:39:28 2013 guillaume marescaux
-// Last update Wed Nov 20 13:20:23 2013 guillaume marescaux
+// Last update Thu Nov 21 13:28:27 2013 guillaume marescaux
 //
 
 #include			<sstream>
@@ -44,7 +44,7 @@ Protocol::Protocol():
   _equivalent->insert(std::pair<std::string, eProtocol>("CONTENTFILE", CONTENTFILE));
   _equivalent->insert(std::pair<std::string, eProtocol>("LEVELUP", LEVELUP));
   _equivalent->insert(std::pair<std::string, eProtocol>("ENDGAME", ENDGAME));
-  _equivalent->insert(std::pair<std::string, eProtocol>("SERVERQUIT", SERVERQUIT));
+  _equivalent->insert(std::pair<std::string, eProtocol>("SERVERQUITTED", SERVERQUITTED));
 }
 
 Protocol::~Protocol()
