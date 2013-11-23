@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Sat Nov 23 12:27:45 2013 laurent ansel
+// Last update Sat Nov 23 15:29:13 2013 antoine maitre
 //
 
 #include "Level/Map.hh"
@@ -61,7 +61,7 @@ void			Map::tryToSet(std::list<AEntity *> &l1, std::list<AEntity *> &l2, int adv
 
   for (auto it = l1.begin(); it != l1.end(); ++it)
     {
-      if (((*it)->getCoord()->getX() + 10 < adv || (*it)->getCoord()->getX() > adv + SCREENX + 10 ||
+      if (((*it)->getCoord()->getX() + 30 < adv || (*it)->getCoord()->getX() > adv + SCREENX + 10 ||
 	   (*it)->getCoord()->getY() + 10 < 0 || (*it)->getCoord()->getY() > SCREENY + 10))
 	{
 	  (*it)->setDead(true);
@@ -83,8 +83,6 @@ void			Map::tryToSet(std::list<AEntity *> &l1, std::list<AEntity *> &l2, int adv
 		    for (auto it2 = l2.begin(); it2 != l2.end(); ++it2)
 		      if ((*this->_map)[i][j] == (*it2)->getId())
 			{
-			  std::cout << "Id = " << (*it)->getId() << std::endl;
-			  std::cout << "Id2 = " << (*it2)->getId() << std::endl;
 			  (*it)->collision();
 			  (*it2)->collision();
 			}

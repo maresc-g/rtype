@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sat Nov 23 14:15:25 2013 laurent ansel
+// Last update Sat Nov 23 16:19:23 2013 antoine maitre
 //
 
 #include		<time.h>
@@ -256,7 +256,7 @@ bool			GameLoop::newPlayer(ClientInfo *newClient)
     for (auto it = _clients->begin(); it != _clients->end() && i == (*it)->getNum(); ++it)
       i++;
   this->_clients->push_back(new PlayerInfo(newClient, i));
-  this->_clients->back()->getPlayer()->movePos(this->_levelManag->getPosAdv() + 20, 40);
+  this->_clients->back()->getPlayer()->movePos(this->_levelManag->getPosAdv() + 20, 400);
   this->_clients->back()->getPlayer()->setId(_idEntity);
   _idEntity++;
   this->_levelManag->getPlayers().push_back(this->_clients->back()->getPlayer());
@@ -273,13 +273,14 @@ void			GameLoop::spawnMob()
 {
   Mob			*entity = NULL;
 
-  if (rand () % 100 == 9)
+  if (rand () % 30 == 9)
     {
       entity = this->_library->getRandomInstance();
       if (entity)
 	{
 	  if (SpriteLoaderManager::getInstance()->getEntitySprite(entity->getPath(), *entity))
 	    {
+	      entity->setInvincible(0);
 	      entity->setId(_idEntity);
 	      _idEntity++;
 	      this->_levelManag->getEnemies().push_back(entity);

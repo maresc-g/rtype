@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Fri Nov 22 16:57:02 2013 antoine maitre
+// Last update Sat Nov 23 16:08:37 2013 antoine maitre
 //
 
 #ifndef 		__AENTITY_HH__
@@ -52,7 +52,7 @@ public:
 
   AEntity		&operator=(AEntity const &rhs);
 
-  void			collision();
+  virtual void		collision();
   bool			checkCollision(AEntity const &other) const;
 
   void			move(int const x, int const y);
