@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:43:58 2013 guillaume marescaux
-// Last update Sat Nov 23 16:25:50 2013 antoine maitre
+// Last update Sat Nov 23 17:51:47 2013 laurent ansel
 //
 
 #ifndef 		__PLAYER_HH__
@@ -18,6 +18,7 @@ class			Player : public ACharacter
 {
 private:
   int			_numPlayer;
+  bool			_lostLife;
 public:
   Player(int const x, int const y, std::string const &path, int const speed, bool const destructible);
   virtual ~Player();
@@ -25,6 +26,7 @@ public:
   void			setNum(int const num);
   int			getNum() const;
   virtual void		collision();
+  bool			lostLife();
 };
 
 #endif
