@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sat Nov 23 14:44:31 2013 guillaume marescaux
+// Last update Sat Nov 23 14:58:34 2013 guillaume marescaux
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -199,7 +199,7 @@ void			ClientMain::sendKeyPress(PressedKey const &keys)
   // std::cout << "Fire= " <<  _action->getFire() << std::endl;
 }
 
-void			ClientMain::quitGame(bool const gameOver, bool const win)
+void			ClientMain::quitGame(bool const gameOver, bool const)
 {
   if (!gameOver)
     _client->getProto()->protocolMsg(Protocol::QUIT_GAME, _client->getId(), NULL);
