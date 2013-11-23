@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 00:15:14 2013 laurent ansel
-// Last update Fri Nov 22 10:32:35 2013 laurent ansel
+// Last update Fri Nov 22 20:40:41 2013 laurent ansel
 //
 
 #include			<list>
@@ -106,6 +106,7 @@ std::list<Trame *>		*Trame::cutToListTrame(std::string const &str)
       if (endPos != std::string::npos)
 	{
 	  tmp = toTrame(str.substr(pos, endPos - pos + endTrame));
+	  std::cout << "TRAME = " << str.substr(pos, endPos - pos + endTrame) << std::endl;
 	  if (tmp)
 	    list->push_back(tmp);
 	  pos = endPos + endTrame;
