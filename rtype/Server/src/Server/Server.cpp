@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Fri Nov 22 14:02:48 2013 laurent ansel
+// Last update Sat Nov 23 14:13:23 2013 laurent ansel
 //
 
 #include			<list>
@@ -188,7 +188,7 @@ std::list<ClientInfo *>::iterator	&Server::deleteClient(std::list<ClientInfo *>:
 #ifdef DEBUG_SERVER
   std::cout << "delete client " << tmp->getId() << " ..." << std::endl;
 #endif
-  GameLoopManager::getInstance()->deletePlayer(tmp);
+ GameLoopManager::getInstance()->deletePlayer(tmp);
   CircularBufferManager::getInstance()->deleteTrame(tmp->getId());
   delete tmp;
   it = this->_client->erase(it);
@@ -237,11 +237,11 @@ bool				Server::manageQuit(std::list<ClientInfo *>::iterator &it, Action &action
       if (GameLoopManager::getInstance()->deletePlayer(*it))
 	{
 	  ret = true;
-	  action.setQuitGame(false);
 	  this->debug("Client Quit Game");
 	}
       else
 	this->debug("Game Not Exist");
+      action.setQuitGame(false);
     }
   if (action.getQuitAll())
     {

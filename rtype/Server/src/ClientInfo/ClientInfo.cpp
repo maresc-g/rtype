@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Thu Nov 21 16:46:21 2013 laurent ansel
+// Last update Sat Nov 23 14:08:18 2013 laurent ansel
 //
 
 #ifndef				_WIN32
@@ -402,7 +402,32 @@ bool				ClientInfo::availableDelai() const
 
 void				ClientInfo::quitGame()
 {
+  Command			*command;
+
   this->_mutex->enter();
   this->_idGame = 0;
+  for (auto it = this->_command->begin() ; it != this->_command->end() ; ++it)
+    {
+      if ((*it))
+	{
+	  this->_mutex->leave();
+	  if (!actionServer())
+	    {
+	      this->_mutex->enter();
+	      command = (*it);
+	      this->_command->pop_front();
+	      delete command;
+	      if (this->_command->empty())
+		break;
+	      this->_mutex->leave();
+	    }
+	  else
+	    {
+	      this->_mutex->enter();
+	      break;
+	    }
+	}
+      this->_mutex->enter();
+    }
   this->_mutex->leave();
 }

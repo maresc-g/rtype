@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sat Nov 23 12:24:23 2013 laurent ansel
+// Last update Sat Nov 23 14:15:25 2013 laurent ansel
 //
 
 #include		<time.h>
@@ -155,8 +155,10 @@ void			GameLoop::loop()
 	  for (double i = 0 ; i <= 0.03 - ((double)time / CLOCKS_PER_SEC) ; i += 0.03)
 	    scrolling();
 	  this->sendScroll(this->_levelManag->getPosAdv());
+	  this->_mutex->enter();
 	  for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
 	    (*it_bis)->sendMsg();
+	  this->_mutex->leave();
 #ifndef _WIN32
 	  usleep(((double)0.03 - ((double)time / CLOCKS_PER_SEC)) * 1000000);
 #else
@@ -188,7 +190,8 @@ void			GameLoop::loop()
   else if (this->_criticalError == false)
     sendClient("TCP", "ENDGAME LOOSE");
   for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
-    (*it_bis)->sendMsg();  quitClients();
+    (*it_bis)->sendMsg();
+  quitClients();
   this->_mutex->leave();
   if (!this->_criticalError)
     GameLoopManager::getInstance()->quitGame(this->_id);

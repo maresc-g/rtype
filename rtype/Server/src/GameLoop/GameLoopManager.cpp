@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Nov  5 10:47:00 2013 laurent ansel
-// Last update Thu Nov 21 17:13:46 2013 laurent ansel
+// Last update Sat Nov 23 13:53:20 2013 laurent ansel
 //
 
 #include			"GameLoop/GameLoopManager.hh"
