@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:43:43 2013 guillaume marescaux
-// Last update Mon Nov 18 18:27:20 2013 antoine maitre
+// Last update Sat Nov 23 16:26:03 2013 antoine maitre
 //
 
 #ifndef 		__ACHARACTER_HH__
@@ -27,7 +27,6 @@ public:
   virtual		~ACharacter();
   void			setInvincible(int time);
   int			getInvincible() const;
-  void			collision();
   void			decOffFrames();
 };
 

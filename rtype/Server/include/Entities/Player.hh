@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:43:58 2013 guillaume marescaux
-// Last update Thu Nov 21 10:34:03 2013 laurent ansel
+// Last update Sat Nov 23 16:25:50 2013 antoine maitre
 //
 
 #ifndef 		__PLAYER_HH__
@@ -24,6 +24,7 @@ public:
   AEntity::eObject	getType() const;
   void			setNum(int const num);
   int			getNum() const;
+  virtual void		collision();
 };
 
 #endif

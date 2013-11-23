@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Sat Nov 23 01:13:10 2013 antoine maitre
+// Last update Sat Nov 23 16:14:12 2013 antoine maitre
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -27,7 +27,7 @@ PlayerInfo::PlayerInfo(ClientInfo *info, int num):
 
       str << "player" << num;
       SpriteLoaderManager::getInstance()->getEntitySprite(str.str(), *_player);
-      _player->setInvincible(40);
+      _player->setInvincible(50);
       _player->setNum(num);
     }
 }
@@ -47,6 +47,8 @@ AEntity		*PlayerInfo::getPlayer() const
 
 void		PlayerInfo::actionPlayer(Map *map, int adv, unsigned int &id)
 {
+  if (this->_player->getInvincible() > 0)
+    this->_player->setInvincible(this->_player->getInvincible() - 1);
   if (this->_info->standbyCommand())
     {
       const Command	*cmd = this->_info->getFirstCommand();
@@ -55,8 +57,6 @@ void		PlayerInfo::actionPlayer(Map *map, int adv, unsigned int &id)
 	  Action	&act = cmd->getAction();
 
   	  (void)map;
-  	  if (this->_player->getInvincible() > 0)
-  	    this->_player->setInvincible(this->_player->getInvincible() - 1);
   	  if (act.getUp())
   	    {
   	      act.setUp(false);

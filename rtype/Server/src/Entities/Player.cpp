@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Nov  5 10:38:05 2013 antoine maitre
-// Last update Thu Nov 21 10:33:30 2013 laurent ansel
+// Last update Sat Nov 23 16:26:33 2013 antoine maitre
 //
 
 #include "Entities/Player.hh"
@@ -35,4 +35,15 @@ void				Player::setNum(int const num)
 int				Player::getNum() const
 {
   return (this->_numPlayer);
+}
+
+void				Player::collision()
+{
+  if (this->_timeInvincible == 0)
+    {
+      this->_life--;
+      this->_timeInvincible = 50;
+      if (this->_life <= 0 && this->_destructible == true)
+	this->_dead = true;
+    }
 }
