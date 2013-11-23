@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sat Nov 23 19:05:24 2013 alexis mestag
+// Last update Sat Nov 23 22:35:43 2013 antoine maitre
 //
 
 #include		<time.h>
@@ -219,7 +219,10 @@ void			GameLoop::loop()
 	    for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
 	      {
 		if ((*it)->getType() == AEntity::PLAYER)
-		  this->sendEntity((*it));
+		  {
+		    reinterpret_cast<Player *>((*it))->setScore(reinterpret_cast<Player *>((*it))->getScore() + 1);
+		    this->sendEntity((*it));
+		  }
 	      }
 	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
 	    this->sendEntity((*it));

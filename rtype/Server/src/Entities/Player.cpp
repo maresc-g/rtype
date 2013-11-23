@@ -5,13 +5,14 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Nov  5 10:38:05 2013 antoine maitre
-// Last update Sat Nov 23 17:50:52 2013 laurent ansel
+// Last update Sat Nov 23 22:17:26 2013 antoine maitre
 //
 
 #include "Entities/Player.hh"
 
 Player::Player(int const x, int const y, std::string const &path, int const speed, bool const destructible)
   : ACharacter(x, y, path, speed, destructible),
+    _score(0),
     _numPlayer(0),
     _lostLife(false)
 {
@@ -49,6 +50,16 @@ void				Player::collision()
       else if (this->_destructible == true)
 	this->_lostLife = true;
     }
+}
+
+int				Player::getScore() const
+{
+  return (this->_score);
+}
+
+void				Player::setScore(int score)
+{
+  this->_score = score;
 }
 
 bool				Player::lostLife()

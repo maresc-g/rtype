@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:43:58 2013 guillaume marescaux
-// Last update Sat Nov 23 17:51:47 2013 laurent ansel
+// Last update Sat Nov 23 22:16:47 2013 antoine maitre
 //
 
 #ifndef 		__PLAYER_HH__
@@ -17,6 +17,7 @@
 class			Player : public ACharacter
 {
 private:
+  int			_score;
   int			_numPlayer;
   bool			_lostLife;
 public:
@@ -27,6 +28,8 @@ public:
   int			getNum() const;
   virtual void		collision();
   bool			lostLife();
+  int			getScore() const;
+  void			setScore(int);
 };
 
 #endif
