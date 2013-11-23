@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:22:47 2013 guillaume marescaux
-// Last update Fri Nov 22 13:56:37 2013 guillaume marescaux
+// Last update Sat Nov 23 18:21:24 2013 guillaume marescaux
 //
 
 #include			"Map/Map.hh"
@@ -150,4 +150,13 @@ Entity const			*Map::getEntityById(int const id) const
 	return (*it);
     }
   return (NULL);
+}
+
+void				Map::setInvincible(int const id, bool const invincible)
+{
+  for (auto it = _entities->begin() ; it != _entities->end() ; it++)
+    {
+      if ((*it)->getId() == id)
+	(*it)->setInvincible(invincible);
+    }
 }

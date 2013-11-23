@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 17:36:41 2013 cyril jourdain
-// Last update Fri Nov 22 14:34:45 2013 guillaume marescaux
+// Last update Sat Nov 23 18:06:18 2013 cyril jourdain
 //
 
 #ifndef 		__GAMEWINDOW_HH__
@@ -16,14 +16,15 @@
 #include		"Graphic/SFGraphics/Widgets/SFImageBox.hh"
 #include		"Graphic/SFGraphics/Widgets/SFLabel.hh"
 #include		"Graphic/Graphics/GameView.hh"
+#include		"Graphic/Graphics/GameHud.hh"
+#include		"Graphic/Graphics/GameOver.hh"
 
 class			GameWindow : public SFWindow
 {
 private:
-  SFImageBox		*_HUDBar;
   GameView		*_gameView;
-  SFLabel		*_score;
-  std::vector<SFImageBox*>	*_lives;
+  GameHud		*_gameHud;
+  GameOver		*_gameOver;
 
 public:
   GameWindow();
@@ -33,6 +34,7 @@ public:
   void			init();
   virtual void		update();
   void			reset();
+  void			gameOver();
 };
 
 #endif

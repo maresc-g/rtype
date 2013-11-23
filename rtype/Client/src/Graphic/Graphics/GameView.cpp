@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Sat Nov 23 16:20:54 2013 cyril jourdain
+// Last update Sat Nov 23 17:50:29 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -32,7 +32,7 @@ void			GameView::init()
   _bounds->top = 0;
   _bounds->left = 0;
   _bounds->width = WIN_X;
-  _bounds->height = WIN_Y;
+  _bounds->height = WIN_Y - 150;
   _customView->setViewport(sf::FloatRect(_bounds->left / WIN_X,
 				   _bounds->top / WIN_Y,
 				   _bounds->width / WIN_X,
@@ -64,12 +64,6 @@ void			GameView::onKeyPressed(void *const)
 {
   if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
     ClientMain::getInstance()->quitGame();
-  // _keys->left = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
-  // _keys->right = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
-  // _keys->up = sf::Keyboard::isKeyPressed(sf::Keyboard::Up);
-  // _keys->down = sf::Keyboard::isKeyPressed(sf::Keyboard::Down);
-  // _keys->space = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
-  // ClientMain::getInstance()->sendKeyPress(*_keys);
 }
 
 void			GameView::checkKeys()

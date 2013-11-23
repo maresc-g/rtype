@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Fri Nov 22 17:09:42 2013 antoine maitre
+// Last update Sat Nov 23 18:10:11 2013 laurent ansel
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -51,10 +51,6 @@ private:
   void				spawnWalls();
   void				destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AEntity *> &players);
 public:
-  void				sendDeadEntity(unsigned int);
-  void				sendScroll(unsigned int scroll);
-  void				sendClient(const std::string &, const std::string &);
-  void				sendEntity(AEntity *);
   bool				newPlayer(ClientInfo *newClient);
   void				playerDeath(PlayerInfo *deadPlayer);
   void				loop();
@@ -67,10 +63,20 @@ public:
   unsigned int			getLevel() const;
   bool				checkActiveClient();
 private:
+  void				sendDeadEntity(unsigned int) const;
+  void				sendScroll(unsigned int scroll) const;
+  void				sendClient(const std::string &, const std::string &) const;
+  void				sendEntity(AEntity *) const;
   void				scrolling();
-  void				action();
+  void				action() const;
   void				quitClients();
   void				execAction(Action const &action, AEntity *entity, int const adv, Map *map);
+  void				sendLostLife(unsigned int const id) const;
+  void				moveAllEntities(bool &);
+  void				removeEntities();
+  void				actionEntities();
+  void				lostLifePlayer() const;
+  void				endLoop();
 };
 
 #endif

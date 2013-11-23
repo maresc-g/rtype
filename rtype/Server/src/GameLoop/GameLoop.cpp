@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sat Nov 23 17:43:25 2013 alexis mestag
+// Last update Sat Nov 23 19:05:24 2013 alexis mestag
 //
 
 #include		<time.h>
@@ -50,7 +50,7 @@ void			GameLoop::scrolling()
   this->_mutex->leave();
 }
 
-void			GameLoop::action()
+void			GameLoop::action() const
 {
   for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
     if ((*it)->getType() != AEntity::PLAYER)
@@ -108,6 +108,67 @@ void			GameLoop::execAction(Action const &act, AEntity *entity, int const, Map *
 
 }
 
+void			GameLoop::moveAllEntities(bool &SuperVaisseau)
+{
+  this->_mutex->enter();
+  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
+    if ((*it)->moveToPixel())
+      {
+	this->sendEntity((*it));
+	SuperVaisseau = true;
+      }
+  this->_mutex->leave();
+  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
+    if ((*it)->moveToPixel())
+      this->sendEntity((*it));
+}
+
+void			GameLoop::removeEntities()
+{
+  this->_mutex->enter();
+  this->destroyDeadEntities(this->_levelManag->getEnemies(),
+			    this->_levelManag->getPlayers());
+  this->_mutex->leave();
+}
+
+void			GameLoop::actionEntities()
+{
+  this->_mutex->enter();
+  for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
+    {
+      if ((*it)->getIG() == true)
+	(*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getPosAdv(), _idEntity);
+    }
+  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
+    if ((*it)->getType() == AEntity::MOB)
+      this->execAction(*reinterpret_cast<Mob *>((*it))->getAction(), *it, this->_levelManag->getPosAdv(), this->_levelManag->getMap());
+  this->_mutex->leave();
+}
+
+void			GameLoop::lostLifePlayer() const
+{
+  this->_mutex->enter();
+  for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
+    if ((*it)->getType() == AEntity::PLAYER && reinterpret_cast<Player *>((*it))->lostLife())
+      this->sendLostLife((*it)->getId());
+  this->_mutex->leave();
+}
+
+void			GameLoop::endLoop()
+{
+  this->_mutex->enter();
+  if (this->_levelManag->getEndGame())
+    sendClient("TCP", "ENDGAME WIN");
+  else if (this->_criticalError == false)
+    sendClient("TCP", "ENDGAME LOOSE");
+  for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
+    (*it_bis)->sendMsg();
+  this->quitClients();
+  this->_mutex->leave();
+  if (!this->_criticalError)
+    GameLoopManager::getInstance()->quitGame(this->_id);
+}
+
 void			GameLoop::loop()
 {
   clock_t		time = 0;
@@ -124,47 +185,19 @@ void			GameLoop::loop()
       if (this->checkActiveClient() == false)
 	break;
       time = clock();
+      this->removeEntities();
+      this->moveAllEntities(SuperVaisseau);
+      this->actionEntities();
       this->_mutex->enter();
-
-      /*	Destruction de toutes les entités mortes durant la boucle de jeu		*/
-      this->destroyDeadEntities(this->_levelManag->getEnemies(),
-      				this->_levelManag->getPlayers());
-
-      /*      	Méthode permettant d'incrémenter pixel par pixel le déplacement des entités	*/
-      //           std::cout << "SIZE = " << this->_levelManag->getPlayers().size() << std::endl;
-      for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
-      	if ((*it)->moveToPixel())
-	  {
-	    this->sendEntity((*it));
-	    SuperVaisseau = true;
-	  }
-      this->_mutex->leave();
-      for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
-      	if ((*it)->moveToPixel())
-      	  this->sendEntity((*it));
-
-      this->_mutex->enter();
-
-            /*	Boucle exécutant les actions en cours de chaque client				*/
-      for (std::list<PlayerInfo *>::iterator it = _clients->begin(); it != _clients->end(); ++it)
-      	{
-     	  if ((*it)->getIG() == true)
-      	    (*it)->actionPlayer(this->_levelManag->getMap(), this->_levelManag->getPosAdv(), _idEntity);
-      	}
-      for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
-	if ((*it)->getType() == AEntity::MOB)
-	  this->execAction(*reinterpret_cast<Mob *>((*it))->getAction(), *it, this->_levelManag->getPosAdv(), this->_levelManag->getMap());
-
-      /*	Méthode permettant le check des collisions au sein de Map			*/
       this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
-
       this->_mutex->leave();
+      this->lostLifePlayer();
       end = clock();
       time = end - time;
       if (((double)time / CLOCKS_PER_SEC) <= 0.03)
         {
 	  for (double i = 0 ; i <= 0.03 - ((double)time / CLOCKS_PER_SEC) ; i += 0.03)
-	    scrolling();
+	    this->scrolling();
 	  this->sendScroll(this->_levelManag->getPosAdv());
 	  this->_mutex->enter();
 	  for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
@@ -182,8 +215,6 @@ void			GameLoop::loop()
       	{
 	  this->action();
 	  action = clock();
-      	  // for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
-      	  //   this->sendEntity((*it));
 	  if (SuperVaisseau == false)
 	    for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
 	      {
@@ -195,21 +226,10 @@ void			GameLoop::loop()
       	}
       this->_mutex->leave();
     }
-  this->_mutex->enter();
-  if (this->_levelManag->getEndGame())
-    sendClient("TCP", "ENDGAME WIN");
-  else if (this->_criticalError == false)
-    sendClient("TCP", "ENDGAME LOOSE");
-  for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
-    (*it_bis)->sendMsg();
-  quitClients();
-  this->_mutex->leave();
-  if (!this->_criticalError)
-    GameLoopManager::getInstance()->quitGame(this->_id);
-  std::cout << "YOLO SORTIS DE GAME" << std::endl;
+  this->endLoop();
 }
 
-void			GameLoop::sendDeadEntity(unsigned int id)
+void			GameLoop::sendDeadEntity(unsigned int id) const
 {
   std::ostringstream	oss;
 
@@ -217,7 +237,7 @@ void			GameLoop::sendDeadEntity(unsigned int id)
   this->sendClient("UDP", oss.str());
 }
 
-void			GameLoop::sendScroll(unsigned int scroll)
+void			GameLoop::sendScroll(unsigned int scroll) const
 {
   std::ostringstream	oss;
 
@@ -225,12 +245,19 @@ void			GameLoop::sendScroll(unsigned int scroll)
   this->sendClient("UDP", oss.str());
 }
 
-void			GameLoop::sendClient(const std::string &protocol, const std::string &trame)
+void			GameLoop::sendClient(const std::string &protocol, const std::string &trame) const
 {
   for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
     if (!this->_criticalError)
       (*it_bis)->pushMsg(protocol, trame);
-  //    (*it_bis)->sendTrame(protocol, trame);
+}
+
+void			GameLoop::sendLostLife(unsigned int const id) const
+{
+  std::ostringstream	oss;
+
+  oss << "LOSTLIFE " << id;
+  this->sendClient("UDP", oss.str());
 }
 
 void			GameLoop::sendScreen(std::list<AEntity *> &list)
@@ -239,7 +266,7 @@ void			GameLoop::sendScreen(std::list<AEntity *> &list)
     sendEntity(*it);
 }
 
-void			GameLoop::sendEntity(AEntity *entity)
+void			GameLoop::sendEntity(AEntity *entity) const
 {
   std::ostringstream	oss;
   std::string		path(PATH_SPRITE);
@@ -312,8 +339,6 @@ void			GameLoop::spawnWalls()
 	{
 	  (*it)->setId(_idEntity);
 	  _idEntity++;
-	  //	  (*it)->movePos((*it)->getPosX() * 10, (*it)->getPosY());
-	  std::cout << "POS = " << (*it)->getPosX() << std::endl;
 	  it = this->_levelManag->spawnWall(it);
 	}
       else if (!spawnable)

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:26 2013 guillaume marescaux
-// Last update Fri Nov 22 15:56:15 2013 guillaume marescaux
+// Last update Sat Nov 23 18:26:18 2013 guillaume marescaux
 //
 
 #ifndef 		__CLIENT_HH__
@@ -51,6 +51,7 @@ private:
   std::list<std::string>		*_diffDir;
   MutexVar<eState>			*_state;
   Action				*_action;
+  int					_life;
 
 public:
 
@@ -78,6 +79,7 @@ public:
   bool			getInitialized(void) const;
   Protocol		*getProto(void) const;
   int			getId(void) const;
+  int			getLife(void) const;
 
 private:
 
@@ -94,6 +96,7 @@ private:
   void			map(Trame const &trame);
   void			entity(Trame const &trame);
   void			scroll(Trame const &trame);
+  void			lostLife(Trame const &trame);
   void			dead(Trame const &trame);
   void			removeEntity(Trame const &trame);
   void			sprite(Trame const &trame);
