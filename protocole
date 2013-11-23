@@ -27,6 +27,7 @@ client -> "ACTION %action" UDP
 server -> "ENTITY %id;%type;%x;%y" UDP
 server -> "SCROLL %pos" UDP
 server -> "REMOVEENTITY %id" UDP
+server -> "LOSTLIFE %id" UDP
 server -> "DEAD" TCP
 
 server -> LEVELUP %lvl TCP

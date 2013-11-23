@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sat Nov 23 18:13:26 2013 laurent ansel
+// Last update Sat Nov 23 18:26:44 2013 laurent ansel
 //
 
 #include		<time.h>
@@ -145,7 +145,7 @@ void			GameLoop::lostLifePlayer() const
 {
   this->_mutex->enter();
   for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
-    if ((*it)->getType() == AEntity::PLAYER)
+    if ((*it)->getType() == AEntity::PLAYER && reinterpret_cast<Player *>((*it))->lostLife())
       this->sendLostLife((*it)->getId());
   this->_mutex->leave();
 }
