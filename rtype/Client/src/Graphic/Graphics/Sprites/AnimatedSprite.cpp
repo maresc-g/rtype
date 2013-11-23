@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 //
 // Started on  Wed Jun 19 13:45:16 2013 cyril jourdain
-// Last update Fri Nov 22 16:14:16 2013 cyril jourdain
+// Last update Sat Nov 23 23:53:50 2013 cyril jourdain
 //
 
 #include	"Graphic/Graphics/Sprites/AnimatedSprite.hh"
@@ -159,6 +159,7 @@ void			AnimatedSprite::loadFromFile(std::string const &file)
   Animation	*tmp;
   int		coord[4];
   int		size;
+  int		len;
   
   std::string first;
   getline(in, first);
@@ -178,6 +179,13 @@ void			AnimatedSprite::loadFromFile(std::string const &file)
     return err(file);
   std::istringstream is(first.substr(pos + 6, epos - (pos + 6)));
   is >> size;
+  if ((pos = first.find("[length=")) != std::string::npos)
+    {
+      if ((epos = first.find("]", pos + 7)) == std::string::npos)
+	return err(file);
+      std::istringstream is2(first.substr(pos + 7, epos - (pos + 8)));
+      is2 >> len;
+    }
   for (std::string line; getline(in, line);)
     {
       if ((pos = line.find("[name=")) == std::string::npos)
@@ -193,6 +201,7 @@ void			AnimatedSprite::loadFromFile(std::string const &file)
 	  iss >> coord[0] >> coord[1] >> coord[2] >> coord[3];
 	  tmp->addFrame(sf::IntRect(coord[0], coord[1], coord[2], coord[3]));
 	}
+      tmp->setFrameLenght(len);
       addAnimation(name, tmp);
     }
   setScale(size,size);

@@ -5,9 +5,11 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 17:19:13 2013 cyril jourdain
-// Last update Sat Nov 23 23:09:46 2013 cyril jourdain
+// Last update Sat Nov 23 23:43:07 2013 cyril jourdain
 //
 
+#include		<sstream>
+#include		<iomanip>
 #include		"Graphic/Graphics/GameHud.hh"
 #include		"Graphic/Global.hh"
 #include		"Graphic/ClientMain.hh"
@@ -65,4 +67,12 @@ void			GameHud::draw(sf::RenderTarget &target, sf::RenderStates states)  const
       _life->setPosition(500 + i * 40, 34);
       target.draw(*_life, states);
     }
+}
+
+void			GameHud::updateScore()
+{
+  std::ostringstream oss;
+
+  oss << std::setw(8) << std::setfill('0') << ClientMain::getInstance()->getClientScore();
+  _score->setText("Score : " + oss.str());
 }

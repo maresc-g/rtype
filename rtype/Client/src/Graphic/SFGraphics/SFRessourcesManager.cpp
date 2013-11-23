@@ -1,11 +1,11 @@
 //
-// SFRessourcesManager.cpp for  in /home/jourda_c/Documents/C++/RType/Sources
+// SFRessourcesManager.cpp for  in /home/jourda_c/Documents/C++/Rtype_test/rtype/rtype
 // 
 // Made by cyril jourdain
 // Login   <jourda_c@epitech.net>
 // 
-// Started on  Tue Oct 29 13:30:23 2013 cyril jourdain
-
+// Started on  Sat Nov 23 23:46:14 2013 cyril jourdain
+// Last update Sat Nov 23 23:47:57 2013 cyril jourdain
 //
 
 #include			"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
@@ -60,6 +60,7 @@ void			SFRessourcesManager::loadDefaultRessources()
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU3, SPRITE_WALLU3_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU4, SPRITE_WALLU4_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU5, SPRITE_WALLU5_CONF);
+  SFRessourcesManager::getInstance()->addSprite(EXPLOSION, EXPLOSION_CONF);
 }
 
 void			SFRessourcesManager::addSprite(std::string const &name, std::string const &path)
@@ -70,7 +71,6 @@ void			SFRessourcesManager::addSprite(std::string const &name, std::string const
   if (sprite){
     sprite->loadFromFile(path);
     (*_sprites)[name] = sprite;
-    std::cout << name << " loaded" << std::endl;
   }
 }
 

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Oct 28 15:04:47 2013 cyril jourdain
-// Last update Sat Nov 23 13:15:09 2013 guillaume marescaux
+// Last update Sat Nov 23 23:44:58 2013 cyril jourdain
 //
 
 #ifndef 		__GLOBAL_HH__
@@ -94,7 +94,8 @@
 #define			SPRITE_WALLU4			"wallu4"
 #define			SPRITE_WALLU5_CONF		"./Res/Sprites/wallu5.sprite"
 #define			SPRITE_WALLU5			"wallu5"
-
+#define			EXPLOSION_CONF			"./Res/explosion.sprite"
+#define			EXPLOSION			"explosion"
 
 
 /* *********** FONT ***********/

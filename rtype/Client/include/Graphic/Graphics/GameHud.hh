@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 17:12:57 2013 cyril jourdain
-// Last update Sat Nov 23 18:40:24 2013 cyril jourdain
+// Last update Sat Nov 23 23:29:11 2013 cyril jourdain
 //
 
 #ifndef 		__GAMEHUD_HH__
@@ -32,6 +32,7 @@ public:
   virtual void			init();
   virtual sf::FloatRect		&getBound() const;
   virtual void			setBackgroundColor(sf::Color const) {};
+  void				updateScore();
 
 private:
   virtual void			draw(sf::RenderTarget &target, sf::RenderStates states) const;
