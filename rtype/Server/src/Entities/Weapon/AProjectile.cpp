@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:49:34 2013 guillaume marescaux
-// Last update Fri Nov 22 11:00:31 2013 alexis mestag
+// Last update Sat Nov 23 18:49:51 2013 alexis mestag
 //
 
 #include			<math.h>
@@ -34,42 +34,16 @@ AProjectile::~AProjectile()
 
 void				AProjectile::move()
 {
-  double x1 = (_vx==0)?(0):(this->_speed / (_vx + _vy) * _vx);
-  double y2 = (_vy==0)?(0):(this->_speed / (_vx + _vy) * _vy);
+  // double x1 = (_vx==0)?(0):(this->_speed / (_vx + _vy) * _vx);
+  // double y2 = (_vy==0)?(0):(this->_speed / (_vx + _vy) * _vy);
 
+  double x1 = (_vx==0) ? (0) : (this->_speed / (_vx + _vy) * _vx);
+  double y2 = (_vy==0) ? (0) : (this->_speed / (_vx + _vy) * _vy);
+
+  x1 *= _vx < 0 ? -1 : 1;
+  y2 *= _vy < 0 ? -1 : 1;
   AEntity::move(static_cast<int>(this->getPosX() + x1), static_cast<int>(this->getPosY() + y2));
 }
-
-// #include			<complex>
-
-// void				AProjectile::setVector(int const vx, int const vy)
-// {
-//   static std::complex<double> const	orig(1, 0);
-//   Coordinate const	*itC;
-//   Coordinate		toCalc(0, 0);
-//   std::complex<double>	scal;
-//   std::complex<double>	cosinus;
-//   std::complex<double>	sinus;
-//   std::complex<double>	z(vx, vy);
-
-//   _vx = vx;
-//   _vy = vy;
-//   // scal = static_cast<double>(vx) * origX + static_cast<double>(vy) * origY;
-//   // cosinus = scal / (getVectorNorm(vx, vy) * getVectorNorm(origX, origY));
-//   // sinus = sqrt(1 - pow(cosinus, 2)) * (vy < 0 ? -1 : 1);
-//   cosinus = std::cos(z);
-//   sinus = std::sin(z);
-//   std::cout << "Cosinus : " << cosinus << std::endl;
-//   std::cout << "Sinus : " << sinus << std::endl;
-//   for (auto it = this->_hitbox->begin() ; it != this->_hitbox->end() ; ++it)
-//     {
-//       // itC = &(*it)->getCoordinate();
-//       // toCalc.setX(itC->getX() * cosinus + itC->getY() * sinus);
-//       // toCalc.setY(-itC->getX() * sinus + itC->getY() * cosinus);
-//       // // std::cout << "(" << toCalc.getX() << ", " << toCalc.getY() << ")" << std::endl;
-//       // (*it)->setCoordinate(toCalc);
-//     }
-// }
 
 void				AProjectile::setVector(int const vx, int const vy)
 {
@@ -87,13 +61,14 @@ void				AProjectile::setVector(int const vx, int const vy)
   cosinus = scal / (getVectorNorm(vx, vy) * getVectorNorm(origX, origY));
   sinus = sqrt(1.0 - pow(cosinus, 2)) * (vy > 0 ? -1 : 1);
   // std::cout << "Scal = " << scal << " => " << "(" << cosinus << ", " << sinus << ")" << std::endl;
-  for (auto it = this->_hitbox->begin() ; it != this->_hitbox->end() ; ++it)
-    {
-      itC = &(*it)->getOrigCoordinate();
-      toCalc.setX(itC->getX() * cosinus + itC->getY() * sinus);
-      toCalc.setY(-itC->getX() * sinus + itC->getY() * cosinus);
-      (*it)->setCoordinate(toCalc);
-    }
+  if (_hitbox)
+    for (auto it = this->_hitbox->begin() ; it != this->_hitbox->end() ; ++it)
+      {
+	itC = &(*it)->getOrigCoordinate();
+	toCalc.setX(itC->getX() * cosinus + itC->getY() * sinus);
+	toCalc.setY(-itC->getX() * sinus + itC->getY() * cosinus);
+	(*it)->setCoordinate(toCalc);
+      }
 }
 
 AEntity::eObject		AProjectile::getType() const

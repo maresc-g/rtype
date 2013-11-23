@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:25 2013 guillaume marescaux
-// Last update Sat Nov 23 16:08:37 2013 antoine maitre
+// Last update Sat Nov 23 17:39:07 2013 alexis mestag
 //
 
 #ifndef 		__AENTITY_HH__
@@ -92,6 +92,8 @@ public:
   int			getPosY();
   void			movePos(int, int);
   void			resetMove();
+
+  virtual void		getProjectileVector(int &vx, int &vy) const;
 };
 
 #endif

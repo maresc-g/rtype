@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov 18 10:34:21 2013 alexis mestag
-// Last update Sat Nov 23 16:20:42 2013 alexis mestag
+// Last update Sat Nov 23 19:02:48 2013 alexis mestag
 //
 
 #include			<time.h>
@@ -25,7 +25,6 @@ Action const			*Donkey::getAction() const
 {
   static int			willFire = 0;
 
-
   _action->reset();
   _action->setLeft(true);
   if (willFire++ == 100) {
@@ -33,4 +32,10 @@ Action const			*Donkey::getAction() const
     willFire = 0;
   }
   return (_action);
+}
+
+void				Donkey::getProjectileVector(int &vx, int &vy) const
+{
+  vx = -30;
+  vy = 0;
 }
