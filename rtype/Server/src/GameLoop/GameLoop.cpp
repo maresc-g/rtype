@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sat Nov 23 22:35:43 2013 antoine maitre
+// Last update Sun Nov 24 00:38:47 2013 antoine maitre
 //
 
 #include		<time.h>
@@ -20,6 +20,7 @@ GameLoop::GameLoop(std::string const &name, unsigned int const id):
   _rate(20),
   _name(name),
   _id(id),
+  _nextL(false),
   _criticalError(false),
   _mutex(new Mutex),
   _idEntity(0)
@@ -42,7 +43,7 @@ void			GameLoop::Initialize()
 
 void			GameLoop::scrolling()
 {
-  this->_levelManag->incAdv();
+  this->_levelManag->incAdv(this->_nextL);
   this->_mutex->enter();
   for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
     if ((*it)->getType() == AEntity::PLAYER)
@@ -102,7 +103,6 @@ void			GameLoop::execAction(Action const &act, AEntity *entity, int const, Map *
 	  _idEntity++;
 	  projectile->movePos(entity->getPosX(), entity->getPosY());
 	  map->getEnemies().push_back(projectile);
-	  std::cout << "POS = " << map->getPlayers().size() << std::endl;
 	}
     }
 
@@ -169,6 +169,26 @@ void			GameLoop::endLoop()
     GameLoopManager::getInstance()->quitGame(this->_id);
 }
 
+void			GameLoop::timeToChange()
+{
+  std::ostringstream	oss;
+
+  this->_nextL = false;
+  this->_levelManag->nextLevel();
+  for (auto it = this->_clients->begin(); it != this->_clients->end(); it++)
+    {
+      if ((*it)->getIG())
+	{
+	  AEntity *play = (*it)->getPlayer();
+	  play->movePos(20, 40);
+	  static_cast<Player *>(play)->setScore(static_cast<Player *>(play)->getScore() + 100);
+	  this->_levelManag->getPlayers().push_back(play);
+	}
+    }
+  oss << "LEVELUP " << this->_levelManag->getDiff();
+  sendClient("TCP", oss.str());
+}
+
 void			GameLoop::loop()
 {
   clock_t		time = 0;
@@ -184,6 +204,8 @@ void			GameLoop::loop()
       this->spawnWalls();
       if (this->checkActiveClient() == false)
 	break;
+      if (this->_nextL == true)
+	timeToChange();
       time = clock();
       this->removeEntities();
       this->moveAllEntities(SuperVaisseau);
@@ -201,7 +223,11 @@ void			GameLoop::loop()
 	  this->sendScroll(this->_levelManag->getPosAdv());
 	  this->_mutex->enter();
 	  for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
-	    (*it_bis)->sendMsg();
+	    {
+	      AEntity	*toto = (*it_bis)->getPlayer();
+	      static_cast<Player *>(toto)->setScore(static_cast<Player *>(toto)->getScore() + 1);
+	      (*it_bis)->sendMsg();
+	    }
 	  this->_mutex->leave();
 #ifndef _WIN32
 	  usleep(((double)0.03 - ((double)time / CLOCKS_PER_SEC)) * 1000000);
@@ -220,7 +246,6 @@ void			GameLoop::loop()
 	      {
 		if ((*it)->getType() == AEntity::PLAYER)
 		  {
-		    reinterpret_cast<Player *>((*it))->setScore(reinterpret_cast<Player *>((*it))->getScore() + 1);
 		    this->sendEntity((*it));
 		  }
 	      }

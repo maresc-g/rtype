@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 17:19:13 2013 cyril jourdain
-// Last update Sat Nov 23 19:20:48 2013 cyril jourdain
+// Last update Sat Nov 23 19:30:00 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameHud.hh"
@@ -26,7 +26,7 @@ GameHud::~GameHud()
 
 void			GameHud::init()
 {
-  _bounds->top = WIN_Y - 150;
+  _bounds->top = WIN_Y - 100;
   _bounds->left = 0;
   _bounds->width = WIN_X;
   _bounds->height = 150;

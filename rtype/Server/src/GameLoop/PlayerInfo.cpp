@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Sat Nov 23 16:56:42 2013 laurent ansel
+// Last update Sun Nov 24 00:21:24 2013 antoine maitre
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -49,7 +49,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv, unsigned int &id)
 {
   if (this->_player->getInvincible() > 0)
     this->_player->setInvincible(this->_player->getInvincible() - 1);
-  if (this->_info->standbyCommand())
+  if (this->_info->standbyCommand() && this->_inGame)
     {
       const Command	*cmd = this->_info->getFirstCommand();
       if (cmd)
@@ -99,6 +99,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv, unsigned int &id)
 		  id++;
   		  projectile->movePos(this->_player->getPosX() + spawn.getX(), this->_player->getPosY() + spawn.getY());
 		  map->getPlayers().push_back(projectile);
+		  static_cast<Rocket *>(projectile)->whoIsMyDaddy(this->_player);
   		}
   	    }
 	  this->_info->setAction(act);

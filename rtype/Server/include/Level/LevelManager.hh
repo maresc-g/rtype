@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:48 2013 antoine maitre
-// Last update Fri Nov 22 10:57:23 2013 arthur rucquois
+// Last update Sat Nov 23 23:53:17 2013 antoine maitre
 //
 
 #ifndef __LEVELMANAGER_HH__
@@ -36,7 +36,7 @@ public:
   void nextLevel();
   Level *getCurrentLevel();
   bool getEndGame();
-  void incAdv();
+  void incAdv(bool &);
   Map *getMap();
   int getAdv() const;
   int getPixelAdv() const;

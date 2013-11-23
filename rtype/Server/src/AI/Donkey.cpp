@@ -5,15 +5,16 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov 18 10:34:21 2013 alexis mestag
-// Last update Sat Nov 23 19:02:48 2013 alexis mestag
+// Last update Sat Nov 23 22:27:31 2013 alexis mestag
 //
 
-#include			<time.h>
 #include			"AI/Donkey.hh"
 
 Donkey::Donkey() :
-  Mob(0, 0, "Res/Sprites/mob1.png", 2)
+  Mob(0, 0, "Res/Sprites/mob1.png", 2), _willFire(rand() % 51)
 {
+  _v[0] = -30;
+  _v[1] = 0;
 }
 
 Donkey::~Donkey()
@@ -21,21 +22,24 @@ Donkey::~Donkey()
 
 }
 
-Action const			*Donkey::getAction() const
+Action const			*Donkey::getAction()
 {
-  static int			willFire = 0;
+  static int			ys[3] = {-30, 0, 30};
 
   _action->reset();
   _action->setLeft(true);
-  if (willFire++ == 100) {
+  if (_willFire++ == 50) {
+    int				y = rand() % 3;
+
+    _v[1] = ys[y];
     _action->setFire(true);
-    willFire = 0;
+    _willFire = 0;
   }
   return (_action);
 }
 
 void				Donkey::getProjectileVector(int &vx, int &vy) const
 {
-  vx = -30;
-  vy = 0;
+  vx = _v[0];
+  vy = _v[1];
 }

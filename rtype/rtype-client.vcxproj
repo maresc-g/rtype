@@ -88,6 +88,8 @@
     <ClCompile Include="Client\src\Game\GameInfo.cpp" />
     <ClCompile Include="Client\src\Game\GameList.cpp" />
     <ClCompile Include="Client\src\Graphic\ClientMain.cpp" />
+    <ClCompile Include="Client\src\Graphic\Graphics\GameHud.cpp" />
+    <ClCompile Include="Client\src\Graphic\Graphics\GameOver.cpp" />
     <ClCompile Include="Client\src\Graphic\Graphics\GameOverWindow.cpp" />
     <ClCompile Include="Client\src\Graphic\Graphics\GameView.cpp" />
     <ClCompile Include="Client\src\Graphic\Graphics\GameWindow.cpp" />
@@ -143,6 +145,8 @@
     <None Include="Client\include\Graphic\ClientMain.hh" />
     <None Include="Client\include\Graphic\eState.hh" />
     <None Include="Client\include\Graphic\Global.hh" />
+    <None Include="Client\include\Graphic\Graphics\GameHud.hh" />
+    <None Include="Client\include\Graphic\Graphics\GameOver.hh" />
     <None Include="Client\include\Graphic\Graphics\GameOverWindow.hh" />
     <None Include="Client\include\Graphic\Graphics\GameView.hh" />
     <None Include="Client\include\Graphic\Graphics\GameWindow.hh" />

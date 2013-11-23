@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Oct 30 11:14:28 2013 antoine maitre
-// Last update Sat Nov 23 00:15:11 2013 laurent ansel
+// Last update Sat Nov 23 21:45:03 2013 alexis mestag
 //
 
 #ifndef		__MOB_H__
@@ -28,7 +28,7 @@ public:
   Mob(int const x = 0, int const y = 0, std::string const &path = "", int const speed = 50);
   virtual ~Mob();
   AEntity::eObject getType() const;
-  virtual Action const	*getAction() const;
+  virtual Action const	*getAction();
 };
 
 #endif

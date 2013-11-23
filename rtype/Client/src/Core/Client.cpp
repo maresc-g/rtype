@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Sat Nov 23 18:35:43 2013 guillaume marescaux
+// Last update Sat Nov 23 20:47:13 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -175,6 +175,7 @@ void				Client::ko(Trame const &)
 
 void				Client::launchGame(Trame const &)
 {
+  _life = 3;
   _state->setVar(PLAYING);
 }
 
@@ -456,9 +457,6 @@ void				Client::readFromSocket(eSocket sock)
 	    }
 	}
       tmpTrame = Trame::cutToListTrame(tmp); 
-      // std::cout << "TO STRING = ";
-      // std::cout.write(tmp.c_str(), tmp.size());
-      // std::cout << std::endl;
       if (tmpTrame)
 	{
 	  for (auto it = tmpTrame->begin() ; it != tmpTrame->end() ; it++)
@@ -489,22 +487,13 @@ bool				Client::initialize(void)
   *_state = CONNECTING;
   try
     {
-      std::cout << "1" << std::endl;
       (*_sockets)[TCP]->initialize("TCP");
-      std::cout << "2" << std::endl;
       (*_sockets)[UDP]->initialize("UDP");
-      std::cout << "3" << std::endl;
-      // (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr("10.11.46.54", 4243);
-      // (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr("10.11.46.54", 4243);
-      std::cout << "4" << std::endl;
       (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr(_info->getVar()->getIp(), std::stoi(_info->getVar()->getPort()));
-      std::cout << "5" << std::endl;
       (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr(_info->getVar()->getIp(), std::stoi(_info->getVar()->getPort()));
-      std::cout << "6" << std::endl;
     }
   catch (SocketError const &e)
     {
-      std::cout << "ERROR CONNECT" << std::endl;
       this->disconnect();
       *_state = ERROR_CONNECT;
       return (false);
@@ -515,7 +504,6 @@ bool				Client::initialize(void)
       *_state = ERROR_CONNECT;
       return (false);
     }
-  std::cout << "CONNECTED" << std::endl;
   this->read(0, 0, false);
   tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
   msgType = _protocol->getMsg(tmp);

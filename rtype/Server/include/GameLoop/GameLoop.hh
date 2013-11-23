@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Sat Nov 23 18:10:11 2013 laurent ansel
+// Last update Sun Nov 24 00:30:02 2013 antoine maitre
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -39,6 +39,7 @@ private:
   int				_rate;
   std::string			_name;
   unsigned int			_id;
+  bool				_nextL;
   bool				_criticalError;
   Mutex				*_mutex;
   unsigned int			_idEntity;
@@ -62,6 +63,7 @@ public:
   bool				deletePlayer(ClientInfo *client);
   unsigned int			getLevel() const;
   bool				checkActiveClient();
+  void				timeToChange();
 private:
   void				sendDeadEntity(unsigned int) const;
   void				sendScroll(unsigned int scroll) const;

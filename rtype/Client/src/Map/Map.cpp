@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:22:47 2013 guillaume marescaux
-// Last update Sat Nov 23 18:21:24 2013 guillaume marescaux
+// Last update Sat Nov 23 21:14:35 2013 guillaume marescaux
 //
 
 #include			"Map/Map.hh"
@@ -107,10 +107,13 @@ bool				Map::exists(int const id) const
 std::list<Entity *>		*Map::copyList(std::list<Entity*> const &toCopy) const
 {
   std::list<Entity *>		*ret = new std::list<Entity *>;
+  Entity			*tmp;
 
   for (auto it = toCopy.begin() ; it != toCopy.end() ; it++)
     {
-      ret->push_back(new Entity(**it));
+      tmp = new Entity(**it);
+      tmp->setTime((*it)->getClock().getElapsedTime().asSeconds());
+      ret->push_back(tmp);
     }
   return (ret);
 }
@@ -137,6 +140,11 @@ std::list<Entity *>		*Map::getEntities(void) const
   std::list<Entity *>		*tmp = new std::list<Entity *>;
 
   _mutex->enter();
+  for (auto it = _entities->begin() ; it != _entities->end() ; it++)
+    {
+      if ((*it)->getInvincible() && (*it)->getClock().getElapsedTime().asSeconds() > 3)
+	(*it)->setInvincible(false);
+    }
   tmp = this->copyList(*_entities);
   _mutex->leave();
   return (tmp);

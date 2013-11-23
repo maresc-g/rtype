@@ -5,13 +5,14 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sat Nov 23 19:21:24 2013 cyril jourdain
+// Last update Sat Nov 23 22:20:15 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
 #include		"Graphic/SFGraphics/Widgets/SFDialogBox.hh"
 #include		"Graphic/SFGraphics/Widgets/SFDialogTextBox.hh"
 #include		"Map/Map.hh"
+#include		"Sound/SoundManager.hh"
 
 static void	*trampoline(void *param)
 {
@@ -59,6 +60,8 @@ void			ClientMain::init()
   _manager->addWindow(GAME,(*_windows)[GAME]);
   // _manager->addWindow(GAMEOVER,(*_windows)[GAMEOVER]);
   _manager->setActiveWindow(LOGIN);
+  SoundManager::getInstance()->loadDefaultSounds();
+  SoundManager::getInstance()->playMusic("background");
 }
 
 void			ClientMain::launch()
@@ -195,11 +198,14 @@ void			ClientMain::refreshGameList(void *)
 
 void			ClientMain::sendKeyPress(PressedKey const &keys)
 {
+
   _action->setLeft(keys.left);
   _action->setRight(keys.right);
   _action->setUp(keys.up);
   _action->setDown(keys.down);
   _action->setFire(keys.space);
+  if (keys.space)
+    SoundManager::getInstance()->playSound("shot");
 }
 
 void			ClientMain::quitGame(bool const gameOver, bool const)

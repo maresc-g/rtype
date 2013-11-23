@@ -5,12 +5,13 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:07:33 2013 guillaume marescaux
-// Last update Sat Nov 23 18:21:47 2013 guillaume marescaux
+// Last update Sat Nov 23 21:14:01 2013 guillaume marescaux
 //
 
 #ifndef 		__ENTITY_HH__
 # define 		__ENTITY_HH__
 
+#include		<SFML/System.hpp>
 #include		<string>
 
 class			Entity
@@ -24,6 +25,8 @@ private:
   std::string		_type;
   std::string		_direction;
   bool			_invincible;
+  sf::Clock		*_clock;
+  float			_time;
 
 public:
 
@@ -40,13 +43,16 @@ public:
   int			getY(void) const;
   std::string const	&getType(void) const;
   std::string const	&getDirection(void) const;
+  sf::Clock const	&getClock(void) const;
   bool			getInvincible(void) const;
+  float			getTime(void) const;
   void			setId(int const id);
   void			setX(int const x);
   void			setY(int const y);
   void			setType(std::string const &type);
   void			setDirection(std::string const &direction);
   void			setInvincible(bool const invincible);
+  void			setTime(float const time);
 };
 
 #endif

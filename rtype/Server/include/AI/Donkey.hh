@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov 18 10:33:23 2013 alexis mestag
-// Last update Sat Nov 23 18:59:43 2013 alexis mestag
+// Last update Sat Nov 23 21:53:49 2013 alexis mestag
 //
 
 #ifndef			__DONKEY_HH__
@@ -16,10 +16,14 @@
 
 class			Donkey : public Mob
 {
+private:
+  int			_willFire;
+  int			_v[2];
+
 public:
   Donkey();
   virtual ~Donkey();
-  virtual Action const	*getAction() const;
+  virtual Action const	*getAction();
   virtual void		getProjectileVector(int &, int &) const;
 };
 

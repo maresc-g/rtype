@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:49:34 2013 guillaume marescaux
-// Last update Sat Nov 23 18:49:51 2013 alexis mestag
+// Last update Sat Nov 23 21:16:06 2013 alexis mestag
 //
 
 #include			<math.h>
@@ -34,14 +34,9 @@ AProjectile::~AProjectile()
 
 void				AProjectile::move()
 {
-  // double x1 = (_vx==0)?(0):(this->_speed / (_vx + _vy) * _vx);
-  // double y2 = (_vy==0)?(0):(this->_speed / (_vx + _vy) * _vy);
+  double x1 = (_vx==0) ? (0) :(_vx / this->_speed);
+  double y2 = (_vy==0) ? (0) :(_vy / this->_speed);
 
-  double x1 = (_vx==0) ? (0) : (this->_speed / (_vx + _vy) * _vx);
-  double y2 = (_vy==0) ? (0) : (this->_speed / (_vx + _vy) * _vy);
-
-  x1 *= _vx < 0 ? -1 : 1;
-  y2 *= _vy < 0 ? -1 : 1;
   AEntity::move(static_cast<int>(this->getPosX() + x1), static_cast<int>(this->getPosY() + y2));
 }
 

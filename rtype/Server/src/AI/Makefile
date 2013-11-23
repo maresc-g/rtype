@@ -5,8 +5,9 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Sat Nov  2 18:08:57 2013 laurent ansel
-## Last update Tue Nov 19 17:48:19 2013 alexis mestag
+## Last update Sat Nov 23 22:12:26 2013 alexis mestag
 ##
 
-SRCAI +=	$(AI)/Donkey.cpp
+SRCAI +=	$(AI)/Donkey.cpp	\
+		$(AI)/Snake.cpp
 AIDIR =		$(AI)

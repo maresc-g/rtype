@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:06 2013 antoine maitre
-// Last update Fri Nov 22 11:01:07 2013 arthur rucquois
+// Last update Sat Nov 23 23:50:49 2013 antoine maitre
 //
 
 #include	"Level/LevelManager.hh"
@@ -55,11 +55,11 @@ bool	LevelManager::getEndGame()
   return (this->_endGame);
 }
 
-void	LevelManager::incAdv()
+void	LevelManager::incAdv(bool &whoSNext)
 {
   this->_currentLevel->incAdv();
   if (this->_currentLevel->getEnd() == true)
-    this->nextLevel();
+    whoSNext = true;
 }
 
 std::list<AEntity *> &LevelManager::getEnemies()

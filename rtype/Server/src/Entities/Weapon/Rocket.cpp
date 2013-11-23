@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:50:16 2013 guillaume marescaux
-// Last update Thu Nov 21 16:23:53 2013 antoine maitre
+// Last update Sat Nov 23 22:54:35 2013 antoine maitre
 //
 
 #include			"Entities/Weapon/Rocket.hh"
@@ -25,4 +25,15 @@ Rocket::~Rocket()
 AEntity::eObject	Rocket::getType() const
 {
   return (AEntity::ROCKET);
+}
+
+void			Rocket::collision()
+{
+  AEntity::collision();
+  this->_daddy->setScore(this->_daddy->getScore() + 10);
+}
+
+void			Rocket::whoIsMyDaddy(Player *bigDaddy)
+{
+  this->_daddy = bigDaddy;
 }
