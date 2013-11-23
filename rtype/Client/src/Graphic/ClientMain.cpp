@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sat Nov 23 14:58:34 2013 guillaume marescaux
+// Last update Sat Nov 23 17:18:03 2013 guillaume marescaux
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -114,6 +114,7 @@ void			ClientMain::joinGame(void *)
 {
   SFArrayLine		*line = static_cast<LobbyWindow*>((*_windows)[LOBBY])->getSelectedGame(NULL);
 
+  Map::getInstance()->clear();
   if (line)
     {
       *_state = WAIT_GAME;
@@ -146,6 +147,7 @@ void			ClientMain::callCreateGame(void *data)
 {
   std::string		tmp = reinterpret_cast<SFTextBox *>(data)->getText();
 
+  Map::getInstance()->clear();
   std::cout << tmp << std::endl;
   if (tmp.size() > 0)
     {
