@@ -5,10 +5,11 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:39:28 2013 guillaume marescaux
-// Last update Fri Nov 22 17:01:11 2013 guillaume marescaux
+// Last update Sat Nov 23 16:08:14 2013 cyril jourdain
 //
 
 #include			<sstream>
+#include			<stdexcept>
 #include			"Core/Protocol.hh"
 #include			"CircularBufferManager/CircularBufferManager.hh"
 
