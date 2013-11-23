@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sat Nov 23 17:18:03 2013 guillaume marescaux
+// Last update Sat Nov 23 18:28:57 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -114,9 +114,9 @@ void			ClientMain::joinGame(void *)
 {
   SFArrayLine		*line = static_cast<LobbyWindow*>((*_windows)[LOBBY])->getSelectedGame(NULL);
 
-  Map::getInstance()->clear();
   if (line)
     {
+      Map::getInstance()->clear();
       *_state = WAIT_GAME;
       int i = std::stoi((*line)["ID"].getData());
       _client->getProto()->protocolMsg(Protocol::JOIN, _client->getId(), &i);
@@ -147,10 +147,10 @@ void			ClientMain::callCreateGame(void *data)
 {
   std::string		tmp = reinterpret_cast<SFTextBox *>(data)->getText();
 
-  Map::getInstance()->clear();
   std::cout << tmp << std::endl;
   if (tmp.size() > 0)
     {
+      Map::getInstance()->clear();
       *_state = WAIT_GAME;
       _client->getProto()->protocolMsg(Protocol::CREATE, _client->getId(), &tmp);
       while (_state->getVar() == WAIT_GAME);
@@ -193,19 +193,17 @@ void			ClientMain::sendKeyPress(PressedKey const &keys)
   _action->setUp(keys.up);
   _action->setDown(keys.down);
   _action->setFire(keys.space);
-  // std::cout << "##############" << std::endl;
-  // std::cout << "Left= " <<  _action->getLeft() << std::endl;
-  // std::cout << "Right= " <<  _action->getRight() << std::endl;
-  // std::cout << "Up= " <<  _action->getUp() << std::endl;
-  // std::cout << "Down= " <<  _action->getDown() << std::endl;
-  // std::cout << "Fire= " <<  _action->getFire() << std::endl;
 }
 
 void			ClientMain::quitGame(bool const gameOver, bool const)
 {
+  Map::getInstance()->clear();
   if (!gameOver)
     _client->getProto()->protocolMsg(Protocol::QUIT_GAME, _client->getId(), NULL);
-  Map::getInstance()->clear();
+  else {
+    static_cast<GameWindow *>(_manager->getWindowById(GAME))->gameOver();
+    sf::sleep(sf::seconds(2));
+  }
   *_state = IN_LOBBY;
   _manager->getWindowById(GAME)->setVisibility(false);
   _manager->setFPS(20);

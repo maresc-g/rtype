@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sun Nov  3 19:36:18 2013 cyril jourdain
-// Last update Wed Nov 20 12:57:11 2013 cyril jourdain
+// Last update Sat Nov 23 18:19:43 2013 cyril jourdain
 //
 
 #include			"Graphic/SFGraphics/Widgets/SFWindow.hh"
@@ -144,11 +144,13 @@ void				SFWindow::draw(sf::RenderWindow *win) const
 {
   for (std::list<SFWidget *>::iterator it = _widgetList->begin();it != _widgetList->end();++it)
     {
-      const sf::View *oldViewContent = &(win->getView());
-      if ((*it)->getCustomView())
-      	win->setView(*(*it)->getCustomView());
-      win->draw(**it);
-      if (oldViewContent)
-      	win->setView(*oldViewContent);
+      if ((*it)->isVisible()){
+	const sf::View *oldViewContent = &(win->getView());
+	if ((*it)->getCustomView())
+	  win->setView(*(*it)->getCustomView());
+	win->draw(**it);
+	if (oldViewContent)
+	  win->setView(*oldViewContent);
+      }
     }
 }

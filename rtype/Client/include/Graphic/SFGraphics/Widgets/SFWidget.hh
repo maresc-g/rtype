@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 12:06:36 2013 cyril jourdain
-// Last update Wed Nov 13 14:15:23 2013 cyril jourdain
+// Last update Sat Nov 23 18:18:55 2013 cyril jourdain
 //
 
 #ifndef 		__SFWIDGET_HH__
@@ -30,6 +30,7 @@ protected:
   sf::FloatRect			*_bounds;
   sf::View			*_customView;
   sf::RenderTarget		*_renderTarget;
+  bool				_visible;
   
 public:
   SFWidget();
@@ -42,6 +43,8 @@ public:
   void				callNativeFunction(sf::Event *const event);
   sf::View			*getCustomView() const;
   void				setRenderTarget(sf::RenderTarget *);
+  void				setVisible(bool);
+  bool				isVisible() const;
 
 private:
   virtual void			draw(sf::RenderTarget &target, sf::RenderStates states) const = 0;

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Oct 24 17:38:46 2013 cyril jourdain
-// Last update Wed Nov 13 13:40:19 2013 cyril jourdain
+// Last update Sat Nov 23 18:19:24 2013 cyril jourdain
 //
 
 #ifndef 		__SFWIDGET_CPP__
@@ -17,6 +17,8 @@ SFWidget::SFWidget() : sf::Drawable(), sf::Transformable()
 {
   _bounds = new sf::FloatRect(0,0,0,0);
   _customView = NULL;
+  _renderTarget = NULL;
+  _visible = true;
   //_mouseParam = NULL;
 };
 
@@ -62,6 +64,8 @@ void			SFWidget::callNativeFunction(sf::Event *const event)
 }
 
 void			SFWidget::setRenderTarget(sf::RenderTarget *target) {_renderTarget = target;}
+void			SFWidget::setVisible(bool const visible) {_visible = visible;}
+bool			SFWidget::isVisible() const {return _visible;}
 
 /* EVENT FUNCTION CLASSBACK */
 void			SFWidget::onClick(void *const)

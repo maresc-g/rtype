@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 17:56:23 2013 cyril jourdain
-// Last update Fri Nov 22 14:55:12 2013 guillaume marescaux
+// Last update Sat Nov 23 17:13:07 2013 cyril jourdain
 //
 
 #ifndef 		__GAMEVIEW_HH__
