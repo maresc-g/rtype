@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:37:12 2013 cyril jourdain
-// Last update Sat Nov 23 18:58:48 2013 cyril jourdain
+// Last update Sat Nov 23 21:14:23 2013 cyril jourdain
 //
 
 #ifndef 		__CLIENTMAIN_HH__
@@ -25,6 +25,7 @@ class			Client;
 #include		"eState.hh"
 #include		"Mutex/MutexVar.hpp"
 #include		"Action/Action.hh"
+#include		<SFML/Audio.hpp>
 
 #define			SPRITE_DIR	"Res/Sprites"
 
@@ -39,6 +40,8 @@ private:
   MutexVar<eState>		*_state;
   FileSystem::Directory		*_dir;
   Action			*_action;
+
+  sf::SoundBuffer		_sound;
 
 private:
   ClientMain();

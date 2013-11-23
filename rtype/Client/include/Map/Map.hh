@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:30:57 2013 guillaume marescaux
-// Last update Sat Nov 23 18:20:40 2013 guillaume marescaux
+// Last update Sat Nov 23 19:55:58 2013 cyril jourdain
 //
 
 #ifndef 		__MAP_HH__

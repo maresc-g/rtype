@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:22:54 2013 cyril jourdain
-// Last update Sat Nov 23 19:16:54 2013 cyril jourdain
+// Last update Sat Nov 23 19:58:43 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameWindow.hh"
@@ -25,9 +25,9 @@ void			GameWindow::init()
   _gameView = new GameView();
   _gameHud = new GameHud();
   _gameOver = new GameOver();
+  addWidget(_gameOver);
   addWidget(_gameView);
   addWidget(_gameHud);
-  addWidget(_gameOver);
   _gameOver->setVisible(false);
   setSize(sf::Vector2f(WIN_X, WIN_Y));
 }
