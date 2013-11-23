@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sat Nov 23 13:42:37 2013 guillaume marescaux
+// Last update Sat Nov 23 14:44:31 2013 guillaume marescaux
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -55,7 +55,7 @@ void			ClientMain::init()
   _manager->addWindow(LOBBY,(*_windows)[LOBBY]);
   _manager->addWindow(LOGIN,(*_windows)[LOGIN]);
   _manager->addWindow(GAME,(*_windows)[GAME]);
-  _manager->addWindow(GAMEOVER,(*_windows)[GAMEOVER]);
+  // _manager->addWindow(GAMEOVER,(*_windows)[GAMEOVER]);
   _manager->setActiveWindow(LOGIN);
 }
 
@@ -147,19 +147,24 @@ void			ClientMain::callCreateGame(void *data)
   std::string		tmp = reinterpret_cast<SFTextBox *>(data)->getText();
 
   std::cout << tmp << std::endl;
-  *_state = WAIT_GAME;
-  _client->getProto()->protocolMsg(Protocol::CREATE, _client->getId(), &tmp);
-  while (_state->getVar() == WAIT_GAME);
-  if (_state->getVar() == PLAYING)
+  if (tmp.size() > 0)
     {
-      _manager->setActiveWindow(GAME);
-      _manager->getWindowById(LOBBY)->setVisibility(false);
+      *_state = WAIT_GAME;
+      _client->getProto()->protocolMsg(Protocol::CREATE, _client->getId(), &tmp);
+      while (_state->getVar() == WAIT_GAME);
+      if (_state->getVar() == PLAYING)
+	{
+	  _manager->setActiveWindow(GAME);
+	  _manager->getWindowById(LOBBY)->setVisibility(false);
+	}
+      else
+	{
+	  _manager->addWindow(new SFDialogBox("Error", "Unable to launch the game"));
+	  *_state = IN_LOBBY;
+	}
     }
   else
-    {
-      _manager->addWindow(new SFDialogBox("Error", "Unable to launch the game"));
-      *_state = IN_LOBBY;
-    }
+    _manager->addWindow(new SFDialogBox("Error", "Please fill game name"));
 }
 
 void			ClientMain::backToLogin(void *)
@@ -194,29 +199,18 @@ void			ClientMain::sendKeyPress(PressedKey const &keys)
   // std::cout << "Fire= " <<  _action->getFire() << std::endl;
 }
 
-void			ClientMain::quitGameOver()
-{
-  _manager->getWindowById(GAMEOVER)->setVisibility(false);
-  *_state = IN_LOBBY;
-  _manager->setActiveWindow(LOBBY);
-}
-
 void			ClientMain::quitGame(bool const gameOver, bool const win)
 {
+  if (!gameOver)
+    _client->getProto()->protocolMsg(Protocol::QUIT_GAME, _client->getId(), NULL);
   Map::getInstance()->clear();
+  *_state = IN_LOBBY;
   _manager->getWindowById(GAME)->setVisibility(false);
   _manager->setFPS(20);
-  static_cast<GameWindow *>(_manager->getWindowById(GAME))->reset();
-  // if (!gameOver)
-  //   {
-  _client->getProto()->protocolMsg(Protocol::QUIT_GAME, _client->getId(), NULL);
-  *_state = IN_LOBBY;
   _manager->setActiveWindow(LOBBY);
-  //   }
+  static_cast<GameWindow *>(_manager->getWindowById(GAME))->reset();
   // else
-  //   {
-  //     _manager->setActiveWindow(GAMEOVER);
-  //   }
+  //   _manager->addWindow(new SFDialogBox("Gameover", (win == true ? "WIN" : "LOOSE")));
 }
 
 void			ClientMain::quit()
