@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Sat Nov 23 23:11:11 2013 guillaume marescaux
+// Last update Sat Nov 23 23:27:10 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -372,6 +372,7 @@ void				Client::contentFile(Trame const &trame)
 
 void				Client::levelUp(Trame const &)
 {
+  Map::getInstance()->clear();
   *_state = WAIT_GAME;
 }
 
