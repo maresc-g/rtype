@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Sat Nov 23 17:50:29 2013 cyril jourdain
+// Last update Sat Nov 23 21:16:29 2013 guillaume marescaux
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -131,7 +131,13 @@ void			GameView::update(sf::RenderWindow *win)
       _player->setPosition((*it)->getX(), (*it)->getY());
       _player->play((*it)->getDirection());
       win->setView(*_customView);
-      win->draw(*_player);
+      if ((*it)->getInvincible() == true)
+      	{
+      	  if (static_cast<int>((*it)->getTime() * 10) % 5)
+      	    win->draw(*_player);
+      	}
+      else
+	win->draw(*_player);
       win->setView(win->getDefaultView());
     }
   for (auto it = entities->begin() ; it != entities->end() ; it++)
