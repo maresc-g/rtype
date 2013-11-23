@@ -5,13 +5,13 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:50:16 2013 guillaume marescaux
-// Last update Sat Nov 23 22:54:35 2013 antoine maitre
+// Last update Sun Nov 24 00:50:10 2013 antoine maitre
 //
 
 #include			"Entities/Weapon/Rocket.hh"
 
 Rocket::Rocket(int const x, int const y, std::string const &path, int const speed, bool const destructible, int const vx, int const vy)
-  : AProjectile(x, y, path, speed, destructible, 30, 0)
+  : AProjectile(x, y, path, speed, destructible, 30, 0), _daddy(NULL)
 {
   (void)vx;
   (void)vy;
@@ -30,7 +30,8 @@ AEntity::eObject	Rocket::getType() const
 void			Rocket::collision()
 {
   AEntity::collision();
-  this->_daddy->setScore(this->_daddy->getScore() + 10);
+  if (this->_daddy)
+    this->_daddy->setScore(this->_daddy->getScore() + 10);
 }
 
 void			Rocket::whoIsMyDaddy(Player *bigDaddy)
