@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:39:28 2013 guillaume marescaux
-// Last update Sat Nov 23 17:53:06 2013 guillaume marescaux
+// Last update Sat Nov 23 23:05:21 2013 guillaume marescaux
 //
 
 #include			<sstream>
@@ -38,6 +38,7 @@ Protocol::Protocol():
   _equivalent->insert(std::pair<std::string, eProtocol>("LAUNCHGAME", LAUNCHGAME));
   _equivalent->insert(std::pair<std::string, eProtocol>("MAP", MAP));
   _equivalent->insert(std::pair<std::string, eProtocol>("ENTITY", ENTITY));
+  _equivalent->insert(std::pair<std::string, eProtocol>("SCORE", SCORE));
   _equivalent->insert(std::pair<std::string, eProtocol>("SCROLL", SCROLL));
   _equivalent->insert(std::pair<std::string, eProtocol>("LOSTLIFE", LOSTLIFE));
   _equivalent->insert(std::pair<std::string, eProtocol>("DEAD", DEAD));

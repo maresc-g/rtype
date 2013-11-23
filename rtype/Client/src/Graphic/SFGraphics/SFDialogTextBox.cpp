@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Nov 15 19:38:01 2013 cyril jourdain
-// Last update Fri Nov 22 15:27:09 2013 guillaume marescaux
+// Last update Sun Nov 24 00:19:03 2013 guillaume marescaux
 //
 
 #include		"Graphic/SFGraphics/Widgets/SFDialogTextBox.hh"
@@ -53,7 +53,7 @@ void			SFDialogTextBox::init()
   _okButton->setBackgroundTexture((*(rMan->Images))[DIALOGBOX_OK_BUTTON]);
   _okButton->setSize(100,30);
   _okButton->setPosition(100,112);
-  _closeButton->setBackgroundTexture((*(rMan->Images))[DIALOGBOX_OK_BUTTON]);
+  _closeButton->setBackgroundTexture((*(rMan->Images))[DIALOGBOX_CANCEL_BUTTON]);
   _closeButton->setSize(100,30);
   _closeButton->setPosition(200,112);
   _textBox->setPosition(_label->getPosition().x, _label->getPosition().y + _label->getBound().height + 10);

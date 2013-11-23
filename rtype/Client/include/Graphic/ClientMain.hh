@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:37:12 2013 cyril jourdain
-// Last update Sat Nov 23 21:14:23 2013 cyril jourdain
+// Last update Sat Nov 23 23:10:47 2013 guillaume marescaux
 //
 
 #ifndef 		__CLIENTMAIN_HH__
@@ -56,6 +56,7 @@ public:
   void				setState(eState);
   eState			getState() const;
   int				getClientLife() const;				
+  int				getClientScore() const;				
 
 public:  
   // ClientMain to Client functions / callbacks event

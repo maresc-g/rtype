@@ -13,15 +13,15 @@
 43 17 5 12
 [/]
 [name=right_up]
-22 20 11 9
-[/]
-[name=right_down]
-23 2 11 9
-[/]
-[name=left_down]
 57 2 11 9
 [/]
-[name=left_up]
+[name=right_down]
 57 20 11 9
+[/]
+[name=left_down]
+23 20 11 9
+[/]
+[name=left_up]
+22 2 11 9
 [/]
 

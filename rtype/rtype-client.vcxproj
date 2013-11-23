@@ -117,6 +117,7 @@
     <ClCompile Include="Client\src\main.cpp" />
     <ClCompile Include="Client\src\Map\Entity.cpp" />
     <ClCompile Include="Client\src\Map\Map.cpp" />
+    <ClCompile Include="Client\src\Sound\SoundManager.cpp" />
     <ClCompile Include="Common\src\Action\Action.cpp" />
     <ClCompile Include="Common\src\CircularBufferManager\CircularBufferManager.cpp" />
     <ClCompile Include="Common\src\CircularBufferManager\CircularBuffer\CircularBuffer.cpp" />
@@ -173,6 +174,7 @@
     <None Include="Client\include\Graphic\SFGraphics\Widgets\WindowManager.hh" />
     <None Include="Client\include\Map\Entity.hh" />
     <None Include="Client\include\Map\Map.hh" />
+    <None Include="Client\include\Sound\SoundManager.hh" />
     <None Include="Common\include\Action\Action.hh" />
     <None Include="Common\include\CircularBufferManager\CircularBufferManager.hh" />
     <None Include="Common\include\CircularBufferManager\CircularBuffer\CircularBuffer.hh" />

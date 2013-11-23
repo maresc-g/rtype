@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Fri Nov  1 13:33:27 2013 guillaume marescaux
-// Last update Sat Nov 23 17:50:32 2013 guillaume marescaux
+// Last update Sat Nov 23 23:05:34 2013 guillaume marescaux
 //
 
 #ifndef 		__PROTOCOL_HH__
@@ -37,6 +37,7 @@ public:
       LAUNCHGAME,
       MAP,
       ENTITY,
+      SCORE,
       SCROLL,
       LOSTLIFE,
       DEAD,

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sat Nov 23 22:20:15 2013 cyril jourdain
+// Last update Sat Nov 23 23:12:24 2013 guillaume marescaux
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -85,6 +85,11 @@ eState			ClientMain::getState() const
 int			ClientMain::getClientLife() const
 {
   return _client->getLife();
+}
+
+int			ClientMain::getClientScore() const
+{
+  return _client->getScore();
 }
 
 void			ClientMain::connectToServer(void *param)

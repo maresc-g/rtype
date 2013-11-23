@@ -1,11 +1,11 @@
 //
-// SFRessourcesManager.cpp for  in /home/jourda_c/Documents/C++/RType/Sources
+// SFRessourcesManager.cpp for  in /home/jourda_c/Documents/C++/Rtype_test/rtype/rtype
 // 
 // Made by cyril jourdain
 // Login   <jourda_c@epitech.net>
 // 
-// Started on  Tue Oct 29 13:30:23 2013 cyril jourdain
-
+// Started on  Sat Nov 23 23:46:14 2013 cyril jourdain
+// Last update Sun Nov 24 00:22:25 2013 guillaume marescaux
 //
 
 #include			"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
@@ -36,6 +36,7 @@ void			SFRessourcesManager::loadDefaultRessources()
   Images->loadImage(LOBBY_BACK_BUTTON_RES, LOBBY_BACK_BUTTON);
   Images->loadImage(DIALOGBOX_BACKGROUND_RES, DIALOGBOX_BACKGROUND);
   Images->loadImage(DIALOGBOX_OK_BUTTON_RES, DIALOGBOX_OK_BUTTON);
+  Images->loadImage(DIALOGBOX_CANCEL_BUTTON_RES, DIALOGBOX_CANCEL_BUTTON);
   Images->loadImage(LOBBY_ARRAY_BACKGROUND_RES, LOBBY_ARRAY_BACKGROUND);
   Images->loadImage(ARRAY_LINE_PART_RES, ARRAY_LINE_PART);
   Images->loadImage(ARRAY_LINE_PART_SELECTED_RES, ARRAY_LINE_PART_SELECTED);
@@ -60,6 +61,7 @@ void			SFRessourcesManager::loadDefaultRessources()
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU3, SPRITE_WALLU3_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU4, SPRITE_WALLU4_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU5, SPRITE_WALLU5_CONF);
+  SFRessourcesManager::getInstance()->addSprite(EXPLOSION, EXPLOSION_CONF);
 }
 
 void			SFRessourcesManager::addSprite(std::string const &name, std::string const &path)
@@ -70,7 +72,6 @@ void			SFRessourcesManager::addSprite(std::string const &name, std::string const
   if (sprite){
     sprite->loadFromFile(path);
     (*_sprites)[name] = sprite;
-    std::cout << name << " loaded" << std::endl;
   }
 }
 

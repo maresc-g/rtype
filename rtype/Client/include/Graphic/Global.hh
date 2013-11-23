@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Oct 28 15:04:47 2013 cyril jourdain
-// Last update Sat Nov 23 13:15:09 2013 guillaume marescaux
+// Last update Sun Nov 24 00:19:54 2013 guillaume marescaux
 //
 
 #ifndef 		__GLOBAL_HH__
@@ -44,6 +44,8 @@
 #define			DIALOGBOX_BACKGROUND		"dialogBoxBackground"
 #define			DIALOGBOX_OK_BUTTON_RES		"./Res/dialogbox_ok_button.png"
 #define			DIALOGBOX_OK_BUTTON		"dialogboxOkButton"
+#define			DIALOGBOX_CANCEL_BUTTON_RES	"./Res/dialogbox_cancel_button.png"
+#define			DIALOGBOX_CANCEL_BUTTON		"dialogboxCancelButton"
 #define			ARRAY_BACKGROUND_RES		"./Res/lobby_array_background2.png"
 #define			ARRAY_BACKGROUND		"arrayBackground"
 #define			LOBBY_ARRAY_BACKGROUND_RES	"./Res/lobby_array_background.png"
@@ -94,7 +96,8 @@
 #define			SPRITE_WALLU4			"wallu4"
 #define			SPRITE_WALLU5_CONF		"./Res/Sprites/wallu5.sprite"
 #define			SPRITE_WALLU5			"wallu5"
-
+#define			EXPLOSION_CONF			"./Res/explosion.sprite"
+#define			EXPLOSION			"explosion"
 
 
 /* *********** FONT ***********/
