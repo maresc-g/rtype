@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Sat Nov 23 21:16:29 2013 guillaume marescaux
+// Last update Sat Nov 23 22:43:07 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -32,7 +32,7 @@ void			GameView::init()
   _bounds->top = 0;
   _bounds->left = 0;
   _bounds->width = WIN_X;
-  _bounds->height = WIN_Y - 150;
+  _bounds->height = WIN_Y - 100;
   _customView->setViewport(sf::FloatRect(_bounds->left / WIN_X,
 				   _bounds->top / WIN_Y,
 				   _bounds->width / WIN_X,
