@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:26:32 2013 laurent ansel
-// Last update Fri Nov 22 16:23:36 2013 guillaume marescaux
+// Last update Sat Nov 23 16:56:57 2013 laurent ansel
 //
 
 #ifndef _WIN32
@@ -41,12 +41,12 @@ int			UnixSocketClient::readSocket(char *buf, int const size) const
     ret = recvfrom(this->_socket, buf, size, 0, (struct sockaddr *)this->_addr, &addrlen);
   else
     ret = recv(this->_socket, buf, size, MSG_DONTWAIT);
-  if (ret > 0)
-    {
-      std::cout << "READ : [";
-      std::cout.write(buf, ret);
-      std::cout << "]" << std::endl;
-    }
+  // if (ret > 0)
+  //   {
+  //     std::cout << "READ : [";
+  //     std::cout.write(buf, ret);
+  //     std::cout << "]" << std::endl;
+  //   }
   return (ret);
 }
 

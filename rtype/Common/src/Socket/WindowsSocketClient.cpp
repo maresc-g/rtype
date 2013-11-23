@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 15:26:41 2013 laurent ansel
-// Last update Fri Nov 15 14:06:40 2013 laurent ansel
+// Last update Sat Nov 23 16:57:14 2013 laurent ansel
 //
 
 #ifdef _WIN32
@@ -43,18 +43,18 @@ int			WindowsSocketClient::readSocket(char *buf, int const size) const
   dataBuf.len = SIZE_BUFFER;
   dataBuf.buf = buf;
   if (this->_proto == "UDP")
-	  {
-		  if (WSARecvFrom(this->_socket, &dataBuf, 1, &ret, &lp, (SOCKADDR *)this->_addr, &addrlen, NULL, NULL) == SOCKET_ERROR)
-		   return (-1);
-	  }
+    {
+      if (WSARecvFrom(this->_socket, &dataBuf, 1, &ret, &lp, (SOCKADDR *)this->_addr, &addrlen, NULL, NULL) == SOCKET_ERROR)
+	return (-1);
+    }
   else
-	if (WSARecv(this->_socket, &dataBuf, 1, &ret, &lp, NULL, NULL) == SOCKET_ERROR)
-		 return (-1);
-  std::cout << this->_addr->sin_family << std::endl;
-   	std::cout << "READ = ";
-std::cout.write(buf, ret);
-std::cout << std::endl;
- return (ret);
+    if (WSARecv(this->_socket, &dataBuf, 1, &ret, &lp, NULL, NULL) == SOCKET_ERROR)
+      return (-1);
+  //   std::cout << this->_addr->sin_family << std::endl;
+  //    	std::cout << "READ = ";
+  // std::cout.write(buf, ret);
+  // std::cout << std::endl;
+  return (ret);
 }
 
 int			WindowsSocketClient::writeSocket(char *buf, int const size) const
@@ -65,20 +65,20 @@ int			WindowsSocketClient::writeSocket(char *buf, int const size) const
   DWORD			lp = 0;
   int			addrlen = sizeof(*this->_addr);
 
-  std::cout << "buffer = ";
-  std::cout.write(buf, size);
-  std::cout << std::endl;
+  // std::cout << "buffer = ";
+  // std::cout.write(buf, size);
+  // std::cout << std::endl;
   dataBuf.len = size;
   dataBuf.buf = buf;
   if (this->_proto == "UDP")
-  {
-	  if (WSASendTo(this->_socket, &dataBuf, 1, &ret, lp, (SOCKADDR *)this->_addr, addrlen, NULL, NULL) == SOCKET_ERROR)
-		return (-1);
- }
+    {
+      if (WSASendTo(this->_socket, &dataBuf, 1, &ret, lp, (SOCKADDR *)this->_addr, addrlen, NULL, NULL) == SOCKET_ERROR)
+	return (-1);
+    }
   else
-	  if (WSASend(this->_socket, &dataBuf, 1, &ret, lp, NULL, NULL) == SOCKET_ERROR)
- 	return (-1);
-   return (ret);
+    if (WSASend(this->_socket, &dataBuf, 1, &ret, lp, NULL, NULL) == SOCKET_ERROR)
+      return (-1);
+  return (ret);
 }
 
 void			WindowsSocketClient::closeSocket() const
