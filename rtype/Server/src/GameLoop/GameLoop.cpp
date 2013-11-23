@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sat Nov 23 01:00:38 2013 laurent ansel
+// Last update Sat Nov 23 12:24:23 2013 laurent ansel
 //
 
 #include		<time.h>
@@ -99,14 +99,12 @@ void			GameLoop::execAction(Action const &act, AEntity *entity, int const, Map *
 
 void			GameLoop::loop()
 {
-  clock_t	time = 0;
-  clock_t	end = 0;
-  clock_t	action = 0;
-  clock_t	actionMob = 0;
+  clock_t		time = 0;
+  clock_t		end = 0;
+  clock_t		action = 0;
   bool			SuperVaisseau;
 
   action = clock();
-  actionMob = clock();
   while (!this->_levelManag->getEndGame() && !this->_criticalError)
     {
       SuperVaisseau = false;
@@ -145,7 +143,7 @@ void			GameLoop::loop()
       for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
 	if ((*it)->getType() == AEntity::MOB)
 	  this->execAction(*reinterpret_cast<Mob *>((*it))->getAction(), *it, this->_levelManag->getPosAdv(), this->_levelManag->getMap());
-      actionMob = clock();
+
       /*	Méthode permettant le check des collisions au sein de Map			*/
       this->_levelManag->getMap()->setEntities(this->_levelManag->getAdv());
 
@@ -165,7 +163,6 @@ void			GameLoop::loop()
           Sleep(((double)0.03 - ((double)time / CLOCKS_PER_SEC)) * 1000);
 #endif
 	  action -= ((double)0.03 - ((double)time / CLOCKS_PER_SEC)) * CLOCKS_PER_SEC;
-	  actionMob -= ((double)0.03 - ((double)time / CLOCKS_PER_SEC)) * CLOCKS_PER_SEC;
 	}
       this->_mutex->enter();
       if ((((float)(clock() - action)) / CLOCKS_PER_SEC) > 0.04)
@@ -300,8 +297,8 @@ void			GameLoop::spawnWalls()
 	{
 	  (*it)->setId(_idEntity);
 	  _idEntity++;
-	  (*it)->movePos((*it)->getPosX() * 10, (*it)->getPosY());
-	  std::cout << (*it)->getPosX() << " " << this->_levelManag->getPosAdv() + SCREENX * 10 + 1 << std::endl;
+	  //	  (*it)->movePos((*it)->getPosX() * 10, (*it)->getPosY());
+	  std::cout << "POS = " << (*it)->getPosX() << std::endl;
 	  it = this->_levelManag->spawnWall(it);
 	}
       else if (!spawnable)

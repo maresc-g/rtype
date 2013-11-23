@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Sat Nov 23 00:46:29 2013 laurent ansel
+// Last update Sat Nov 23 12:27:45 2013 laurent ansel
 //
 
 #include "Level/Map.hh"
@@ -33,13 +33,15 @@ Map::Map(std::string _path)
 	  wallX = content.substr(content.find(";") + 1, content.size() - (content.find(";") + 1));
 	  wallY = wallX.substr(wallX.find(";") + 1, wallX.size() - (wallX.find(";") + 1));
 	  wallX = wallX.substr(0, wallX.find(";"));
-	  this->_inactiveWalls.push_back(new Wall(std::stoi(wallX), std::stoi(wallY), "Res/Sprites/wall" + wallType));
+	  this->_inactiveWalls.push_back(new Wall(std::stoi(wallX) / 10, std::stoi(wallY) / 10, "Res/Sprites/wall" + wallType));
       	}
       file.close();
     }
   else
     std::cerr << "Impossible d'ouvrir le fichier !" << std::endl;
-  std::cout << this->_inactiveWalls.size() << std::endl;
+  std::cout << "SIZE = " << this->_inactiveWalls.size() << std::endl;
+  std::cout << "XSIZE = " << this->_map->size() << std::endl;
+  std::cout << "XSIZE = " << (*this->_map)[0].size() << std::endl;
 }
 
 Map::~Map()
@@ -73,10 +75,10 @@ void			Map::tryToSet(std::list<AEntity *> &l1, std::list<AEntity *> &l2, int adv
 	  for (int i = y; i < y + (*hit)->getHeight(); i++)
 	    for (int j = x - adv; j < x - adv + (*hit)->getWidth(); j++)
 	      {
-		if (((i >= 0 && i < SCREENY) && (j >= 0 && j <= SCREENX)) && 
+		if (((i >= 0 && i < SCREENY) && (j >= 0 && j < SCREENX)) &&
 		    ((*this->_map)[i][j] == 0 || (*this->_map)[i][j] == (*it)->getId()))
 		  (*this->_map)[i][j] = (*it)->getId();
-		else if ((i >= 0 && i < SCREENY) && (j >= 0 && j <= SCREENX))
+		else if ((i >= 0 && i < SCREENY) && (j >= 0 && j < SCREENX))
 		  {
 		    for (auto it2 = l2.begin(); it2 != l2.end(); ++it2)
 		      if ((*this->_map)[i][j] == (*it2)->getId())
