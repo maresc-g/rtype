@@ -111,6 +111,7 @@
     <ClCompile Include="Server\src\Entities\InformationHitBox.cpp" />
     <ClCompile Include="Server\src\Entities\Mob.cpp" />
     <ClCompile Include="Server\src\Entities\Player.cpp" />
+    <ClCompile Include="Server\src\Entities\Wall.cpp" />
     <ClCompile Include="Server\src\Entities\Weapon\AProjectile.cpp" />
     <ClCompile Include="Server\src\Entities\Weapon\Rocket.cpp" />
     <ClCompile Include="Server\src\Entities\Weapon\Weapon.cpp" />
@@ -170,6 +171,7 @@
     <None Include="Server\include\Entities\InformationHitBox.hh" />
     <None Include="Server\include\Entities\Mob.hh" />
     <None Include="Server\include\Entities\Player.hh" />
+    <None Include="Server\include\Entities\Wall.hh" />
     <None Include="Server\include\Entities\Weapon\AProjectile.hh" />
     <None Include="Server\include\Entities\Weapon\Rocket.hh" />
     <None Include="Server\include\Entities\Weapon\Weapon.hh" />
