@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:20:50 2013 laurent ansel
-// Last update Tue Nov  5 18:17:46 2013 laurent ansel
+// Last update Sat Nov 23 16:48:51 2013 laurent ansel
 //
 
 #ifndef _WIN32
@@ -91,10 +91,17 @@ SocketClient const		&UnixSocket::getSocket() const
 SocketClient			*UnixSocket::connectToAddr(std::string const &addr, int const port)
 {
   struct sockaddr_in		*sin = new struct sockaddr_in;
+  struct hostent		*host;
 
+  host = gethostbyname(addr.c_str());
+  if (!host)
+    {
+      throw SocketError("server not found");
+      return (NULL);
+    }
   sin->sin_family = AF_INET;
   sin->sin_port = htons(port);
-  sin->sin_addr.s_addr = inet_addr(addr.c_str());
+  sin->sin_addr.s_addr = inet_addr(host->h_name);
   if (this->_proto == "TCP" && (connect(this->_socket, (struct sockaddr *)sin, sizeof(*sin))) == -1)
     {
       throw SocketError("server not found");

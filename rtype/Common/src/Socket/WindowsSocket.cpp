@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 13:21:19 2013 laurent ansel
-// Last update Tue Nov  5 18:18:20 2013 laurent ansel
+// Last update Sat Nov 23 16:46:54 2013 laurent ansel
 //
 
 #ifdef _WIN32
@@ -103,6 +103,11 @@ SocketClient			*WindowsSocket::connectToAddr(std::string const &addr, int const 
   addrClient->sin_family = AF_INET;
   addrClient->sin_port = htons(port);
   thisHost = gethostbyname(addr.c_str());
+  if (!thisHost)
+    {
+      throw SocketError("server not found");
+      return (NULL);
+    }
   ip = inet_ntoa(*(struct in_addr *)*thisHost->h_addr_list);
   addrClient->sin_addr.s_addr = inet_addr(ip);
   if (this->_proto == "TCP" && (WSAConnect(this->_socket, (SOCKADDR *)addrClient, sizeof(*addrClient), NULL, NULL, NULL, NULL)) == SOCKET_ERROR)
