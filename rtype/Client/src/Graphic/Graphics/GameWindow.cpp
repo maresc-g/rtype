@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:22:54 2013 cyril jourdain
-// Last update Sat Nov 23 18:17:33 2013 cyril jourdain
+// Last update Sat Nov 23 19:16:54 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameWindow.hh"
@@ -27,6 +27,8 @@ void			GameWindow::init()
   _gameOver = new GameOver();
   addWidget(_gameView);
   addWidget(_gameHud);
+  addWidget(_gameOver);
+  _gameOver->setVisible(false);
   setSize(sf::Vector2f(WIN_X, WIN_Y));
 }
 
@@ -39,12 +41,14 @@ void			GameWindow::update()
 void			GameWindow::reset()
 {
   _gameView->reset();
+  _gameView->setVisible(true);
+  _gameHud->setVisible(true);
+  _gameOver->setVisible(false);
 }
 
 void			GameWindow::gameOver()
 {
-  addWidget(_gameOver);
   _gameView->setVisible(false);
   _gameHud->setVisible(false);
-  std::cout << "GAME OVER" << std::endl;
+  _gameOver->setVisible(true);
 }

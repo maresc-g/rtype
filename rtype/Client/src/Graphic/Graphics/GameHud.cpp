@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 17:19:13 2013 cyril jourdain
-// Last update Sat Nov 23 19:08:33 2013 cyril jourdain
+// Last update Sat Nov 23 19:20:48 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameHud.hh"
@@ -65,5 +65,4 @@ void			GameHud::draw(sf::RenderTarget &target, sf::RenderStates states)  const
       _life->setPosition(500 + i * 40, 75);
       target.draw(*_life, states);
     }
-  
 }
