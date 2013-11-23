@@ -5,11 +5,12 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 17:19:13 2013 cyril jourdain
-// Last update Sat Nov 23 18:18:13 2013 cyril jourdain
+// Last update Sat Nov 23 19:08:33 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameHud.hh"
 #include		"Graphic/Global.hh"
+#include		"Graphic/ClientMain.hh"
 #include		"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
 
 GameHud::GameHud() :
@@ -43,6 +44,11 @@ void			GameHud::init()
   _score->setText("Score : 00000000");
   _score->setPosition(100, 75);
   _score->setTextSize(18);
+  _life = new SFImageBox();
+  _life->init();
+  _life->setSize(32,32);
+  _life->setPosition(500, 75);
+  _life->setTexture((*(SFRessourcesManager::getInstance()->Images))[GAME_HUD_LIVES]);
 }
 
 sf::FloatRect		&GameHud::getBound() const
@@ -54,4 +60,10 @@ void			GameHud::draw(sf::RenderTarget &target, sf::RenderStates states)  const
 {
   target.draw(*_background, states);
   target.draw(*_score, states);
+  for (int i = 0; i < ClientMain::getInstance()->getClientLife(); i++)
+    {
+      _life->setPosition(500 + i * 40, 75);
+      target.draw(*_life, states);
+    }
+  
 }

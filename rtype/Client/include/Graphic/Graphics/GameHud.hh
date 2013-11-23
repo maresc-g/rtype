@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 17:12:57 2013 cyril jourdain
-// Last update Sat Nov 23 18:00:35 2013 cyril jourdain
+// Last update Sat Nov 23 18:40:24 2013 cyril jourdain
 //
 
 #ifndef 		__GAMEHUD_HH__
@@ -22,6 +22,7 @@ class			GameHud : public SFWidget
 private:
   SFImageBox		*_background;
   SFLabel		*_score;
+  SFImageBox		*_life;
 
 public:
   GameHud();

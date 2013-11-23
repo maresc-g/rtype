@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:37:12 2013 cyril jourdain
-// Last update Sat Nov 23 19:03:07 2013 guillaume marescaux
+// Last update Sat Nov 23 18:58:48 2013 cyril jourdain
 //
 
 #ifndef 		__CLIENTMAIN_HH__
@@ -52,6 +52,7 @@ public:
   Client			*getClient(void) const;
   void				setState(eState);
   eState			getState() const;
+  int				getClientLife() const;				
 
 public:  
   // ClientMain to Client functions / callbacks event
@@ -65,7 +66,6 @@ public:
   void				quitGame(bool const gameOver = false, bool const win = false);
   void				quit();
   // void				quitGameOver(void);
-  int				getLife(void) const;
 };
 
 #endif
