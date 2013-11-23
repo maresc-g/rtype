@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Fri Nov 22 17:31:58 2013 guillaume marescaux
+// Last update Sat Nov 23 11:24:52 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -21,6 +21,7 @@
 #include			"Game/GameList.hh"
 #include			"Map/Map.hh"
 #include			"Error/SocketError.hpp"
+#include			"Graphic/ClientMain.hh"
 
 //----------------------------------BEGIN CTOR / DTOR---------------------------------------
 
@@ -361,11 +362,18 @@ void				Client::levelUp(Trame const &)
 void				Client::endGame(Trame const &)
 {
   *_state = IN_LOBBY;
+ ClientMain::getInstance()->quitGame();
 }
 
 void				Client::serverQuit(Trame const &)
 {
   this->destroy();
+  if (_info->getVar())
+    {
+      delete _info->getVar();
+      _info->setVar(NULL);
+    }
+  *_initialized = false;
   *_state = IN_LOGIN;
 }
 
@@ -518,6 +526,11 @@ bool				Client::initialize(void)
 
 void				Client::disconnect(void)
 {
+  if (_info->getVar())
+    {
+      delete _info->getVar();
+      *_info = NULL;
+    }
   destroy();
   _initialized->setVar(false);
 }
