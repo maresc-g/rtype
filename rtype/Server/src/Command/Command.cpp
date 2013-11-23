@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 16:01:59 2013 laurent ansel
-// Last update Wed Nov 20 20:56:24 2013 laurent ansel
+// Last update Sat Nov 23 20:38:57 2013 laurent ansel
 //
 
 #include			"Command/Command.hh"
@@ -107,9 +107,9 @@ void				Command::getSpriteCommand(std::istringstream &str)
   str >> param;
   if ((posEnd = param.rfind(END_TRAME)) != std::string::npos)
     param = param.substr(0, posEnd);
-  this->_action->setParam(param);
-  this->_action->setGetSprite(true);
-  this->_command = true;
+  // this->_action->setParam(param);
+  // this->_action->setGetSprite(true);
+  // this->_command = true;
 }
 
 void				Command::trameToAction()
