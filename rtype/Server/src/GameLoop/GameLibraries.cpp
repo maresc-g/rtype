@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:18:29 2013 alexis mestag
-// Last update Fri Nov 22 16:25:45 2013 alexis mestag
+// Last update Sat Nov 23 22:31:52 2013 alexis mestag
 //
 
 #include			"GameLoop/GameLibraries.hh"
@@ -102,6 +102,8 @@ IDynamicLibrary			*GameLibraries::getRandomLibrary()
   long int			i;
 
   size = _libraries->size();
+  if (!size)
+    return (NULL);
   idx = rand() % size;
   i = 0;
   for (; it != _libraries->end() && i < idx ; ++it)

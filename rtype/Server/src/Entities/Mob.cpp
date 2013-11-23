@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Oct 30 11:19:56 2013 antoine maitre
-// Last update Sat Nov 23 00:15:15 2013 laurent ansel
+// Last update Sat Nov 23 21:45:16 2013 alexis mestag
 //
 
 #include "Entities/Mob.hh"
@@ -26,7 +26,7 @@ AEntity::eObject		Mob::getType() const
   return (AEntity::MOB);
 }
 
-Action const			*Mob::getAction() const
+Action const			*Mob::getAction()
 {
   _action->reset();
   return (_action);
