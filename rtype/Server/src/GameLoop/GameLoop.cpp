@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sun Nov 24 00:38:47 2013 antoine maitre
+// Last update Sun Nov 24 00:58:30 2013 antoine maitre
 //
 
 #include		<time.h>
@@ -204,8 +204,8 @@ void			GameLoop::loop()
       this->spawnWalls();
       if (this->checkActiveClient() == false)
 	break;
-      if (this->_nextL == true)
-	timeToChange();
+      // if (this->_nextL == true)
+      // 	timeToChange();
       time = clock();
       this->removeEntities();
       this->moveAllEntities(SuperVaisseau);
