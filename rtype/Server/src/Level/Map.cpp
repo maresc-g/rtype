@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Sat Nov 23 15:29:13 2013 antoine maitre
+// Last update Sat Nov 23 19:45:08 2013 laurent ansel
 //
 
 #include "Level/Map.hh"
@@ -39,9 +39,6 @@ Map::Map(std::string _path)
     }
   else
     std::cerr << "Impossible d'ouvrir le fichier !" << std::endl;
-  std::cout << "SIZE = " << this->_inactiveWalls.size() << std::endl;
-  std::cout << "XSIZE = " << this->_map->size() << std::endl;
-  std::cout << "XSIZE = " << (*this->_map)[0].size() << std::endl;
 }
 
 Map::~Map()

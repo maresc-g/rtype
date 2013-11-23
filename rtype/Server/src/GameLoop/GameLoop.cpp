@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sat Nov 23 19:05:24 2013 alexis mestag
+// Last update Sat Nov 23 19:45:44 2013 laurent ansel
 //
 
 #include		<time.h>
@@ -102,7 +102,6 @@ void			GameLoop::execAction(Action const &act, AEntity *entity, int const, Map *
 	  _idEntity++;
 	  projectile->movePos(entity->getPosX(), entity->getPosY());
 	  map->getEnemies().push_back(projectile);
-	  std::cout << "POS = " << map->getPlayers().size() << std::endl;
 	}
     }
 
