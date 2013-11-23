@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sat Nov 23 18:26:44 2013 laurent ansel
+// Last update Sat Nov 23 19:05:24 2013 alexis mestag
 //
 
 #include		<time.h>
@@ -88,11 +88,15 @@ void			GameLoop::execAction(Action const &act, AEntity *entity, int const, Map *
   if (act.getFire())
     {
       const Coordinate spawn = entity->getSpawnProjectile();
-      AEntity		*projectile;
+      AProjectile	*projectile;
+      int		vx;
+      int		vy;
 
-      projectile = ObjectPoolManager::getInstance()->getCopy(AEntity::ROCKET);
+      projectile = reinterpret_cast<AProjectile *>(ObjectPoolManager::getInstance()->getCopy(AEntity::ROCKET));
       if (projectile)
 	{
+	  entity->getProjectileVector(vx, vy);
+	  projectile->setVector(vx, vy);
 	  SpriteLoaderManager::getInstance()->getEntitySprite("rocket", *projectile);
 	  projectile->setId(_idEntity);
 	  _idEntity++;

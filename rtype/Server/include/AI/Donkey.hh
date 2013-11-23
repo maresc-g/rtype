@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov 18 10:33:23 2013 alexis mestag
-// Last update Sat Nov 23 00:15:04 2013 laurent ansel
+// Last update Sat Nov 23 18:59:43 2013 alexis mestag
 //
 
 #ifndef			__DONKEY_HH__
@@ -20,6 +20,7 @@ public:
   Donkey();
   virtual ~Donkey();
   virtual Action const	*getAction() const;
+  virtual void		getProjectileVector(int &, int &) const;
 };
 
 extern "C"

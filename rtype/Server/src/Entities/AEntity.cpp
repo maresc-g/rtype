@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Fri Nov 22 16:57:40 2013 antoine maitre
+// Last update Sat Nov 23 18:51:24 2013 alexis mestag
 //
 
 #include		<iostream>
@@ -277,4 +277,10 @@ void			AEntity::resetMove()
 {
   this->_moveX = 0;
   this->_moveY = 0;
+}
+
+void			AEntity::getProjectileVector(int &vx, int &vy) const
+{
+  vx = 30;
+  vy = 0;
 }
