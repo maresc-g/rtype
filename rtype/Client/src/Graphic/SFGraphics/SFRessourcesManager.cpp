@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 23:46:14 2013 cyril jourdain
-// Last update Sat Nov 23 23:47:57 2013 cyril jourdain
+// Last update Sun Nov 24 00:22:25 2013 guillaume marescaux
 //
 
 #include			"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
@@ -36,6 +36,7 @@ void			SFRessourcesManager::loadDefaultRessources()
   Images->loadImage(LOBBY_BACK_BUTTON_RES, LOBBY_BACK_BUTTON);
   Images->loadImage(DIALOGBOX_BACKGROUND_RES, DIALOGBOX_BACKGROUND);
   Images->loadImage(DIALOGBOX_OK_BUTTON_RES, DIALOGBOX_OK_BUTTON);
+  Images->loadImage(DIALOGBOX_CANCEL_BUTTON_RES, DIALOGBOX_CANCEL_BUTTON);
   Images->loadImage(LOBBY_ARRAY_BACKGROUND_RES, LOBBY_ARRAY_BACKGROUND);
   Images->loadImage(ARRAY_LINE_PART_RES, ARRAY_LINE_PART);
   Images->loadImage(ARRAY_LINE_PART_SELECTED_RES, ARRAY_LINE_PART_SELECTED);
