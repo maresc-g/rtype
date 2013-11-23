@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Fri Nov 22 15:56:47 2013 guillaume marescaux
+// Last update Fri Nov 22 23:36:11 2013 guillaume marescaux
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -163,7 +163,8 @@ void			ClientMain::callCreateGame(void *data)
 void			ClientMain::backToLogin(void *)
 {
   _manager->setActiveWindow(LOGIN);
-  _manager->addWindow(new SFDialogBox("Info", "Remember to disconnect from server"));
+  _client->disconnect();
+  // _manager->addWindow(new SFDialogBox("Info", "Remember to disconnect from server"));
 }
 
 void			ClientMain::refreshGameList(void *)
