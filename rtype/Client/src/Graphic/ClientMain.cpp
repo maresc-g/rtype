@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Fri Nov 22 23:36:11 2013 guillaume marescaux
+// Last update Sat Nov 23 13:42:37 2013 guillaume marescaux
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -51,9 +51,11 @@ void			ClientMain::init()
   (*_windows)[LOGIN] = new LoginWindow();
   (*_windows)[LOBBY] = new LobbyWindow();
   (*_windows)[GAME] = new GameWindow();
+  (*_windows)[GAMEOVER] = new GameOverWindow();
   _manager->addWindow(LOBBY,(*_windows)[LOBBY]);
   _manager->addWindow(LOGIN,(*_windows)[LOGIN]);
   _manager->addWindow(GAME,(*_windows)[GAME]);
+  _manager->addWindow(GAMEOVER,(*_windows)[GAMEOVER]);
   _manager->setActiveWindow(LOGIN);
 }
 
@@ -192,15 +194,29 @@ void			ClientMain::sendKeyPress(PressedKey const &keys)
   // std::cout << "Fire= " <<  _action->getFire() << std::endl;
 }
 
-void			ClientMain::quitGame()
+void			ClientMain::quitGameOver()
 {
-  _client->getProto()->protocolMsg(Protocol::QUIT_GAME, _client->getId(), NULL);
-  Map::getInstance()->clear();
+  _manager->getWindowById(GAMEOVER)->setVisibility(false);
   *_state = IN_LOBBY;
-  _manager->getWindowById(GAME)->setVisibility(false);
-  _manager->setFPS(60);
   _manager->setActiveWindow(LOBBY);
+}
+
+void			ClientMain::quitGame(bool const gameOver, bool const win)
+{
+  Map::getInstance()->clear();
+  _manager->getWindowById(GAME)->setVisibility(false);
+  _manager->setFPS(20);
   static_cast<GameWindow *>(_manager->getWindowById(GAME))->reset();
+  // if (!gameOver)
+  //   {
+  _client->getProto()->protocolMsg(Protocol::QUIT_GAME, _client->getId(), NULL);
+  *_state = IN_LOBBY;
+  _manager->setActiveWindow(LOBBY);
+  //   }
+  // else
+  //   {
+  //     _manager->setActiveWindow(GAMEOVER);
+  //   }
 }
 
 void			ClientMain::quit()

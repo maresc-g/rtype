@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Oct 28 15:04:47 2013 cyril jourdain
-// Last update Fri Nov 22 22:29:35 2013 guillaume marescaux
+// Last update Sat Nov 23 13:15:09 2013 guillaume marescaux
 //
 
 #ifndef 		__GLOBAL_HH__
@@ -19,6 +19,7 @@
 #define			LOGIN 0
 #define			LOBBY 1
 #define			GAME 2
+#define			GAMEOVER 3
 
 // RESSOURCES
 #define			LOGIN_BACKGROUND_RES		"./Res/background.jpg"
@@ -53,6 +54,8 @@
 #define			ARRAY_LINE_PART_SELECTED	"arrayLinePartSelected"
 #define			GAME_BACKGROUND_RES		"./Res/game_background.jpg"
 #define			GAME_BACKGROUND			"gameBackground"
+#define			GAMEOVER_BACKGROUND_RES		"./Res/gameOver_background.jpg"
+#define			GAMEOVER_BACKGROUND		"gameOverBackground"
 #define			GAME_HUD_RES			"./Res/game_hud.png"
 #define			GAME_HUD			"gameHUD"
 #define			GAME_HUD_LIVES_RES		"./Res/game_lives.png"

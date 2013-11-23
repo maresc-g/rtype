@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:37:12 2013 cyril jourdain
-// Last update Fri Nov 22 15:47:39 2013 guillaume marescaux
+// Last update Sat Nov 23 13:37:40 2013 guillaume marescaux
 //
 
 #ifndef 		__CLIENTMAIN_HH__
@@ -18,6 +18,7 @@ class			Client;
 #include		"Graphic/Graphics/LoginWindow.hh"
 #include		"Graphic/Graphics/LobbyWindow.hh"
 #include		"Graphic/Graphics/GameWindow.hh"
+#include		"Graphic/Graphics/GameOverWindow.hh"
 #include		"Core/Client.hh"
 #include		"Utility/Singleton.hpp"
 #include		"FileSystem/Directory.hh"
@@ -61,8 +62,9 @@ public:
   void				backToLogin(void *param);
   void				refreshGameList(void *param);
   void				sendKeyPress(PressedKey const &keys);
-  void				quitGame();
+  void				quitGame(bool const gameOver = false, bool const win = false);
   void				quit();
+  void				quitGameOver(void);
 };
 
 #endif
