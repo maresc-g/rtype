@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sat Nov 23 18:59:40 2013 cyril jourdain
+// Last update Sat Nov 23 19:21:24 2013 cyril jourdain
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -51,6 +51,8 @@ void			ClientMain::init()
   (*_windows)[LOGIN] = new LoginWindow();
   (*_windows)[LOBBY] = new LobbyWindow();
   (*_windows)[GAME] = new GameWindow();
+  (*_windows)[LOBBY]->setVisibility(false);
+  (*_windows)[GAME]->setVisibility(false);
   (*_windows)[GAMEOVER] = new GameOverWindow();
   _manager->addWindow(LOBBY,(*_windows)[LOBBY]);
   _manager->addWindow(LOGIN,(*_windows)[LOGIN]);
