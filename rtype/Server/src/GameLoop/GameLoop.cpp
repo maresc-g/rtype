@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sat Nov 23 16:19:23 2013 antoine maitre
+// Last update Sat Nov 23 17:15:13 2013 laurent ansel
 //
 
 #include		<time.h>
@@ -58,6 +58,13 @@ void			GameLoop::action()
 	(static_cast<AProjectile *>(*it))->move();
 	this->sendEntity((*it));
       }
+  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
+    if ((*it)->getType() != AEntity::MOB && (*it)->getType() != AEntity::WALL)
+      {
+	(static_cast<AProjectile *>(*it))->move();
+	this->sendEntity((*it));
+      }
+
 }
 
 void			GameLoop::execAction(Action const &act, AEntity *entity, int const, Map *map)
