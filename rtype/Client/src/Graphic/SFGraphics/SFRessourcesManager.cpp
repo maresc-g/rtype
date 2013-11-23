@@ -40,6 +40,7 @@ void			SFRessourcesManager::loadDefaultRessources()
   Images->loadImage(ARRAY_LINE_PART_RES, ARRAY_LINE_PART);
   Images->loadImage(ARRAY_LINE_PART_SELECTED_RES, ARRAY_LINE_PART_SELECTED);
   Images->loadImage(GAME_BACKGROUND_RES, GAME_BACKGROUND);
+  Images->loadImage(GAMEOVER_BACKGROUND_RES, GAMEOVER_BACKGROUND);
   Images->loadImage(GAME_HUD_RES, GAME_HUD);
   Images->loadImage(GAME_HUD_LIVES_RES, GAME_HUD_LIVES);
   Fonts->loadFont(ARIAL_FONT_RES, ARIAL_FONT);

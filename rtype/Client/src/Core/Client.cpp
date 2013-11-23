@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Sat Nov 23 11:24:52 2013 guillaume marescaux
+// Last update Sat Nov 23 11:41:17 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -359,10 +359,10 @@ void				Client::levelUp(Trame const &)
 }
 
 
-void				Client::endGame(Trame const &)
+void				Client::endGame(Trame const &trame)
 {
   *_state = IN_LOBBY;
- ClientMain::getInstance()->quitGame();
+  ClientMain::getInstance()->quitGame(true, (trame.getContent() == "WIN" ? true : false));
 }
 
 void				Client::serverQuit(Trame const &)
