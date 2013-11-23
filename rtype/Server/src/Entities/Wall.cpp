@@ -5,7 +5,7 @@
 // Login   <rucquo_a@epitech.net>
 // 
 // Started on  Thu Nov 21 13:10:41 2013 arthur rucquois
-// Last update Fri Nov 22 11:25:13 2013 arthur rucquois
+// Last update Sat Nov 23 00:41:58 2013 laurent ansel
 //
 
 #include "Entities/Wall.hh"

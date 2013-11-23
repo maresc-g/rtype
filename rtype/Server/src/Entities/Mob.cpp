@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Oct 30 11:19:56 2013 antoine maitre
-// Last update Mon Nov 18 22:20:35 2013 laurent ansel
+// Last update Sat Nov 23 00:15:15 2013 laurent ansel
 //
 
 #include "Entities/Mob.hh"

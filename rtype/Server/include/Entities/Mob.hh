@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Oct 30 11:14:28 2013 antoine maitre
-// Last update Mon Nov 18 22:20:51 2013 laurent ansel
+// Last update Sat Nov 23 00:15:11 2013 laurent ansel
 //
 
 #ifndef		__MOB_H__
