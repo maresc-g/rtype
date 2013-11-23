@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Sat Nov 23 14:13:23 2013 laurent ansel
+// Last update Sat Nov 23 19:23:09 2013 laurent ansel
 //
 
 #include			<list>
@@ -32,11 +32,11 @@ Server::Server(int const port):
   _select(new Select),
   _client(new std::list<ClientInfo *>)
 {
-  CircularBufferManager::getInstance();
-  GameLoopManager::getInstance();
   ObjectPoolManager::getInstance();
   SpriteLoaderManager::getInstance();
   DynamicLibraryManager::getInstance();
+  CircularBufferManager::getInstance();
+  GameLoopManager::getInstance();
   this->_socket->insert(std::make_pair("TCP" , new Socket));
   this->debug("Initialize tcp socket ...");
   (*this->_socket)["TCP"]->initialize("TCP");
