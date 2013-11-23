@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Sat Nov 23 20:47:13 2013 guillaume marescaux
+// Last update Sat Nov 23 23:11:11 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -40,7 +40,8 @@ Client::Client(FileSystem::Directory *dir, MutexVar<eState> *state, Action *acti
   _diffDir(new std::list<std::string>),
   _state(state),
   _action(action),
-  _life(3)
+  _life(3),
+  _score(0)
 {
   // ptrs
   (*_ptrs)[Protocol::WELCOME] = &Client::welcome;
@@ -49,6 +50,7 @@ Client::Client(FileSystem::Directory *dir, MutexVar<eState> *state, Action *acti
   (*_ptrs)[Protocol::LAUNCHGAME] = &Client::launchGame;
   (*_ptrs)[Protocol::MAP] = &Client::map;
   (*_ptrs)[Protocol::ENTITY] = &Client::entity;
+  (*_ptrs)[Protocol::SCORE] = &Client::score;
   (*_ptrs)[Protocol::SCROLL] = &Client::scroll;
   (*_ptrs)[Protocol::LOSTLIFE] = &Client::lostLife;
   (*_ptrs)[Protocol::DEAD] = &Client::dead;
@@ -176,6 +178,7 @@ void				Client::ko(Trame const &)
 void				Client::launchGame(Trame const &)
 {
   _life = 3;
+  _score = 0;
   _state->setVar(PLAYING);
 }
 
@@ -262,6 +265,11 @@ void				Client::scroll(Trame const &trame)
   Map				*map = Map::getInstance();
 
   map->setScroll(std::stoi(trame.getContent()));
+}
+
+void				Client::score(Trame const &trame)
+{
+  _score = std::stoi(trame.getContent());
 }
 
 void				Client::removeEntity(Trame const &trame)
@@ -631,5 +639,6 @@ bool				Client::getInitialized(void) const { return (_initialized->getVar()); }
 Protocol			*Client::getProto(void) const { return (_protocol); }
 int				Client::getId(void) const { return (_id); }
 int				Client::getLife(void) const { return (_life); }
+int				Client::getScore(void) const { return (_score); }
 
 //------------------------------END GETTERS / SETTERS-----------------------------------

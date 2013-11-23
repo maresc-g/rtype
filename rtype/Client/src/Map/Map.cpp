@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:22:47 2013 guillaume marescaux
-// Last update Sat Nov 23 21:14:35 2013 guillaume marescaux
+// Last update Sat Nov 23 21:55:35 2013 guillaume marescaux
 //
 
 #include			"Map/Map.hh"
@@ -142,7 +142,7 @@ std::list<Entity *>		*Map::getEntities(void) const
   _mutex->enter();
   for (auto it = _entities->begin() ; it != _entities->end() ; it++)
     {
-      if ((*it)->getInvincible() && (*it)->getClock().getElapsedTime().asSeconds() > 3)
+      if ((*it)->getInvincible() && (*it)->getClock().getElapsedTime().asSeconds() >= 1.5)
 	(*it)->setInvincible(false);
     }
   tmp = this->copyList(*_entities);
