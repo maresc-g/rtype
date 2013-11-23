@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sat Nov 23 18:28:57 2013 cyril jourdain
+// Last update Sat Nov 23 19:02:46 2013 guillaume marescaux
 //
 
 #include		"Graphic/ClientMain.hh"
@@ -217,3 +217,5 @@ void			ClientMain::quit()
 {
   _client->quit();
 }
+
+int			ClientMain::getLife(void) const { return (_client->getLife()); }

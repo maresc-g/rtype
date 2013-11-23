@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Sat Nov 23 11:41:17 2013 guillaume marescaux
+// Last update Sat Nov 23 18:35:43 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -39,7 +39,8 @@ Client::Client(FileSystem::Directory *dir, MutexVar<eState> *state, Action *acti
   _dir(dir),
   _diffDir(new std::list<std::string>),
   _state(state),
-  _action(action)
+  _action(action),
+  _life(3)
 {
   // ptrs
   (*_ptrs)[Protocol::WELCOME] = &Client::welcome;
@@ -49,6 +50,7 @@ Client::Client(FileSystem::Directory *dir, MutexVar<eState> *state, Action *acti
   (*_ptrs)[Protocol::MAP] = &Client::map;
   (*_ptrs)[Protocol::ENTITY] = &Client::entity;
   (*_ptrs)[Protocol::SCROLL] = &Client::scroll;
+  (*_ptrs)[Protocol::LOSTLIFE] = &Client::lostLife;
   (*_ptrs)[Protocol::DEAD] = &Client::dead;
   (*_ptrs)[Protocol::REMOVE_ENTITY] = &Client::removeEntity;
   (*_ptrs)[Protocol::SPRITE] = &Client::sprite;
@@ -268,6 +270,12 @@ void				Client::removeEntity(Trame const &trame)
   map->removeEntity(std::stoi(trame.getContent()));
 }
 
+void				Client::lostLife(Trame const &trame)
+{
+  Map::getInstance()->setInvincible(std::stoi(trame.getContent()), true);
+  _life--;
+}
+
 void				Client::dead(Trame const &)
 {
   *_state = DEAD;
@@ -481,26 +489,33 @@ bool				Client::initialize(void)
   *_state = CONNECTING;
   try
     {
+      std::cout << "1" << std::endl;
       (*_sockets)[TCP]->initialize("TCP");
+      std::cout << "2" << std::endl;
       (*_sockets)[UDP]->initialize("UDP");
+      std::cout << "3" << std::endl;
       // (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr("10.11.46.54", 4243);
       // (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr("10.11.46.54", 4243);
+      std::cout << "4" << std::endl;
       (*_socketsClient)[UDP] = (*_sockets)[UDP]->connectToAddr(_info->getVar()->getIp(), std::stoi(_info->getVar()->getPort()));
+      std::cout << "5" << std::endl;
       (*_socketsClient)[TCP] = (*_sockets)[TCP]->connectToAddr(_info->getVar()->getIp(), std::stoi(_info->getVar()->getPort()));
+      std::cout << "6" << std::endl;
     }
   catch (SocketError const &e)
     {
-      std::cout << e.what() << std::endl;
-      (*_sockets)[TCP]->destroy();
-      (*_sockets)[UDP]->destroy();
+      std::cout << "ERROR CONNECT" << std::endl;
+      this->disconnect();
       *_state = ERROR_CONNECT;
       return (false);
     }
   catch (std::invalid_argument const &e)
     {
+      this->disconnect();
       *_state = ERROR_CONNECT;
       return (false);
     }
+  std::cout << "CONNECTED" << std::endl;
   this->read(0, 0, false);
   tmp = manager->popTrame(CircularBufferManager::READ_BUFFER);
   msgType = _protocol->getMsg(tmp);
@@ -613,7 +628,6 @@ void				Client::quit()
 {
   this->destroy();
   *_running = false;
-  std::cout << "QUITTED" << std::endl;
 }
 
 //-----------------------------------END METHODS----------------------------------------
@@ -628,5 +642,6 @@ void				Client::setInitialized(bool const initialized) { _initialized->setVar(in
 bool				Client::getInitialized(void) const { return (_initialized->getVar()); }
 Protocol			*Client::getProto(void) const { return (_protocol); }
 int				Client::getId(void) const { return (_id); }
+int				Client::getLife(void) const { return (_life); }
 
 //------------------------------END GETTERS / SETTERS-----------------------------------

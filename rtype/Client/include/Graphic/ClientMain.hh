@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:37:12 2013 cyril jourdain
-// Last update Sat Nov 23 14:33:13 2013 guillaume marescaux
+// Last update Sat Nov 23 19:03:07 2013 guillaume marescaux
 //
 
 #ifndef 		__CLIENTMAIN_HH__
@@ -65,6 +65,7 @@ public:
   void				quitGame(bool const gameOver = false, bool const win = false);
   void				quit();
   // void				quitGameOver(void);
+  int				getLife(void) const;
 };
 
 #endif

@@ -5,15 +5,15 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:23:41 2013 guillaume marescaux
-// Last update Thu Nov 21 13:04:03 2013 guillaume marescaux
+// Last update Sat Nov 23 18:23:57 2013 guillaume marescaux
 //
 
 #include			"Map/Entity.hh"
 
 //----------------------------------BEGIN CTOR / DTOR---------------------------------------
 
-Entity::Entity(int const id, int const x, int const y, std::string const &type, std::string const &direction):
-  _id(id), _x(x), _y(y), _type(type), _direction(direction)
+Entity::Entity(int const id, int const x, int const y, std::string const &type, std::string const &direction, bool const invincible):
+  _id(id), _x(x), _y(y), _type(type), _direction(direction), _invincible(invincible)
 {
 }
 
@@ -46,11 +46,13 @@ int				Entity::getX(void) const { return (_x); }
 int				Entity::getY(void) const { return (_y); }
 std::string const		&Entity::getType(void) const { return (_type); }
 std::string const		&Entity::getDirection(void) const { return (_direction); }
+bool				Entity::getInvincible(void) const { return (_invincible); }
 void				Entity::setId(int const id) { _id = id; }
 void				Entity::setX(int const x) { _x = x; }
 void				Entity::setY(int const y) { _y = y; }
 void				Entity::setType(std::string const &type) { _type = type; }
 void				Entity::setDirection(std::string const &direction) { _direction = direction; }
+void				Entity::setInvincible(bool const invincible) { _invincible = invincible; }
 
 //--------------------------------END GETTERS / SETTERS-------------------------------------
 

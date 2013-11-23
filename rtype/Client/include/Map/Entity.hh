@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:07:33 2013 guillaume marescaux
-// Last update Thu Nov 21 18:22:03 2013 cyril jourdain
+// Last update Sat Nov 23 18:21:47 2013 guillaume marescaux
 //
 
 #ifndef 		__ENTITY_HH__
@@ -23,11 +23,13 @@ private:
   int			_y;
   std::string		_type;
   std::string		_direction;
+  bool			_invincible;
 
 public:
 
   // Ctor / Dtor
-  Entity(int const id = 0, int const x = 0, int const y = 0, std::string const &type = "", std::string const &direction = "left");
+  Entity(int const id = 0, int const x = 0, int const y = 0, std::string const &type = "", std::string const &direction = "left",
+	 bool const invincible = false);
   Entity(Entity const &other);
   Entity		&operator=(Entity const &other);
   virtual ~Entity();
@@ -38,11 +40,13 @@ public:
   int			getY(void) const;
   std::string const	&getType(void) const;
   std::string const	&getDirection(void) const;
+  bool			getInvincible(void) const;
   void			setId(int const id);
   void			setX(int const x);
   void			setY(int const y);
   void			setType(std::string const &type);
   void			setDirection(std::string const &direction);
+  void			setInvincible(bool const invincible);
 };
 
 #endif

@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:30:57 2013 guillaume marescaux
-// Last update Fri Nov 22 13:56:11 2013 guillaume marescaux
+// Last update Sat Nov 23 18:20:40 2013 guillaume marescaux
 //
 
 #ifndef 		__MAP_HH__
@@ -53,6 +53,7 @@ public:
   unsigned int		getScroll(void) const;
   std::list<Entity *>		*getEntities(void) const;
   Entity const			*getEntityById(int const id) const;
+  void			setInvincible(int const id, bool const invincible);
 };
 
 #endif
