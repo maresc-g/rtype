@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sun Nov 24 16:41:45 2013 laurent ansel
+// Last update Sun Nov 24 20:29:48 2013 laurent ansel
 //
 
 #include		<time.h>
@@ -137,7 +137,7 @@ void			GameLoop::removeEntities()
 {
   this->_mutex->enter();
   this->destroyDeadEntities(this->_levelManag->getEnemies(),
-			    this->_levelManag->getPlayers());
+  			    this->_levelManag->getPlayers());
   this->_mutex->leave();
 }
 
@@ -166,6 +166,7 @@ void			GameLoop::lostLifePlayer() const
 
 void			GameLoop::endLoop()
 {
+  std::cout << "ENDL" << std::endl;
   this->_mutex->enter();
   if (this->_levelManag->getEndGame())
     sendClient("TCP", "ENDGAME WIN");
@@ -183,27 +184,41 @@ void			GameLoop::endLoop()
 
 void			GameLoop::timeToChange()
 {
-  std::ostringstream	oss;
+  // std::ostringstream	oss;
 
-  this->_nextL = false;
-  this->_levelManag->nextLevel();
-  for (auto it = this->_clients->begin(); it != this->_clients->end(); it++)
+  // this->_nextL = false;
+  // this->_levelManag->nextLevel();
+  // for (auto it = this->_clients->begin(); it != this->_clients->end(); it++)
+  //   {
+  //     if ((*it)->getIG())
+  // 	{
+  // 	  AEntity *play = (*it)->getPlayer();
+  // 	  play->movePos(20, 40);
+  // 	  static_cast<Player *>(play)->setScore(static_cast<Player *>(play)->getScore() + 100);
+  // 	  this->_levelManag->getPlayers().push_back(play);
+  // 	}
+  //   }
+  // oss << "LEVELUP " << this->_levelManag->getDiff();
+  // sendClient("TCP", oss.str());
+}
+
+void			GameLoop::sendImportantInformation() const
+{
+  this->sendScroll(this->_levelManag->getPosAdv());
+  this->_mutex->enter();
+  for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
     {
-      if ((*it)->getIG())
-	{
-	  AEntity *play = (*it)->getPlayer();
-	  play->movePos(20, 40);
-	  static_cast<Player *>(play)->setScore(static_cast<Player *>(play)->getScore() + 100);
-	  this->_levelManag->getPlayers().push_back(play);
-	}
+      AEntity	*toto = (*it_bis)->getPlayer();
+      reinterpret_cast<Player *>(toto)->setScore(reinterpret_cast<Player *>(toto)->getScore() + 1);
+      this->sendScore((*it_bis), reinterpret_cast<Player *>(toto)->getScore());
+      (*it_bis)->sendMsg();
     }
-  oss << "LEVELUP " << this->_levelManag->getDiff();
-  sendClient("TCP", oss.str());
+  this->_mutex->leave();
 }
 
 void			GameLoop::loop()
 {
-  clock_t		time = 0;
+  clock_t		clockTime = 0;
   clock_t		end = 0;
   clock_t		action = 0;
   bool			SuperVaisseau;
@@ -217,8 +232,8 @@ void			GameLoop::loop()
       if (this->checkActiveClient() == false)
 	break;
       // if (this->_nextL == true)
-      // 	timeToChange();
-      time = clock();
+      // 	clockTimeToChange();
+      clockTime = clock();
       this->removeEntities();
       this->moveAllEntities(SuperVaisseau);
       this->actionEntities();
@@ -227,40 +242,39 @@ void			GameLoop::loop()
       this->_mutex->leave();
       this->lostLifePlayer();
       end = clock();
-      time = end - time;
-      if (((double)time / CLOCKS_PER_SEC) <= 0.03)
+      clockTime = end - clockTime;
+      for (double i = 0 ; i <= ((double)clockTime / CLOCKS_PER_SEC) ; i += 0.03)
+	this->scrolling();
+      this->sendImportantInformation();
+      if (((double)clockTime / CLOCKS_PER_SEC) <= 0.03)
         {
-	  for (double i = 0 ; i <= 0.03 - ((double)time / CLOCKS_PER_SEC) ; i += 0.03)
-	    this->scrolling();
-	  this->sendScroll(this->_levelManag->getPosAdv());
-	  this->_mutex->enter();
-	  for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
-	    {
-	      AEntity	*toto = (*it_bis)->getPlayer();
-	      reinterpret_cast<Player *>(toto)->setScore(reinterpret_cast<Player *>(toto)->getScore() + 1);
-	      this->sendScore((*it_bis), reinterpret_cast<Player *>(toto)->getScore());
-	      (*it_bis)->sendMsg();
-	    }
-	  this->_mutex->leave();
 #ifndef _WIN32
-	  usleep(((double)0.03 - ((double)time / CLOCKS_PER_SEC)) * 1000000);
+	  usleep(((double)0.03 - ((double)clockTime / CLOCKS_PER_SEC)) * 1000000);
 #else
-          Sleep(((double)0.03 - ((double)time / CLOCKS_PER_SEC)) * 1000);
+          Sleep(((double)0.03 - ((double)clockTime / CLOCKS_PER_SEC)) * 1000);
 #endif
-	  action -= ((double)0.03 - ((double)time / CLOCKS_PER_SEC)) * CLOCKS_PER_SEC;
+	  action -= ((double)0.03 - ((double)clockTime / CLOCKS_PER_SEC)) * CLOCKS_PER_SEC;
+	}
+      else
+	{
+#ifndef _WIN32
+	  usleep(10000);
+#else
+          Sleep(10);
+#endif
 	}
       this->_mutex->enter();
-      if ((((float)(clock() - action)) / CLOCKS_PER_SEC) > 0.04)
+      if ((((double)(clock() - action)) / CLOCKS_PER_SEC) > 0.04)
       	{
 	  this->action();
 	  action = clock();
 	  if (SuperVaisseau == false)
 	    for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
 	      {
-		if ((*it)->getType() == AEntity::PLAYER)
-		  {
-		    this->sendEntity((*it));
-		  }
+	  	if ((*it)->getType() == AEntity::PLAYER)
+	  	  {
+	  	    this->sendEntity((*it));
+	  	  }
 	      }
 	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
 	    this->sendEntity((*it));
@@ -410,6 +424,7 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
     {
       if ((*it)->isDead() == true)
 	{
+	  std::cout << "DEAD "<<(*it)->getId() << std::endl;
 	  this->sendDeadEntity((*it)->getId());
 	  delete *it;
 	  it = enemies.erase(it);

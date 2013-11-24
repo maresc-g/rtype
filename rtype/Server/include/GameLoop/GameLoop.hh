@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Sun Nov 24 13:45:12 2013 laurent ansel
+// Last update Sun Nov 24 18:26:09 2013 laurent ansel
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -80,6 +80,7 @@ private:
   void				actionEntities();
   void				lostLifePlayer() const;
   void				endLoop();
+  void				sendImportantInformation() const;
 };
 
 #endif
