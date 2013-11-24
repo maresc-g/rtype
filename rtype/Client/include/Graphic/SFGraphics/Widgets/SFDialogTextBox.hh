@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Nov 15 19:31:49 2013 cyril jourdain
-// Last update Fri Nov 22 15:17:50 2013 guillaume marescaux
+// Last update Sun Nov 24 18:08:21 2013 cyril jourdain
 //
 
 #ifndef 		__SFDIALOGTEXTBOX_HH__
@@ -34,10 +34,8 @@ public:
   void			setOnCloseCallback(void (T::*func)(void *const),
 					   T* target)
   {
-    std::cout << "callback from dialog" << std::endl;
     _onCloseCallback = new SFConnect::EventCallback();
     _onCloseCallback->_function = std::bind(func, target, std::placeholders::_1);
-    std::cout << "TEXT_BOX IN HH=" << _textBox << std::endl;
     _onCloseCallback->_param = _textBox;
   }
 

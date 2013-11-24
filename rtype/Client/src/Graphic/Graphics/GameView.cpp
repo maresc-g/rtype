@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Sun Nov 24 16:11:21 2013 cyril jourdain
+// Last update Sun Nov 24 18:06:39 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -133,8 +133,6 @@ void			GameView::update(sf::RenderWindow *win)
       }
   for (auto it = entities->begin(); it != entities->end(); ++it)
     {
-      // if ((*it)->getType().find("rocket", 0) != std::string::npos)
-      // 	std::cout << (*it)->getType() << std::endl;
       _player = SFRessourcesManager::getInstance()->getSprite((*it)->getType());
       _player->update(*_clock);
       _player->setPosition((*it)->getX(), (*it)->getY());

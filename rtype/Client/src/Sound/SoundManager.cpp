@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 20:11:19 2013 cyril jourdain
-// Last update Sun Nov 24 14:22:33 2013 cyril jourdain
+// Last update Sun Nov 24 17:49:20 2013 cyril jourdain
 //
 
 #include		"Sound/SoundManager.hh"
@@ -38,11 +38,12 @@ void			SoundManager::addSound(std::string const &name, std::string const &path)
 }
 
   void			SoundManager::addMusic(std::string const &name, std::string const &path,
-					       bool loop)
+					       bool loop, int volume)
 {
   (*_musics)[name] = new sf::Music();
   (*_musics)[name]->openFromFile(path);
   (*_musics)[name]->setLoop(loop);
+  (*_musics)[name]->setVolume(volume);
 }
 
 void			SoundManager::playSound(std::string const &name)
@@ -52,6 +53,7 @@ void			SoundManager::playSound(std::string const &name)
   if ((*_sounds)[name])
     {
       _sound.setBuffer(*(*_sounds)[name]);
+      _sound.setVolume(50);
       _sound.play();
     }
 }
@@ -65,7 +67,7 @@ void			SoundManager::playMusic(std::string const &name)
 void			SoundManager::pauseMusic(std::string const &name)
 {
   if ((*_musics)[name])
-    (*_musics)[name]->play();
+    (*_musics)[name]->pause();
 }
 
 void			SoundManager::stopMusic(std::string const &name)
@@ -79,5 +81,5 @@ void			SoundManager::loadDefaultSounds()
   addSound(SHOT1, SHOT1_RES);
   addSound(BLAST1, BLAST1_RES);
   addMusic(LOBBY_MUSIC, LOBBY_MUSIC_RES);
-  addMusic(GAME_MUSIC, GAME_MUSIC_RES);
+  addMusic(GAME_MUSIC, GAME_MUSIC_RES, true, 40);
 }

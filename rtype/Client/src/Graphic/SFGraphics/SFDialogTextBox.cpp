@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Nov 15 19:38:01 2013 cyril jourdain
-// Last update Sun Nov 24 00:19:03 2013 guillaume marescaux
+// Last update Sun Nov 24 18:05:57 2013 cyril jourdain
 //
 
 #include		"Graphic/SFGraphics/Widgets/SFDialogTextBox.hh"
@@ -57,7 +57,6 @@ void			SFDialogTextBox::init()
   _closeButton->setSize(100,30);
   _closeButton->setPosition(200,112);
   _textBox->setPosition(_label->getPosition().x, _label->getPosition().y + _label->getBound().height + 10);
-  std::cout << "TEXTBOX_PTR=" << _textBox << std::endl;
   setSize(sf::Vector2f(400,150));
   setPosition(sf::Vector2f(WIN_X / 2 - 200, WIN_Y / 2 - 75));
   updateBound();

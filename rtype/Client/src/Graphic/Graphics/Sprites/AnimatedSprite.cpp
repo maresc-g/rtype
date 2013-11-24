@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 //
 // Started on  Wed Jun 19 13:45:16 2013 cyril jourdain
-// Last update Sun Nov 24 01:21:19 2013 cyril jourdain
+// Last update Sun Nov 24 18:07:16 2013 cyril jourdain
 //
 
 #include	"Graphic/Graphics/Sprites/AnimatedSprite.hh"
@@ -121,22 +121,9 @@ void			AnimatedSprite::update(sf::Clock &clock)
   sf::IntRect *frame;
   
   if ((*_animations)[_current] && _isPlaying){
-    // if (_old != "" && _current != _old)
-    //   {
-    // 	(*_animations)[_old]->reset();
-    // 	(*_animations)[_current]->reset();
-    //   }
-    // if (_loopPlay)
-    //   {
-    // 	std::cout << "Current : " << (*_animations)[_current]->getCurrentFrame() + 1 << std::endl;
-    // 	std::cout << "Count : " << (*_animations)[_current]->getFrameCount() << std::endl;
-    //   }
     if (_loopPlay &&
 	(*_animations)[_current]->getCurrentFrame() + 1 >= (*_animations)[_current]->getFrameCount())
-      {
-	std::cout << "RESET" << std::endl;
-	(*_animations)[_current]->reset();
-      }
+      (*_animations)[_current]->reset();
     if ((*_animations)[_current]->getFrameCount() == 1 ||
     	(*_animations)[_current]->getCurrentFrame() + 1 != (*_animations)[_current]->getFrameCount())
       {
@@ -198,7 +185,6 @@ void			AnimatedSprite::loadFromFile(std::string const &file)
 	return err(file);
       std::istringstream is2(line.substr(pos + 8, epos - (pos + 8)));
       is2 >> len;
-      std::cout << len << std::endl;
       getline(in, line);
     }
   for (;;)

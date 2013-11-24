@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:18:05 2013 cyril jourdain
-// Last update Sat Nov 23 17:17:25 2013 guillaume marescaux
+// Last update Sun Nov 24 18:06:24 2013 cyril jourdain
 //
 
 #include	<iostream>
@@ -370,12 +370,7 @@ void				WindowManager::removeWindowCallback(void *param)
   if (it != _windowList->end())
     {
       if (it->second->getOnCloseCallback())
-	{
-	  it->second->getOnCloseCallback()->_function(it->second->getOnCloseCallback()->_param);
-	  //std::cout << it->second->getOnCloseCallback()->_function << std::endl;
-	}
-      else
-	std::cout << "NO CALLBACK FOUND" << std::endl;
+	it->second->getOnCloseCallback()->_function(it->second->getOnCloseCallback()->_param);
       _windowList->erase(it);
       _active = NULL;
     }

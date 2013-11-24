@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Nov  8 15:38:07 2013 cyril jourdain
-// Last update Wed Nov 20 10:28:27 2013 cyril jourdain
+// Last update Sun Nov 24 18:05:44 2013 cyril jourdain
 //
 
 #include		"Graphic/SFGraphics/Widgets/SFArray.hh"
@@ -131,7 +131,6 @@ void			SFArray::onClick(void *const param)
 	    _selected->setSelected(false);
 	  (*it)->setSelected(true);
 	  _selected = *it;
-	  std::cout << "Click : " << (*(*it))["ID"].getData() << std::endl;
 	}
     }
 }

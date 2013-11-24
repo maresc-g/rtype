@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sun Nov 24 14:17:32 2013 cyril jourdain
+// Last update Sun Nov 24 18:07:48 2013 cyril jourdain
 //
 
 #include		<sstream>
@@ -140,8 +140,9 @@ void			ClientMain::joinGame(void *)
       if (_state->getVar() == PLAYING)
 	{
 	  _manager->getWindowById(LOBBY)->setVisibility(false);
-	  _manager->setFPS(60);
+	  _manager->setFPS(40);
 	  _manager->setActiveWindow(GAME);
+	  SoundManager::getInstance()->pauseMusic(LOBBY_MUSIC);
 	  SoundManager::getInstance()->playMusic(GAME_MUSIC);
 	}
       else
@@ -164,7 +165,6 @@ void			ClientMain::callCreateGame(void *data)
 {
   std::string		tmp = reinterpret_cast<SFTextBox *>(data)->getText();
 
-  std::cout << tmp << std::endl;
   if (tmp.size() > 0)
     {
       Map::getInstance()->clear();
@@ -175,7 +175,8 @@ void			ClientMain::callCreateGame(void *data)
 	{
 	  _manager->setActiveWindow(GAME);
 	  _manager->getWindowById(LOBBY)->setVisibility(false);
-	  _manager->setFPS(60);
+	  _manager->setFPS(40);
+	  SoundManager::getInstance()->pauseMusic(LOBBY_MUSIC);
 	  SoundManager::getInstance()->playMusic(GAME_MUSIC);
 	}
       else
@@ -251,7 +252,6 @@ void			ClientMain::waitServ(eState oldState, eState newState)
       init = true;
     }
   int time = _clock->getElapsedTime().asSeconds();
-  std::cout << time << std::endl;
   if (time > 10)
     {
       init = false;
