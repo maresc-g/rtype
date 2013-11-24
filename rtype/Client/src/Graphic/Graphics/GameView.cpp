@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Sun Nov 24 18:06:39 2013 cyril jourdain
+// Last update Sun Nov 24 20:08:00 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -162,6 +162,8 @@ void			GameView::update(sf::RenderWindow *win)
 void			GameView::reset()
 {
   _customView->move((_totalScroll * -1), 0);
+  _background->setPosition(0,0);
+  _background2->setPosition(_background->getBound().width, 0);
   _scroll = 0;
   _totalScroll = 0;
 }
