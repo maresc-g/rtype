@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Sat Nov 23 23:27:10 2013 guillaume marescaux
+// Last update Sun Nov 24 14:13:20 2013 guillaume marescaux
 //
 
 #include <iostream>
@@ -177,6 +177,7 @@ void				Client::ko(Trame const &)
 
 void				Client::launchGame(Trame const &)
 {
+  std::cout << "LAUNCHGAME" << std::endl;
   _life = 3;
   _score = 0;
   _state->setVar(PLAYING);
@@ -223,6 +224,7 @@ void				Client::entity(Trame const &trame)
   double			scal;
   double			cosA;
   double			angle;
+  Entity const			*tmp;
 
   std::getline(iss, token, ';');
   id = std::stoi(token);
@@ -244,6 +246,7 @@ void				Client::entity(Trame const &trame)
       scal = retX * 1 + retY * 0;
       cosA = scal / (norme1 * norme2);
       angle = acos(cosA) * 180.0 / M_PI;
+      tmp = map->getEntityById(id);
       if (angle >= 0 && angle <= 23)
 	direction = "right";
       else if (angle > 23 && angle <= 68)
@@ -252,6 +255,8 @@ void				Client::entity(Trame const &trame)
 	direction = (retY >= 0 ? "up" : "down");
       else if (angle > 113 && angle <= 158)
 	direction = (retY >= 0 ? "left_up" : "left_down");
+      else if (x == tmp->getX() && y == tmp->getY())
+	direction = tmp->getDirection();
       else
 	direction = "left";
       map->moveEntity(id, x, y, direction);
@@ -269,6 +274,7 @@ void				Client::scroll(Trame const &trame)
 
 void				Client::score(Trame const &trame)
 {
+  std::cout << "SCORE UPDATE" << std::endl;
   _score = std::stoi(trame.getContent());
 }
 

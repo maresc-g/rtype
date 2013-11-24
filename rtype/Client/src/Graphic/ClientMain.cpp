@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sun Nov 24 02:08:02 2013 cyril jourdain
+// Last update Sun Nov 24 14:13:00 2013 guillaume marescaux
 //
 
 #include		<sstream>
@@ -245,7 +245,7 @@ void			ClientMain::waitServ(eState oldState, eState newState)
       init = true;
     }
   int time = _clock->getElapsedTime().asSeconds();
-  std::cout << time << std::endl;
+  //  std::cout << time << std::endl;
   if (time > 10)
     {
       init = false;
