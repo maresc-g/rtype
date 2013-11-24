@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 23:46:14 2013 cyril jourdain
-// Last update Sun Nov 24 01:19:34 2013 cyril jourdain
+// Last update Sun Nov 24 01:29:58 2013 cyril jourdain
 //
 
 #include			"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
@@ -61,7 +61,7 @@ void			SFRessourcesManager::loadDefaultRessources()
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU3, SPRITE_WALLU3_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU4, SPRITE_WALLU4_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU5, SPRITE_WALLU5_CONF);
-  SFRessourcesManager::getInstance()->addSprite(EXPLOSION, EXPLOSION_CONF);
+  SFRessourcesManager::getInstance()->addSprite(EXPLOSION, EXPLOSION_CONF, true);
 }
 
 void			SFRessourcesManager::addSprite(std::string const &name, std::string const &path, bool const loop)
