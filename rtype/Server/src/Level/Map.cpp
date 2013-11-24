@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Sun Nov 24 15:28:24 2013 laurent ansel
+// Last update Sun Nov 24 16:31:30 2013 laurent ansel
 //
 
 #include "Level/Map.hh"
@@ -43,9 +43,9 @@ Map::Map(std::string _path)
 
 Map::~Map()
 {
-  // for (auto it = _enemies.begin() ; it != _enemies.end() ; ++it)
-  //   if ((*it))
-  //     delete *it;
+  for (auto it = _enemies.begin() ; it != _enemies.end() ; ++it)
+    if ((*it))
+      delete *it;
   for (auto it = _players.begin() ; it != _players.end() ; ++it)
     if ((*it))
       delete *it;

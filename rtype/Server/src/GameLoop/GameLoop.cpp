@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sun Nov 24 15:27:05 2013 laurent ansel
+// Last update Sun Nov 24 16:41:45 2013 laurent ansel
 //
 
 #include		<time.h>
@@ -39,8 +39,8 @@ GameLoop::~GameLoop()
     }
   delete this->_clients;
   this->_mutex->leave();
-  delete _library;
   delete _levelManag;
+  delete _library;
   this->_mutex->destroy();
   delete this->_mutex;
 }
@@ -108,7 +108,7 @@ void			GameLoop::execAction(Action const &act, AEntity *entity, int const, Map *
 	{
 	  entity->getProjectileVector(vx, vy);
 	  projectile->setVector(vx, vy);
-	  SpriteLoaderManager::getInstance()->getEntitySprite("rocket2", *projectile);
+	  SpriteLoaderManager::getInstance()->getEntitySprite("rocket2.png", *projectile);
 	  projectile->setId(_idEntity);
 	  _idEntity++;
 	  projectile->movePos(entity->getPosX(), entity->getPosY());

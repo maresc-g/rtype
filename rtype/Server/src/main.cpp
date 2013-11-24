@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Thu Oct 24 12:58:03 2013 laurent ansel
-// Last update Wed Nov 20 15:59:24 2013 laurent ansel
+// Last update Sun Nov 24 16:31:45 2013 laurent ansel
 //
 
 #include		<string>
@@ -16,6 +16,8 @@
 #include		<ctime>
 #include		"Server/Server.hh"
 #include		"Error/SocketError.hpp"
+#include                "DynamicLibrary/DynamicLibrary.hh"
+#include                "Entities/Mob.hh"
 
 int			main(int argc, char **argv)
 {
@@ -24,24 +26,24 @@ int			main(int argc, char **argv)
   if (argc == 2)
     {
       try
-	{
-	  int			port = std::stoi(argv[1]);
-	  Server		*server = new Server(port);
+  	{
+  	  int			port = std::stoi(argv[1]);
+  	  Server		*server = new Server(port);
 
-	  srand(time(NULL));
-	  server->run();
-	  delete server;
-	}
+  	  srand(time(NULL));
+  	  server->run();
+  	  delete server;
+  	}
       catch (std::invalid_argument const &e)
-	{
-	  std::cerr << "Invalid port" << std::endl;
-	  ret = 2;
-	}
+  	{
+  	  std::cerr << "Invalid port" << std::endl;
+  	  ret = 2;
+  	}
       catch (SocketError const &e)
-	{
-	  std::cerr << e.what() << std::endl;
-	  ret = 3;
-	}
+  	{
+  	  std::cerr << e.what() << std::endl;
+  	  ret = 3;
+  	}
     }
   else
     {
