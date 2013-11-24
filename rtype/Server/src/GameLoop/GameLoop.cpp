@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sun Nov 24 20:29:48 2013 laurent ansel
+// Last update Sun Nov 24 22:29:01 2013 laurent ansel
 //
 
 #include		<time.h>
@@ -166,7 +166,6 @@ void			GameLoop::lostLifePlayer() const
 
 void			GameLoop::endLoop()
 {
-  std::cout << "ENDL" << std::endl;
   this->_mutex->enter();
   if (this->_levelManag->getEndGame())
     sendClient("TCP", "ENDGAME WIN");
@@ -226,14 +225,14 @@ void			GameLoop::loop()
   action = clock();
   while (!this->_levelManag->getEndGame() && !this->_criticalError)
     {
+      clockTime = clock();
       SuperVaisseau = false;
       this->spawnMob();
       this->spawnWalls();
       if (this->checkActiveClient() == false)
 	break;
       // if (this->_nextL == true)
-      // 	clockTimeToChange();
-      clockTime = clock();
+      // 	timeToChange();
       this->removeEntities();
       this->moveAllEntities(SuperVaisseau);
       this->actionEntities();
@@ -386,7 +385,8 @@ void			GameLoop::spawnMob()
 	      entity->setId(_idEntity);
 	      _idEntity++;
 	      this->_levelManag->getEnemies().push_back(entity);
-	      this->_levelManag->getEnemies().back()->movePos(this->_levelManag->getPosAdv() + SCREENX * 10 + 1, rand() % 800);
+	      this->_levelManag->getEnemies().back()->movePos( this->_levelManag->getPosAdv() +
+							      SCREENX * 10 + 1, rand() % 800);
 	    }
       	}
     }
@@ -424,7 +424,6 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
     {
       if ((*it)->isDead() == true)
 	{
-	  std::cout << "DEAD "<<(*it)->getId() << std::endl;
 	  this->sendDeadEntity((*it)->getId());
 	  delete *it;
 	  it = enemies.erase(it);
