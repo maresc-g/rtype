@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sun Nov 24 22:39:40 2013 cyril jourdain
+// Last update Sun Nov 24 23:22:31 2013 guillaume marescaux
 //
 
 #include		<sstream>
@@ -249,7 +249,7 @@ void			ClientMain::quit()
   _client->quit();
 }
 
-void			ClientMain::waitServ(eState oldState, eState newState)
+void			ClientMain::waitServ(eState, eState newState)
 {
   int time = _clock->getElapsedTime().asSeconds();
   if (time >= 5)

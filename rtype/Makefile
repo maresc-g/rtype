@@ -5,7 +5,7 @@
 ## Login   <ansel_l@epitech.net>
 ## 
 ## Started on  Mon Oct 28 16:06:15 2013 laurent ansel
-## Last update Tue Nov 19 20:54:58 2013 alexis mestag
+## Last update Sun Nov 24 23:28:33 2013 guillaume marescaux
 ##
 
 NAMESERVER=	rtype-server
@@ -39,7 +39,7 @@ SOAI=		$(addprefix $(DYNLIBPATH)/, $(notdir $(OBJAI:.o=.so)))
 $(DYNLIBPATH)/%.so:	$(AIDIR)/%.o $(OBJAIDEP)
 			g++ -shared -o $@ $< $(OBJAIDEP)
 
-CPPFLAGS=	-W -Wall -Wextra -g $(SERVER_INCLUDES) $(COMMON_INCLUDES) $(CLIENT_INCLUDES) -fPIC -std=c++0x
+CPPFLAGS=	-W -Wall -Wextra $(SERVER_INCLUDES) $(COMMON_INCLUDES) $(CLIENT_INCLUDES) -fPIC -std=c++0x
 
 all:		$(OBJCOMMON) $(NAMESERVER) dynlibs $(NAMECLIENT)
 
