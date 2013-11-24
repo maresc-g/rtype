@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sun Nov 24 20:16:15 2013 guillaume marescaux
+// Last update Sun Nov 24 21:03:45 2013 guillaume marescaux
 //
 
 #include		<sstream>
@@ -105,6 +105,7 @@ void			ClientMain::connectToServer(void *param)
 	{
 	  *_state = CONNECTING;
 	  _client->setConnectInfo(new ConnectInfo(data->adress->getText(), data->port->getText()));
+	  _clock->restart();
 	  while (_state->getVar() == CONNECTING) waitServ(IN_LOGIN, ERROR_CONNECT);
 	  if (_state->getVar() == CONNECTED)
 	    {
@@ -139,6 +140,7 @@ void			ClientMain::joinGame(void *)
       *_state = WAIT_GAME;
       int i = std::stoi((*line)["ID"].getData());
       _client->getProto()->protocolMsg(Protocol::JOIN, _client->getId(), &i);
+      _clock->restart();
       while (_state->getVar() == WAIT_GAME) waitServ(IN_LOBBY, IN_LOBBY);
       if (_state->getVar() == PLAYING)
 	{
@@ -173,6 +175,7 @@ void			ClientMain::callCreateGame(void *data)
       Map::getInstance()->clear();
       *_state = WAIT_GAME;
       _client->getProto()->protocolMsg(Protocol::CREATE, _client->getId(), &tmp);
+      _clock->restart();
       while (_state->getVar() == WAIT_GAME) waitServ(IN_LOGIN, IN_LOGIN);
       if (_state->getVar() == PLAYING)
 	{
@@ -203,6 +206,7 @@ void			ClientMain::refreshGameList(void *)
 {
   _client->getProto()->protocolMsg(Protocol::GET_GAMELIST, _client->getId(), NULL);
   *_state = GAMELIST;
+  _clock->restart();
   while (_state->getVar() == GAMELIST) waitServ(IN_LOBBY, IN_LOGIN);
   static_cast<LobbyWindow*>((*_windows)[LOBBY])->refreshGameList(NULL);
 }
@@ -247,31 +251,11 @@ void			ClientMain::quit()
 
 void			ClientMain::waitServ(eState oldState, eState newState)
 {
-  static int		init = false;
-
-  if (!init)
-    {
-      _clock->restart();
-      init = true;
-    }
   int time = _clock->getElapsedTime().asSeconds();
-  if (time > 10)
-    {
-      init = false;
-      return;
-    }
-  if (time == 5)
+  if (time >= 5)
     {
       *_state = newState;
       _manager->addWindow(new SFDialogBox("Error", "Server timeout"));
       quit();
     }
-  if (time > 5)
-    {
-      std::ostringstream oss;
-      oss << 10 - time;
-      _manager->addWindow(new SFDialogBox("Error", "Try again in " + oss.str() + " sec"));
-      *_state = oldState;
-    }
-
 }
