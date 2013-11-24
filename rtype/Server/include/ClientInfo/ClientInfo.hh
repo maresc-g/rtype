@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:46:04 2013 laurent ansel
-// Last update Thu Nov 21 16:50:29 2013 laurent ansel
+// Last update Sun Nov 24 14:48:25 2013 laurent ansel
 //
 
 #ifndef 			__CLIENTINFO_HH__
@@ -19,9 +19,16 @@
 
 class				ClientInfo
 {
+public:
+  enum				eType
+    {
+      SERVER,
+      GAME
+    };
 private:
   std::map<std::string, SocketClient *>	*_clientInfo;
-  std::list<Command *>		*_command;
+  std::map<enum eType, std::list<Command *> *>	*_command;
+  // std::list<Command *>		*_command;
   std::map<std::string, int>	*_nbTrame;
   unsigned int			_id;
   Mutex				*_mutex;
@@ -31,10 +38,10 @@ private:
 public:
   ClientInfo(SocketClient *clientTcp, SocketClient *clientUdp = NULL, unsigned int const id = 0);
   virtual ~ClientInfo();
-  Command const			*getFirstCommand() const;
-  void				pushCommand(Trame *trame);
+  Command const			*getFirstCommand(enum ClientInfo::eType const type) const;
+  void				pushCommand(Trame *trame, enum ClientInfo::eType const type);
   void				setCommand();
-  bool				standbyCommand() const;
+  bool				standbyCommand(enum ClientInfo::eType const type) const;
 
   bool				canWriteSomething(std::string const &proto) const;
   void				pushWriteTrame(std::string const &proto, Trame *trame);
@@ -58,8 +65,8 @@ public:
   unsigned int			getIdGame() const;
   void				setIdGame(unsigned int const idGame);
 
-  Action const			&getAction() const;
-  void				setAction(Action const &action);
+  Action const			&getAction(enum ClientInfo::eType const type) const;
+  void				setAction(Action const &action, enum ClientInfo::eType const type);
 
   bool				actionServer() const;
 

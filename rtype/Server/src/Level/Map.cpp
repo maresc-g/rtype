@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Sat Nov 23 19:45:08 2013 laurent ansel
+// Last update Sun Nov 24 13:58:11 2013 laurent ansel
 //
 
 #include "Level/Map.hh"
@@ -43,7 +43,16 @@ Map::Map(std::string _path)
 
 Map::~Map()
 {
-
+  for (auto it = _walls.begin() ; it != _walls.end() ; ++it)
+    if ((*it))
+      delete *it;
+  for (auto it = _inactiveWalls.begin() ; it != _inactiveWalls.end() ; ++it)
+    if ((*it))
+      delete *it;
+  for (auto it = _enemiesStatic.begin() ; it != _enemiesStatic.end() ; ++it)
+    if ((*it))
+      delete *it;
+  delete _map;
 }
 
 std::vector<std::vector<unsigned int>> *Map::getMap()

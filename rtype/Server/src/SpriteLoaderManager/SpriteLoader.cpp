@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Sun Nov 10 15:04:52 2013 laurent ansel
-// Last update Fri Nov 22 23:31:50 2013 laurent ansel
+// Last update Sun Nov 24 12:22:05 2013 laurent ansel
 //
 
 #include		<utility>
@@ -21,10 +21,21 @@ SpriteLoader::SpriteLoader(size_t const id, std::string const &path, std::string
   _entity(new s_entity),
   _confClient(std::make_pair("", ""))
 {
+  this->_entity->_hitbox = NULL;
+  this->_entity->_spawnProjectile = NULL;
 }
 
 SpriteLoader::~SpriteLoader()
 {
+  if (this->_entity->_hitbox)
+    {
+      for (auto it = this->_entity->_hitbox->begin() ; it != this->_entity->_hitbox->end() ; ++it)
+	if ((*it))
+	  delete *it;
+      delete this->_entity->_hitbox;
+    }
+  if (this->_entity->_spawnProjectile)
+    delete this->_entity->_spawnProjectile;
   delete _entity;
 }
 
@@ -220,7 +231,17 @@ void			SpriteLoader::getInformationHitBox(std::string const &content)
 	  if (node)
 	    hitbox->push_back(node);
 	}
-      this->_entity->_hitbox = hitbox;
+      this->_entity->_hitbox = new std::list<InformationHitBox *>;
+      for (auto it = hitbox->begin() ; it != hitbox->end() ; ++it)
+	{
+	  if ((*it))
+	    {
+	      this->_entity->_hitbox->push_back(new InformationHitBox(*(*it)));
+	      delete *it;
+	    }
+	}
+      delete hitbox;
+      //      *this->_entity->_hitbox = *hitbox;
     }
 }
 

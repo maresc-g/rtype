@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:22:19 2013 antoine maitre
-// Last update Fri Nov 22 17:00:32 2013 antoine maitre
+// Last update Sun Nov 24 13:02:37 2013 laurent ansel
 //
 
 #ifndef		__PLAYERINFO_HH__
@@ -39,6 +39,8 @@ public:
   void		quitGame();
   void		pushMsg(std::string const &proto, std::string const &content);
   void		sendMsg();
+  void		deleteMsg();
+  void		setInfo(ClientInfo *);
 };
 
 #endif

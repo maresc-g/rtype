@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Sat Nov 23 19:23:09 2013 laurent ansel
+// Last update Sun Nov 24 14:49:15 2013 laurent ansel
 //
 
 #include			<list>
@@ -32,11 +32,6 @@ Server::Server(int const port):
   _select(new Select),
   _client(new std::list<ClientInfo *>)
 {
-  ObjectPoolManager::getInstance();
-  SpriteLoaderManager::getInstance();
-  DynamicLibraryManager::getInstance();
-  CircularBufferManager::getInstance();
-  GameLoopManager::getInstance();
   this->_socket->insert(std::make_pair("TCP" , new Socket));
   this->debug("Initialize tcp socket ...");
   (*this->_socket)["TCP"]->initialize("TCP");
@@ -52,6 +47,11 @@ Server::Server(int const port):
   (*this->_socket)["UDP"]->bindSocket(port);
   this->debug("Done");
   (*this->_socket)["UDP"]->initAddr();
+  ObjectPoolManager::getInstance();
+  SpriteLoaderManager::getInstance();
+  DynamicLibraryManager::getInstance();
+  CircularBufferManager::getInstance();
+  GameLoopManager::getInstance();
 }
 
 Server::~Server()
@@ -302,7 +302,10 @@ bool				Server::manageGame(std::list<ClientInfo *>::iterator &it, Action &action
       if (GameLoopManager::getInstance()->addPlayerInGame(*it, id))
 	{
 	  if (GameLoopManager::getInstance()->runGame(id))
-	    (*it)->pushWriteTrame("TCP", new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", "LAUNCHGAME", true));
+	    {
+	      (*it)->pushWriteTrame("TCP", new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", "LAUNCHGAME", true));
+	      std::cout << "LAUNCHGAME" << std::endl;
+	    }
 	  else
 	    (*it)->pushWriteTrame("TCP", new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", "KO", true));
 	}
@@ -345,15 +348,15 @@ void				Server::execCommand()
 	  (*it)->setCommand();
 	  this->debug("Done");
 	  this->debug("Check Command ...");
-	  if ((*it)->actionServer() && (*it)->standbyCommand())
+	  if ((*it)->actionServer() && (*it)->standbyCommand(ClientInfo::SERVER))
 	    {
-	      action = (*it)->getAction();
+	      action = (*it)->getAction(ClientInfo::SERVER);
 	      if (!this->manageQuit(it, action))
 		{
 		  this->manageGame(it, action);
 		  this->manageSprite(it, action);
 		}
-	      (*it)->setAction(action);
+	      (*it)->setAction(action, ClientInfo::SERVER);
 	    }
 	  this->debug("Done");
 	}

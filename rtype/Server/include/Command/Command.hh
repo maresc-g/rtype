@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:12 2013 laurent ansel
-// Last update Wed Nov 20 20:55:26 2013 laurent ansel
+// Last update Sun Nov 24 14:24:19 2013 laurent ansel
 //
 
 #ifndef 			__COMMAND_HH__
@@ -28,6 +28,7 @@ public:
   void				setAction(Action const &action);
   void				trameToAction();
   bool				commandServer() const;
+  void				resetAction();
 private:
   void				actionCommand(std::istringstream &str);
   void				quitGameCommand(std::istringstream &str);

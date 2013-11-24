@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:06 2013 antoine maitre
-// Last update Sat Nov 23 23:50:49 2013 antoine maitre
+// Last update Sun Nov 24 13:51:19 2013 laurent ansel
 //
 
 #include	"Level/LevelManager.hh"
@@ -18,7 +18,9 @@ LevelManager::LevelManager()
 
 LevelManager::~LevelManager()
 {
-
+  for (auto it = _levels.begin() ; it != _levels.end() ; ++it)
+    if ((*it))
+      delete *it;
 }
 
 void	LevelManager::Initialize()

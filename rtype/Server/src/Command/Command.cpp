@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 16:01:59 2013 laurent ansel
-// Last update Sat Nov 23 20:38:57 2013 laurent ansel
+// Last update Sun Nov 24 14:24:05 2013 laurent ansel
 //
 
 #include			"Command/Command.hh"
@@ -150,4 +150,9 @@ void				Command::trameToAction()
 bool				Command::commandServer() const
 {
   return (this->_command);
+}
+
+void				Command::resetAction()
+{
+  this->_action->reset();
 }

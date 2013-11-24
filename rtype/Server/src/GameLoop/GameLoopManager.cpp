@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Nov  5 10:47:00 2013 laurent ansel
-// Last update Sat Nov 23 13:53:20 2013 laurent ansel
+// Last update Sun Nov 24 11:59:11 2013 laurent ansel
 //
 
 #include			"GameLoop/GameLoopManager.hh"
@@ -74,7 +74,10 @@ void				GameLoopManager::quitGame(unsigned int const id)
 
   for (it = this->_listGame->begin() ; it != this->_listGame->end() && (*it)->getId() != id ; ++it);
   if (it != this->_listGame->end())
-    it = this->_listGame->erase(it);
+    {
+      delete *it;
+      it = this->_listGame->erase(it);
+    }
   _mutex->leave();
 }
 

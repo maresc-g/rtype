@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Sat Nov 23 19:41:45 2013 laurent ansel
+// Last update Sun Nov 24 12:37:54 2013 laurent ansel
 //
 
 #include		<iostream>
@@ -27,7 +27,7 @@ AEntity::AEntity(int const x, int const y, std::string const &path,
   _speed(speed),
   _destructible(destructible),
   _dead(false),
-  _hitbox(NULL),
+  _hitbox(new std::list<InformationHitBox *>),
   _spawnProjectile(new Coordinate(0, 0))
 {
   static unsigned int	_idEntity = 0;
@@ -44,6 +44,10 @@ AEntity::~AEntity()
 {
   delete _coord;
   delete _spawnProjectile;
+  for (auto it = _hitbox->begin() ; it != _hitbox->end() ; ++it)
+    if ((*it))
+      delete *it;
+  delete this->_hitbox;
 }
 
 AEntity			&AEntity::operator=(AEntity const &rhs)
@@ -135,7 +139,15 @@ std::list<InformationHitBox *> const	&AEntity::getInformationHitBox() const
 
 void			AEntity::setInformationHitBox(std::list<InformationHitBox *> *list)
 {
-  this->_hitbox = list;
+  if (list)
+    {
+      if (!_hitbox)
+	_hitbox = new std::list<InformationHitBox *>;
+      for (auto it = list->begin() ; it != list->end() ; ++it)
+	if ((*it))
+	  this->_hitbox->push_back(new InformationHitBox(*(*it)));
+    }
+  //  this->_hitbox = list;
 }
 
 void			AEntity::setId(unsigned int const id)
@@ -185,7 +197,8 @@ Coordinate const	&AEntity::getSpawnProjectile() const
 
 void			AEntity::setSpawnProjectile(Coordinate *coord)
 {
-  this->_spawnProjectile = coord;
+  if (coord)
+    *this->_spawnProjectile = *coord;
 }
 
 AEntity::eObject	AEntity::getType() const

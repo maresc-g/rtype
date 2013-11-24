@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Nov  6 17:17:27 2013 laurent ansel
-// Last update Sun Nov 24 00:25:30 2013 laurent ansel
+// Last update Sun Nov 24 12:10:59 2013 laurent ansel
 //
 
 #ifndef	_WIN32
@@ -32,7 +32,10 @@ ObjectPoolUpdater::ObjectPoolUpdater(std::map<AEntity::eObject, std::list<AEntit
 
 ObjectPoolUpdater::~ObjectPoolUpdater()
 {
-
+  for (auto it = this->_entity->begin() ; it != this->_entity->end() ; ++it)
+    if (it->second)
+      delete it->second;
+  delete this->_entity;
 }
 
 AEntity				*ObjectPoolUpdater::getMob()

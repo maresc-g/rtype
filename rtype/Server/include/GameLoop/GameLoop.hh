@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:41:34 2013 antoine maitre
-// Last update Sun Nov 24 00:30:02 2013 antoine maitre
+// Last update Sun Nov 24 13:45:12 2013 laurent ansel
 //
 
 #ifndef	__GAMELOOP_HH__
@@ -66,6 +66,7 @@ public:
   void				timeToChange();
 private:
   void				sendDeadEntity(unsigned int) const;
+  void				sendScore(PlayerInfo *player, unsigned int const score) const;
   void				sendScroll(unsigned int scroll) const;
   void				sendClient(const std::string &, const std::string &) const;
   void				sendEntity(AEntity *) const;

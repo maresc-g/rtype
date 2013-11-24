@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Wed Nov  6 17:04:40 2013 laurent ansel
-// Last update Sun Nov 24 00:25:44 2013 laurent ansel
+// Last update Sun Nov 24 12:22:39 2013 laurent ansel
 //
 
 #include		"ObjectPoolManager/ObjectPoolManager.hh"
@@ -39,7 +39,10 @@ ObjectPoolManager::~ObjectPoolManager()
       if (it->second)
 	delete it->second;
     }
+  delete _listEntities;
+  delete _updater;
   this->_mutex->destroy();
+  delete _mutex;
 }
 
 AEntity			*ObjectPoolManager::getCopy(enum AEntity::eObject const type)

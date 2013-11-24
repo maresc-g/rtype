@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Tue Oct 29 15:45:31 2013 laurent ansel
-// Last update Sat Nov 23 14:08:18 2013 laurent ansel
+// Last update Sun Nov 24 14:55:14 2013 laurent ansel
 //
 
 #ifndef				_WIN32
@@ -15,7 +15,9 @@
 
 ClientInfo::ClientInfo(SocketClient *clientTcp, SocketClient *clientUdp, unsigned int const id):
   _clientInfo(new std::map<std::string, SocketClient *>),
-  _command(new std::list<Command *>),
+  _command(new std::map<enum ClientInfo::eType, std::list<Command *> *>),
+  // _command(new std::list<Command *>),
+  // _commandGame(new std::list<Command *>),
   _nbTrame(new std::map<std::string, int>),
   _id(id),
   _mutex(new Mutex),
@@ -29,6 +31,8 @@ ClientInfo::ClientInfo(SocketClient *clientTcp, SocketClient *clientUdp, unsigne
   this->_nbTrame->insert(std::make_pair("TCP", 0));
   this->_nbTrame->insert(std::make_pair("UDP", 0));
   this->_mutex->enter();
+  (*this->_command)[ClientInfo::SERVER] = new std::list<Command *>;
+  (*this->_command)[ClientInfo::GAME] = new std::list<Command *>;
   this->_mutex->leave();
 }
 
@@ -41,26 +45,30 @@ ClientInfo::~ClientInfo()
     }
   if ((*this->_clientInfo)["UDP"])
     delete (*this->_clientInfo)["UDP"];
-  for (std::list<Command *>::iterator it = this->_command->begin() ; it != this->_command->end() ; ++it)
+  for (std::list<Command *>::iterator it = (*this->_command)[ClientInfo::GAME]->begin() ; it != (*this->_command)[ClientInfo::GAME]->end() ; ++it)
+    if (*it)
+      delete *it;
+  for (std::list<Command *>::iterator it = (*this->_command)[ClientInfo::SERVER]->begin() ; it != (*this->_command)[ClientInfo::SERVER]->end() ; ++it)
     if (*it)
       delete *it;
   delete this->_command;
+  //  delete this->_commandGame;
   delete this->_nbTrame;
   delete this->_clientInfo;
   this->_mutex->destroy();
   delete this->_mutex;
 }
 
-bool				ClientInfo::standbyCommand() const
+bool				ClientInfo::standbyCommand(enum ClientInfo::eType const type) const
 {
   this->_mutex->enter();
-  if (!this->_command->empty())
+  if (!(*this->_command)[type]->empty())
     {
       this->_mutex->leave();
-      getFirstCommand();
+      getFirstCommand(type);
       this->_mutex->enter();
     }
-  if (this->_command->empty())
+  if ((*this->_command)[type]->empty())
     {
       this->_mutex->leave();
       return (false);
@@ -69,20 +77,20 @@ bool				ClientInfo::standbyCommand() const
   return (true);
 }
 
-Command const			*ClientInfo::getFirstCommand() const
+Command const			*ClientInfo::getFirstCommand(enum ClientInfo::eType const type) const
 {
   this->_mutex->enter();
-  if (this->_command && !this->_command->empty())
+  if ((*this->_command)[type] && !(*this->_command)[type]->empty())
     {
-      Command			*command = this->_command->front();
+      Command			*command = (*this->_command)[type]->front();
 
       if (command && command->getAction().empty())
 	{
 	  if (command)
 	    delete command;
-	  this->_command->pop_front();
-	  if (!this->_command->empty())
-	    command = this->_command->front();
+	  (*this->_command)[type]->pop_front();
+	  if (!(*this->_command)[type]->empty())
+	    command = (*this->_command)[type]->front();
 	  else
 	    command = NULL;
 	}
@@ -96,30 +104,44 @@ Command const			*ClientInfo::getFirstCommand() const
 void				ClientInfo::setCommand()
 {
   Trame				*tmp = NULL;
+  Command			*command;
+  enum ClientInfo::eType	type;
 
   this->_mutex->enter();
   tmp = CircularBufferManager::getInstance()->popTrame(this->_id, "TCP", CircularBufferManager::READ_BUFFER);
   if (tmp)
     {
-      this->_command->push_back(new Command(tmp));
-      this->_command->back()->trameToAction();
+      command = new Command(tmp);
+      if (command)
+	command->trameToAction();
+      if (command && command->commandServer())
+	type = ClientInfo::SERVER;
+      else
+	type = ClientInfo::GAME;
+      (*this->_command)[type]->push_back(command);
     }
   else
     {
       tmp = CircularBufferManager::getInstance()->popTrame(this->_id, "UDP", CircularBufferManager::READ_BUFFER);
       if (tmp)
 	{
-	  this->_command->push_back(new Command(tmp));
-	  this->_command->back()->trameToAction();
+	  command = new Command(tmp);
+	  if (command)
+	    command->trameToAction();
+	  if (command && command->commandServer())
+	    type = ClientInfo::SERVER;
+	  else
+	    type = ClientInfo::GAME;
+	  (*this->_command)[type]->push_back(command);
 	}
     }
   this->_mutex->leave();
 }
 
-void				ClientInfo::pushCommand(Trame *trame)
+void				ClientInfo::pushCommand(Trame *trame, enum ClientInfo::eType const type)
 {
   this->_mutex->enter();
-  this->_command->push_back(new Command(trame));
+  (*this->_command)[type]->push_back(new Command(trame));
   this->_mutex->leave();
 }
 
@@ -243,15 +265,15 @@ void				ClientInfo::setIdGame(unsigned int const idGame)
   this->_mutex->leave();
 }
 
-Action const			&ClientInfo::getAction() const
+Action const			&ClientInfo::getAction(enum ClientInfo::eType const type) const
 {
-  return (this->getFirstCommand()->getAction());
+  return (this->getFirstCommand(type)->getAction());
 }
 
-void				ClientInfo::setAction(Action const &action)
+void				ClientInfo::setAction(Action const &action, enum ClientInfo::eType const type)
 {
   this->_mutex->enter();
-  Command			*command = this->_command->front();
+  Command			*command = (*this->_command)[type]->front();
 
   command->setAction(action);
   this->_mutex->leave();
@@ -343,9 +365,9 @@ SocketClient			*ClientInfo::getClientUdp() const
 bool				ClientInfo::actionServer() const
 {
   this->_mutex->enter();
-  if (this->_command && !this->_command->empty())
+  if ((*this->_command)[ClientInfo::SERVER] && !(*this->_command)[ClientInfo::SERVER]->empty())
     {
-      Command			*command = this->_command->front();
+      Command			*command = (*this->_command)[ClientInfo::SERVER]->front();
 
       if (command && command->commandServer())
 	{
@@ -402,32 +424,39 @@ bool				ClientInfo::availableDelai() const
 
 void				ClientInfo::quitGame()
 {
-  Command			*command;
+  // Command			*command;
 
   this->_mutex->enter();
   this->_idGame = 0;
-  for (auto it = this->_command->begin() ; it != this->_command->end() ; ++it)
-    {
-      if ((*it))
-	{
-	  this->_mutex->leave();
-	  if (!actionServer())
-	    {
-	      this->_mutex->enter();
-	      command = (*it);
-	      this->_command->pop_front();
-	      delete command;
-	      if (this->_command->empty())
-		break;
-	      this->_mutex->leave();
-	    }
-	  else
-	    {
-	      this->_mutex->enter();
-	      break;
-	    }
-	}
-      this->_mutex->enter();
-    }
+  for (auto it = (*this->_command)[ClientInfo::GAME]->begin() ; it != (*this->_command)[ClientInfo::GAME]->end() ; ++it)
+    if ((*it))
+      delete *it;
+  (*this->_command)[ClientInfo::GAME]->clear();
+  // if (this->_command)
+  //   {
+  //     for (auto it = this->_command->begin() ; it != this->_command->end() ; ++it)
+  // 	{
+  // 	  if ((*it))
+  // 	    {
+  // 	      this->_mutex->leave();
+  // 	      if (!actionServer())
+  // 		{
+  // 		  this->_mutex->enter();
+  // 		  command = (*it);
+  // 		  this->_command->pop_front();
+  // 		  delete command;
+  // 		  if (this->_command->empty())
+  // 		    break;
+  // 		  this->_mutex->leave();
+  // 		}
+  // 	      else
+  // 		{
+  // 		  this->_mutex->enter();
+  // 		  break;
+  // 		}
+  // 	    }
+  // 	  this->_mutex->enter();
+  // 	}
+  //    }
   this->_mutex->leave();
 }

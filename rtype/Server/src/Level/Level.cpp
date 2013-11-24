@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 16:09:33 2013 antoine maitre
-// Last update Fri Nov 22 11:04:31 2013 arthur rucquois
+// Last update Sun Nov 24 12:39:13 2013 laurent ansel
 //
 
 #include	"Level/Level.hh"
@@ -22,7 +22,8 @@ Level::Level(int diff)
 
 Level::~Level()
 {
-
+  if (_map)
+    delete _map;
 }
 
 void	Level::Initialize()

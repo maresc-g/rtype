@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:50 2013 antoine maitre
-// Last update Sat Nov 23 12:28:17 2013 laurent ansel
+// Last update Sun Nov 24 11:54:31 2013 laurent ansel
 //
 
 #ifndef	__MAP_HH__

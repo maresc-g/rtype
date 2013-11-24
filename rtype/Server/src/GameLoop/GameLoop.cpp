@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sun Nov 24 00:58:30 2013 antoine maitre
+// Last update Sun Nov 24 13:57:40 2013 laurent ansel
 //
 
 #include		<time.h>
@@ -31,6 +31,16 @@ GameLoop::GameLoop(std::string const &name, unsigned int const id):
 
 GameLoop::~GameLoop()
 {
+  this->_mutex->enter();
+  for (auto it = this->_clients->begin(); it != this->_clients->end(); it++)
+    {
+      if ((*it))
+	delete *it;
+    }
+  delete this->_clients;
+  this->_mutex->leave();
+  delete _library;
+  delete _levelManag;
   this->_mutex->destroy();
   delete this->_mutex;
 }
@@ -161,9 +171,11 @@ void			GameLoop::endLoop()
     sendClient("TCP", "ENDGAME WIN");
   else if (this->_criticalError == false)
     sendClient("TCP", "ENDGAME LOOSE");
-  for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
-    (*it_bis)->sendMsg();
-  this->quitClients();
+  for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); ++it_bis)
+    {
+      (*it_bis)->sendMsg();
+      (*it_bis)->quitGame();
+    }
   this->_mutex->leave();
   if (!this->_criticalError)
     GameLoopManager::getInstance()->quitGame(this->_id);
@@ -225,7 +237,8 @@ void			GameLoop::loop()
 	  for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
 	    {
 	      AEntity	*toto = (*it_bis)->getPlayer();
-	      static_cast<Player *>(toto)->setScore(static_cast<Player *>(toto)->getScore() + 1);
+	      reinterpret_cast<Player *>(toto)->setScore(reinterpret_cast<Player *>(toto)->getScore() + 1);
+	      this->sendScore((*it_bis), reinterpret_cast<Player *>(toto)->getScore());
 	      (*it_bis)->sendMsg();
 	    }
 	  this->_mutex->leave();
@@ -263,6 +276,15 @@ void			GameLoop::sendDeadEntity(unsigned int id) const
 
   oss << "REMOVEENTITY " << id;
   this->sendClient("UDP", oss.str());
+}
+
+void			GameLoop::sendScore(PlayerInfo *info, unsigned int const score) const
+{
+  std::ostringstream	oss;
+
+  oss << "SCORE " << score;
+  if (!this->_criticalError && info)
+    info->pushMsg("UDP", oss.str());
 }
 
 void			GameLoop::sendScroll(unsigned int scroll) const
@@ -387,6 +409,7 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
       if ((*it)->isDead() == true)
 	{
 	  this->sendDeadEntity((*it)->getId());
+	  delete *it;
 	  it = enemies.erase(it);
 	  if (enemies.empty())
 	    break;
@@ -409,6 +432,7 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
       if ((*it)->isDead() == true)
 	{
 	  this->sendDeadEntity((*it)->getId());
+	  delete *it;
 	  it = players.erase(it);
 	  if (players.empty())
 	    break;
@@ -464,7 +488,7 @@ bool			GameLoop::deletePlayer(ClientInfo *info)
     {
       if ((*it)->isMyInfo(info))
   	{
-	  pI = *it;
+	   pI = *it;
 	  this->sendDeadEntity((*it)->getPlayer()->getId());
 	  for (auto itP = this->_levelManag->getPlayers().begin(); itP != this->_levelManag->getPlayers().end(); ++itP)
 	    {
@@ -474,6 +498,8 @@ bool			GameLoop::deletePlayer(ClientInfo *info)
 		  break;
 		}
 	    }
+	  (*it)->deleteMsg();
+	  (*it)->setInfo(NULL);
 	  it = _clients->erase(it);
 	  delete pI;
 	  this->_mutex->leave();
@@ -498,16 +524,17 @@ bool			GameLoop::checkActiveClient()
 {
   int			i = 0;
 
+  this->_mutex->enter();
   for (auto it = this->_clients->begin(); it != this->_clients->end(); ++it)
     if ((*it)->getIG() == true)
       i++;
+  this->_mutex->leave();
   return ((i)?(true):(false));
 }
 
 
 void			GameLoop::quitClients()
 {
-
   for (auto it = this->_clients->begin(); it != this->_clients->end(); ++it)
     (*it)->quitGame();
 }
