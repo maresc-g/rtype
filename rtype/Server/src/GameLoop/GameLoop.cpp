@@ -108,7 +108,7 @@ void			GameLoop::execAction(Action const &act, AEntity *entity, int const, Map *
 	{
 	  entity->getProjectileVector(vx, vy);
 	  projectile->setVector(vx, vy);
-	  SpriteLoaderManager::getInstance()->getEntitySprite("rocket", *projectile);
+	  SpriteLoaderManager::getInstance()->getEntitySprite("rocket2", *projectile);
 	  projectile->setId(_idEntity);
 	  _idEntity++;
 	  projectile->movePos(entity->getPosX(), entity->getPosY());
