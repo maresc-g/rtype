@@ -13,9 +13,10 @@
 
 Animation::Animation() :
   _texture(NULL), _spriteList(new std::vector<sf::IntRect *>),
-  _frameCount(0), _frameLength(500000), _currentFrame(0), _count(0)
+  _frameCount(0), _frameLength(500000), _currentFrame(0), _count(0),
+  _inClock(new sf::Clock)
 {
-  //  _texture = new sf::Texture();
+  _inClock->restart();
 }
 
 Animation::Animation(Animation const &other) :
@@ -83,25 +84,14 @@ void			Animation::reset()
 
 void			Animation::update(sf::Clock &)
 {
-  static sf::Clock inClock;
-  static bool inited = false;
   unsigned int		time;
 
-  if (!inited)
-    {
-      inClock.restart();
-      inited = true;
-    }
-  time = inClock.getElapsedTime().asMicroseconds();
+  time = _inClock->getElapsedTime().asMicroseconds();
   if (time >= _frameLength)
     {
       if (_currentFrame + 1 != _frameCount)
 	_currentFrame++;
-      // std::cout << "new frame = " << _currentFrame  << std::endl;
-      //_currentFrame %= _frameCount;
-      // std::cout << "Current frame : " << _currentFrame << std::endl;
-      // std::cout << "Frame Count  : " << _frameCount << std::endl;
-      inClock.restart();
+      _inClock->restart();
     } 
 }
 
@@ -115,11 +105,7 @@ bool			Animation::isEnded() const
 sf::IntRect		*Animation::getFrame() const
 {
   if (_frameCount > 0)
-    {
-      //std::cout << "getFrame ID:" << frame % _frameCount << std::endl;
-      // std::cout << "CURRENT FRAME=" << _currentFrame << std::endl;
-      return ((*_spriteList)[_currentFrame]);
-    }
+    return ((*_spriteList)[_currentFrame]);
   return (NULL);
 }
 

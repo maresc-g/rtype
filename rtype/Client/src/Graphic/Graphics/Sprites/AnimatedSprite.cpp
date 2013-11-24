@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 //
 // Started on  Wed Jun 19 13:45:16 2013 cyril jourdain
-// Last update Sat Nov 23 23:53:50 2013 cyril jourdain
+// Last update Sun Nov 24 01:21:19 2013 cyril jourdain
 //
 
 #include	"Graphic/Graphics/Sprites/AnimatedSprite.hh"
@@ -121,10 +121,21 @@ void			AnimatedSprite::update(sf::Clock &clock)
   sf::IntRect *frame;
   
   if ((*_animations)[_current] && _isPlaying){
-    if (_old != "" && _current != _old)
+    // if (_old != "" && _current != _old)
+    //   {
+    // 	(*_animations)[_old]->reset();
+    // 	(*_animations)[_current]->reset();
+    //   }
+    // if (_loopPlay)
+    //   {
+    // 	std::cout << "Current : " << (*_animations)[_current]->getCurrentFrame() + 1 << std::endl;
+    // 	std::cout << "Count : " << (*_animations)[_current]->getFrameCount() << std::endl;
+    //   }
+    if (_loopPlay &&
+	(*_animations)[_current]->getCurrentFrame() + 1 >= (*_animations)[_current]->getFrameCount())
       {
-    	(*_animations)[_old]->reset();
-    	(*_animations)[_current]->reset();
+	std::cout << "RESET" << std::endl;
+	(*_animations)[_current]->reset();
       }
     if ((*_animations)[_current]->getFrameCount() == 1 ||
     	(*_animations)[_current]->getCurrentFrame() + 1 != (*_animations)[_current]->getFrameCount())
@@ -159,7 +170,8 @@ void			AnimatedSprite::loadFromFile(std::string const &file)
   Animation	*tmp;
   int		coord[4];
   int		size;
-  int		len;
+  int		len = -1;
+  std::string	line;
   
   std::string first;
   getline(in, first);
@@ -179,14 +191,17 @@ void			AnimatedSprite::loadFromFile(std::string const &file)
     return err(file);
   std::istringstream is(first.substr(pos + 6, epos - (pos + 6)));
   is >> size;
-  if ((pos = first.find("[length=")) != std::string::npos)
+  getline(in, line);
+  if ((pos = line.find("[lenght=")) != std::string::npos)
     {
-      if ((epos = first.find("]", pos + 7)) == std::string::npos)
+      if ((epos = line.find("]", pos + 8)) == std::string::npos)
 	return err(file);
-      std::istringstream is2(first.substr(pos + 7, epos - (pos + 8)));
+      std::istringstream is2(line.substr(pos + 8, epos - (pos + 8)));
       is2 >> len;
+      std::cout << len << std::endl;
+      getline(in, line);
     }
-  for (std::string line; getline(in, line);)
+  for (;;)
     {
       if ((pos = line.find("[name=")) == std::string::npos)
 	break;
@@ -201,8 +216,11 @@ void			AnimatedSprite::loadFromFile(std::string const &file)
 	  iss >> coord[0] >> coord[1] >> coord[2] >> coord[3];
 	  tmp->addFrame(sf::IntRect(coord[0], coord[1], coord[2], coord[3]));
 	}
-      tmp->setFrameLenght(len);
+      if (len > 0)
+	tmp->setFrameLenght(len);
       addAnimation(name, tmp);
+      if (!getline(in, line))
+	break;
     }
   setScale(size,size);
 }
@@ -215,4 +233,9 @@ void			AnimatedSprite::draw(sf::RenderTarget &target, sf::RenderStates states) c
       states.transform *= getTransform();
       target.draw(_vertex, 4, sf::Quads, states);
     }
+}
+
+void			AnimatedSprite::setLoopPlay(bool loop)
+{
+  _loopPlay = loop;
 }

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Jun 19 11:02:47 2013 cyril jourdain
-// Last update Fri Nov 22 11:47:15 2013 cyril jourdain
+// Last update Sun Nov 24 01:09:33 2013 cyril jourdain
 //
 
 #ifndef				__ANIMATION_HH__
@@ -24,6 +24,7 @@ private:
   unsigned int			_frameLength;
   unsigned int			_currentFrame;
   unsigned int			_count;
+  sf::Clock			*_inClock;
 
 public:
   Animation();

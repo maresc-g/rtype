@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Jun 19 13:33:40 2013 cyril jourdain
-// Last update Thu Nov 21 16:57:27 2013 cyril jourdain
+// Last update Sun Nov 24 00:21:45 2013 cyril jourdain
 //
 
 #ifndef 		__ANIMATEDSPRITE_HH__
@@ -44,6 +44,7 @@ public:
   void			addAnimation(std::string const &, Animation *, bool loopPlay = false);
   void			loadFromFile(std::string const &file);
   virtual void		update(sf::Clock &);
+  void			setLoopPlay(bool const);
 
 private:
   virtual void		draw(sf::RenderTarget &, sf::RenderStates states) const;

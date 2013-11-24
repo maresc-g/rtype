@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Tue Oct 29 13:32:32 2013 cyril jourdain
-// Last update Wed Nov 20 15:35:06 2013 cyril jourdain
+// Last update Sun Nov 24 00:24:54 2013 cyril jourdain
 //
 
 #ifndef 		__SFRESSOURCESMANAGER_HH__
@@ -33,7 +33,7 @@ private:
 
 public:
   static void			loadDefaultRessources();
-  void				addSprite(std::string const &name, std::string const &path);
+  void				addSprite(std::string const &name, std::string const &path, bool const loop = false);
   AnimatedSprite		*getSprite(std::string const &name) const;
 };
 

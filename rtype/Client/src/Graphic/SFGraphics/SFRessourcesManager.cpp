@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 23:46:14 2013 cyril jourdain
-// Last update Sun Nov 24 00:22:25 2013 guillaume marescaux
+// Last update Sun Nov 24 01:19:34 2013 cyril jourdain
 //
 
 #include			"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
@@ -64,13 +64,14 @@ void			SFRessourcesManager::loadDefaultRessources()
   SFRessourcesManager::getInstance()->addSprite(EXPLOSION, EXPLOSION_CONF);
 }
 
-void			SFRessourcesManager::addSprite(std::string const &name, std::string const &path)
+void			SFRessourcesManager::addSprite(std::string const &name, std::string const &path, bool const loop)
 {
   AnimatedSprite	*sprite;
 
   sprite = new AnimatedSprite();
   if (sprite){
     sprite->loadFromFile(path);
+    sprite->setLoopPlay(loop);
     (*_sprites)[name] = sprite;
   }
 }
