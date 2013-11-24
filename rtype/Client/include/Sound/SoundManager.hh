@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 19:55:36 2013 cyril jourdain
-// Last update Sat Nov 23 21:11:14 2013 cyril jourdain
+// Last update Sun Nov 24 14:13:52 2013 cyril jourdain
 //
 
 #ifndef 		__SOUNDMANAGER_HH__
@@ -14,6 +14,7 @@
 #include		<SFML/Audio.hpp>
 #include		<map>
 #include		"Utility/Singleton.hpp"
+#include		"Sound/Sounds.hh"
 
 class			SoundManager : public Singleton<SoundManager>
 {
@@ -30,7 +31,7 @@ private:
 
 public:
   void			addSound(std::string const &name,std::string const &path);
-  void			addMusic(std::string const &name,std::string const &path);
+  void			addMusic(std::string const &name,std::string const &path, bool loop = true);
   void			playSound(std::string const &name);
   void			playMusic(std::string const &name);
   void			pauseMusic(std::string const &name);

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 23:46:14 2013 cyril jourdain
-// Last update Sun Nov 24 01:29:58 2013 cyril jourdain
+// Last update Sun Nov 24 15:36:21 2013 cyril jourdain
 //
 
 #include			"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
@@ -51,6 +51,7 @@ void			SFRessourcesManager::loadDefaultRessources()
   SFRessourcesManager::getInstance()->addSprite(SPRITE_PLAYER4, SPRITE_PLAYER4_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_MOB1, SPRITE_MOB1_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_ROCKET, SPRITE_ROCKET_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_ROCKET2, SPRITE_ROCKET2_CONF, true);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLD1, SPRITE_WALLD1_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLD2, SPRITE_WALLD2_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLD3, SPRITE_WALLD3_CONF);
