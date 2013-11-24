@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Sun Nov 24 16:31:30 2013 laurent ansel
+// Last update Sun Nov 24 21:44:54 2013 laurent ansel
 //
 
 #include "Level/Map.hh"
@@ -46,9 +46,6 @@ Map::~Map()
   for (auto it = _enemies.begin() ; it != _enemies.end() ; ++it)
     if ((*it))
       delete *it;
-  for (auto it = _players.begin() ; it != _players.end() ; ++it)
-    if ((*it))
-      delete *it;
   for (auto it = _walls.begin() ; it != _walls.end() ; ++it)
     if ((*it))
       delete *it;
@@ -81,26 +78,26 @@ void			Map::tryToSet(std::list<AEntity *> &l1, std::list<AEntity *> &l2, int adv
 	}
       const auto info = (*it)->getInformationHitBox();
       for (auto hit = info.begin(); hit != info.end(); hit++)
-	{
-	  x = (*hit)->getCoordinate().getX() + (*it)->getCoord()->getX();
-	  y = (*hit)->getCoordinate().getY() + (*it)->getCoord()->getY();
-	  for (int i = y; i < y + (*hit)->getHeight(); i++)
-	    for (int j = x - adv; j < x - adv + (*hit)->getWidth(); j++)
-	      {
-		if (((i >= 0 && i < SCREENY) && (j >= 0 && j < SCREENX)) &&
-		    ((*this->_map)[i][j] == 0 || (*this->_map)[i][j] == (*it)->getId()))
-		  (*this->_map)[i][j] = (*it)->getId();
-		else if ((i >= 0 && i < SCREENY) && (j >= 0 && j < SCREENX))
-		  {
-		    for (auto it2 = l2.begin(); it2 != l2.end(); ++it2)
-		      if ((*this->_map)[i][j] == (*it2)->getId())
-			{
-			  (*it)->collision();
-			  (*it2)->collision();
-			}
-		  }
-	      }
-	}
+      	{
+      	  x = (*hit)->getCoordinate().getX() + (*it)->getCoord()->getX();
+      	  y = (*hit)->getCoordinate().getY() + (*it)->getCoord()->getY();
+      	  for (int i = y; i < y + (*hit)->getHeight(); i++)
+      	    for (int j = x - adv; j < x - adv + (*hit)->getWidth(); j++)
+      	      {
+      		if (((i >= 0 && i < SCREENY) && (j >= 0 && j < SCREENX)) &&
+      		    ((*this->_map)[i][j] == 0 || (*this->_map)[i][j] == (*it)->getId()))
+      		  (*this->_map)[i][j] = (*it)->getId();
+      		else if ((i >= 0 && i < SCREENY) && (j >= 0 && j < SCREENX))
+      		  {
+      		    for (auto it2 = l2.begin(); it2 != l2.end(); ++it2)
+      		      if ((*this->_map)[i][j] == (*it2)->getId())
+      			{
+      			  (*it)->collision();
+      			  (*it2)->collision();
+      			}
+      		  }
+      	      }
+      	}
     }
 }
 
