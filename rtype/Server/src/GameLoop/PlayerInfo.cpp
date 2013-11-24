@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Mon Nov  4 23:27:06 2013 antoine maitre
-// Last update Sun Nov 24 14:50:38 2013 laurent ansel
+// Last update Sun Nov 24 16:45:01 2013 laurent ansel
 //
 
 #include		"SpriteLoaderManager/SpriteLoaderManager.hh"
@@ -106,7 +106,7 @@ void		PlayerInfo::actionPlayer(Map *map, int adv, unsigned int &id)
 		  projectile = ObjectPoolManager::getInstance()->getCopy(AEntity::ROCKET);
 		  if (projectile)
 		    {
-		      SpriteLoaderManager::getInstance()->getEntitySprite("rocket", *projectile);
+		      SpriteLoaderManager::getInstance()->getEntitySprite("rocket.gif", *projectile);
 		      projectile->setId(id);
 		      id++;
 		      projectile->movePos(this->_player->getPosX() + spawn.getX(), this->_player->getPosY() + spawn.getY());
