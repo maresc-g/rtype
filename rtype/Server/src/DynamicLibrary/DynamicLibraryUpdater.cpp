@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:05:50 2013 alexis mestag
-// Last update Sun Nov 24 21:23:00 2013 alexis mestag
+// Last update Sun Nov 24 22:48:01 2013 alexis mestag
 //
 
 #ifndef				_WIN32
@@ -23,6 +23,7 @@ static void			*run(void *data)
   dlu = reinterpret_cast<DynamicLibraryUpdater *>(data);
   do
     {
+      std::cout << "Libraries directory was changed !" << std::endl;
       dlu->updateLibraries();
       inotifyRet = dlu->getInotify().waitEvent(dlu->getDirectory().getPath());
     } while (dlu->getCanUpdate() && inotifyRet);
@@ -65,20 +66,21 @@ void				DynamicLibraryUpdater::stopUpdate()
 void				DynamicLibraryUpdater::updateLibraries()
 {
   DynamicLibraryManager		*dlm = DynamicLibraryManager::getInstance();
-  DynamicLibrary		*lib;
   std::list<FileSystem::Entry *> const	*entries;
 
   _directory->updateEntries();
   entries = &_directory->getEntries();
-  for (auto it = entries->cbegin() ; it != entries->cend() ; ++it)
-    {
-      if ((*it)->getType() == FileSystem::FILE
-	  /* && filename matches pattern ? */)
-	{
-	  lib = new DynamicLibrary((*it)->getPath());
-	  dlm->setLibrary(*lib);
-	}
-    }
+  dlm->resetLibraries(entries);
+  // for (auto it = entries->cbegin() ; it != entries->cend() ; ++it)
+  //   {
+  //     if ((*it)->getType() == FileSystem::FILE
+  // 	  /* && filename matches pattern ? */)
+  // 	{
+  // 	  lib = new DynamicLibrary((*it)->getPath());
+  // 	  dlm->setLibrary(*lib);
+  // 	  std::cout << "\t" << lib->getPath() << std::endl;
+  // 	}
+  //   }
 }
 
 FileSystem::Directory const	&DynamicLibraryUpdater::getDirectory() const

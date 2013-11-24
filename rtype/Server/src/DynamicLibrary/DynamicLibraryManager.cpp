@@ -5,10 +5,11 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 19:51:02 2013 alexis mestag
-// Last update Wed Nov 20 15:47:00 2013 alexis mestag
+// Last update Sun Nov 24 22:51:26 2013 alexis mestag
 //
 
 #include			"DynamicLibrary/DynamicLibraryManager.hh"
+#include			"DynamicLibrary/DynamicLibrary.hh"
 
 DynamicLibraryManager::DynamicLibraryManager() :
   Singleton(), _updater(new DynamicLibraryUpdater), _libraries(new GameLibraries), _mtx(new Mutex)
@@ -52,9 +53,30 @@ GameLibraries			&DynamicLibraryManager::getGameLibrariesCopy() const
   return (*ret);
 }
 
-void				DynamicLibraryManager::setLibrary(IDynamicLibrary &lib)
+void				DynamicLibraryManager::setLibrary(IDynamicLibrary &lib, bool const lock)
 {
-  _mtx->enter();
+  if (lock)
+    _mtx->enter();
   _libraries->setLibrary(lib);
+  if (lock)
+    _mtx->leave();
+}
+
+void				DynamicLibraryManager::resetLibraries(std::list<FileSystem::Entry *> const *entries)
+{
+  IDynamicLibrary		*lib;
+
+  _mtx->enter();
+  _libraries->clear();
+  for (auto it = entries->cbegin() ; it != entries->cend() ; ++it)
+    {
+      if ((*it)->getType() == FileSystem::FILE
+  	  /* && filename matches pattern ? */)
+  	{
+  	  lib = new DynamicLibrary((*it)->getPath());
+  	  this->setLibrary(*lib, false);
+  	  std::cout << "\t" << lib->getPath() << std::endl;
+  	}
+    }
   _mtx->leave();
 }

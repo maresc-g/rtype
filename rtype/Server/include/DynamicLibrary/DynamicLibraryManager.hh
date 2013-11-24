@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sun Nov  3 18:41:29 2013 alexis mestag
-// Last update Wed Nov 20 15:40:11 2013 alexis mestag
+// Last update Sun Nov 24 22:51:04 2013 alexis mestag
 //
 
 #ifndef			__DYNAMICLIBRARYMANAGER_HH__
@@ -33,7 +33,9 @@ public:
   virtual ~DynamicLibraryManager();
 
   GameLibraries		&getGameLibrariesCopy() const;
-  void			setLibrary(IDynamicLibrary &lib);
+  void			setLibrary(IDynamicLibrary &lib, bool const lock = true);
+
+  void			resetLibraries(std::list<FileSystem::Entry *> const *entries);
 };
 
 #endif

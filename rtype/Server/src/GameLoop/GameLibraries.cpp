@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:18:29 2013 alexis mestag
-// Last update Sun Nov 24 16:39:58 2013 alexis mestag
+// Last update Sun Nov 24 22:47:36 2013 alexis mestag
 //
 
 #include			"GameLoop/GameLibraries.hh"
@@ -181,4 +181,13 @@ void				GameLibraries::loadLibraries()
 	    --it;
 	}
     }
+}
+
+void				GameLibraries::clear()
+{
+  for (auto it = _libraries->begin() ; it != _libraries->end() ; ++it)
+    {
+      delete it->second;
+    }
+  _libraries->clear();
 }
