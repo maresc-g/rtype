@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Tue Oct 29 16:28:39 2013 guillaume marescaux
-// Last update Sun Nov 24 14:13:20 2013 guillaume marescaux
+// Last update Sun Nov 24 16:18:28 2013 cyril jourdain
 //
 
 #include <iostream>
@@ -274,7 +274,6 @@ void				Client::scroll(Trame const &trame)
 
 void				Client::score(Trame const &trame)
 {
-  std::cout << "SCORE UPDATE" << std::endl;
   _score = std::stoi(trame.getContent());
 }
 

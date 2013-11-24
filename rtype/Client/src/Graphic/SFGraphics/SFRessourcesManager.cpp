@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 23:46:14 2013 cyril jourdain
-// Last update Sun Nov 24 15:36:21 2013 cyril jourdain
+// Last update Sun Nov 24 16:55:30 2013 cyril jourdain
 //
 
 #include			"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
@@ -41,6 +41,7 @@ void			SFRessourcesManager::loadDefaultRessources()
   Images->loadImage(ARRAY_LINE_PART_RES, ARRAY_LINE_PART);
   Images->loadImage(ARRAY_LINE_PART_SELECTED_RES, ARRAY_LINE_PART_SELECTED);
   Images->loadImage(GAME_BACKGROUND_RES, GAME_BACKGROUND);
+  Images->loadImage(GAME_BACKGROUND_RES, GAME_BACKGROUND2);
   Images->loadImage(GAMEOVER_BACKGROUND_RES, GAMEOVER_BACKGROUND);
   Images->loadImage(GAME_HUD_RES, GAME_HUD);
   Images->loadImage(GAME_HUD_LIVES_RES, GAME_HUD_LIVES);
@@ -62,6 +63,16 @@ void			SFRessourcesManager::loadDefaultRessources()
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU3, SPRITE_WALLU3_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU4, SPRITE_WALLU4_CONF);
   SFRessourcesManager::getInstance()->addSprite(SPRITE_WALLU5, SPRITE_WALLU5_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALL1D1, SPRITE_WALL1D1_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALL1D2, SPRITE_WALL1D2_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALL1D3, SPRITE_WALL1D3_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALL1D4, SPRITE_WALL1D4_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALL1D5, SPRITE_WALL1D5_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALL1U1, SPRITE_WALL1U1_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALL1U2, SPRITE_WALL1U2_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALL1U3, SPRITE_WALL1U3_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALL1U4, SPRITE_WALL1U4_CONF);
+  SFRessourcesManager::getInstance()->addSprite(SPRITE_WALL1U5, SPRITE_WALL1U5_CONF);
   SFRessourcesManager::getInstance()->addSprite(EXPLOSION, EXPLOSION_CONF, true);
 }
 

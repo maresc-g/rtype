@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Sun Nov 24 14:39:32 2013 cyril jourdain
+// Last update Sun Nov 24 16:11:21 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -41,8 +41,13 @@ void			GameView::init()
 
   _background = new SFImageBox();
   _background->init();
-  _background->setSize(WIN_X, WIN_Y);
+  _background->setSize(1600, WIN_Y);
   _background->setTexture((*(SFRessourcesManager::getInstance()->Images))[GAME_BACKGROUND]);
+  _background2 = new SFImageBox();
+  _background2->init();
+  _background2->setSize(1600, WIN_Y);
+  _background2->setTexture((*(SFRessourcesManager::getInstance()->Images))[GAME_BACKGROUND2]);
+  _background2->setPosition(_background->getBound().width, 0);
   _player = SFRessourcesManager::getInstance()->getSprite(SPRITE_PLAYER1);
   _clock = new sf::Clock();
   _clock->restart();
@@ -59,6 +64,7 @@ sf::FloatRect		&GameView::getBound() const
 void			GameView::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
   target.draw(*_background, states);
+  target.draw(*_background2, states);
 }
 
 void			GameView::onKeyPressed(void *const)
@@ -127,6 +133,8 @@ void			GameView::update(sf::RenderWindow *win)
       }
   for (auto it = entities->begin(); it != entities->end(); ++it)
     {
+      // if ((*it)->getType().find("rocket", 0) != std::string::npos)
+      // 	std::cout << (*it)->getType() << std::endl;
       _player = SFRessourcesManager::getInstance()->getSprite((*it)->getType());
       _player->update(*_clock);
       _player->setPosition((*it)->getX(), (*it)->getY());
@@ -145,6 +153,12 @@ void			GameView::update(sf::RenderWindow *win)
     {
       delete *it;
     }
+  if (_totalScroll > _background->getBound().width + _background->getPosition().x &&
+      _totalScroll > 800)
+    _background->setPosition(_totalScroll + 1600, 0);
+  if (_totalScroll > _background2->getBound().width + _background2->getPosition().x &&
+      _totalScroll > 800)
+    _background2->setPosition(_totalScroll + 1600, 0);
 }
 
 void			GameView::reset()

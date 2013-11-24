@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Oct 28 15:04:47 2013 cyril jourdain
-// Last update Sun Nov 24 15:30:08 2013 cyril jourdain
+// Last update Sun Nov 24 16:54:42 2013 cyril jourdain
 //
 
 #ifndef 		__GLOBAL_HH__
@@ -56,6 +56,7 @@
 #define			ARRAY_LINE_PART_SELECTED	"arrayLinePartSelected"
 #define			GAME_BACKGROUND_RES		"./Res/game_background.jpg"
 #define			GAME_BACKGROUND			"gameBackground"
+#define			GAME_BACKGROUND2		"gameBackground2"
 #define			GAMEOVER_BACKGROUND_RES		"./Res/gameOver_background.jpg"
 #define			GAMEOVER_BACKGROUND		"gameOverBackground"
 #define			GAME_HUD_RES			"./Res/game_hud.png"
@@ -98,6 +99,26 @@
 #define			SPRITE_WALLU4			"wallu4"
 #define			SPRITE_WALLU5_CONF		"./Res/Sprites/wallu5.sprite"
 #define			SPRITE_WALLU5			"wallu5"
+#define			SPRITE_WALL1D1_CONF		"./Res/Sprites/wall1d1.sprite"
+#define			SPRITE_WALL1D1			"wall1d1"
+#define			SPRITE_WALL1D2_CONF		"./Res/Sprites/wall1d2.sprite"
+#define			SPRITE_WALL1D2			"wall1d2"
+#define			SPRITE_WALL1D3_CONF		"./Res/Sprites/wall1d3.sprite"
+#define			SPRITE_WALL1D3			"wall1d3"
+#define			SPRITE_WALL1D4_CONF		"./Res/Sprites/wall1d4.sprite"
+#define			SPRITE_WALL1D4			"wall1d4"
+#define			SPRITE_WALL1D5_CONF		"./Res/Sprites/wall1d5.sprite"
+#define			SPRITE_WALL1D5			"wall1d5"
+#define			SPRITE_WALL1U1_CONF		"./Res/Sprites/wall1u1.sprite"
+#define			SPRITE_WALL1U1			"wall1u1"
+#define			SPRITE_WALL1U2_CONF		"./Res/Sprites/wall1u2.sprite"
+#define			SPRITE_WALL1U2			"wall1u2"
+#define			SPRITE_WALL1U3_CONF		"./Res/Sprites/wall1u3.sprite"
+#define			SPRITE_WALL1U3			"wall1u3"
+#define			SPRITE_WALL1U4_CONF		"./Res/Sprites/wall1u4.sprite"
+#define			SPRITE_WALL1U4			"wall1u4"
+#define			SPRITE_WALL1U5_CONF		"./Res/Sprites/wall1u5.sprite"
+#define			SPRITE_WALL1U5			"wall1u5"
 #define			EXPLOSION_CONF			"./Res/explosion.sprite"
 #define			EXPLOSION			"explosion"
 
