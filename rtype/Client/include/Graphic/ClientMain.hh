@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:37:12 2013 cyril jourdain
-// Last update Sat Nov 23 23:10:47 2013 guillaume marescaux
+// Last update Sun Nov 24 02:00:57 2013 cyril jourdain
 //
 
 #ifndef 		__CLIENTMAIN_HH__
@@ -40,6 +40,7 @@ private:
   MutexVar<eState>		*_state;
   FileSystem::Directory		*_dir;
   Action			*_action;
+  sf::Clock			*_clock;
 
   sf::SoundBuffer		_sound;
 
@@ -57,6 +58,7 @@ public:
   eState			getState() const;
   int				getClientLife() const;				
   int				getClientScore() const;				
+  void				waitServ(eState old, eState newState);
 
 public:  
   // ClientMain to Client functions / callbacks event

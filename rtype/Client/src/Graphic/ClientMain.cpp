@@ -5,9 +5,10 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sat Nov 23 23:12:24 2013 guillaume marescaux
+// Last update Sun Nov 24 02:05:55 2013 cyril jourdain
 //
 
+#include		<sstream>
 #include		"Graphic/ClientMain.hh"
 #include		"Graphic/SFGraphics/Widgets/SFDialogBox.hh"
 #include		"Graphic/SFGraphics/Widgets/SFDialogTextBox.hh"
@@ -49,6 +50,7 @@ void			ClientMain::init()
   _manager = new WindowManager();
   _windows = new std::map<unsigned int, SFWindow*>();
   _manager->init();
+  _clock = new sf::Clock;
   (*_windows)[LOGIN] = new LoginWindow();
   (*_windows)[LOBBY] = new LobbyWindow();
   (*_windows)[GAME] = new GameWindow();
@@ -98,13 +100,11 @@ void			ClientMain::connectToServer(void *param)
     {
       LoginWData		*data = reinterpret_cast<LoginWData*>(param);
   
-      std::cout << data->adress->getText() << std::endl;
-      std::cout << data->port->getText() << std::endl;
       if (!data->adress->getText().empty() && !data->port->getText().empty())
 	{
 	  *_state = CONNECTING;
 	  _client->setConnectInfo(new ConnectInfo(data->adress->getText(), data->port->getText()));
-	  while (_state->getVar() == CONNECTING);
+	  while (_state->getVar() == CONNECTING) waitServ(IN_LOGIN, ERROR_CONNECT);
 	  if (_state->getVar() == CONNECTED)
 	    {
 	      if (_client->getConnectInfo())
@@ -117,8 +117,8 @@ void			ClientMain::connectToServer(void *param)
 	    }
 	  else if (_state->getVar() == ERROR_CONNECT)
 	    _manager->addWindow(new SFDialogBox("Error", "Could not connect to server"));
-	  else
-	    _manager->addWindow(new SFDialogBox("Error", "Unknown error"));
+	  // else
+	  //   _manager->addWindow(new SFDialogBox("Error", "Unknown error"));
 	}
       else
 	_manager->addWindow(new SFDialogBox("Error", "Please fill server IP and PORT"));
@@ -135,7 +135,7 @@ void			ClientMain::joinGame(void *)
       *_state = WAIT_GAME;
       int i = std::stoi((*line)["ID"].getData());
       _client->getProto()->protocolMsg(Protocol::JOIN, _client->getId(), &i);
-      while (_state->getVar() == WAIT_GAME);
+      while (_state->getVar() == WAIT_GAME) waitServ(IN_LOBBY, IN_LOBBY);
       if (_state->getVar() == PLAYING)
 	{
 	  _manager->getWindowById(LOBBY)->setVisibility(false);
@@ -168,7 +168,7 @@ void			ClientMain::callCreateGame(void *data)
       Map::getInstance()->clear();
       *_state = WAIT_GAME;
       _client->getProto()->protocolMsg(Protocol::CREATE, _client->getId(), &tmp);
-      while (_state->getVar() == WAIT_GAME);
+      while (_state->getVar() == WAIT_GAME) waitServ(IN_LOGIN, IN_LOGIN);
       if (_state->getVar() == PLAYING)
 	{
 	  _manager->setActiveWindow(GAME);
@@ -195,8 +195,7 @@ void			ClientMain::refreshGameList(void *)
 {
   _client->getProto()->protocolMsg(Protocol::GET_GAMELIST, _client->getId(), NULL);
   *_state = GAMELIST;
-  while (_state->getVar() == GAMELIST)
-    ;
+  while (_state->getVar() == GAMELIST) waitServ(IN_LOBBY, IN_LOGIN);
   static_cast<LobbyWindow*>((*_windows)[LOBBY])->refreshGameList(NULL);
 }
 
@@ -234,4 +233,36 @@ void			ClientMain::quitGame(bool const gameOver, bool const)
 void			ClientMain::quit()
 {
   _client->quit();
+}
+
+void			ClientMain::waitServ(eState oldState, eState newState)
+{
+  static int		init = false;
+
+  if (!init)
+    {
+      _clock->restart();
+      init = true;
+    }
+  int time = _clock->getElapsedTime().asSeconds();
+  std::cout << time << std::endl;
+  if (time > 10)
+    {
+      init = false;
+      return;
+    }
+  if (time == 5)
+    {
+      *_state = newState;
+      _manager->addWindow(new SFDialogBox("Error", "Server timeout"));
+      quit();
+    }
+  if (time > 5)
+    {
+      std::ostringstream oss;
+      oss << 15 - time;
+      _manager->addWindow(new SFDialogBox("Error", "Try again in " + oss.str() + " sec"));
+      *_state = oldState;
+    }
+
 }
