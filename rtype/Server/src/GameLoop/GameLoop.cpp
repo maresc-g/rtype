@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sun Nov 24 22:29:01 2013 laurent ansel
+// Last update Sun Nov 24 23:07:34 2013 laurent ansel
 //
 
 #include		<time.h>
@@ -207,9 +207,12 @@ void			GameLoop::sendImportantInformation() const
   this->_mutex->enter();
   for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
     {
-      AEntity	*toto = (*it_bis)->getPlayer();
-      reinterpret_cast<Player *>(toto)->setScore(reinterpret_cast<Player *>(toto)->getScore() + 1);
-      this->sendScore((*it_bis), reinterpret_cast<Player *>(toto)->getScore());
+      if ((*it_bis)->getIG())
+	{
+	  AEntity	*toto = (*it_bis)->getPlayer();
+	  reinterpret_cast<Player *>(toto)->setScore(reinterpret_cast<Player *>(toto)->getScore() + 1);
+	  this->sendScore((*it_bis), reinterpret_cast<Player *>(toto)->getScore());
+	}
       (*it_bis)->sendMsg();
     }
   this->_mutex->leave();
@@ -265,18 +268,18 @@ void			GameLoop::loop()
       this->_mutex->enter();
       if ((((double)(clock() - action)) / CLOCKS_PER_SEC) > 0.04)
       	{
-	  this->action();
-	  action = clock();
-	  if (SuperVaisseau == false)
-	    for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
-	      {
-	  	if ((*it)->getType() == AEntity::PLAYER)
-	  	  {
-	  	    this->sendEntity((*it));
-	  	  }
-	      }
-	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
-	    this->sendEntity((*it));
+      	  this->action();
+      	  action = clock();
+      	  if (SuperVaisseau == false)
+      	    for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
+      	      {
+      	  	if ((*it)->getType() == AEntity::PLAYER)
+      	  	  {
+      	  	    this->sendEntity((*it));
+      	  	  }
+      	      }
+      	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
+      	    this->sendEntity((*it));
       	}
       this->_mutex->leave();
     }
@@ -320,7 +323,9 @@ void			GameLoop::sendLostLife(unsigned int const id) const
   std::ostringstream	oss;
 
   oss << "LOSTLIFE " << id;
-  this->sendClient("UDP", oss.str());
+  for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end() && id == (*it_bis)->getPlayer()->getId(); it_bis++)
+    if (!this->_criticalError)
+      (*it_bis)->pushMsg("UDP", oss.str());
 }
 
 void			GameLoop::sendScreen(std::list<AEntity *> &list)
