@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Sun Nov 24 21:44:54 2013 laurent ansel
+// Last update Sun Nov 24 22:22:04 2013 laurent ansel
 //
 
 #include "Level/Map.hh"

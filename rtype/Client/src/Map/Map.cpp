@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Nov  4 17:22:47 2013 guillaume marescaux
-// Last update Sat Nov 23 23:59:17 2013 guillaume marescaux
+// Last update Sun Nov 24 22:37:31 2013 guillaume marescaux
 //
 
 #include			"Map/Map.hh"
@@ -80,6 +80,7 @@ void				Map::removeEntity(int const id)
 void				Map::clear()
 {
   _mutex->enter();
+  _scroll = 0;
   for (auto it = _entities->begin() ; it != _entities->end() ; it++)
     {
       delete *it;
