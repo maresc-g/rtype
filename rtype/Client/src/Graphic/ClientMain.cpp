@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sun Nov 24 14:13:00 2013 guillaume marescaux
+// Last update Sun Nov 24 14:17:32 2013 cyril jourdain
 //
 
 #include		<sstream>
@@ -14,6 +14,7 @@
 #include		"Graphic/SFGraphics/Widgets/SFDialogTextBox.hh"
 #include		"Map/Map.hh"
 #include		"Sound/SoundManager.hh"
+#include		"Sound/Sounds.hh"
 
 static void	*trampoline(void *param)
 {
@@ -63,7 +64,7 @@ void			ClientMain::init()
   // _manager->addWindow(GAMEOVER,(*_windows)[GAMEOVER]);
   _manager->setActiveWindow(LOGIN);
   SoundManager::getInstance()->loadDefaultSounds();
-  SoundManager::getInstance()->playMusic("background");
+  SoundManager::getInstance()->playMusic(LOBBY_MUSIC);
 }
 
 void			ClientMain::launch()
@@ -141,6 +142,7 @@ void			ClientMain::joinGame(void *)
 	  _manager->getWindowById(LOBBY)->setVisibility(false);
 	  _manager->setFPS(60);
 	  _manager->setActiveWindow(GAME);
+	  SoundManager::getInstance()->playMusic(GAME_MUSIC);
 	}
       else
 	{
@@ -173,6 +175,8 @@ void			ClientMain::callCreateGame(void *data)
 	{
 	  _manager->setActiveWindow(GAME);
 	  _manager->getWindowById(LOBBY)->setVisibility(false);
+	  _manager->setFPS(60);
+	  SoundManager::getInstance()->playMusic(GAME_MUSIC);
 	}
       else
 	{
@@ -209,7 +213,7 @@ void			ClientMain::sendKeyPress(PressedKey const &keys)
   _action->setDown(keys.down);
   _action->setFire(keys.space);
   if (keys.space)
-    SoundManager::getInstance()->playSound("shot");
+    SoundManager::getInstance()->playSound(SHOT1);
 }
 
 void			ClientMain::quitGame(bool const gameOver, bool const)
@@ -226,6 +230,8 @@ void			ClientMain::quitGame(bool const gameOver, bool const)
   _manager->setFPS(20);
   _manager->setActiveWindow(LOBBY);
   static_cast<GameWindow *>(_manager->getWindowById(GAME))->reset();
+  SoundManager::getInstance()->stopMusic(GAME_MUSIC);
+  SoundManager::getInstance()->playMusic(LOBBY_MUSIC);
   // else
   //   _manager->addWindow(new SFDialogBox("Gameover", (win == true ? "WIN" : "LOOSE")));
 }
@@ -245,7 +251,7 @@ void			ClientMain::waitServ(eState oldState, eState newState)
       init = true;
     }
   int time = _clock->getElapsedTime().asSeconds();
-  //  std::cout << time << std::endl;
+  std::cout << time << std::endl;
   if (time > 10)
     {
       init = false;
