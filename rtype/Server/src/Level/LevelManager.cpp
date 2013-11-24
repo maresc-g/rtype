@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:58:06 2013 antoine maitre
-// Last update Sun Nov 24 13:51:19 2013 laurent ansel
+// Last update Sun Nov 24 23:32:49 2013 antoine maitre
 //
 
 #include	"Level/LevelManager.hh"
@@ -35,15 +35,15 @@ void	LevelManager::Initialize()
 
 void	LevelManager::nextLevel()
 {
-  Level	*tmp = this->_currentLevel;
+  // Level	*tmp = this->_currentLevel;
 
-  this->_diff++;
-  for (std::list<Level *>::iterator it = this->_levels.begin(); it != this->_levels.end(); ++it)
-    {
-      if (this->_diff == (*it)->getDiff())
-	this->_currentLevel = (*it);
-    }
-  if (tmp == this->_currentLevel)
+  // this->_diff++;
+  // for (std::list<Level *>::iterator it = this->_levels.begin(); it != this->_levels.end(); ++it)
+  //   {
+  //     if (this->_diff == (*it)->getDiff())
+  // 	this->_currentLevel = (*it);
+  //   }
+  // if (tmp == this->_currentLevel)
     this->_endGame = true;
 }
 

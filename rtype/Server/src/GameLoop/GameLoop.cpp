@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sun Nov 24 20:29:48 2013 laurent ansel
+// Last update Sun Nov 24 23:31:23 2013 antoine maitre
 //
 
 #include		<time.h>
@@ -184,7 +184,6 @@ void			GameLoop::endLoop()
 
 void			GameLoop::timeToChange()
 {
-  // std::ostringstream	oss;
 
   // this->_nextL = false;
   // this->_levelManag->nextLevel();
@@ -198,8 +197,7 @@ void			GameLoop::timeToChange()
   // 	  this->_levelManag->getPlayers().push_back(play);
   // 	}
   //   }
-  // oss << "LEVELUP " << this->_levelManag->getDiff();
-  // sendClient("TCP", oss.str());
+  this->_levelManag->nextLevel();
 }
 
 void			GameLoop::sendImportantInformation() const
@@ -231,8 +229,8 @@ void			GameLoop::loop()
       this->spawnWalls();
       if (this->checkActiveClient() == false)
 	break;
-      // if (this->_nextL == true)
-      // 	clockTimeToChange();
+      if (this->_nextL == true)
+      	timeToChange();
       clockTime = clock();
       this->removeEntities();
       this->moveAllEntities(SuperVaisseau);
@@ -279,6 +277,7 @@ void			GameLoop::loop()
 	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
 	    this->sendEntity((*it));
       	}
+      // std::cout << this->_levelManag->getEnemies().size() << std::endl << std::endl;
       this->_mutex->leave();
     }
   this->endLoop();
@@ -342,6 +341,7 @@ void			GameLoop::sendEntity(AEntity *entity) const
     oss << entity->getPath().substr(path.size() + 1, pos - (path.size() + 1));
   oss << ";" << entity->getPosX() << ";" << entity->getPosY();
   sendClient("UDP", oss.str());
+  // std::cout << oss.str();
 }
 
 bool			GameLoop::newPlayer(ClientInfo *newClient)
@@ -386,7 +386,7 @@ void			GameLoop::spawnMob()
 	      entity->setId(_idEntity);
 	      _idEntity++;
 	      this->_levelManag->getEnemies().push_back(entity);
-	      this->_levelManag->getEnemies().back()->movePos(this->_levelManag->getPosAdv() + SCREENX * 10 + 1, rand() % 800);
+	      this->_levelManag->getEnemies().back()->movePos(this->_levelManag->getPosAdv() + SCREENX * 10 + 1, rand() % 500 + 180);
 	    }
       	}
     }
@@ -424,7 +424,7 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
     {
       if ((*it)->isDead() == true)
 	{
-	  std::cout << "DEAD "<<(*it)->getId() << std::endl;
+	  // std::cout << "DEAD "<<(*it)->getId() << std::endl;
 	  this->sendDeadEntity((*it)->getId());
 	  delete *it;
 	  it = enemies.erase(it);
