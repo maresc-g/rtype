@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:17:46 2013 alexis mestag
-// Last update Sun Nov 24 16:22:18 2013 alexis mestag
+// Last update Sun Nov 24 22:47:02 2013 alexis mestag
 //
 
 #ifndef			__GAMELIBRARIES_HH__
@@ -44,6 +44,7 @@ public:
   Mob			*getRandomInstance();
   void			deleteInstance(Mob *mob);
   void			loadLibraries();
+  void			clear();
 };
 
 #endif

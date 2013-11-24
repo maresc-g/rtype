@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Sun Nov 24 21:05:57 2013 cyril jourdain
+// Last update Sun Nov 24 22:30:52 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -134,6 +134,7 @@ void			GameView::update(sf::RenderWindow *win)
       _scroll = Map::getInstance()->getScroll();
       _totalScroll = _scroll;
       _customView->move(_scroll, 0);
+      std::cout << "Scroll to : "  << _scroll << std::endl;
     }
   if (_clockScroll->getElapsedTime().asMilliseconds() >= 5)
     if (_scroll <= Map::getInstance()->getScroll())
