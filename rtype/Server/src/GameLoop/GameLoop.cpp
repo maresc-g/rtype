@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sun Nov 24 13:57:40 2013 laurent ansel
+// Last update Sun Nov 24 15:27:05 2013 laurent ansel
 //
 
 #include		<time.h>
@@ -365,7 +365,7 @@ void			GameLoop::spawnMob()
     {
       entity = this->_library->getRandomInstance();
       if (entity)
-	{
+      	{
 	  if (SpriteLoaderManager::getInstance()->getEntitySprite(entity->getPath(), *entity))
 	    {
 	      entity->setInvincible(0);
@@ -374,7 +374,7 @@ void			GameLoop::spawnMob()
 	      this->_levelManag->getEnemies().push_back(entity);
 	      this->_levelManag->getEnemies().back()->movePos(this->_levelManag->getPosAdv() + SCREENX * 10 + 1, rand() % 800);
 	    }
-	}
+      	}
     }
 }
 
@@ -393,6 +393,8 @@ void			GameLoop::spawnWalls()
 	}
       else if (!spawnable)
 	{
+	  if ((*it))
+	    delete *it;
 	  it = _levelManag->getInactiveWalls().erase(it);
 	  if (_levelManag->getInactiveWalls().empty())
 	    break;
