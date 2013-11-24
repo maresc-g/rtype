@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 13:57:28 2013 guillaume marescaux
-// Last update Sun Nov 24 12:37:54 2013 laurent ansel
+// Last update Sun Nov 24 23:18:37 2013 laurent ansel
 //
 
 #include		<iostream>
@@ -143,6 +143,7 @@ void			AEntity::setInformationHitBox(std::list<InformationHitBox *> *list)
     {
       if (!_hitbox)
 	_hitbox = new std::list<InformationHitBox *>;
+      _hitbox->clear();
       for (auto it = list->begin() ; it != list->end() ; ++it)
 	if ((*it))
 	  this->_hitbox->push_back(new InformationHitBox(*(*it)));

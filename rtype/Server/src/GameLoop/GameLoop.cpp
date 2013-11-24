@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sun Nov 24 23:07:34 2013 laurent ansel
+// Last update Sun Nov 24 23:21:49 2013 laurent ansel
 //
 
 #include		<time.h>
@@ -403,22 +403,25 @@ void			GameLoop::spawnWalls()
 
   for (auto it = _levelManag->getInactiveWalls().begin(); it != _levelManag->getInactiveWalls().end(); ++it)
     {
-      spawnable = SpriteLoaderManager::getInstance()->getEntitySprite((*it)->getPath(), *(*it));
-      if (spawnable && (*it)->getPosX() <= this->_levelManag->getPosAdv() + SCREENX * 10 + 1)
+      if ((*it)->getPosX() <= this->_levelManag->getPosAdv() + SCREENX * 10 + 1)
 	{
-	  (*it)->setId(_idEntity);
-	  _idEntity++;
-	  it = this->_levelManag->spawnWall(it);
-	}
-      else if (!spawnable)
-	{
-	  if ((*it))
-	    delete *it;
-	  it = _levelManag->getInactiveWalls().erase(it);
-	  if (_levelManag->getInactiveWalls().empty())
-	    break;
-	  if (it != _levelManag->getInactiveWalls().begin())
-	    it--;
+	  spawnable = SpriteLoaderManager::getInstance()->getEntitySprite((*it)->getPath(), *(*it));
+	  if (spawnable)
+	    {
+	      (*it)->setId(_idEntity);
+	      _idEntity++;
+	      it = this->_levelManag->spawnWall(it);
+	    }
+	  else if (!spawnable)
+	    {
+	      if ((*it))
+		delete *it;
+	      it = _levelManag->getInactiveWalls().erase(it);
+	      if (_levelManag->getInactiveWalls().empty())
+		break;
+	      if (it != _levelManag->getInactiveWalls().begin())
+		it--;
+	    }
 	}
     }
 }
