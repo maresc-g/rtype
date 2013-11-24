@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:17:46 2013 alexis mestag
-// Last update Fri Nov 22 16:22:55 2013 alexis mestag
+// Last update Sun Nov 24 16:22:18 2013 alexis mestag
 //
 
 #ifndef			__GAMELIBRARIES_HH__
@@ -33,15 +33,16 @@ public:
   GameLibraries();
   virtual ~GameLibraries();
 
-  IDynamicLibrary	&operator[](std::string const &lib);
+  IDynamicLibrary	*operator[](std::string const &lib);
 
   void			addLibrary(IDynamicLibrary &lib);
-  IDynamicLibrary	&getLibrary(std::string const &lib);
+  IDynamicLibrary	*getLibrary(std::string const &lib);
   void			setLibrary(IDynamicLibrary &lib);
 
   GameLibraries		&getDeepCopy() const;
   IDynamicLibrary	*getRandomLibrary();
   Mob			*getRandomInstance();
+  void			deleteInstance(Mob *mob);
   void			loadLibraries();
 };
 

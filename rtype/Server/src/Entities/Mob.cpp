@@ -5,13 +5,13 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Wed Oct 30 11:19:56 2013 antoine maitre
-// Last update Sat Nov 23 21:45:16 2013 alexis mestag
+// Last update Sun Nov 24 16:24:42 2013 alexis mestag
 //
 
 #include "Entities/Mob.hh"
 
 Mob::Mob(int const x, int const y, std::string const &path, int const speed)
-  : ACharacter(x, y, path, speed, true), _action(new Action)
+  : ACharacter(x, y, path, speed, true), _action(new Action), _name("")
 {
   this->_weapon.setWeapon(AProjectile::ROCKET);
 }
@@ -30,4 +30,9 @@ Action const			*Mob::getAction()
 {
   _action->reset();
   return (_action);
+}
+
+std::string const		&Mob::getName() const
+{
+  return (_name);
 }

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov 18 10:33:23 2013 alexis mestag
-// Last update Sat Nov 23 21:53:49 2013 alexis mestag
+// Last update Sun Nov 24 16:15:55 2013 alexis mestag
 //
 
 #ifndef			__DONKEY_HH__
@@ -30,10 +30,20 @@ public:
 extern "C"
 {
   #ifdef	_WIN32
-  __declspec( dllexport )
+  __declspec(dllexport)
   #endif
   Donkey		*getInstance() {
     return (new Donkey);
+  }
+
+  #ifdef	_WIN32
+  __declspec(dllexport)
+  #endif
+  void			deleteInstance(void *donkey) {
+    Donkey		*d;
+
+    d = reinterpret_cast<Donkey *>(donkey);
+    delete d;
   }
 }
 

@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:05:50 2013 alexis mestag
-// Last update Wed Nov 20 19:55:53 2013 alexis mestag
+// Last update Sun Nov 24 21:23:00 2013 alexis mestag
 //
 
 #ifndef				_WIN32
@@ -23,11 +23,8 @@ static void			*run(void *data)
   dlu = reinterpret_cast<DynamicLibraryUpdater *>(data);
   do
     {
-      std::cout << "The directory '" << dlu->getDirectory().getPath()
-		<< "' has been modified" << std::endl;
       dlu->updateLibraries();
       inotifyRet = dlu->getInotify().waitEvent(dlu->getDirectory().getPath());
-      // std::cout << "inotifyRet = " << inotifyRet << std::endl;
     } while (dlu->getCanUpdate() && inotifyRet);
   if (!inotifyRet)
     std::cerr << "Something went wrong while monitoring Libraries directory" << std::endl;
@@ -80,7 +77,6 @@ void				DynamicLibraryUpdater::updateLibraries()
 	{
 	  lib = new DynamicLibrary((*it)->getPath());
 	  dlm->setLibrary(*lib);
-	  std::cout << "\t - " << (*it)->getPath() << std::endl;
 	}
     }
 }
@@ -98,10 +94,8 @@ Inotify				&DynamicLibraryUpdater::getInotify()
 void				DynamicLibraryUpdater::setCanUpdate(bool const canUpdate)
 {
   _mtx->enter();
-  std::cout << "Mutex locked for setter" << std::endl;
   _canUpdate = canUpdate;
   _mtx->leave();
-  std::cout << "Mutex unlocked for setter" << std::endl;
 }
 
 bool				DynamicLibraryUpdater::getCanUpdate() const
@@ -109,9 +103,7 @@ bool				DynamicLibraryUpdater::getCanUpdate() const
   bool				ret;
 
   _mtx->enter();
-  std::cout << "Mutex locked for getter" << std::endl;
   ret = _canUpdate;
   _mtx->leave();
-  std::cout << "Mutex unlocked for getter" << std::endl;
   return (ret);
 }

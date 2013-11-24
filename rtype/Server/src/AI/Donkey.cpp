@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov 18 10:34:21 2013 alexis mestag
-// Last update Sat Nov 23 22:27:31 2013 alexis mestag
+// Last update Sun Nov 24 16:25:21 2013 alexis mestag
 //
 
 #include			"AI/Donkey.hh"
@@ -13,6 +13,8 @@
 Donkey::Donkey() :
   Mob(0, 0, "Res/Sprites/mob1.png", 2), _willFire(rand() % 51)
 {
+  _name = "Donkey";
+
   _v[0] = -30;
   _v[1] = 0;
 }
@@ -29,7 +31,7 @@ Action const			*Donkey::getAction()
   _action->reset();
   _action->setLeft(true);
   if (_willFire++ == 50) {
-    int				y = rand() % 3;
+    int				y = rand() % (sizeof(ys) / sizeof(*ys));
 
     _v[1] = ys[y];
     _action->setFire(true);
