@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sun Nov 24 18:07:48 2013 cyril jourdain
+// Last update Sun Nov 24 20:16:15 2013 guillaume marescaux
 //
 
 #include		<sstream>
@@ -117,7 +117,10 @@ void			ClientMain::connectToServer(void *param)
 		}
 	    }
 	  else if (_state->getVar() == ERROR_CONNECT)
-	    _manager->addWindow(new SFDialogBox("Error", "Could not connect to server"));
+	    {
+	      *_state = IN_LOGIN;
+	      _manager->addWindow(new SFDialogBox("Error", "Could not connect to server"));
+	    }
 	  // else
 	  //   _manager->addWindow(new SFDialogBox("Error", "Unknown error"));
 	}
