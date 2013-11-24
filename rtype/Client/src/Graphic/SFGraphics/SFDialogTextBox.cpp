@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Nov 15 19:38:01 2013 cyril jourdain
-// Last update Sun Nov 24 18:05:57 2013 cyril jourdain
+// Last update Sun Nov 24 21:25:59 2013 cyril jourdain
 //
 
 #include		"Graphic/SFGraphics/Widgets/SFDialogTextBox.hh"
@@ -21,6 +21,18 @@ SFDialogTextBox::SFDialogTextBox(std::string const &name, std::string const &con
 
 SFDialogTextBox::~SFDialogTextBox()
 {
+  if (_background)
+    delete _background;
+  if (_label)
+    delete _label;
+  if (_title)
+    delete _title;
+  if (_okButton)
+    delete _okButton;
+  if (_closeButton)
+    delete _closeButton;
+  if (_textBox)
+    delete _textBox;
 }
 
 void			SFDialogTextBox::init()

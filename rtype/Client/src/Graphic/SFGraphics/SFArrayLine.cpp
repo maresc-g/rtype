@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Mon Nov 11 23:40:44 2013 cyril jourdain
-// Last update Thu Nov 14 17:18:37 2013 cyril jourdain
+// Last update Sun Nov 24 21:20:37 2013 cyril jourdain
 //
 
 #include		"Graphic/SFGraphics/Widgets/SFArray.hh"
@@ -37,8 +37,7 @@ SFArrayLine::~SFArrayLine()
 {
   for (auto it = _columnArray->begin(); it != _columnArray->end(); it++)
     delete it->second;
-  _columnArray->clear();
-  
+  _columnArray->clear();  
 }
 
 std::list<std::string>	*SFArrayLine::getFieldList() const

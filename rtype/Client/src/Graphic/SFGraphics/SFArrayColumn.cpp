@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov 13 01:16:03 2013 cyril jourdain
-// Last update Wed Nov 13 16:55:28 2013 cyril jourdain
+// Last update Sun Nov 24 21:12:28 2013 cyril jourdain
 //
 
 #include			"Graphic/SFGraphics/Widgets/SFArray.hh"
@@ -13,6 +13,14 @@
 SFArrayColumn::SFArrayColumn() :
   _texture(new SFImageBox()), _text(new SFLabel())
 {
+}
+
+SFArrayColumn::~SFArrayColumn()
+{
+  if (_texture)
+    delete _texture;
+  if (_text)
+    delete _text;
 }
 
 void				SFArrayColumn::init(sf::Texture *const texture, float x, float y,

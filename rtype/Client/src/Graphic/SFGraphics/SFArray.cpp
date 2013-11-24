@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Nov  8 15:38:07 2013 cyril jourdain
-// Last update Sun Nov 24 18:05:44 2013 cyril jourdain
+// Last update Sun Nov 24 21:14:13 2013 cyril jourdain
 //
 
 #include		"Graphic/SFGraphics/Widgets/SFArray.hh"
@@ -27,6 +27,14 @@ SFArray::SFArray() :
 
 SFArray::~SFArray()
 {
+  if (_background)
+    delete _background;
+  if (_lineArray)
+    for (auto it = _lineArray->begin(); it != _lineArray->end(); ++it)
+      {
+	delete *it;
+	_lineArray->erase(it);
+      }
 }
 
 

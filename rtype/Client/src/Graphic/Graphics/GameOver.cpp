@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 18:02:55 2013 cyril jourdain
-// Last update Sat Nov 23 18:07:25 2013 cyril jourdain
+// Last update Sun Nov 24 21:04:23 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameOver.hh"
@@ -21,6 +21,8 @@ GameOver::GameOver() :
 
 GameOver::~GameOver()
 {
+  if (_gameOverImage)
+    delete _gameOverImage;
 }
 
 void			GameOver::init()
@@ -46,6 +48,7 @@ sf::FloatRect		&GameOver::getBound() const
 
 void			GameOver::draw(sf::RenderTarget &target, sf::RenderStates states)  const
 {
-  target.draw(*_gameOverImage, states);
+  if (_gameOverImage)
+    target.draw(*_gameOverImage, states);
 }
 
