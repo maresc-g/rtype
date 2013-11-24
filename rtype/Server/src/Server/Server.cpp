@@ -5,7 +5,7 @@
 // Login   <ansel_l@epitech.net>
 // 
 // Started on  Mon Oct 28 20:02:48 2013 laurent ansel
-// Last update Sun Nov 24 18:06:51 2013 laurent ansel
+// Last update Sun Nov 24 22:30:49 2013 laurent ansel
 //
 
 #include			<list>
@@ -304,7 +304,6 @@ bool				Server::manageGame(std::list<ClientInfo *>::iterator &it, Action &action
 	  if (GameLoopManager::getInstance()->runGame(id))
 	    {
 	      (*it)->pushWriteTrame("TCP", new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", "LAUNCHGAME", true));
-	      std::cout << "LAUNCHGAME" << std::endl;
 	    }
 	  else
 	    (*it)->pushWriteTrame("TCP", new Trame((*it)->getId(), (*it)->getTrameId(), "TCP", "KO", true));

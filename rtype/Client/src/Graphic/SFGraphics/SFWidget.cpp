@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Oct 24 17:38:46 2013 cyril jourdain
-// Last update Sat Nov 23 18:19:24 2013 cyril jourdain
+// Last update Sun Nov 24 21:27:11 2013 cyril jourdain
 //
 
 #ifndef 		__SFWIDGET_CPP__
@@ -24,6 +24,10 @@ SFWidget::SFWidget() : sf::Drawable(), sf::Transformable()
 
 SFWidget::~SFWidget()
 {
+  if (_bounds)
+    delete _bounds;
+  if (_customView)
+    delete _customView;
 }
 
 SFWidget::MethodMap	&SFWidget::getMethodMap() const

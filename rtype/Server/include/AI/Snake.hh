@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Sat Nov 23 22:01:15 2013 alexis mestag
-// Last update Sat Nov 23 22:12:50 2013 alexis mestag
+// Last update Sun Nov 24 21:26:40 2013 alexis mestag
 //
 
 #ifndef			__SNAKE_HH__
@@ -17,6 +17,9 @@
 class			Snake : public Mob
 {
 private:
+  int			_loops;
+  void			(Action::*_set)(bool const);
+  int			_willFire;
   int			_v[2];
 
 public:
@@ -29,10 +32,20 @@ public:
 extern "C"
 {
   #ifdef	_WIN32
-  __declspec( dllexport )
+  __declspec(dllexport)
   #endif
   Snake			*getInstance() {
     return (new Snake);
+  }
+
+  #ifdef	_WIN32
+  __declspec(dllexport)
+  #endif
+  void			deleteInstance(void *snake) {
+    Snake		*s;
+
+    s = reinterpret_cast<Snake *>(snake);
+    delete s;
   }
 }
 

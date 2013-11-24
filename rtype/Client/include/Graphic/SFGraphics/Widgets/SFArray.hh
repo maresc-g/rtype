@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Fri Nov  8 14:52:29 2013 cyril jourdain
-// Last update Mon Nov 18 14:59:56 2013 cyril jourdain
+// Last update Sun Nov 24 21:12:31 2013 cyril jourdain
 //
 
 #ifndef				__SFARRAY_HH__
@@ -28,7 +28,7 @@ class				SFArrayColumn
 
 public:
   SFArrayColumn();
-  virtual ~SFArrayColumn(){};
+  virtual ~SFArrayColumn();
 
 public:
   void				init(sf::Texture *const texture, float x, float y, float sx, float sy);

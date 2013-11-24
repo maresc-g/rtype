@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:29:50 2013 cyril jourdain
-// Last update Sun Nov 24 20:08:00 2013 cyril jourdain
+// Last update Sun Nov 24 22:30:52 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameView.hh"
@@ -26,6 +26,16 @@ GameView::GameView() :
 
 GameView::~GameView()
 {
+  if (_background)
+    delete _background;
+  if (_background2)
+    delete _background2;
+  if (_player)
+    delete _player;
+  if (_clock)
+    delete _clock;
+  if (_clockScroll)
+    delete _clockScroll;
 }
 
 void			GameView::init()
@@ -63,8 +73,10 @@ sf::FloatRect		&GameView::getBound() const
 
 void			GameView::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
-  target.draw(*_background, states);
-  target.draw(*_background2, states);
+  if (_background)
+    target.draw(*_background, states);
+  if (_background2)
+    target.draw(*_background2, states);
 }
 
 void			GameView::onKeyPressed(void *const)
@@ -122,6 +134,7 @@ void			GameView::update(sf::RenderWindow *win)
       _scroll = Map::getInstance()->getScroll();
       _totalScroll = _scroll;
       _customView->move(_scroll, 0);
+      std::cout << "Scroll to : "  << _scroll << std::endl;
     }
   if (_clockScroll->getElapsedTime().asMilliseconds() >= 5)
     if (_scroll <= Map::getInstance()->getScroll())

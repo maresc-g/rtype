@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Oct 23 00:18:05 2013 cyril jourdain
-// Last update Sun Nov 24 18:06:24 2013 cyril jourdain
+// Last update Sun Nov 24 21:30:00 2013 cyril jourdain
 //
 
 #include	<iostream>
@@ -29,6 +29,20 @@ WindowManager::WindowManager() :
 
 WindowManager::~WindowManager()
 {
+  if (_widgetList)
+    for (auto it = _widgetList->begin(); it != _widgetList->end(); it++)
+      {
+	delete *it;
+	_widgetList->erase(it);
+      }
+  if (_windowList)
+    for (auto it = _widgetList->begin(); it != _widgetList->end(); it++)
+      {
+	delete *it;
+	_widgetList->erase(it);
+      }
+  if (_cEvent)
+    delete _cEvent;
 }
 
 SFWidget	*WindowManager::getFocused() const

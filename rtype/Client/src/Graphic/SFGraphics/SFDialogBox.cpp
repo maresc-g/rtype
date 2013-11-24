@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Thu Nov  7 16:47:22 2013 cyril jourdain
-// Last update Fri Nov 22 15:10:49 2013 guillaume marescaux
+// Last update Sun Nov 24 21:25:05 2013 cyril jourdain
 //
 
 #include		"Graphic/SFGraphics/Widgets/SFDialogBox.hh"
@@ -22,6 +22,14 @@ SFDialogBox::SFDialogBox(std::string const &name, std::string const &content,
 
 SFDialogBox::~SFDialogBox()
 {
+  if (_background)
+    delete _background;
+  if (_label)
+    delete _label;
+  if (_title)
+    delete _title;
+  if (_closeButton)
+    delete _closeButton;
 }
 
 void			SFDialogBox::init()

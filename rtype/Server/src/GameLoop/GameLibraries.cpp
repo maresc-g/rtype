@@ -5,7 +5,7 @@
 // Login   <mestag_a@epitech.net>
 // 
 // Started on  Mon Nov  4 20:18:29 2013 alexis mestag
-// Last update Sat Nov 23 22:31:52 2013 alexis mestag
+// Last update Sun Nov 24 22:47:36 2013 alexis mestag
 //
 
 #include			"GameLoop/GameLibraries.hh"
@@ -35,7 +35,7 @@ GameLibraries			&GameLibraries::operator=(GameLibraries const &rhs)
   return (*this);
 }
 
-IDynamicLibrary			&GameLibraries::operator[](std::string const &lib)
+IDynamicLibrary			*GameLibraries::operator[](std::string const &lib)
 {
   return (this->getLibrary(lib));
 }
@@ -53,9 +53,15 @@ void				GameLibraries::addLibrary(IDynamicLibrary &lib)
   (*_libraries)[lib.getPath()] = &lib;
 }
 
-IDynamicLibrary			&GameLibraries::getLibrary(std::string const &lib)
+IDynamicLibrary			*GameLibraries::getLibrary(std::string const &lib)
 {
-  return (*(*_libraries)[lib]);
+  auto				it = _libraries->find(lib);
+  IDynamicLibrary		*ret = NULL;
+
+  if (it != _libraries->end())
+    ret = it->second;
+  return (ret);
+  // return ((*_libraries)[lib]);
 }
 
 void				GameLibraries::setLibrary(IDynamicLibrary &lib)
@@ -140,6 +146,26 @@ Mob				*GameLibraries::getRandomInstance()
   return (mob);
 }
 
+void				GameLibraries::deleteInstance(Mob *mob)
+{
+  IDynamicLibrary		*lib = this->getLibrary("Libraries/" +
+							mob->getName() +
+							#ifdef _WIN32
+							".dll"
+							#else
+							".so"
+							#endif
+							);
+  void				(*deleteInstance)(void *);
+
+  if (lib)
+    {
+      deleteInstance = reinterpret_cast<void (*)(void *)>(lib->getSymbol("deleteInstance"));
+      if (deleteInstance)
+	deleteInstance(mob);
+    }
+}
+
 void				GameLibraries::loadLibraries()
 {
   bool				ok;
@@ -155,4 +181,13 @@ void				GameLibraries::loadLibraries()
 	    --it;
 	}
     }
+}
+
+void				GameLibraries::clear()
+{
+  for (auto it = _libraries->begin() ; it != _libraries->end() ; ++it)
+    {
+      delete it->second;
+    }
+  _libraries->clear();
 }

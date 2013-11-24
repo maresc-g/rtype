@@ -5,7 +5,7 @@
 // Login   <maresc_g@epitech.net>
 // 
 // Started on  Mon Oct 28 14:49:34 2013 guillaume marescaux
-// Last update Sat Nov 23 21:16:06 2013 alexis mestag
+// Last update Sun Nov 24 17:21:27 2013 alexis mestag
 //
 
 #include			<math.h>

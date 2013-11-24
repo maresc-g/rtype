@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 23 17:19:13 2013 cyril jourdain
-// Last update Sat Nov 23 23:43:07 2013 cyril jourdain
+// Last update Sun Nov 24 21:03:51 2013 cyril jourdain
 //
 
 #include		<sstream>
@@ -24,6 +24,12 @@ GameHud::GameHud() :
 
 GameHud::~GameHud()
 {
+  if (_background)
+    delete _background;
+  if (_score)
+    delete _score;
+  if (_life)
+    delete _life;
 }
 
 void			GameHud::init()

@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Sat Nov 16 18:22:54 2013 cyril jourdain
-// Last update Sat Nov 23 23:34:04 2013 cyril jourdain
+// Last update Sun Nov 24 21:06:38 2013 cyril jourdain
 //
 
 #include		"Graphic/Graphics/GameWindow.hh"
@@ -18,6 +18,12 @@ GameWindow::GameWindow() :
 
 GameWindow::~GameWindow()
 {
+  if (_gameView)
+    delete _gameView;
+  if (_gameHud)
+    delete _gameHud;
+  if (_gameOver)
+    delete _gameOver;
 }
 
 void			GameWindow::init()

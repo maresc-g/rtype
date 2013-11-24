@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 //
 // Started on  Wed Jun 19 13:45:16 2013 cyril jourdain
-// Last update Sun Nov 24 18:07:16 2013 cyril jourdain
+// Last update Sun Nov 24 21:11:03 2013 cyril jourdain
 //
 
 #include	"Graphic/Graphics/Sprites/AnimatedSprite.hh"
@@ -13,7 +13,6 @@
 #include	<fstream>
 #include	<sstream>
 #include	"Graphic/SFGraphics/Ressources/SFRessourcesManager.hh"
-//#include <GL/gl.h>
 
 AnimatedSprite::AnimatedSprite() :
   _animations(new std::map<std::string, Animation *>),

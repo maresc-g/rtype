@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 17:15:04 2013 antoine maitre
-// Last update Sun Nov 24 23:26:33 2013 antoine maitre
+// Last update Sun Nov 24 23:36:11 2013 antoine maitre
 //
 
 #include "Level/Map.hh"
@@ -46,9 +46,6 @@ Map::~Map()
   for (auto it = _enemies.begin() ; it != _enemies.end() ; ++it)
     if ((*it))
       delete *it;
-  for (auto it = _players.begin() ; it != _players.end() ; ++it)
-    if ((*it))
-      delete *it;
   for (auto it = _walls.begin() ; it != _walls.end() ; ++it)
     if ((*it))
       delete *it;
@@ -70,7 +67,6 @@ void			Map::tryToSet(std::list<AEntity *> &l1, std::list<AEntity *> &l2, int adv
 {
   int			x;
   int			y;
-  int			toto = 0;
 
   for (auto it = l1.begin(); it != l1.end(); ++it)
     {

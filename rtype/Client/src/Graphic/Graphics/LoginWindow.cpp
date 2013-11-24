@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 14:12:11 2013 cyril jourdain
-// Last update Wed Nov 13 16:14:14 2013 cyril jourdain
+// Last update Sun Nov 24 21:10:00 2013 cyril jourdain
 //
 
 #include			"Graphic/Graphics/LoginWindow.hh"
@@ -20,20 +20,26 @@ LoginWindow::LoginWindow() :
 
 LoginWindow::~LoginWindow()
 {
+  if (_background)
+    delete _background;
+  if (_loginBackground)
+    delete _loginBackground;
+  if (_tbAddress)
+    delete _tbAddress;
+  if (_tbPort)
+    delete _tbPort;
+  if (_bConnect)
+    delete _bConnect;
+  if (_label)
+    delete _label;
+  if (_labelPort)
+    delete _labelPort;
 }
 
 void		LoginWindow::init()
 {
   SFRessourcesManager	*rMan = SFRessourcesManager::getInstance();
   SFConnect *connect = SFConnect::getInstance();
-
-  // _background = addWidget<SFImageBox>();
-  // _loginBackground = addWidget<SFImageBox>();
-  // _tbAddress = addWidget<SFTextBox>();
-  // _tbPort = addWidget<SFTextBox>();
-  // _bConnect = addWidget<SFButton>();
-  // _label = addWidget<SFLabel>();
-  // _labelPort = addWidget<SFLabel>();
 
   _background = new SFImageBox();
   _loginBackground = new SFImageBox();
@@ -74,7 +80,6 @@ void		LoginWindow::init()
   _bConnect->setBackgroundTexture((*(rMan->Images))[LOGIN_BUTTON_IMAGE]);
   setSize(sf::Vector2f(WIN_X,WIN_Y));
   updateBound();
-  /* TEST ONLY */
 
   connect->makeConnect(sf::Event::MouseButtonPressed,
 		       _bConnect,

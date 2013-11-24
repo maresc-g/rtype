@@ -5,7 +5,7 @@
 // Login   <maitre_c@epitech.net>
 // 
 // Started on  Tue Oct 29 15:49:55 2013 antoine maitre
-// Last update Sun Nov 24 23:31:23 2013 antoine maitre
+// Last update Sun Nov 24 23:35:45 2013 antoine maitre
 //
 
 #include		<time.h>
@@ -166,7 +166,6 @@ void			GameLoop::lostLifePlayer() const
 
 void			GameLoop::endLoop()
 {
-  std::cout << "ENDL" << std::endl;
   this->_mutex->enter();
   if (this->_levelManag->getEndGame())
     sendClient("TCP", "ENDGAME WIN");
@@ -206,9 +205,12 @@ void			GameLoop::sendImportantInformation() const
   this->_mutex->enter();
   for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end(); it_bis++)
     {
-      AEntity	*toto = (*it_bis)->getPlayer();
-      reinterpret_cast<Player *>(toto)->setScore(reinterpret_cast<Player *>(toto)->getScore() + 1);
-      this->sendScore((*it_bis), reinterpret_cast<Player *>(toto)->getScore());
+      if ((*it_bis)->getIG())
+	{
+	  AEntity	*toto = (*it_bis)->getPlayer();
+	  reinterpret_cast<Player *>(toto)->setScore(reinterpret_cast<Player *>(toto)->getScore() + 1);
+	  this->sendScore((*it_bis), reinterpret_cast<Player *>(toto)->getScore());
+	}
       (*it_bis)->sendMsg();
     }
   this->_mutex->leave();
@@ -224,6 +226,7 @@ void			GameLoop::loop()
   action = clock();
   while (!this->_levelManag->getEndGame() && !this->_criticalError)
     {
+      clockTime = clock();
       SuperVaisseau = false;
       this->spawnMob();
       this->spawnWalls();
@@ -264,18 +267,18 @@ void			GameLoop::loop()
       this->_mutex->enter();
       if ((((double)(clock() - action)) / CLOCKS_PER_SEC) > 0.04)
       	{
-	  this->action();
-	  action = clock();
-	  if (SuperVaisseau == false)
-	    for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
-	      {
-	  	if ((*it)->getType() == AEntity::PLAYER)
-	  	  {
-	  	    this->sendEntity((*it));
-	  	  }
-	      }
-	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
-	    this->sendEntity((*it));
+      	  this->action();
+      	  action = clock();
+      	  if (SuperVaisseau == false)
+      	    for (auto it = this->_levelManag->getPlayers().begin(); it != this->_levelManag->getPlayers().end(); ++it)
+      	      {
+      	  	if ((*it)->getType() == AEntity::PLAYER)
+      	  	  {
+      	  	    this->sendEntity((*it));
+      	  	  }
+      	      }
+      	  for (auto it = this->_levelManag->getEnemies().begin(); it != this->_levelManag->getEnemies().end(); ++it)
+      	    this->sendEntity((*it));
       	}
       // std::cout << this->_levelManag->getEnemies().size() << std::endl << std::endl;
       this->_mutex->leave();
@@ -320,7 +323,9 @@ void			GameLoop::sendLostLife(unsigned int const id) const
   std::ostringstream	oss;
 
   oss << "LOSTLIFE " << id;
-  this->sendClient("UDP", oss.str());
+  for (auto it_bis = this->_clients->begin(); it_bis != this->_clients->end() && id == (*it_bis)->getPlayer()->getId(); it_bis++)
+    if (!this->_criticalError)
+      (*it_bis)->pushMsg("UDP", oss.str());
 }
 
 void			GameLoop::sendScreen(std::list<AEntity *> &list)
@@ -386,7 +391,9 @@ void			GameLoop::spawnMob()
 	      entity->setId(_idEntity);
 	      _idEntity++;
 	      this->_levelManag->getEnemies().push_back(entity);
-	      this->_levelManag->getEnemies().back()->movePos(this->_levelManag->getPosAdv() + SCREENX * 10 + 1, rand() % 500 + 180);
+
+	      this->_levelManag->getEnemies().back()->movePos( this->_levelManag->getPosAdv() +
+							      SCREENX * 10 + 1, rand() % 800);
 	    }
       	}
     }
@@ -398,22 +405,25 @@ void			GameLoop::spawnWalls()
 
   for (auto it = _levelManag->getInactiveWalls().begin(); it != _levelManag->getInactiveWalls().end(); ++it)
     {
-      spawnable = SpriteLoaderManager::getInstance()->getEntitySprite((*it)->getPath(), *(*it));
-      if (spawnable && (*it)->getPosX() <= this->_levelManag->getPosAdv() + SCREENX * 10 + 1)
+      if ((*it)->getPosX() <= this->_levelManag->getPosAdv() + SCREENX * 10 + 1)
 	{
-	  (*it)->setId(_idEntity);
-	  _idEntity++;
-	  it = this->_levelManag->spawnWall(it);
-	}
-      else if (!spawnable)
-	{
-	  if ((*it))
-	    delete *it;
-	  it = _levelManag->getInactiveWalls().erase(it);
-	  if (_levelManag->getInactiveWalls().empty())
-	    break;
-	  if (it != _levelManag->getInactiveWalls().begin())
-	    it--;
+	  spawnable = SpriteLoaderManager::getInstance()->getEntitySprite((*it)->getPath(), *(*it));
+	  if (spawnable)
+	    {
+	      (*it)->setId(_idEntity);
+	      _idEntity++;
+	      it = this->_levelManag->spawnWall(it);
+	    }
+	  else if (!spawnable)
+	    {
+	      if ((*it))
+		delete *it;
+	      it = _levelManag->getInactiveWalls().erase(it);
+	      if (_levelManag->getInactiveWalls().empty())
+		break;
+	      if (it != _levelManag->getInactiveWalls().begin())
+		it--;
+	    }
 	}
     }
 }
@@ -424,7 +434,6 @@ void			GameLoop::destroyDeadEntities(std::list<AEntity *> &enemies, std::list<AE
     {
       if ((*it)->isDead() == true)
 	{
-	  // std::cout << "DEAD "<<(*it)->getId() << std::endl;
 	  this->sendDeadEntity((*it)->getId());
 	  delete *it;
 	  it = enemies.erase(it);
