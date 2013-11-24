@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sun Nov 24 02:05:55 2013 cyril jourdain
+// Last update Sun Nov 24 02:08:02 2013 cyril jourdain
 //
 
 #include		<sstream>
@@ -260,7 +260,7 @@ void			ClientMain::waitServ(eState oldState, eState newState)
   if (time > 5)
     {
       std::ostringstream oss;
-      oss << 15 - time;
+      oss << 10 - time;
       _manager->addWindow(new SFDialogBox("Error", "Try again in " + oss.str() + " sec"));
       *_state = oldState;
     }
