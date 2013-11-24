@@ -5,7 +5,7 @@
 // Login   <jourda_c@epitech.net>
 // 
 // Started on  Wed Nov  6 12:45:56 2013 cyril jourdain
-// Last update Sun Nov 24 21:03:45 2013 guillaume marescaux
+// Last update Sun Nov 24 22:39:40 2013 cyril jourdain
 //
 
 #include		<sstream>
